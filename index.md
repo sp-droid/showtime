@@ -6,9 +6,13 @@ Text can be **bold**, _italic_, or ~~strikethrough~~.
 
 [Link to another page](./another-page.html).
 
-[Starfield](/2TCTchallenges/1starfield/index.html).
+[Starfield](/pages/2TCT/1starfield/index.html)
 
-[Snake Game](/2TCTchallenges/3snakeGame/index.html).
+[Snake Game](/pages/2TCT/3snakeGame/index.html)
+
+[Terrain Generation](/pages/2TCT/11terrainGen/index.html)
+
+[Fractal Tree](/pages/2TCT/14fractalTree/index.html)
 
 There should be whitespace between paragraphs.
 
