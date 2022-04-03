@@ -8,6 +8,8 @@ Text can be **bold**, _italic_, or ~~strikethrough~~.
 
 [Starfield](/2TCTchallenges/1starfield/).
 
+[Snake Game](/2TCTchallenges/3snakeGame/index.html).
+
 There should be whitespace between paragraphs.
 
 There should be whitespace between paragraphs. We recommend including a README, or a file with information about your project.
