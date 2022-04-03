@@ -6,7 +6,7 @@ Text can be **bold**, _italic_, or ~~strikethrough~~.
 
 [Link to another page](./another-page.html).
 
-[Starfield](/2TCTchallenges/1starfield/).
+[Starfield](/2TCTchallenges/1starfield/index.html).
 
 [Snake Game](/2TCTchallenges/3snakeGame/index.html).
 
