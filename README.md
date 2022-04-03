@@ -4,6 +4,34 @@ You can use the [editor on GitHub](https://github.com/sp-droid/showtime/edit/mai
 
 Whenever you commit to this repository, GitHub Pages will run [Jekyll](https://jekyllrb.com/) to rebuild the pages in your site, from the content in your Markdown files.
 
+src
+   |-- main
+   |   |-- java
+   |   |   |-- com
+   |   |   |   |-- foxguardsolutions
+   |   |   |   |   |-- jonavon
+   |   |   |   |   |   |-- AbstractFile.java
+   |   |   |   |   |   |-- roman
+   |   |   |   |   |   |   |-- Main.java
+   |   |   |   |   |   |   |-- Numeral.java
+   |   |   |   |   |   |   |-- RomanNumberInputFile.java
+   |   |   |   |   |   |   |-- RomanNumeralToDecimalEvaluator.java
+   |-- test
+   |   |-- java
+   |   |   |-- com
+   |   |   |   |-- foxguardsolutions
+   |   |   |   |   |-- jonavon
+   |   |   |   |   |   |-- roman
+   |   |   |   |   |   |   |-- InterpretSteps.java
+   |   |   |   |   |   |   |-- RunCukesTest.java
+   |   |-- resources
+   |   |   |-- com
+   |   |   |   |-- foxguardsolutions
+   |   |   |   |   |-- jonavon
+   |   |   |   |   |   |-- roman
+   |   |   |   |   |   |   |-- Interpret.feature
+   |   |   |-- sample-input.txt
+
 ### Markdown
 
 Markdown is a lightweight and easy-to-use syntax for styling your writing. It includes conventions for
