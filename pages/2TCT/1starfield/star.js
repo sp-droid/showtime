@@ -1,6 +1,6 @@
 function Star() {
     const farsize = 0;
-    const closesize = 2;
+    const closesize = 2000;
     const vz = 5;
     const depth = 2000;
 
