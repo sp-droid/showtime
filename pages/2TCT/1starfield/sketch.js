@@ -1,7 +1,7 @@
 const width = window.innerWidth;
 const height = window.innerHeight;
 
-let stars = new Array(400);
+let stars = new Array(2);
 
 function setup() {
   createCanvas(width, height);
