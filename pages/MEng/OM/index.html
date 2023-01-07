@@ -4,7 +4,7 @@
 		<meta charset="utf-8">
 		<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
 
-<title>Table of Contents</title>
+<title>Symbology</title>
 		<link rel="stylesheet" href="dist/reset.css">
 		<link rel="stylesheet" href="dist/reveal.css">
 <link rel="stylesheet" href="dist/theme/night.css" id="theme">
@@ -55,7 +55,7 @@ Final project: Interplanetary and planetary
 
 
 </textarea></section>
-<section data-markdown  ><textarea data-template>
+<section data-markdown  data-background-image="assets/projectlogo.jpg", data-background-opacity=0.6><textarea data-template>
 
 <right><big><b>
 VASP GROUP, NUMBER 2204
@@ -63,19 +63,43 @@ VASP GROUP, NUMBER 2204
 <br><br>    Pablo Arbelo (10904636)
 <br><br>    Stefano Marinelli (10705548)
 <br><br>    Veronica Cerni (10700624)
+<br><br>
+<br><br>
 </b></big></right>
 
 <center><big><big><b>January 2023</b></big></big></center>
 <div style="page-break-after: always; break-after: page;"></div>
 </textarea></section>
-<section data-markdown  data-visibility="hidden"><textarea data-template>
-# Table of Contents
+<section data-markdown  style="font-size: 0.7em", data-background-image="assets/projectlogo.jpg", data-background-opacity=0.6><textarea data-template>
+# Symbology
 
-[TOC]
+$\mathbf{a}$: Semi-major axis
 
-<div style="page-break-after: always; break-after: page;"></div>
+$\mathbf{e}$: Eccentricity
 
+$\mathbf{i}$: Inclination
 
+$\mathbf{\Omega}$: Right ascension of the ascending node
+
+$\mathbf{\omega}$: Argument of periapsis
+
+$\mathbf{\theta}$: True anomaly
+
+**NEO**: Near Earth Object
+
+$\mathbf{r_p}$: Radius of pericentre
+
+$\mathbf{T _{syn}}$: Synodic period
+
+$\mathbf{ToF}$ : Time of Flight
+
+$\mathbf{m_S}$: Mass of Saturn
+
+$\mathbf{R_S}$: Mean radius of Saturn
+
+$\mathbf{m_{Sun}}$: Mass on the Sun
+
+$\mathbf{r_S}$: Mean orbital radius of Saturn
 
 </textarea></section>
 <section data-markdown  style="font-size: 0.5em", data-background-image="assets/bgpart1.jpg", data-background-opacity=0.5><textarea data-template>
@@ -83,18 +107,244 @@ VASP GROUP, NUMBER 2204
 # Assignment 1: Interplanetary Explorer
 
 >The PoliMi Space Agency is carrying out a feasibility study for a potential Interplanetary Explorer Mission visiting an asteroid in the Solar System, with an intermediate flyby on a planet.
-</textarea></section>
-<section data-markdown  data-visibility="hidden"><textarea data-template>
->
->As part of the mission analysis team, you are requested to perform the preliminary mission analysis. You have to study the transfer options from Earth to the arrival asteroid, with a powered gravity assist (flyby) at the intermediate planet, and propose a solution based on the mission cost (measured through the total deltaV).
->
->The mission departs from Earth, and the flyby planet and arrival asteroid have been decided by the science team. Constraints on earliest departure and latest arrival have also been set by the launch provider, the systems engineering team, and the Agency’s leadership.
-
-<div style="page-break-after: always; break-after: page;"></div>
 
 </textarea></section>
+<section>
+<section data-markdown  style="font-size: 0.7em", data-background-image="assets/bgpart1.jpg", data-background-opacity=0.1><textarea data-template>
+
+### 1.0.1 Assigned parameters
+
+| Departure Planet | Flyby Planet | Arrival NEO | Earliest Departure | Latest arrival |
+| ---------------- | ------------ | ----------- | ------------------ | -------------- |
+| Earth            | Saturn       | 85          | 2026/09/30         | 2061/03/28     |
+
+
+
+## 1.1 Design strategy
+
+For this preliminary mission analysis, the design is based on the patched conics method and the manoeuvres are considered to be impulsive. 
+
+</textarea></section>
+<section data-markdown  style="font-size: 0.7em", data-background-image="assets/bgpart1.jpg", data-background-opacity=0.1><textarea data-template>
+
+### 1.1.1 Time window and constraints
+
+The given problem has three degrees of freedom: departure time from Earth and the times of flight of two elliptical transfer trajectories. Therefore, to find the best solution, a grid search over the three degrees of freedom was adopted.
+
+The selection of an appropriate time window for departure was made considering the planets $T _{syn}$. However, since the problem concerns three celestial bodies, $T _{syn}$ were used to compute a similar general repetition period. In order to do so, the $T _{syn} ^{Earth-Saturn}$ and $T _{syn} ^{Saturn-NEO85}$ were each multiplicated by a vector containing integer numbers from 1 to 20
+
+(The maximum integer number was decided considering the time constraints of the problem, more precisely the time between the earliest departure date and the latest arrival date)
+</textarea></section>
+<section data-markdown  style="font-size: 0.7em", data-background-image="assets/bgpart1.jpg", data-background-opacity=0.1><textarea data-template>
+By computing the difference between each term of the first vector with each term of the second vector and by selecting the minimum value of these differences, it was possible to find after how many synodic periods the three-body configuration would approximately repeat itself. The results are shown in the table below.  
+
+| (3 body config. repetition = 3BR) | $ T_{syn}$ Earth - Saturn | $T_{syn}$ Saturn - NEO 85 |
+| :-------------------------------: | :-----------------------: | :-----------------------: |
+|          Number of days           |          378.06           |          554.11           |
+|   N° repetition until next 3BR    |            19             |            13             |
+|      N° days until next 3BR       |          7183.09          |          7203.39          |
+
+The departure window was therefore defined from the earliest departure date until 7183.09 days later.
+</textarea></section>
+<section data-markdown  style="font-size: 0.7em", data-background-image="assets/bgpart1.jpg", data-background-opacity=0.1><textarea data-template>
+Finally, windows for flyby of Saturn and arrival to Near Earth Object 85 were fixed considering parabolic time for an Earth-Saturn transfer and for a Saturn-NEO 85 transfer. A grid search over the three degrees of freedom was used to compute a minimum parabolic time ($\Delta t_{par,min}$ ). Flyby and arrival windows were defined as follows:
+
+*Flyby window*: from (earliest departure + $\Delta t_{par,min}$) to (latest arrival - $\Delta t_{par,min}$)
+
+*Arrival window*: from (earliest fly-by + $\Delta t_{par,min}$) to (latest arrival)
+
+Regarding the flyby, Saturn rings were considered as an additional constraint for the minimum pericentre possible:
+$$
+r_{p,min} = R_S + h_{rings,max}
+$$
+With $R_S$ the mean radius of Saturn and $h_{ring,max}$ the maximum altitude of the outermost ring.
+
+</textarea></section>
+<section data-markdown  style="font-size: 0.7em", data-background-image="assets/bgpart1.jpg", data-background-opacity=0.1><textarea data-template>
+
+### 1.1.2 Grid search
+
+To find the most efficient mission a grid search in a two step-approach was implemented. A first coarse search throughout the defined time windows can locate approximately the best regions for the transfer. Then, a second iterative grid search is carried out for each region. In order to refine the solution, at each iteration the time window around the solution found is decreased. 
+
+For each departure, flyby and arrival times, two transfer arcs are computed thanks to a Lambert's problem solver. The first one goes from Earth position to Saturn position, whereas the second one from Saturn position to the asteroid position. Finally, a Saturn flyby is computed which allows the change of trajectory from the first transfer to the second transfer orbit.
+</textarea></section>
+<section data-markdown  style="font-size: 0.7em", data-background-image="assets/bgpart1.jpg", data-background-opacity=0.1><textarea data-template>
+The total cost of the mission is computed as follows:
+
+
+$$
+\Delta v _{tot} = ||\Delta v _1|| + ||\Delta v _2||+||\Delta v _{ga}||
+$$
+
+
+with $\Delta v _1$ the change in velocity required for the injection manoeuvre from Earth orbit to the first transfer arc, $\Delta v _2$ the change in velocity required for the arrival manoeuvre from second transfer orbit to the asteroid orbit and $\Delta v _{ga}$ the impulsive manoeuvre of the powered gravity assist flyby.
+
+The $\Delta v _{tot}$ of each iteration is then stored in a three-dimensional array, so as to compute the minimum total cost at the end of the grid search.
+</textarea></section>
+<section data-markdown  style="font-size: 0.7em", data-background-image="assets/bgpart1.jpg", data-background-opacity=0.1><textarea data-template>
+Each grid search can by schematized by the following simplified script:
+
+```matlab [1|2|8|9-17|3-7|1-20]
+for each possible departure date
+	for each possible flyby date
+        Compute ToF of first transfer arc
+        if ToF is not feasible
+            Skip this iteration
+        end
+        Compute first Lambert’s arc (Earth -> Saturn)
+        for each possible arrival date
+            Compute ToF of second transfer arc 
+            if ToF is not feasible
+            	Skip this iteration
+            end
+            Compute second Lambert’s arc (Saturn -> NEO 85)
+            Compute Powered Gravity assist
+            if a solution has been found
+                Store total mission cost in the 3D array
+            end
+		end
+	end
+end
+```
+</textarea></section>
+<section data-markdown  style="font-size: 0.7em", data-background-image="assets/bgpart1.jpg", data-background-opacity=0.1><textarea data-template>
+The precision of this logic is strongly related on the discretisation of the time windows: the smaller the time step, the higher the capability to find the absolute minimum; but higher is even the computational cost.
+
+Given the relatively small orbital period of the asteroid and the great width of the arrival window, a smaller time step was preferred for the arrival window. Same reasoning for the departure window. Instead, the discretisation of the flyby window can be made up of bigger time steps since the orbital period of Saturn is relatively big.
+</textarea></section>
+</section>
+<section>
+<section data-markdown  style="font-size: 0.7em", data-background-image="assets/bgpart1.jpg", data-background-opacity=0.1><textarea data-template>
+
+## 1.2 Solution
+
+According to the computational logic described in the previous paragraph, the most efficient transfer computed is the following:
+
+| Departure date         | Fly-by date           | Arrival date           | Mission cost | Total Time of Flight |
+| :--------------------- | :-------------------- | :--------------------- | :----------- | :------------------- |
+| 2041/12/30 at 17:22:27 | 2046/08/29 at 1:10:59 | 2051:05:30 at 15:54:25 | 18.885 km/s  | 3437.94 days         |
+
+The mission departs from Earth approximately 15 years after the earliest departure possible.
+
+</textarea></section>
+<section data-markdown  style="font-size: 0.7em", data-background-image="assets/bgpart1.jpg", data-background-opacity=0.1><textarea data-template>
+However, by adding a constraint on the maximum departure date (e.g. 10 years), another solution can be found:
+
+| Departure date         | Fly-by date           | Arrival date           | Mission cost | Total Time of Flight |
+| ---------------------- | --------------------- | ---------------------- | ------------ | -------------------- |
+| 2030/07/31 at 03:00:00 | 2035/01/01at 10:13:45 | 2039/04/19 at 19:12:50 | 20.889 km/s  | 3184.68              |
+
+This mission lasts a little bit less but its cost has increased of almost 2 km/s. 
+
+
+
+However, since the purpose of this preliminary mission analysis is to find the most efficient solution in terms of mission cost, the former option is preferred. 
+
+</textarea></section>
+<section data-markdown  style="font-size: 0.7em", data-background-image="assets/bgpart1.jpg", data-background-opacity=0.1><textarea data-template>
+
+### 1.2.1 Heliocentric trajectories
+
+The two transfer orbits associated to the chosen solution can be characterised by the following Keplerian elements:
+
+|                  | $a$  $[AU]$ | $e$  $[-]$ | $i$  $[deg]$ | $\Omega$  $[deg]$ | $\omega$  $[deg]$ | $\theta_{dep}$  $[deg]$ | $\theta_{arr}$  $[deg]$ |
+| ---------------- | ----------- | ---------- | ------------ | ----------------- | ----------------- | ----------------------- | ----------------------- |
+| Earth to Saturn  | 6.059715    | 0.838      | 4.449        | 99.391            | 354.467           | 5.533                   | 168.390                 |
+| Saturn to NEO 85 | 5.965137    | 0.837      | 3.874        | 242.558           | 189.158           | 190.621                 | 348.796                 |
+
+Time of Flight of the two transfers are respectively:
+$$
+ToF_1 = 1702.33\ days \qquad ToF_2 = 1735.61\ days
+$$
+Whereas the magnitude of the two manoeuvres (the first one to inject from Earth orbit to first transfer orbit and the second one to go from second transfer orbit to asteroid orbit) are respectively:
+$$
+\Delta v_1 = 10.899\ km/s \qquad \Delta v_2 = 7.986\ km/s
+$$
+
+</textarea></section>
+<section data-markdown  style="font-size: 0.7em", data-background-image="assets/bgpart1.jpg", data-background-opacity=0.1><textarea data-template>
+
+| <img src="assets/Departure.jpg" alt="Departure" style="zoom:100%;"  /> |
+| :----------------------------------------------------------: |
+</textarea></section>
+<section data-markdown  style="font-size: 0.7em", data-background-image="assets/bgpart1.jpg", data-background-opacity=0.1><textarea data-template>
+| <img src="assets/Flyby.jpg" alt="Flyby" style="zoom:100%;"  /> |
+| :----------------------------------------------------------: |
+</textarea></section>
+<section data-markdown  style="font-size: 0.7em", data-background-image="assets/bgpart1.jpg", data-background-opacity=0.1><textarea data-template>
+| <img src="assets/Arrival.jpg" alt="Arrival" style="zoom:100%;"  /> |
+| :----------------------------------------------------------: |
+| <b>Fig.1.1 -  Position of planets respectively at departure, flyby and arrival</b> |
+
+</textarea></section>
+<section data-markdown  style="font-size: 0.7em", data-background-image="assets/bgpart1.jpg", data-background-opacity=0.1><textarea data-template>
+
+### 1.2.2  Powered Gravity Assist
+
+Knowing the forementioned trajectories, incoming and outcoming heliocentric velocities at Saturn are also known. Therefore, it is possible to characterise the flyby hyperbolae and the impulsive burn provided at their the common pericentre. This burn is needed since the incoming and outcoming velocities differ, thus a change from one hyperbolic orbit to another is required.
+
+For this analysis, a finite sphere of influence was considered with a radius of:
+$$
+r_{SOI} = r_S \left(\frac{m_S}{m_{Sun}}\right)^{\frac 25} = 5.4654 \cdot 10^7 \ km
+$$
+
+</textarea></section>
+<section data-markdown  style="font-size: 0.7em", data-background-image="assets/bgpart1.jpg", data-background-opacity=0.1><textarea data-template>
+
+A breakdown of this portion of the mission can be seen in the following tables:
+
+| $r_p$  $[km]$ | $\Delta v_{pga}$   $[km/s]$ | $\Delta v_{fb} = \left \| \underline{V}^+ - \underline{V}^- \right \|$   $[km/s]$ | $ToF_{flyby}$   $[days]$ |
+| ------------- | --------------------------- | ------------------------------------------------------------ | ------------------------ |
+| 715945.946    | 2.41 $\cdot 10^{-9}$        | 7.206                                                        | 189.21                   |
+
+with $\underline{V}^-$ being the $S/C$ absolute heliocentric velocity before the flyby and $\underline{V}^+$ being the $S/C$ absolute heliocentric velocity after the flyby.
+
+|                     | $a$ $ [km]$ | $e$  $[-]$ | $i$  $[deg]$ | $\Omega$  $[deg]$ | $\omega$  $[deg]$ |
+| ------------------- | ----------- | ---------- | ------------ | ----------------- | ----------------- |
+| Incoming hyperbola  | -952735.491 | 1.751      | 175.372      | 221.618           | 319.056           |
+| Outcoming hyperbola | -952735.492 | 1.751      | 175.372      | 221.618           | 319.056           |
+
+</textarea></section>
+<section data-markdown  style="font-size: 0.7em", data-background-image="assets/bgpart1.jpg", data-background-opacity=0.1><textarea data-template>
+| <img src="assets/flyby_perifocal.jpg" alt="flyby_perifocal" style="zoom:100%;"  /> |
+| :----------------------------------------------------------: |
+|          <b>Fig.1.2 -  Flyby (perifocal frame)</b>           |
+</textarea></section>
+<section data-markdown  style="font-size: 0.7em", data-background-image="assets/bgpart1.jpg", data-background-opacity=0.1><textarea data-template>
+| <img src="assets/flyby_zoom.jpg" alt="flyby_zoom" style="zoom:100%;"  /> |
+| :----------------------------------------------------------: |
+| <b>Fig.1.3 - Flyby zoom in (Saturn centred ecliptic frame)</b> |
+
+</textarea></section>
+<section data-markdown  style="font-size: 0.7em", data-background-image="assets/bgpart1.jpg", data-background-opacity=0.1><textarea data-template>
+### 1.2.3 Conclusions
+
+A way to validate the results obtained is to consider the first transfer (Earth-Saturn) and the second transfer (Saturn – Near Earth Object 85) independently and search for the most efficient option for each case. The manoeuvre to insert and eject from Saturn orbit were not considered in the computation of the minimum cost of each single transfer, given the fact that in the actual mission a flyby of Saturn is carried out.
+</textarea></section>
+<section data-markdown  style="font-size: 0.7em", data-background-image="assets/bgpart1.jpg", data-background-opacity=0.1><textarea data-template>
+| <img src="assets/EtoS_porkchop.jpg" alt="EtoS_porkchop" style="zoom:200%;"  /> |
+| :----------------------------------------------------------: |
+</textarea></section>
+<section data-markdown  style="font-size: 0.7em", data-background-image="assets/bgpart1.jpg", data-background-opacity=0.1><textarea data-template>
+| <img src="assets/EtoS_orbits.jpg" alt="EtoS_orbits" style="zoom:200%;"  /> |
+| :----------------------------------------------------------: |
+</textarea></section>
+<section data-markdown  style="font-size: 0.7em", data-background-image="assets/bgpart1.jpg", data-background-opacity=0.1><textarea data-template>
+| <img src="assets/StoNEO_porkchop.jpg" alt="StoNEO_porkchop" style="zoom:200%;"  /> |
+| :----------------------------------------------------------: |
+</textarea></section>
+<section data-markdown  style="font-size: 0.7em", data-background-image="assets/bgpart1.jpg", data-background-opacity=0.1><textarea data-template>
+| <img src="assets/StoNEO_orbits.jpg" alt="StoNEO_orbits" style="zoom:180%;"  /> |
+| :----------------------------------------------------------: |
+| <b>Fig.1.4 Porkchop plots and best transfers found</b> |
+
+</textarea></section>
+<section data-markdown  style="font-size: 0.7em", data-background-image="assets/bgpart1.jpg", data-background-opacity=0.1><textarea data-template>
+From the images above, it can be inferred that the most efficient transfers happen when Saturn is near its apocentre. Furthermore, in the best solutions found the planets have a very similar configuration compared to the one of the actual mission. It is possible to conclude that the solution found for this preliminary mission analysis is reasonable and it is an efficient one given the mission constraints.
+
+</textarea></section>
+</section>
 <section data-markdown  style="font-size: 0.5em", data-background-image="assets/bgpart2.jpg", data-background-opacity=0.5><textarea data-template>
-
 # Assignment 2: Planetary Explorer
 
 >The PoliMi Space Agency wants to launch a Planetary Explorer Mission, to perform Earth observation.
@@ -113,7 +363,7 @@ VASP GROUP, NUMBER 2204
 
 ### 2.1.1 Assigned* parameters
 
-| **Semi-major axis**  | **Eccentricity** | **Inclination** | **RAAN** | **Argument of periapsis** | **True anomaly at t=0** |
+| $\mathbf{a}$ | $\mathbf{e}$ | $\mathbf{i}$ | $\mathbf{\Omega}$ | $\mathbf{\omega}$ | $\mathbf{\theta _{t=0}}$ |
 | -------- | -------- | -------- | -------- | -------- | -------- |
 | <u>26,619 km</u> | <u>0.7452</u> | <u>62.9089º</u> | 60º | 30º | 0º |
 
@@ -213,9 +463,9 @@ Deriving -U(x,y,z) gives the perturbing accelerations we are seeking.
 With this it's also possible to calculate the geoid's undulation, which shows Earth's uneven gravity field:
 
 </textarea></section>
-<section data-markdown  ><textarea data-template>
+<section data-markdown  data-background-image="assets/bgpart2.jpg", data-background-opacity=0.1><textarea data-template>
 
-| ![undulation](assets/undulation.png) |
+| <img src="assets/undulation.png" alt="undulation" style="zoom:150%;"  /> |
 | :----------------------------------: |
 | <b>Fig.2.1 - Geoid's undulation</b>  |
 
@@ -290,7 +540,7 @@ However, when propagated further into the future, the perturbed one deviates sig
 | :------------------------------------------------------: |
 | <b>Fig.2.4 -  k = 20, m = 10 (unperturbed-perturbed)</b> |
 
-The aerodynamic drag reduces e but most importantly, a (smaller period, shorter gt), while J<sub>2</sub> acts on the RAAN (shifted gt). J<sub>2</sub> can be compensated with a new a, using the secular variations that we know it causes, but drag mandates performing periodic burns to recover the right value of semi-major axis.
+The aerodynamic drag reduces e but most importantly, a (smaller period, shorter gt), while J<sub>2</sub> acts on the RAAN (shifted gt). J<sub>2</sub> could be compensated with a new a and since the drag perturbation is very insignificant throughout the orbit (400km perigee height) we would require very low fuel burns.
 
 </textarea></section>
 </section>
@@ -389,7 +639,7 @@ Propagated for two years or around 1464 orbits from the initial assigned orbital
 
 The aim was to find the tracked space object with the closest 3 first orbital elements: 
 
-| t=0 | **Semi-major axis** | **Eccentricity** | **Inclination** | RAAN | Argument of periapsis | True anomaly |
+| t=0 | $\mathbf{a}$ | $\mathbf{e}$ | $\mathbf{i}$ | $\mathbf{\Omega}$ | $\mathbf{\omega}$ | $\mathbf{\theta}$ |
 | ------------------- | ---------------- | --------------- | -------- | -------- | -------- | -------- |
 | **Assigned** | 26,619 km           | 0.7452           | 62.9089º        | -       | -       | -       |
 | **Real (01-11-2021)** | 26,910 km | 0.7399      | 62.5711º | 74.4297º | 278.065º | 174.3877º |
