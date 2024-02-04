@@ -46,7 +46,7 @@ $(document).ready(function() {
     // ################################
 
     function staticChangeSlide(numberPrevSlide, numberNextSlide) {
-        carrouselContainer.style.backgroundImage = `url('/static/img/bg/home${numberNextSlide+1}.jpg')`;
+        carrouselContainer.style.backgroundImage = `url('static/img/bg/home${numberNextSlide+1}.jpg')`;
         containers[numberPrevSlide].style.display = 'none';
         containers[numberNextSlide].style.display = 'block';
 
@@ -61,7 +61,7 @@ $(document).ready(function() {
     };
 
     function changeSlide(numberPrevSlide, numberNextSlide) {
-        carrouselContainer.style.backgroundImage = `url('/static/img/bg/home${numberNextSlide+1}.jpg')`;
+        carrouselContainer.style.backgroundImage = `url('static/img/bg/home${numberNextSlide+1}.jpg')`;
         containers[numberPrevSlide].style.display = 'none';
         containers[numberNextSlide].style.display = 'block';
 
