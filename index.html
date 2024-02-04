@@ -10,11 +10,16 @@
 <head>
     <title>Pangaea Data Portal</title>
     <script src="https://code.jquery.com/jquery-3.7.1.min.js" integrity="sha256-/JqT3SQfawRcv/BIHPThkBvs0OEvtFFmqPF/lYI/Cxo=" crossorigin="anonymous"></script>
+    <script> 
+        $(function(){
+          $("#HTMLtopbar").load("static/html/topbar.html"); 
+        });
+    </script>
     <script type="module" src="static/js/index.js"></script>
 </head>
 <body>
 <div class="container-fluid">
-	<link href="static/html/topbar.html" rel="import">
+	<div id="HTMLtopbar"></div>
     <div class="progress" style="display: none; z-index: 300; position: absolute; bottom: 12px; left: 1vw; width: 96vw; height: 18px;">
         <div class="progress-bar" id="progressBarElem" role="progressbar" style="width: 1%;" aria-valuenow="50" aria-valuemin="0" aria-valuemax="100">
             <span id="progressBarText" style="display: inline;"></span>
