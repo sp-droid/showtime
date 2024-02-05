@@ -21,6 +21,14 @@ $(document).ready(function() {
             const nextSlide = parseInt(event.target.getAttribute('slide-value'))
             staticChangeSlide(globalPrevSlide, nextSlide)
         });
+        slideButtons[i].addEventListener('mouseenter', function() {
+            clearTimeout(timerNextSlide);
+        });
+        slideButtons[i].addEventListener('mouseleave', function() {
+            timerNextSlide = setTimeout(() => {
+                changeSlide(globalPrevSlide, globalNextSlide);
+            }, delayNextSlide);
+        });
     };
 
     // Start slide changes
@@ -28,16 +36,15 @@ $(document).ready(function() {
         changeSlide(globalPrevSlide, globalNextSlide);
     }, delayNextSlide);
 
+    // Stop slide changes when hovered, continue when exiting
     for (let i = 0; i < containers.length; i++) {
         containers[i].addEventListener('mouseenter', function() {
-            clearTimeout(timerNextSlide);
             containers[i].style.cursor = 'grab';
+            containers[i].style.opacity = '0.95';
         });
         containers[i].addEventListener('mouseleave', function() {
-            timerNextSlide = setTimeout(() => {
-                changeSlide(globalPrevSlide, globalNextSlide);
-            }, delayNextSlide);
             containers[i].style.cursor = 'default';
+            containers[i].style.opacity = '0.2'
         });
     };
 

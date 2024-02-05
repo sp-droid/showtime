@@ -1,10 +1,19 @@
+/* ##### */
+/* Fonts */
+/* ##### */
+
+@font-face {
+    font-family: tabloidScuzzball;
+    src: url('../fonts/TabloidScuzzball-EDMl.ttf') format('truetype');
+}
+
 /* ################### */
 /* Default content row */
 /* ################### */
 .content-bg {
-    height: 89.7%;
+    height: 90.9vh;
     background-size: 100% 100%;
-    background-position-y: 10.3vh;
+    background-position-y: 9.1vh;
     background-attachment: fixed;
 }
 .carrousel-child {
@@ -12,8 +21,7 @@
     height: auto;
     top: 50%;
     transform: translate(0%, -50%);
-    background-color: rgba(173, 216, 230, 0.8);
-    opacity: 0.95;
+    transition: opacity 0.3s ease;
 }
 
 /* ########## */
