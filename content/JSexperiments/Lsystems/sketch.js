@@ -50,7 +50,7 @@ function setup() {
     noLoop();
 
     // Sliders
-    sliderDepth = createSlider(1, 10, 7, 1);
+    sliderDepth = createSlider(2, 10, 7, 1);
     sliderDepth.position(20,36);
     sliderDepth.input(draw);
     textSliderDepth = createP();
@@ -64,7 +64,7 @@ function setup() {
     textSliderAngle.position(180,2);
     textSliderAngle.style('color', 'white')
 
-    sliderLength = createSlider(0, 80, 2.7, 0.1);
+    sliderLength = createSlider(0, 30, 2.7, 0.1);
     sliderLength.position(340,36);
     sliderLength.input(draw);
     textSliderLength = createP();
