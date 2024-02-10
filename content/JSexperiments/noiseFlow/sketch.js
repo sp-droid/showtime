@@ -5,8 +5,8 @@ let speed;
 let particles = []
 
 function setup() {
-    nParticles = 6000;
-    noiseScale = 0.001;
+    nParticles = 3000;
+    noiseScale = 0.002;
     speed = 1.8;
 
     createCanvas(windowWidth, windowHeight);

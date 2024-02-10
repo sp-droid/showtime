@@ -58,17 +58,17 @@ function setup() {
     textSliderDepth.style('color', 'white')
 
     sliderAngle = createSlider(-90, 90, 25, 1);
-    sliderAngle.position(180,36);
+    sliderAngle.position(20,72);
     sliderAngle.input(draw);
     textSliderAngle = createP();
-    textSliderAngle.position(180,2);
+    textSliderAngle.position(20,38);
     textSliderAngle.style('color', 'white')
 
     sliderLength = createSlider(0, 30, 2.7, 0.1);
-    sliderLength.position(340,36);
+    sliderLength.position(20,108);
     sliderLength.input(draw);
     textSliderLength = createP();
-    textSliderLength.position(340,2);
+    textSliderLength.position(20,74);
     textSliderLength.style('color', 'white')
 
     draw();
