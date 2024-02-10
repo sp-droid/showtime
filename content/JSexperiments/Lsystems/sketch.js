@@ -24,7 +24,7 @@ function setup() {
     drawRules = {
         "F": (i) => {
             stroke(45, 18, 7);
-            strokeWeight(6/(1+i/50000));
+            strokeWeight(6/(1+log(i+2)/10));
             line(0,0,0,-growthLength);
             translate(0, -growthLength);
         },
