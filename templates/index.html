@@ -5,9 +5,12 @@
     <script src="https://code.jquery.com/jquery-3.7.1.min.js" integrity="sha256-/JqT3SQfawRcv/BIHPThkBvs0OEvtFFmqPF/lYI/Cxo=" crossorigin="anonymous"></script>
     
     <link rel="stylesheet" href="../static/css/style.css">
+    <script src="../static/js/style.js"></script>
     <script> 
         $(function(){
+            applyStyleJS(document);
             $("#HTMLtopbar").load("topbar.html", function() {
+                applyStyleJS(document);
                 document.getElementById('indexMenuButton').style.fontWeight = 'bolder';
             });
         });
