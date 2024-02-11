@@ -5,9 +5,12 @@
     <script src="https://code.jquery.com/jquery-3.7.1.min.js" integrity="sha256-/JqT3SQfawRcv/BIHPThkBvs0OEvtFFmqPF/lYI/Cxo=" crossorigin="anonymous"></script>
     
     <link rel="stylesheet" href="../static/css/style.css">
+    <script src="../static/js/style.js"></script>
     <script> 
         $(function(){
+            applyStyleJS(document);
             $("#HTMLtopbar").load("topbar.html", function() {
+                applyStyleJS(document);
                 document.getElementById('indexMenuButton').style.fontWeight = 'bolder';
             });
         });
@@ -39,13 +42,21 @@
 <body>
 <div class="container-fluid">
 	<div id="HTMLtopbar"></div>
-    <a target="_blank" rel="noopener noreferrer" id="test4MenuButton" href="../content/JSexperiments/starfield/index.html" style="text-decoration: none;">Starfield</a>&emsp;<br>
-    <a target="_blank" rel="noopener noreferrer" id="test5MenuButton" href="../content/JSexperiments/snakeGame/index.html" style="text-decoration: none;">Snake Game</a>&emsp;<br>
-    <a target="_blank" rel="noopener noreferrer" id="test6MenuButton" href="../content/JSexperiments/terrainGen/index.html" style="text-decoration: none;">Terrain Generation</a>&emsp;<br>
-    <a target="_blank" rel="noopener noreferrer" id="test7MenuButton" href="../content/JSexperiments/Lsystems/index.html" style="text-decoration: none;">L system tree</a>&emsp;<br>
-	<a target="_blank" rel="noopener noreferrer" id="test7MenuButton" href="../content/JSexperiments/noiseFlow/index.html" style="text-decoration: none;">Noise flowfield</a>&emsp;<br>
-	<a target="_blank" rel="noopener noreferrer" id="test7MenuButton" href="../content/JSexperiments/webglConway/index.html" style="text-decoration: none;">WebGL implementation of Conway's Game of Life</a>&emsp;<br>
-    <a target="_blank" rel="noopener noreferrer" id="test8MenuButton" href="../content/MEng/OM/index.html" style="text-decoration: none;">OM presentation</a>&emsp;<br>
+    <br><h5><a class="linkPopUp" href="https://en.wikipedia.org/wiki/WebGPU">WebGPU</a> (2021 JavaScript API for GPU-accelerated graphics and computation on the browser) small projects</h5>
+    Note: As of Feb-2024, WebGPU only works on Chrome(release) and Firefox(developer). So if you are on Firefox feel free to switch to the nightly version or to Chrome altogether to be able to visualize.<br>
+    <br>
+	<h5><a class="linkPopUp" href="https://en.wikipedia.org/wiki/Processing#p5.js">p5.js</a> + <a class="linkPopUp" href="https://en.wikipedia.org/wiki/WebGL">WebGL</a> (2011 JavaScript API for GPU-accelerated graphics on the browser) small projects:</h5>
+	<a class="linkPopUp" href="../content/JSexperiments/webglConway/index.html">Conway's Game of Life</a><br>
+    <br>
+	<h5><a class="linkPopUp" href="https://en.wikipedia.org/wiki/Processing#p5.js">p5.js</a> (2013 JavaScript library based on 2001 Java's <a class="linkPopUp" href="https://en.wikipedia.org/wiki/Processing">Processing</a> visual design library)  small projects:</h5>
+    <a class="linkPopUp" href="../content/JSexperiments/starfield/index.html">Starfield</a><br>
+    <a class="linkPopUp" href="../content/JSexperiments/snakeGame/index.html">Snake Game</a><br>
+    <a class="linkPopUp" href="../content/JSexperiments/terrainGen/index.html">Terrain Generation</a><br>
+    <a class="linkPopUp" href="../content/JSexperiments/Lsystems/index.html">L system tree</a><br>
+	<a class="linkPopUp" href="../content/JSexperiments/noiseFlow/index.html">Noise flowfield</a><br>
+    <br>
+    <h5>Master in Space Engineering presentations:</h5>
+	<a class="linkPopUp" href="../content/MEng/OM/index.html">OM presentation</a><br>
 </div>
 </body>
 </html>

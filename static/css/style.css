@@ -7,6 +7,15 @@
     src: url('../fonts/TabloidScuzzball-EDMl.ttf') format('truetype');
 }
 
+/* #### */
+/* Text */
+/* #### */
+.linkPopUp {
+    text-decoration: none;
+    /* target: _blank; THIS IS SETUP WITH JS*/
+    /* rel: noopener noreferrer; THIS IS SETUP WITH JS*/
+}
+
 /* ################### */
 /* Default content row */
 /* ################### */
