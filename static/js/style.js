@@ -1,4 +1,4 @@
-function applyStyleJS(document) {
+document.addEventListener("DOMContentLoaded", function() {
     // TEXT //
     // linkPopUp //
     const links = document.querySelectorAll(".linkPopUp");
@@ -6,5 +6,4 @@ function applyStyleJS(document) {
         links[i].setAttribute("target", "_blank");
         links[i].setAttribute("rel", "noopener noreferrer");
     }
-
-};
+});
