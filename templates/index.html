@@ -38,18 +38,16 @@
 <div id="HTMLdata"
 boldedTopbarButton ="indexMenuButton">
 </div>
-<div class="container-fluid">
-	<div id="HTMLtopbar"></div>
-    <div class="progress" style="display: none; z-index: 300; position: absolute; bottom: 12px; left: 1vw; width: 96vw; height: 18px;">
-        <div class="progress-bar" id="progressBarElem" role="progressbar" style="width: 1%;" aria-valuenow="50" aria-valuemin="0" aria-valuemax="100">
-            <span id="progressBarText" style="display: inline;"></span>
-        </div>
-    </div>
+<div style="display: flex; flex-direction: column; height: 100vh; width: 100vw; overflow: hidden;">
+	<div id="HTMLtopbar" style="flex: 0;"></div>
     <div id="carrouselContainer" class="row content-bg" style="
+    flex: 1;
     transition: background-image 3s ease;
+    background-size: cover;
+    background-attachment: fixed;
     background-image: url('../img/bg/home0.jpg');
     ">
-        <div style="opacity: 0.2; background-color: rgb(70, 98, 131, 0.8);;" class="carrousel-child text-center">
+        <div style="opacity: 0.2; background-color: rgb(70, 98, 131, 0.8);" class="carrousel-child text-center">
             <br>
             <div style="width: 100%;">
                 <i class="btn fa-solid fa-circle fa-2x" slide-value="0" style="color: #1A281F"></i>
