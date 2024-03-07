@@ -21,6 +21,9 @@
     height: auto;
     top: 50%;
     transform: translate(0%, -50%);
+    -webkit-transition: opacity 0.3s ease;
+    -moz-transition: opacity 0.3s ease;
+    -o-transition: opacity 0.3s ease;
     transition: opacity 0.3s ease;
 }
 
