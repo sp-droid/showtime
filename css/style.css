@@ -8,10 +8,10 @@
 
 
 /* DESKTOP, DEFAULT */
-.mobile {
+.shortScreen {
     display: none;
 }
-.desktop {
+.longScreen {
     display: inline;
 }
 
@@ -29,20 +29,20 @@
 
 /* SMALL DESKTOP */
 @media screen and (max-width: 1000px) {
-    .mobile {
+    .shortScreen {
         display: inline;
     }
-    .desktop {
+    .longScreen {
         display: none;
     }
 }
 
 /* MOBILE PORTRAIT */
 @media (hover: none) and (orientation: portrait) {
-    .mobile {
+    .shortScreen {
         display: inline;
     }
-    .desktop {
+    .longScreen {
         display: none;
     }
     #linksTopbar {
@@ -57,11 +57,11 @@
 
 /* MOBILE LANDSCAPE */
 @media (hover: none) and (orientation: landscape) {
-    .mobile {
-        display: inline;
-    }
-    .desktop {
+    .shortScreen {
         display: none;
+    }
+    .longScreen {
+        display: inline;
     }
     #navTopbar {
         height: 44px;

@@ -10,11 +10,11 @@ document.addEventListener("DOMContentLoaded", function() {
             &emsp;<a class="linkPopUp" href="https://www.instagram.com/pablo.arbelocabrera"><i class="fa-brands fa-instagram fa-lg" style="color: rgb(253, 130, 202)"></i></a>
             &emsp;<a class="linkPopUp" href="https://www.linkedin.com/in/pablo-arbelo-cabrera-051a951a2"><i class="fa-brands fa-linkedin-in fa-lg" style="color: rgb(90, 176, 247)"></i></a>
             &emsp;<a class="linkPopUp" href="https://github.com/sp-droid"><i class="fa-brands fa-github fa-lg" style="color: rgb(230, 237, 243)"></i></a>
-            <span class="desktop">&emsp;This website is under construction</span>
+            <span class="longScreen">&emsp;This website is under construction</span>
         </div>
         <div class="col d-flex align-items-center justify-content-center" style="background-color: rgb(253, 232, 170); color: rgb(64,74,61); height: 100%;">
-            <a class="linkPopUp desktop" href="https://docs.google.com/forms/d/1pK5hPSywf1resOSLIUOESFpqQn6cnRa2YjkRF7d77D8" style="font-weight: 500;">Contact link</a>
-            <a class="linkPopUp mobile" href="https://docs.google.com/forms/d/1pK5hPSywf1resOSLIUOESFpqQn6cnRa2YjkRF7d77D8" style="font-weight: 500;">Contact</a>
+            <a class="linkPopUp longScreen" href="https://docs.google.com/forms/d/1pK5hPSywf1resOSLIUOESFpqQn6cnRa2YjkRF7d77D8" style="font-weight: 500;">Contact link</a>
+            <a class="linkPopUp shortScreen" href="https://docs.google.com/forms/d/1pK5hPSywf1resOSLIUOESFpqQn6cnRa2YjkRF7d77D8" style="font-weight: 500;">Contact</a>
         </div>
     </div>
     <div class="row" id="navTopbar" style="background-color: rgb(242, 238, 230);">
