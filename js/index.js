@@ -1,4 +1,4 @@
-document.addEventListener("DOMContentLoaded", function() {
+document.addEventListener("DOMContentLoaded", async function() {
     // ################################
     // ########## References ##########
     // ################################
@@ -15,19 +15,14 @@ document.addEventListener("DOMContentLoaded", function() {
     // ######### Initial setup ########
     // ################################
 
+    // Replace temporary image
+    carrouselContainer.style.backgroundImage = `url('../img/bg/home1.jpg')`;
+
     // Add click event listeners to the icon buttons
     for (var i = 0; i < slideButtons.length; i++) {
         slideButtons[i].addEventListener('click', function(event) {
             const nextSlide = parseInt(event.target.getAttribute('slide-value'))
             staticChangeSlide(globalPrevSlide, nextSlide)
-        });
-        slideButtons[i].addEventListener('mouseenter', function() {
-            clearTimeout(timerNextSlide);
-        });
-        slideButtons[i].addEventListener('mouseleave', function() {
-            timerNextSlide = setTimeout(() => {
-                changeSlide(globalPrevSlide, globalNextSlide);
-            }, delayNextSlide);
         });
     };
 
@@ -41,10 +36,14 @@ document.addEventListener("DOMContentLoaded", function() {
         containers[i].addEventListener('mouseenter', function() {
             containers[i].style.cursor = 'grab';
             containers[i].style.opacity = '0.95';
+            clearTimeout(timerNextSlide);
         });
         containers[i].addEventListener('mouseleave', function() {
             containers[i].style.cursor = 'default';
             containers[i].style.opacity = '0.2'
+            timerNextSlide = setTimeout(() => {
+                changeSlide(globalPrevSlide, globalNextSlide);
+            }, delayNextSlide);
         });
     };
 
@@ -53,7 +52,10 @@ document.addEventListener("DOMContentLoaded", function() {
     // ################################
 
     function staticChangeSlide(numberPrevSlide, numberNextSlide) {
-        carrouselContainer.style.backgroundImage = `url('../static/img/bg/home${numberNextSlide+1}.jpg')`;
+        const img = new Image();
+        img.src = `../img/bg/home${numberNextSlide+1}.jpg`
+        img.onload = function() { carrouselContainer.style.backgroundImage = `url('${img.src}')`; }
+
         containers[numberPrevSlide].style.display = 'none';
         containers[numberNextSlide].style.display = 'block';
 
@@ -68,7 +70,10 @@ document.addEventListener("DOMContentLoaded", function() {
     };
 
     function changeSlide(numberPrevSlide, numberNextSlide) {
-        carrouselContainer.style.backgroundImage = `url('../static/img/bg/home${numberNextSlide+1}.jpg')`;
+        const img = new Image();
+        img.src = `../img/bg/home${numberNextSlide+1}.jpg`
+        img.onload = function() { carrouselContainer.style.backgroundImage = `url('${img.src}')`; }
+
         containers[numberPrevSlide].style.display = 'none';
         containers[numberNextSlide].style.display = 'block';
 
