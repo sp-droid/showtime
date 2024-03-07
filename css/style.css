@@ -1,11 +1,20 @@
+/* Fonts */
+@font-face {
+    font-family: brushScriptMTfont;
+    src: url('../fonts/brushScriptMTfont.ttf') format('truetype');
+}
+@font-face {
+    font-family: garamondFont;
+    src: url('../fonts/garamondFont.ttf') format('truetype');
+}
+
+
 /* Links that open on new tabs without decoration */
 .linkPopUp {
     text-decoration: none;
     /* target: _blank; THIS IS SETUP WITH JS*/
     /* rel: noopener noreferrer; THIS IS SETUP WITH JS*/
 }
-
-
 
 /* DESKTOP, DEFAULT */
 .shortScreen {
@@ -16,13 +25,13 @@
 }
 
 #linksTopbar {
-    font-family: Brush Script MT, cursive;
+    font-family: brushScriptMTfont;
     height: 44px;
     font-size: 22px;
 }
 
 #navTopbar {
-    font-family: Garamond, serif;
+    font-family: garamondFont;
     height: 72px;
     font-size: 36px;
 }
