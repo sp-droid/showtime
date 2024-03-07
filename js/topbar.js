@@ -26,7 +26,7 @@ document.addEventListener("DOMContentLoaded", function() {
             <a href="#" style="text-decoration: none; color: rgb(48, 48, 48);">Blog</a>&emsp;
             <a href="#" style="text-decoration: none; color: rgb(48, 48, 48);">About me</a>&emsp;
         </div>
-    </div>`;
+    </div>`; 
 
     // Bolden required button
     const boldenButtonName = document.getElementById('HTMLdata').getAttribute('boldedTopbarButton');
