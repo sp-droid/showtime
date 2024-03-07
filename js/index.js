@@ -2,6 +2,7 @@ document.addEventListener("DOMContentLoaded", async function() {
     // ################################
     // ########## References ##########
     // ################################
+    const mobile = window.matchMedia("(hover: none)").matches;
 
     const carrouselContainer = document.getElementById('carrouselContainer');
     const containers = carrouselContainer.children;
@@ -32,20 +33,24 @@ document.addEventListener("DOMContentLoaded", async function() {
     }, delayNextSlide);
 
     // Stop slide changes when hovered, continue when exiting
-    for (let i = 0; i < containers.length; i++) {
-        containers[i].addEventListener('mouseenter', function() {
-            containers[i].style.cursor = 'grab';
-            containers[i].style.opacity = '0.95';
-            clearTimeout(timerNextSlide);
-        });
-        containers[i].addEventListener('mouseleave', function() {
-            containers[i].style.cursor = 'default';
-            containers[i].style.opacity = '0.2'
-            timerNextSlide = setTimeout(() => {
-                changeSlide(globalPrevSlide, globalNextSlide);
-            }, delayNextSlide);
-        });
-    };
+    if (mobile === false) {
+        for (let i = 0; i < containers.length; i++) {
+            containers[i].addEventListener('mouseenter', function() {
+                containers[i].style.cursor = 'grab';
+                containers[i].style.opacity = '0.95';
+                clearTimeout(timerNextSlide);
+            });
+            containers[i].addEventListener('mouseleave', function() {
+                containers[i].style.cursor = 'default';
+                containers[i].style.opacity = '0.2'
+                timerNextSlide = setTimeout(() => {
+                    changeSlide(globalPrevSlide, globalNextSlide);
+                }, delayNextSlide);
+            });
+        };
+    } else {
+        for (let i = 0; i < containers.length; i++) { containers[i].style.opacity = '0.95'; }
+    }
 
     // ################################
     // ########## Functions ###########
