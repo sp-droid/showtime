@@ -5,7 +5,7 @@ document.addEventListener("DOMContentLoaded", async function() {
     const mobile = window.matchMedia("(hover: none)").matches;
 
     const carrouselContainer = document.getElementById('carrouselContainer');
-    const containers = carrouselContainer.children;
+    const containers = [...carrouselContainer.children].slice(1, -1);
     let globalPrevSlide = 0;
     let globalNextSlide = 1;
     const delayNextSlide = 8000;

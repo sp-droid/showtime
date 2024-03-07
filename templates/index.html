@@ -46,8 +46,11 @@ boldedTopbarButton ="indexMenuButton">
     background-size: cover;
     background-attachment: fixed;
     background-image: url('../img/bg/home0.jpg');
+    display: flex;
+    flex-direction: column;
     ">
-        <div style="opacity: 0.2; background-color: rgb(70, 98, 131, 0.8); color: rgb(209, 205, 199);" class="carrousel-child text-center">
+        <div style="flex: 1;"></div>
+        <div style="flex: 0; opacity: 0.2; transition: opacity 0.3s ease; background-color: rgb(70, 98, 131, 0.8); color: rgb(209, 205, 199);" class="carrousel-child text-center">
             <br>
             <div style="width: 100%;">
                 <i class="btn fa-solid fa-circle fa-2x" slide-value="0" style="color: #1A281F"></i>
@@ -61,7 +64,7 @@ boldedTopbarButton ="indexMenuButton">
             </div>
             <br>
         </div>
-        <div style="display: none; opacity: 0.2; background-color: rgba(112, 197, 185, 0.8); color: rgb(24, 26, 27);" class="carrousel-child text-center">
+        <div style="flex: 0; display: none; opacity: 0.2; transition: opacity 0.3s ease; background-color: rgba(119, 185, 215, 0.8); color: rgb(24, 26, 27);" class="carrousel-child text-center">
             <br>
             <div style="width: 100%;">
                 <i class="btn fa-solid fa-circle fa-2x" slide-value="0" style="color: #1A281F"></i>
@@ -75,7 +78,7 @@ boldedTopbarButton ="indexMenuButton">
             </div>
             <br>
         </div>
-        <div style="display: none; opacity: 0.2; background-color: rgba(112, 197, 185, 0.8); color: lightgoldenrodyellow" class="carrousel-child text-center">
+        <div style="flex: 0; display: none; opacity: 0.2; transition: opacity 0.3s ease; background-color: rgba(112, 197, 185, 0.8); color: lightgoldenrodyellow" class="carrousel-child text-center">
             <br>
             <div style="width: 100%;">
                 <i class="btn fa-solid fa-circle fa-2x" slide-value="0" style="color: #1A281F"></i>
@@ -89,6 +92,7 @@ boldedTopbarButton ="indexMenuButton">
             </div>
             <br>
         </div>
+        <div style="flex: 1;"></div>
     </div>
 </div>
 </body>
