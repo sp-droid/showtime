@@ -21,10 +21,10 @@ document.addEventListener("DOMContentLoaded", function() {
         <div class="col d-flex align-items-center justify-content-center" style="line-height: 20px; height: 100%">
             <a id="indexMenuButton" href="index.html" style="text-decoration: none; color: rgb(48, 48, 48);">Home</a>&emsp;
             <a id="test1MenuButton" href="projects.html" style="text-decoration: none; color: rgb(48, 48, 48);">Projects</a>&emsp;
-            <a href="#" style="text-decoration: none; color: rgb(48, 48, 48);">Animations</a>&emsp;
-            <a href="#" style="text-decoration: none; color: rgb(48, 48, 48);">Recipes</a>&emsp;
-            <a href="#" style="text-decoration: none; color: rgb(48, 48, 48);">Blog</a>&emsp;
-            <a href="#" style="text-decoration: none; color: rgb(48, 48, 48);">About me</a>&emsp;
+            <a href="#" style="text-decoration: none; color: rgba(48, 48, 48, 0.1);">Animations</a>&emsp;
+            <a href="#" style="text-decoration: none; color: rgba(48, 48, 48, 0.1);">Recipes</a>&emsp;
+            <a href="#" style="text-decoration: none; color: rgba(48, 48, 48, 0.1);">Blog</a>&emsp;
+            <a href="#" style="text-decoration: none; color: rgba(48, 48, 48, 0.1);">About me</a>&emsp;
         </div>
     </div>`; 
 
