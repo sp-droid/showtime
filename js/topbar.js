@@ -17,18 +17,22 @@ document.addEventListener("DOMContentLoaded", function() {
             <a class="linkPopUp shortScreen" title="For work or other topics" href="https://docs.google.com/forms/d/1pK5hPSywf1resOSLIUOESFpqQn6cnRa2YjkRF7d77D8" style="font-weight: 500;">Contact</a>
         </div>
     </div>
-    <div class="row" id="navTopbar" style="background-color: rgb(242, 238, 230);">
+    <div class="row" id="navTopbar" style="background: linear-gradient(to right, rgb(254, 250, 230), rgb(237, 221, 251))">
         <div class="col d-flex align-items-center justify-content-center" style="line-height: 20px; height: 100%">
-            <a id="indexMenuButton" href="index.html" style="text-decoration: none; color: rgb(48, 48, 48);">Home</a>&emsp;
-            <a id="test1MenuButton" href="projects.html" style="text-decoration: none; color: rgb(48, 48, 48);">Projects</a>&emsp;
-            <a href="#" style="text-decoration: none; color: rgba(48, 48, 48, 0.1);">Animations</a>&emsp;
-            <a href="#" style="text-decoration: none; color: rgba(48, 48, 48, 0.1);">Recipes</a>&emsp;
-            <a href="#" style="text-decoration: none; color: rgba(48, 48, 48, 0.1);">Blog</a>&emsp;
-            <a href="#" style="text-decoration: none; color: rgba(48, 48, 48, 0.1);">About me</a>&emsp;
+            <a id="indexMenuButton" href="index.html" title="Homepage where recent or current projects/entries/news are showcased" style="text-decoration: none; color: rgb(48, 48, 48);">Home</a>&emsp;
+            <a id="projectsMenuButton" href="projects.html" title="Projects of different kinds are highlighted, sometimes as a video, as a JS browser-app or as an entire webpage" style="text-decoration: none; color: rgb(48, 48, 48);">Projects</a>&emsp;
+            <a href="#" title="A selection of video-animations and timelapses from my projects are shown" style="text-decoration: none; color: rgba(48, 48, 48, 0.1);">Visuals</a>&emsp;
+            <a href="#" title="I like cooking and it's nice to finally put my recipes together in a proper form" style="text-decoration: none; color: rgba(48, 48, 48, 0.1);">Recipes</a>&emsp;
+            <a href="#" title="Devlogs and personal notes" style="text-decoration: none; color: rgba(48, 48, 48, 0.1);">Blog</a>&emsp;
+            <a id="aboutMenuButton" href="about.html" title="Brief page about myself for anyone interested" style="text-decoration: none; color: rgb(48, 48, 48);">About me</a>&emsp;
         </div>
     </div>`; 
 
     // Bolden required button
     const boldenButtonName = document.getElementById('HTMLdata').getAttribute('boldedTopbarButton');
-    document.getElementById(boldenButtonName).style.fontWeight = 'bolder';
+    const boldenButton = document.getElementById(boldenButtonName);
+    boldenButton.style.fontWeight = 'bolder';
+    boldenButton.style.textDecoration = 'underline';
+    boldenButton.style.textUnderlineOffset = '5px';
+    boldenButton.style.textDecorationThickness = '1px';
 });

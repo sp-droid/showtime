@@ -8,7 +8,7 @@ document.addEventListener("DOMContentLoaded", async function() {
     const containers = [...carrouselContainer.children].slice(1, -1);
     let globalPrevSlide = 0;
     let globalNextSlide = 1;
-    const delayNextSlide = 8000;
+    const delayNextSlide = 9000;
     let timerNextSlide;
     const slideButtons = document.querySelectorAll('i.btn.fa-solid.fa-circle.fa-2x');
 
@@ -38,14 +38,14 @@ document.addEventListener("DOMContentLoaded", async function() {
             containers[i].addEventListener('mouseenter', function() {
                 containers[i].style.cursor = 'grab';
                 containers[i].style.opacity = '0.95';
-                clearTimeout(timerNextSlide);
+                // clearTimeout(timerNextSlide);
             });
             containers[i].addEventListener('mouseleave', function() {
                 containers[i].style.cursor = 'default';
                 containers[i].style.opacity = '0.2'
-                timerNextSlide = setTimeout(() => {
-                    changeSlide(globalPrevSlide, globalNextSlide);
-                }, delayNextSlide);
+                // timerNextSlide = setTimeout(() => {
+                //     changeSlide(globalPrevSlide, globalNextSlide);
+                // }, delayNextSlide);
             });
         };
     } else {
