@@ -6,6 +6,7 @@
     
     <link rel="stylesheet" href="../css/style.css">
     <script src="../js/topbar.js"></script>
+    <script src="../js/projects.js"></script>
     <script src="../js/style.js"></script>
     <title>Projects</title>
 	
@@ -37,37 +38,69 @@
 <div id="HTMLdata"
 boldedTopbarButton ="projectsMenuButton">
 </div>
-<div style="display: flex; flex-direction: column; height: 100vh; width: 100vw; overflow-x: hidden;">
+<div style="display: flex; flex-direction: column; height: 100vh; width: 100vw; overflow-x: hidden; background-color: rgb(231, 231, 226)">
 	<div id="HTMLtopbar" style="flex: 0;"></div>
-    <div style="flex: 1; background-color: rgb(231, 231, 226);">
-        <br>
-        <h4>Small personal projects</h4>
+    <div id="layoutList" style="flex: 1; display: flex; flex-direction: column;">
+        <div style="flex: 0;">
+            <div style="text-align: right; margin-top: 15px;"><span id="buttonToLayoutText" class="btn btn-info"><i class="fa fa-bars"></i> Text layout</span>&emsp;</div>
+            <div style="display: flex;">
+                <div style="flex: 1;"></div>
+                <h2 style="flex: 0;"" id="typewriterProjects">Projects from university.</h2>
+                <div style="flex: 1;"></div>
+            </div>
+            <br>
+            <div style="text-align: center; width: 63%; margin: auto;">
+                <p style="color: gray;">Welcome to the projects section, the main part and reason for the website to exist! Towards these is where most of my effort has gone to, and I think it's great to be able to share some of them.</p>
+            </div>
+        </div>
+        <div style="flex: 0; display: flex;">
+            <div style="flex: 1;"></div>
+            <div id="gridProjects" style="flex: 6; display: grid;  grid-template-columns: repeat(auto-fill, minmax(600px, 1fr)); gap: 10px;">
+                <a class="linkPopUp gridElement" href="../content/JSexperiments/GPUrainbowSmoke/index.html" name="rainbowSmoke">
+                    <div>
+                        <h3>Rainbow Smoke</h3>
+                        <p>WebGPU implementation of the Rainbow Smoke algorithm</p>
+                        <h5>Last updated: March 11th, 2024</h5>
+                    </div>
+                    
+                </a>
+                <div class="gridElement" style="background-color: blue;">Work in progress</div>
+                <div class="gridElement" style="background-color: green;">Work in progress</div>
+                <div class="gridElement" style="background-color: yellow;">Work in progress</div>
+                <div class="gridElement" style="background-color: orange;">Work in progress</div>
+                <div class="gridElement" style="background-color: brown;">Work in progress</div>
+            </div>
+            <div style="flex: 1;"></div>
+        </div>
+    </div>
+    <div id="layoutText" style="display: none; flex: 1; margin-left: 20px;">
+        <div style="text-align: right; margin-top: 15px;"><span id="buttonToLayoutList" class="btn btn-warning"><i class="fa fa-bars"></i> List layout</span>&emsp;</div>
+        <h3>Small personal projects</h3>
         <ul>
             <li>Note 1: As of Feb-2024, WebGPU only works on Chrome(release) and Firefox(developer). So if you are on Firefox feel free to switch to the nightly version or to Chrome altogether to be able to visualize.</li>
             <li>Note 2: <span style="color: rgb(199, 223, 232);">Light blue</span> shades on links mean they were superseeded by newer, better and more performant versions.</li>
         </ul>
         <h5>Using <a class="linkPopUp" href="https://en.wikipedia.org/wiki/WebGPU">WebGPU</a> (2021 JavaScript API for GPU-accelerated graphics and computation on the browser):</h5>
-        <a class="linkPopUp" href="../content/JSexperiments/GPUrainbowSmoke/index.html">Rainbow Smoke algorithm</a><br>
-		<a class="linkPopUp" href="../content/JSexperiments/webGPUconway/index.html">Conway's Game of Life</a><br>
-        <br>
-        <h5>Using <a class="linkPopUp" href="https://en.wikipedia.org/wiki/Processing#p5.js">p5.js</a> + <a class="linkPopUp" href="https://en.wikipedia.org/wiki/WebGL">WebGL</a> (2011 JavaScript API for GPU-accelerated graphics on the browser):</h5>
-        <a class="linkPopUp" href="../content/JSexperiments/webglConway/index.html" style="color: rgb(199, 223, 232);">Conway's Game of Life</a><br>
+        <a class="linkPopUp" href="../content/JSexperiments/GPUrainbowSmoke/index.html"><p>Rainbow Smoke algorithm</p></a>
+		<a class="linkPopUp" href="../content/JSexperiments/webGPUconway/index.html"><p>Conway's Game of Life</p></a>
         <br>
         <h5>Using <a class="linkPopUp" href="https://en.wikipedia.org/wiki/Processing#p5.js">p5.js</a> (2013 JavaScript library based on 2001 Java's <a class="linkPopUp" href="https://en.wikipedia.org/wiki/Processing">Processing</a> visual design library):</h5>
-        <a class="linkPopUp" href="../content/JSexperiments/P5rainbowSmoke/index.html" style="color: rgb(199, 223, 232);">Rainbow Smoke algorithm</a><br>
-        <a class="linkPopUp" href="../content/JSexperiments/noiseFlow/index.html">Noise flowfield</a><br>
-        <a class="linkPopUp" href="../content/JSexperiments/Lsystems/index.html">L system tree</a><br>
-        <a class="linkPopUp" href="../content/JSexperiments/starfield/index.html">Starfield</a><br>
-        <a class="linkPopUp" href="../content/JSexperiments/snakeGame/index.html">Snake Game</a><br>
-        <a class="linkPopUp" href="../content/JSexperiments/terrainGen/index.html">Terrain Generation</a><br>
+        <a class="linkPopUp" href="../content/JSexperiments/P5rainbowSmoke/index.html" style="color: rgb(199, 223, 232);"><p>Rainbow Smoke algorithm</p></a>
+        <a class="linkPopUp" href="../content/JSexperiments/webglConway/index.html" style="color: rgb(199, 223, 232);"><p>Conway's Game of Life (and <a class="linkPopUp" href="https://en.wikipedia.org/wiki/WebGL">WebGL</a>)</p></a>
+        <a class="linkPopUp" href="../content/JSexperiments/noiseFlow/index.html"><p>Noise flowfield</p></a>
+        <a class="linkPopUp" href="../content/JSexperiments/Lsystems/index.html"><p>L system tree</p></a>
+        <a class="linkPopUp" href="../content/JSexperiments/starfield/index.html"><p>Starfield</p></a>
+        <a class="linkPopUp" href="../content/JSexperiments/snakeGame/index.html"><p>Snake Game</p></a>
+        <a class="linkPopUp" href="../content/JSexperiments/terrainGen/index.html"><p>Terrain Generation</p></a>
         <br>
-        <h4>Master in Space Engineering</h4>
+        <h3>Master in Space Engineering projects</h3>
         <h5>Videos:</h5>
-        <a class="linkPopUp" href="testx.html">Video 1</a><br>
-        <a class="linkPopUp" href="testy.html">Video 2</a><br>
+        <a class="linkPopUp" href="testx.html"><p>Video 1</p></a>
+        <a class="linkPopUp" href="testy.html"><p>Video 2</p></a>
         <br>
         <h5>Presentations:</h5>
-        <a class="linkPopUp" href="../content/MEng/OM/index.html">OM presentation</a><br>
+        <a class="linkPopUp" href="../content/MEng/OM/index.html"><p>OM presentation</p></a>
+        <br>
     </div>
 </div>
 </body>
