@@ -43,7 +43,9 @@ document.addEventListener("DOMContentLoaded", function() {
 
     projects[0].style.backgroundImage = `url('../img/projects/preview/${projects[0].getAttribute("name")}.jpg')`;
     projects[0].addEventListener('mouseenter', function() {
-        projects[0].style.backgroundImage = `url('../img/projects/preview/${projects[0].getAttribute("name")}.gif')`;
+        const img = new Image();
+        img.src = `../img/projects/preview/${projects[0].getAttribute("name")}.gif`
+        img.onload = function() { projects[0].style.backgroundImage = `url('${img.src}')`; }
     });
     projects[0].addEventListener('mouseleave', function() {
         projects[0].style.backgroundImage = `url('../img/projects/preview/${projects[0].getAttribute("name")}.jpg')`;

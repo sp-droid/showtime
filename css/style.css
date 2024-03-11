@@ -90,7 +90,6 @@ p { font-size: 20px; }
     width: 100%;
     animation: typewritingProjects 4s steps(25) alternate infinite,
                 caret 1s infinite;
-
 }
 @keyframes typewritingProjects{
     0% { width: 0%; }
@@ -122,6 +121,9 @@ p { font-size: 20px; }
     text-shadow: 0px 0px 10px black, 0px 0px 10px black;
     font-weight: bolder;
 }
+.gridElement > :first-child > :nth-child(2) {
+    display: none;
+}
 .gridElement > :first-child > :nth-child(3) {
     position: absolute;
     bottom: 0;
@@ -130,6 +132,9 @@ p { font-size: 20px; }
 }
 .gridElement:hover {
     box-shadow: 0 0 20px rgba(0,0,0,0.7);
+}
+.gridElement:hover > :first-child > :nth-child(2) {
+    display: block;
 }
 
 /* ################### */
