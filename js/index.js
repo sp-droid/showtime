@@ -1,4 +1,4 @@
-document.addEventListener("DOMContentLoaded", async function() {
+document.addEventListener("DOMContentLoaded", function() {
     // ################################
     // ########## References ##########
     // ################################
@@ -10,7 +10,7 @@ document.addEventListener("DOMContentLoaded", async function() {
     let globalNextSlide = 1;
     const delayNextSlide = 9000;
     let timerNextSlide;
-    const slideButtons = document.querySelectorAll('i.btn.fa-solid.fa-circle.fa-2x');
+    const slideButtons = document.querySelectorAll('i.btn.fa-stack');
 
     // ################################
     // ######### Initial setup ########
@@ -20,15 +20,16 @@ document.addEventListener("DOMContentLoaded", async function() {
     carrouselContainer.style.backgroundImage = `url('../img/bg/home1.jpg')`;
 
     // Add click event listeners to the icon buttons
-    for (var i = 0; i < slideButtons.length; i++) {
-        slideButtons[i].addEventListener('click', function(event) {
-            const nextSlide = parseInt(event.target.getAttribute('slide-value'))
-            staticChangeSlide(globalPrevSlide, nextSlide)
+    for (let i = 0; i < slideButtons.length; i++) {
+        slideButtons[i].addEventListener('click', function() {
+            clearTimeout(timerNextSlide);
+            const nextSlide = parseInt(slideButtons[i].getAttribute('slide-value'));
+            changeSlide(globalPrevSlide, nextSlide);
         });
     };
 
     // Start slide changes
-    timerNextSlide = setTimeout(() => {
+    timerNextSlide = setTimeout(function() {
         changeSlide(globalPrevSlide, globalNextSlide);
     }, delayNextSlide);
 
@@ -55,24 +56,6 @@ document.addEventListener("DOMContentLoaded", async function() {
     // ################################
     // ########## Functions ###########
     // ################################
-
-    function staticChangeSlide(numberPrevSlide, numberNextSlide) {
-        const img = new Image();
-        img.src = `../img/bg/home${numberNextSlide+1}.jpg`
-        img.onload = function() { carrouselContainer.style.backgroundImage = `url('${img.src}')`; }
-
-        containers[numberPrevSlide].style.display = 'none';
-        containers[numberNextSlide].style.display = 'block';
-
-        numberPrevSlide = numberNextSlide;
-        if (numberNextSlide === containers.length - 1) {
-            numberNextSlide = 0;
-        } else {
-            numberNextSlide += 1;
-        };
-        globalPrevSlide = numberPrevSlide;
-        globalNextSlide = numberNextSlide;
-    };
 
     function changeSlide(numberPrevSlide, numberNextSlide) {
         const img = new Image();
