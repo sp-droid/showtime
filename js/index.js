@@ -10,7 +10,6 @@ document.addEventListener("DOMContentLoaded", function() {
     let globalNextSlide = 1;
     const delayNextSlide = 9000;
     let timerNextSlide;
-    const slideButtons = document.querySelectorAll('i.btn.fa-stack');
 
     // ################################
     // ######### Initial setup ########
@@ -19,6 +18,17 @@ document.addEventListener("DOMContentLoaded", function() {
     // Replace temporary image
     carrouselContainer.style.backgroundImage = `url('../img/bg/home1.jpg')`;
 
+    for (let i = 0; i < containers.length; i++) {
+        console.log(i)
+        let htmlCode = `<br><div style="width: 100%;">`;
+        for (let j = 0; j < containers.length; j++) {
+            htmlCode += `<i class="btn fa-stack" style="font-size: 20px;" slide-value="${j}"><i class="fa fa-circle fa-stack-2x"></i><strong class="fa-stack-1x text-primary">${j}</strong></i>`;
+        }
+        htmlCode += `</div><br>`;
+        containers[i].innerHTML = htmlCode + containers[i].innerHTML
+    }
+
+    const slideButtons = document.querySelectorAll('i.btn.fa-stack');
     // Add click event listeners to the icon buttons
     for (let i = 0; i < slideButtons.length; i++) {
         slideButtons[i].addEventListener('click', function() {
