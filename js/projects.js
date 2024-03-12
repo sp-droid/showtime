@@ -41,15 +41,23 @@ document.addEventListener("DOMContentLoaded", function() {
     // ################################
     const projects = document.getElementById("gridProjects").children;
 
-    projects[0].style.backgroundImage = `url('../img/projects/preview/${projects[0].getAttribute("name")}.jpg')`;
-    projects[0].addEventListener('mouseenter', function() {
+    for (let i = 0; i < projects.length; i++) {
         const img = new Image();
-        img.src = `../img/projects/preview/${projects[0].getAttribute("name")}.gif`
-        img.onload = function() { projects[0].style.backgroundImage = `url('${img.src}')`; }
-    });
-    projects[0].addEventListener('mouseleave', function() {
-        projects[0].style.backgroundImage = `url('../img/projects/preview/${projects[0].getAttribute("name")}.jpg')`;
-    });
-    
-
+        img.src = `../img/projects/preview/${projects[i].getAttribute("name")}.jpg`;
+        img.onload = function() { projects[i].style.backgroundImage = `url('${img.src}')`; };
+        img.onerror = function() { projects[i].style.backgroundImage = "url('../img/default.jpg')"; };
+        
+        projects[i].addEventListener('mouseenter', function() {
+            const img = new Image();
+            img.src = `../img/projects/preview/${projects[i].getAttribute("name")}.gif`;
+            img.onload = function() { projects[i].style.backgroundImage = `url('${img.src}')`; };
+            img.onerror = function() { projects[i].style.backgroundImage = "url('../img/default.gif')"; };
+        });
+        projects[i].addEventListener('mouseleave', function() {
+            const img = new Image();
+            img.src = `../img/projects/preview/${projects[i].getAttribute("name")}.jpg`;
+            img.onload = function() { projects[i].style.backgroundImage = `url('${img.src}')`; };
+            img.onerror = function() { projects[i].style.backgroundImage = "url('../img/default.jpg')"; };
+        });
+    }
 });
