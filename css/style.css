@@ -112,6 +112,7 @@ p { font-size: 20px; }
     cursor: pointer;
     transition: box-shadow 0.3s;
     transition: background-image 0.5s;
+    background-size: cover;
 }
 .gridElement > :first-child {
     position: relative;
