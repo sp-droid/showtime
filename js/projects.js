@@ -1,5 +1,16 @@
 document.addEventListener("DOMContentLoaded", function() {
     // ################################
+    // ######## WebGPU compat. ########
+    // ################################
+    const hideAlertChrome = document.getElementById("hideAlertChrome");
+    setTimeout(function() {
+        hideAlertChrome.style.opacity = 0;
+        setTimeout(function() {
+            hideAlertChrome.style.display = "none";
+        }, 2000);
+    }, 4000);
+
+    // ################################
     // ######## Layout swapping #######
     // ################################
     const layoutList = document.getElementById("layoutList");
@@ -42,22 +53,25 @@ document.addEventListener("DOMContentLoaded", function() {
     const projects = document.getElementById("gridProjects").children;
 
     for (let i = 0; i < projects.length; i++) {
+        // Background
         const img = new Image();
         img.src = `../img/projects/preview/${projects[i].getAttribute("name")}.jpg`;
         img.onload = function() { projects[i].style.backgroundImage = `url('${img.src}')`; };
-        img.onerror = function() { projects[i].style.backgroundImage = "url('../img/default.jpg')"; };
+
+        // SVG icon for P5js, WebGPU...
+        projects[i].firstElementChild.children[3].firstElementChild.src = `../img/icons/${projects[i].getAttribute("project")}.svg`;
         
+        // On-hover GIF
         projects[i].addEventListener('mouseenter', function() {
             const img = new Image();
             img.src = `../img/projects/preview/${projects[i].getAttribute("name")}.gif`;
             img.onload = function() { projects[i].style.backgroundImage = `url('${img.src}')`; };
-            img.onerror = function() { projects[i].style.backgroundImage = "url('../img/default.gif')"; };
+            // img.onerror = function() { projects[i].style.backgroundImage = "url('../img/projects/preview/default.gif')"; };
         });
         projects[i].addEventListener('mouseleave', function() {
             const img = new Image();
             img.src = `../img/projects/preview/${projects[i].getAttribute("name")}.jpg`;
             img.onload = function() { projects[i].style.backgroundImage = `url('${img.src}')`; };
-            img.onerror = function() { projects[i].style.backgroundImage = "url('../img/default.jpg')"; };
         });
     }
 });
