@@ -100,7 +100,7 @@ document.addEventListener("DOMContentLoaded", function() {
                 projectElement.appendChild(innerDiv);
                 
                 // On hover GIF
-                if (data[i]["gif"] === "yes") {
+                if (data[i]["gif"] === true) {
                     projectElement.addEventListener('mouseenter', function() {
                         projectElement.style.backgroundImage = `url('../img/projects/preview/${data[i]["bg"]}.gif')`;
                     });
@@ -108,6 +108,18 @@ document.addEventListener("DOMContentLoaded", function() {
                         projectElement.style.backgroundImage = `url('../img/projects/preview/${data[i]["bg"]}.jpg')`;
                     });
                 };
+
+                // Importance feature
+                if (data[i]["importance"] === 1) {
+                    projectElement.style.border = "1px solid";
+                    projectElement.setAttribute("title","This project is important, taking days/weeks to complete.");
+                } else if (data[i]["importance"] === 2) {
+                    projectElement.style.border = "2px solid gold";
+                    projectElement.setAttribute("title","This project is very important, taking months to complete.");
+                } else if (data[i]["importance"] === 3) {
+                    projectElement.style.border = "3px solid darkred";
+                    projectElement.setAttribute("title","This is a major venture, taking years to complete.");
+                }
                 gridProjects.appendChild(projectElement);
             }
         })

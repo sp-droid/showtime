@@ -2,111 +2,122 @@
 {
 	"link": "../content/JSexperiments/GPUrainbowSmoke/index.html",
 	"bg": "rainbowSmoke",
-	"gif": "yes",
+	"gif": true,
 	"type": "Personal",
 	"tools": ["WebGPU"],
 	"header": "Rainbow Smoke",
 	"desc": "WebGPU implementation of the Rainbow Smoke algorithm.",
-	"date": "11/03/2024"	
+	"date": "11/03/2024",
+	"importance": 0
 },
 {
 	"link": "../content/JSexperiments/webGPUconway/index.html",
 	"bg": "conwayGoL",
-	"gif": "yes",
+	"gif": true,
 	"type": "Personal",
 	"tools": ["WebGPU"],
 	"header": "Conway's Game of Life",
 	"desc": "WebGPU implementation of Conway's Game of Life.",
-	"date": "21/02/2024"	
+	"date": "21/02/2024",
+	"importance": 0
 },
 {
 	"link": "https://www.youtube.com/watch?v=rTtfvdIVifg",
 	"bg": "polimiLS",
-	"gif": "yes",
+	"gif": true,
 	"type": "Polytechnic University of Milan",
 	"tools": ["MATLAB","Blender"],
 	"header": "(L.S.) Missile concept design",
 	"desc": "(Launch Systems assignment) Concept design of a missile system to deliver a non-military payload with a range of ~250km",
-	"date": "22/12/2023"	
+	"date": "22/12/2023",
+	"importance": 1
 },
 {
 	"link": "#",
 	"bg": "default",
-	"gif": "no",
+	"gif": false,
 	"type": "European Space Agency",
 	"tools": ["JavaScript","HTML","CSS","django"],
 	"header": "Spectral data portal PoC",
 	"desc": "On hold. I'm still sorting out how to lightly show this kind of stuff without breaking NDAs or doing any harm",
-	"date": "31/12/2023"	
+	"date": "31/12/2023",
+	"importance": 2
 },
 {
 	"link": "#",
 	"bg": "default",
-	"gif": "no",
+	"gif": false,
 	"type": "European Space Agency",
 	"tools": ["Python","Keras"],
 	"header": "ML classifier on mineral spectra",
 	"desc": "On hold. I'm still sorting out how to lightly show this kind of stuff without breaking NDAs or doing any harm",
-	"date": "15/09/2023"	
+	"date": "15/09/2023",
+	"importance": 2
 },
 {
 	"link": "#",
 	"bg": "default",
-	"gif": "no",
+	"gif": false,
 	"type": "UPM & Airbus",
 	"tools": ["Python"],
 	"header": "Validation tool for (aircraft) ML models",
 	"desc": "On hold. I'm still sorting out how to lightly show this kind of stuff without breaking NDAs or doing any harm",
-	"date": "31/08/2023"	
+	"date": "31/08/2023",
+	"importance": 2
 },
 {
 	"link": "https://www.youtube.com/watch?v=B0lHIo_tt7I",
 	"bg": "polimiSAD",
-	"gif": "yes",
+	"gif": true,
 	"type": "Polytechnic University of Milan",
 	"tools": ["MATLAB","Blender"],
 	"header": "(S.A.D.) Satellite modelling",
 	"desc": "(Spacecraft Attitude Dynamics assignment) Modelling of the attitude dynamics of a Sun-synchronous satellite",
-	"date": "07/01/2024"	
+	"date": "07/01/2024",
+	"importance": 1
 },
 {
 	"link": "https://www.youtube.com/watch?v=ByNQOdoczXE",
 	"bg": "polimiOM",
-	"gif": "yes",
+	"gif": true,
 	"type": "Polytechnic University of Milan",
 	"tools": ["MATLAB"],
 	"header": "(O.M.) Satellite modelling",
 	"desc": "(Orbital Mechanics assignment) Modelling of the perturbations and movement of a satellite. <br>Attention! This is not finished. The project had two videos and I want to further explain it.",
-	"date": "01/01/2023"	
+	"date": "01/01/2023",
+	"importance": 1
 },
 {
 	"link": "../content/JSexperiments/noiseFlow/index.html",
 	"bg": "noiseFlowfield",
-	"gif": "yes",
+	"gif": true,
 	"type": "Personal",
 	"tools": ["P5js"],
 	"header": "Noise flowfield",
 	"desc": "Animating perlin noise flow fields.",
-	"date": "11/02/2024"	
+	"date": "11/02/2024",
+	"importance": 0
 },
 {
 	"link": "../content/JSexperiments/Lsystems/index.html",
 	"bg": "LsystemsTree",
-	"gif": "no",
+	"gif": false,
 	"type": "Personal",
 	"tools": ["P5js"],
 	"header": "L system tree",
 	"desc": "Drawing a natural looking tree from a rule-based fractal.",
-	"date": "09/02/2024"	
+	"date": "09/02/2024",
+	"importance": 0
 },
 {
 	"link": "../content/JSexperiments/starfield/index.html",
 	"bg": "starfield",
-	"gif": "no",
+	"gif": false,
 	"type": "Personal",
 	"tools": ["P5js"],
 	"header": "Starfield effect",
 	"desc": "Simple but cool effect that mimics how movies represent near-lightspeed travel.",
-	"date": "04/04/2022"	
+	"date": "04/04/2022",
+	"importance": 0
 }
 ]
