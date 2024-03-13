@@ -64,16 +64,17 @@ document.addEventListener("DOMContentLoaded", function() {
         projects[i].firstElementChild.children[3].setAttribute("title", `Project category: ${projects[i].getAttribute("project")}`);
         
         // On-hover GIF
-        projects[i].addEventListener('mouseenter', function() {
-            const img = new Image();
-            img.src = `../img/projects/preview/${projects[i].getAttribute("name")}.gif`;
-            img.onload = function() { projects[i].style.backgroundImage = `url('${img.src}')`; };
-            // img.onerror = function() { projects[i].style.backgroundImage = "url('../img/projects/preview/default.gif')"; };
-        });
-        projects[i].addEventListener('mouseleave', function() {
-            const img = new Image();
-            img.src = `../img/projects/preview/${projects[i].getAttribute("name")}.jpg`;
-            img.onload = function() { projects[i].style.backgroundImage = `url('${img.src}')`; };
-        });
+        if (projects[i].getAttribute("gif") === "yes") {
+            projects[i].addEventListener('mouseenter', function() {
+                const img = new Image();
+                img.src = `../img/projects/preview/${projects[i].getAttribute("name")}.gif`;
+                img.onload = function() { projects[i].style.backgroundImage = `url('${img.src}')`; };
+            });
+            projects[i].addEventListener('mouseleave', function() {
+                const img = new Image();
+                img.src = `../img/projects/preview/${projects[i].getAttribute("name")}.jpg`;
+                img.onload = function() { projects[i].style.backgroundImage = `url('${img.src}')`; };
+            });
+        };
     }
 });
