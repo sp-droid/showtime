@@ -21,7 +21,6 @@ document.addEventListener("DOMContentLoaded", function() {
         <div class="col d-flex align-items-center justify-content-center" style="line-height: 20px; height: 100%">
             <a id="indexMenuButton" href="index.html" title="Homepage where recent or current projects/entries/news are showcased" style="text-decoration: none; color: rgb(48, 48, 48);">Home</a>&emsp;
             <a id="projectsMenuButton" href="projects.html" title="Projects of different kinds are highlighted, sometimes as a video, as a JS browser-app or as an entire webpage" style="text-decoration: none; color: rgb(48, 48, 48);">Projects</a>&emsp;
-            <a href="#" title="A selection of video-animations and timelapses from my projects are shown" style="text-decoration: none; color: rgba(48, 48, 48, 0.1);">Visuals</a>&emsp;
             <a href="#" title="I like cooking and it's nice to finally put my recipes together in a proper form" style="text-decoration: none; color: rgba(48, 48, 48, 0.1);">Recipes</a>&emsp;
             <a href="#" title="Devlogs and personal notes" style="text-decoration: none; color: rgba(48, 48, 48, 0.1);">Blog</a>&emsp;
             <a id="aboutMenuButton" href="about.html" title="Brief page about myself for anyone interested" style="text-decoration: none; color: rgb(48, 48, 48);">About me</a>&emsp;
