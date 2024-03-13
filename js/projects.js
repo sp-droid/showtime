@@ -50,31 +50,98 @@ document.addEventListener("DOMContentLoaded", function() {
     // ################################
     // ############# Grid #############
     // ################################
+    const gridProjects = document.getElementById("gridProjects");
     const projects = document.getElementById("gridProjects").children;
 
-    for (let i = 0; i < projects.length; i++) {
-        // Background
-        const img = new Image();
-        img.src = `../img/projects/preview/${projects[i].getAttribute("name")}.jpg`;
-        img.onload = function() { projects[i].style.backgroundImage = `url('${img.src}')`; };
+    fetch("../content/projects.json")
+        .then(response => {
+            if (!response.ok) { throw new Error('Network response was not ok'); }
+            return response.json();
+        })
+        .then(data => {
+            for (let i = 0; i < data.length; i++) {
+                const projectElement = document.createElement("a");
+                projectElement.classList.add("gridElement");
+                projectElement.setAttribute("target", "_blank");
+                projectElement.setAttribute("rel", "noopener noreferrer");
+                projectElement.setAttribute("href", data[i]["link"]);
+                projectElement.style.backgroundImage = `url('../img/projects/preview/${data[i]["bg"]}.jpg')`;
+                
+                const innerDiv = document.createElement("div");
+                // Header
+                const header = document.createElement("h3");
+                header.innerHTML = data[i]["header"];
+                innerDiv.appendChild(header);
+                // Description
+                const desc = document.createElement("p");
+                desc.innerHTML = "<br>"+data[i]["desc"];
+                innerDiv.appendChild(desc);
+                // Date
+                const date = document.createElement("h5");
+                date.innerHTML = formatDate(data[i]["date"]);
+                date.setAttribute("title","The assigned date could be related to the latest major change to the project or an official date of termination");
+                innerDiv.appendChild(date);
+                // Project type icon
+                const projectType = document.createElement("div");
+                const projectTypeImage = document.createElement("img");
+                projectTypeImage.src = `../img/icons/${data[i]["type"]}.svg`;
+                projectTypeImage.setAttribute("title", `Project type: ${data[i]["type"]}`);
+                projectType.appendChild(projectTypeImage);
+                innerDiv.appendChild(projectType);
+                // Tools used
+                const tools = document.createElement("div");
+                for (const toolName of data[i]["tools"]) {
+                    const toolImage = document.createElement("img");
+                    toolImage.src = `../img/icons/${toolName}.svg`;
+                    toolImage.setAttribute("title", `Tool employed: ${toolName}`);
+                    tools.appendChild(toolImage);
+                }
+                innerDiv.appendChild(tools);
+                projectElement.appendChild(innerDiv);
+                
+                // On hover GIF
+                if (data[i]["gif"] === "yes") {
+                    projectElement.addEventListener('mouseenter', function() {
+                        projectElement.style.backgroundImage = `url('../img/projects/preview/${data[i]["bg"]}.gif')`;
+                    });
+                    projectElement.addEventListener('mouseleave', function() {
+                        projectElement.style.backgroundImage = `url('../img/projects/preview/${data[i]["bg"]}.jpg')`;
+                    });
+                };
+                gridProjects.appendChild(projectElement);
+            }
+        })
+        .catch(error => { console.error('There was a problem fetching the JSON data:', error); });
 
-        // SVG icon for P5js, WebGPU...
-        projects[i].firstElementChild.children[2].setAttribute("title", `Finish date: ${projects[i].firstElementChild.children[2].textContent}`);
-        projects[i].firstElementChild.children[3].firstElementChild.src = `../img/icons/${projects[i].getAttribute("project")}.svg`;
-        projects[i].firstElementChild.children[3].setAttribute("title", `Project category: ${projects[i].getAttribute("project")}`);
-        
-        // On-hover GIF
-        if (projects[i].getAttribute("gif") === "yes") {
-            projects[i].addEventListener('mouseenter', function() {
-                const img = new Image();
-                img.src = `../img/projects/preview/${projects[i].getAttribute("name")}.gif`;
-                img.onload = function() { projects[i].style.backgroundImage = `url('${img.src}')`; };
-            });
-            projects[i].addEventListener('mouseleave', function() {
-                const img = new Image();
-                img.src = `../img/projects/preview/${projects[i].getAttribute("name")}.jpg`;
-                img.onload = function() { projects[i].style.backgroundImage = `url('${img.src}')`; };
-            });
-        };
+    // ################################
+    // ############# Date #############
+    // ################################
+    function formatDate(inputDate) {
+        const parts = inputDate.split('/'); // Split the date string into parts
+        const day = parseInt(parts[0], 10); // Extract the day
+        const month = parseInt(parts[1], 10); // Extract the month
+        const year = parseInt(parts[2], 10); // Extract the year
+    
+        // Create a new Date object
+        const date = new Date(year, month - 1, day);
+    
+        // Define month names array
+        const monthNames = [
+            'Jan', 'Feb', 'Mar', 'Apr',
+            'May', 'Jun', 'Jul', 'Aug',
+            'Sep', 'Oct', 'Nov', 'Dec'
+        ];
+    
+        // Get month name and append 'th', 'st', 'nd', 'rd' suffix for day
+        const monthName = monthNames[date.getMonth()];
+        const suffix = (day === 11 || day === 12 || day === 13) ? 'th' :
+                       (day % 10 === 1) ? 'st' :
+                       (day % 10 === 2) ? 'nd' :
+                       (day % 10 === 3) ? 'rd' : 'th';
+    
+        // Construct formatted date string
+        const formattedDate = `${monthName} ${day}${suffix}, ${year}`;
+    
+        return formattedDate;
     }
 });
