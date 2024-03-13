@@ -15,7 +15,7 @@
 	"gif": "yes",
 	"type": "Personal",
 	"tools": ["WebGPU"],
-	"header": "Conway's GoL",
+	"header": "Conway's Game of Life",
 	"desc": "WebGPU implementation of Conway's Game of Life.",
 	"date": "21/02/2024"	
 },
@@ -48,6 +48,16 @@
 	"header": "ML classifier on mineral spectra",
 	"desc": "On hold. I'm still sorting out how to lightly show this kind of stuff without breaking NDAs or doing any harm",
 	"date": "15/09/2023"	
+},
+{
+	"link": "#",
+	"bg": "default",
+	"gif": "no",
+	"type": "UPM & Airbus",
+	"tools": ["Python"],
+	"header": "Validation tool for (aircraft) ML models",
+	"desc": "On hold. I'm still sorting out how to lightly show this kind of stuff without breaking NDAs or doing any harm",
+	"date": "31/08/2023"	
 },
 {
 	"link": "https://www.youtube.com/watch?v=B0lHIo_tt7I",
