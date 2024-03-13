@@ -22,7 +22,8 @@ document.addEventListener("DOMContentLoaded", function() {
         console.log(i)
         let htmlCode = `<br><div style="width: 100%;">`;
         for (let j = 0; j < containers.length; j++) {
-            htmlCode += `<i class="btn fa-stack" style="font-size: 20px;" slide-value="${j}"><i class="fa fa-circle fa-stack-2x"></i><strong class="fa-stack-1x text-primary">${j}</strong></i>`;
+
+            htmlCode += `<i class="btn fa-stack" style="font-size: 20px; font-family: garamondFont; font-style: normal;" slide-value="${j}"><i class="fa fa-circle fa-stack-2x"></i><strong class="fa-stack-1x text-primary">${romanize(j+1)}</strong></i>`;
         }
         htmlCode += `</div><br>`;
         containers[i].innerHTML = htmlCode + containers[i].innerHTML
@@ -88,5 +89,16 @@ document.addEventListener("DOMContentLoaded", function() {
             changeSlide(numberPrevSlide, numberNextSlide);
         }, delayNextSlide);
     };
+
+    function romanize(num) {
+        var lookup = {M:1000,CM:900,D:500,CD:400,C:100,XC:90,L:50,XL:40,X:10,IX:9,V:5,IV:4,I:1},roman = '',i;
+        for ( i in lookup ) {
+        while ( num >= lookup[i] ) {
+            roman += i;
+            num -= lookup[i];
+        }
+        }
+        return roman;
+    }
 
 });
