@@ -84,7 +84,7 @@ document.addEventListener("DOMContentLoaded", function() {
                 // Project type icon
                 const projectType = document.createElement("div");
                 const projectTypeImage = document.createElement("img");
-                projectTypeImage.src = `../img/icons/${data[i]["type"]}.svg`;
+                projectTypeImage.src = `../img/icons/${data[i]["type"]}.png`;
                 projectTypeImage.setAttribute("title", `Project type: ${data[i]["type"]}`);
                 projectType.appendChild(projectTypeImage);
                 innerDiv.appendChild(projectType);
