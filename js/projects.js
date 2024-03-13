@@ -59,7 +59,9 @@ document.addEventListener("DOMContentLoaded", function() {
         img.onload = function() { projects[i].style.backgroundImage = `url('${img.src}')`; };
 
         // SVG icon for P5js, WebGPU...
+        projects[i].firstElementChild.children[2].setAttribute("title", `Finish date: ${projects[i].firstElementChild.children[2].textContent}`);
         projects[i].firstElementChild.children[3].firstElementChild.src = `../img/icons/${projects[i].getAttribute("project")}.svg`;
+        projects[i].firstElementChild.children[3].setAttribute("title", `Project category: ${projects[i].getAttribute("project")}`);
         
         // On-hover GIF
         projects[i].addEventListener('mouseenter', function() {
