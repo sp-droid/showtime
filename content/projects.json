@@ -83,8 +83,19 @@
 	"type": "Personal",
 	"tools": ["Python","NVIDIA CUDA"],
 	"header": "Iterative pseudo-voronoi",
-	"desc": "2D space segmentation using a GPU-powered (by numba-CUDA and python, specifically) pseudo-voronoi technique.",
+	"desc": "2D space segmentation using a GPU-powered (by numba-CUDA and python, specifically) pseudo-voronoi technique on +130M pixel images.",
 	"date": "25/04/2023",
+	"importance": 1
+},
+{
+	"link": "#",
+	"bg": "default",
+	"gif": false,
+	"type": "Personal",
+	"tools": ["Python","NVIDIA CUDA"],
+	"header": "Historical biome prediction",
+	"desc": "Using a variation of Whittaker's diagram (biome = f[temperature, rainfall, height]) and extrapolated Earth observational data to classify biomes on 1204 A.D. on +130M pixel images.",
+	"date": "11/03/2023",
 	"importance": 1
 },
 {
