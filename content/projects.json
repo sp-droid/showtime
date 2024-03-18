@@ -1,5 +1,16 @@
 [
 {
+	"link": "https://www.flickr.com/photos/200282744@N03/albums/72177720315521996",
+	"bg": "solarSystemBlender",
+	"gif": false,
+	"type": "Personal",
+	"tools": ["Blender"],
+	"header": "Solar System in Blender",
+	"desc": "Various Solar System bodies brought to Blender, you can download their QHD renderings for wallpapers or anything else.",
+	"date": "17/03/2024",
+	"importance": 0
+},
+{
 	"link": "../content/JSexperiments/GPUrainbowSmoke/index.html",
 	"bg": "rainbowSmoke",
 	"gif": true,
@@ -28,7 +39,7 @@
 	"type": "Polytechnic University of Milan",
 	"tools": ["MATLAB","Blender"],
 	"header": "(L.S.) Missile concept design",
-	"desc": "(Launch Systems assignment) Concept design of a missile system to deliver a non-military payload with a range of ~250km",
+	"desc": "(Launch Systems assignment) Concept design of a missile system to deliver a non-military payload with a range of ~250km.",
 	"date": "22/12/2023",
 	"importance": 1
 },
@@ -39,7 +50,7 @@
 	"type": "European Space Agency",
 	"tools": ["JavaScript","HTML","CSS","django"],
 	"header": "Spectral data portal PoC",
-	"desc": "On hold. I'm still sorting out how to lightly show this kind of stuff without breaking NDAs or doing any harm",
+	"desc": "On hold. I'm still sorting out how to lightly show this kind of stuff without breaking NDAs or doing any harm.",
 	"date": "31/12/2023",
 	"importance": 2
 },
@@ -50,7 +61,7 @@
 	"type": "European Space Agency",
 	"tools": ["Python","Keras"],
 	"header": "ML classifier on mineral spectra",
-	"desc": "On hold. I'm still sorting out how to lightly show this kind of stuff without breaking NDAs or doing any harm",
+	"desc": "On hold. I'm still sorting out how to lightly show this kind of stuff without breaking NDAs or doing any harm.",
 	"date": "15/09/2023",
 	"importance": 2
 },
@@ -61,7 +72,7 @@
 	"type": "UPM & Airbus",
 	"tools": ["Python"],
 	"header": "Validation tool for (aircraft) ML models",
-	"desc": "On hold. I'm still sorting out how to lightly show this kind of stuff without breaking NDAs or doing any harm",
+	"desc": "On hold. I'm still sorting out how to lightly show this kind of stuff without breaking NDAs or doing any harm.",
 	"date": "31/08/2023",
 	"importance": 2
 },
@@ -72,7 +83,7 @@
 	"type": "Polytechnic University of Milan",
 	"tools": ["MATLAB","Blender"],
 	"header": "(S.A.D.) Satellite modelling",
-	"desc": "(Spacecraft Attitude Dynamics assignment) Modelling of the attitude dynamics of a Sun-synchronous satellite",
+	"desc": "(Spacecraft Attitude Dynamics assignment) Modelling of the attitude dynamics of a Sun-synchronous satellite.",
 	"date": "07/01/2024",
 	"importance": 1
 },
