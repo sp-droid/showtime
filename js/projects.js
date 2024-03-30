@@ -20,7 +20,7 @@ document.addEventListener("DOMContentLoaded", function() {
 
     buttonToLayoutText.addEventListener("click", function() {
         layoutList.style.display = "none";
-        layoutText.style.display = "block";
+        layoutText.style.display = "flex";
     });
     buttonToLayoutList.addEventListener("click", function() {
         layoutText.style.display = "none";

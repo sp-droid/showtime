@@ -21,9 +21,10 @@
     height: 72px;
     font-size: 32px;
 }
-h1 { font-size: 70px; }
-h2 { font-size: 40px;}
-p { font-size: 20px; }
+h1 { font-size: 70px; color: rgb(209, 205, 199); }
+h2 { font-size: 40px; color: rgb(209, 205, 199); }
+h3 { font-size: 32px; }
+p { font-size: 20px; color: rgb(170, 158, 140); }
 
 /* SMALL DESKTOP */
 @media screen and (max-width: 1000px) {
@@ -85,8 +86,8 @@ p { font-size: 20px; }
     position: absolute;
     top: -3px;
     right: 0;
-    color: black;
-    background-color: rgb(231, 231, 226);
+    color: white;
+    background-color: rgb(39, 42, 44);
     width: 100%;
     animation: typewritingProjects 4s steps(25) alternate infinite,
                 caret 1s infinite;
@@ -157,4 +158,29 @@ p { font-size: 20px; }
     opacity: 0.2;
     transition: opacity 0.8s ease;
     text-align: center;
+}
+
+/* ################################## */
+/* Fixed header scrollable body table */
+/* ################################## */
+.tableFixedHeader {
+    overflow: auto;
+}
+/* First row sticky to the top when scrolling vertically */
+.tableFixedHeader thead th {
+    position: sticky;
+    top: 0;
+    text-align: center;
+}
+/* First header sticky to the left when scrolling horizontally */
+.tableFixedHeader thead th:first-child {
+    left: 0;
+    z-index: 2;
+}
+/* First column slightly bolder and sticky to the left when scrolling horizontally */
+.tableFixedHeader tbody td:first-child {
+    position: sticky;
+    left: 0;
+    z-index: 1;
+    font-weight: 500;
 }

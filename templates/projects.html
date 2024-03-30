@@ -1,6 +1,7 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
+    <meta name="darkreader-lock">
     <link rel="stylesheet" href="../libraries/bootstrap5.0.2/bootstrap.min.css">
     <link rel="stylesheet" href="../libraries/fontawesome6.5.1/css/all.min.css">
     
@@ -38,11 +39,11 @@
 <div id="HTMLdata"
 boldedTopbarButton ="projectsMenuButton">
 </div>
-<div style="display: flex; flex-direction: column; height: 100vh; width: 100vw; overflow-x: hidden; background-color: rgb(231, 231, 226)">
+<div style="display: flex; flex-direction: column; height: 100vh; width: 100vw; overflow-x: hidden; background-color: rgb(39, 42, 44)">
 	<div id="HTMLtopbar" style="flex: 0;"></div>
     <div id="layoutList" style="flex: 1; display: flex; flex-direction: column;">
         <div style="flex: 0;">
-            <div style="text-align: right; margin-top: 15px;"><span id="buttonToLayoutText" class="btn btn-info"><i class="fa fa-bars"></i> Text layout</span>&emsp;</div>
+            <div style="text-align: right; margin-top: 15px;"><span id="buttonToLayoutText" class="btn btn-info"><i class="fa fa-bars"></i> List layout</span>&emsp;</div>
             <div style="display: flex;">
                 <div style="flex: 1;"><p id="hideAlertChrome" style="color: orangered; font-weight: bolder; transition: opacity 2s">Not all <a class="linkPopUp" href="https://caniuse.com/?search=web%20gpu">browsers</a> support WebGPU yet!</p></div>
                 <h2 style="flex: 0;"" id="typewriterProjects">Projects from university.</h2>
@@ -50,7 +51,7 @@ boldedTopbarButton ="projectsMenuButton">
             </div>
             <br>
             <div style="text-align: center; width: 63%; margin: auto;">
-                <p style="color: gray;">Welcome to the projects section, the main part and reason for this website to exist! Towards these is where most of my effort has gone to, and I think it's great to be able to share some of them.</p>
+                <p>Welcome to the projects section, the main part and reason for this website to exist! Towards these is where most of my effort has gone to, and I think it's great to be able to share some of them.</p>
             </div>
         </div>
         <div style="flex: 0; display: flex;">
@@ -61,33 +62,58 @@ boldedTopbarButton ="projectsMenuButton">
             <div style="flex: 1;"></div>
         </div>
     </div>
-    <div id="layoutText" style="display: none; flex: 1; margin-left: 20px;">
-        <div style="text-align: right; margin-top: 15px;"><span id="buttonToLayoutList" class="btn btn-warning"><i class="fa fa-bars"></i> List layout</span>&emsp;</div>
-        <h3>Small personal projects</h3>
-        <ul>
-            <li>Note 1: As of Feb-2024, WebGPU only works on Chrome(release) and Firefox(developer). So if you are on Firefox feel free to switch to the nightly version or to Chrome altogether to be able to visualize.</li>
-            <li>Note 2: <span style="color: rgb(199, 223, 232);">Light blue</span> shades on links mean they were superseeded by newer, better and more performant versions.</li>
-        </ul>
-        <h5>Using <a class="linkPopUp" href="https://en.wikipedia.org/wiki/WebGPU">WebGPU</a> (2021 JavaScript API for GPU-accelerated graphics and computation on the browser):</h5>
-        <a class="linkPopUp" href="../content/JSexperiments/GPUrainbowSmoke/index.html"><p>Rainbow Smoke algorithm</p></a>
-		<a class="linkPopUp" href="../content/JSexperiments/webGPUconway/index.html"><p>Conway's Game of Life</p></a>
-        <br>
-        <h5>Using <a class="linkPopUp" href="https://en.wikipedia.org/wiki/Processing#p5.js">p5.js</a> (2013 JavaScript library based on 2001 Java's <a class="linkPopUp" href="https://en.wikipedia.org/wiki/Processing">Processing</a> visual design library):</h5>
-        <a class="linkPopUp" href="../content/JSexperiments/P5rainbowSmoke/index.html" style="color: rgb(199, 223, 232);"><p>Rainbow Smoke algorithm</p></a>
-        <a class="linkPopUp" href="../content/JSexperiments/webglConway/index.html" style="color: rgb(199, 223, 232);"><p>Conway's Game of Life (and <a class="linkPopUp" href="https://en.wikipedia.org/wiki/WebGL">WebGL</a>)</p></a>
-        <a class="linkPopUp" href="../content/JSexperiments/noiseFlow/index.html"><p>Noise flowfield</p></a>
-        <a class="linkPopUp" href="../content/JSexperiments/Lsystems/index.html"><p>L system tree</p></a>
-        <a class="linkPopUp" href="../content/JSexperiments/starfield/index.html"><p>Starfield</p></a>
-        <a class="linkPopUp" href="../content/JSexperiments/snakeGame/index.html"><p>Snake Game</p></a>
-        <a class="linkPopUp" href="../content/JSexperiments/terrainGen/index.html"><p>Terrain Generation</p></a>
-        <br>
-        <h3>Master in Space Engineering projects</h3>
-        <h5>Videos:</h5>
-        <a class="linkPopUp" href="https://www.youtube.com/watch?v=rTtfvdIVifg"><p>L.S. assignment</p></a>
-        <a class="linkPopUp" href="https://www.youtube.com/watch?v=B0lHIo_tt7I"><p>S.A.D. assignment</p></a>
-        <a class="linkPopUp" href="https://www.youtube.com/watch?v=nJ_P-hUO-3g"><p>O.M. assignment video 1</p></a>
-        <a class="linkPopUp" href="https://www.youtube.com/watch?v=ByNQOdoczXE"><p>O.M. assignment video 2</p></a>
-        <br>
+    <div id="layoutText" style="display: none; flex: 1;">
+        <!-- Left side column -->
+        <div style="
+        flex: 0;
+        min-width: 400px;
+        margin-left: 26px;
+        background-color: rgb(240, 240, 240);
+        padding: 10px;">
+            <br>
+            <h3 style="text-align: center;">Project name</h1>
+            <div style="display: flex; justify-content: center;">
+                <div style="width: 98%; height: 227px; background-image: url(../img/projects/preview/default.jpg); background-size: 100% 100%; border-radius: 4px; margin-top: 8px;"></div>
+            </div>
+            <div style="display: flex; justify-content: space-between; width: 98%; height: 44px; margin-top: 12px;">
+                <img id="markerOH" src="../img/icons/Blender.svg"/>
+                <img id="markerH2O" src="../img/icons/Blender.svg"/>
+                <img id="markerCO" src="../img/icons/Blender.svg"/>
+                <img id="markerRare" src="../img/icons/Blender.svg" />
+                <img id="markerO" src="../img/icons/Blender.svg" />
+            </div>
+            <p style="color: black; font-weight: 700; margin-top: 16px; margin-left: 16px; white-space: nowrap;">Date: example</p>
+            <p style="color: black; font-weight: 700; margin-top: 16px; margin-left: 16px; white-space: nowrap;">Type: example</p>
+            <p style="cursor: pointer; color: black; font-weight: 700; margin-top: 16px; margin-left: 16px; white-space: nowrap;">Brief description</p>
+            <p style="color: black; display: none;"></p>
+            <p style="cursor: pointer; color: black; font-weight: 700; margin-top: 16px; margin-left: 16px; white-space: nowrap;">Tools used</p>
+            <p style="color: black; display: none;"></p>
+        </div>
+        <div style="flex: 1; display: flex; flex-direction: column; overflow-x: auto;">
+            <div style="flex: 0; text-align: right; margin-top: 15px;"><span id="buttonToLayoutList" class="btn btn-warning"><i class="fa fa-bars"></i> Table layout</span>&emsp;</div>
+            <!-- Projects table -->
+            <div style="
+            flex: 1;
+            display: flex;
+            margin-left: 18px;
+            margin-top: 18px;">
+                <div class="tableFixedHeader" id="MinDBtable" style="flex: 1;">
+                    <table class="table table-bordered table-striped" style="font-size: 18px; background-color: white;">
+                        <thead id="sortable-classes-table-head">
+                            <tr>
+                                <th class="sortable" data-index="Name" title="Project name">Name</th>
+                                <th class="sortable" data-index="Date" title="Date">Date</th>
+                                <th class="sortable" data-index="Type" title="Type: personal or for some organization">Type</th>
+                                <th data-index="Tools" title="Tools employed">Tools</th>
+                            </tr>
+                        </thead>
+                        <tbody id="sortable-classes-table-body">
+                            <!-- Table rows will be added dynamically here using JavaScript -->
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
     </div>
 </div>
 </body>
