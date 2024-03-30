@@ -89,8 +89,8 @@
 },
 {
 	"link": "#",
-	"bg": "default",
-	"gif": false,
+	"bg": "iterativeVoronoi",
+	"gif": true,
 	"type": "Personal",
 	"tools": ["Python","NVIDIA CUDA"],
 	"header": "Iterative pseudo-voronoi",
@@ -100,7 +100,7 @@
 },
 {
 	"link": "#",
-	"bg": "default",
+	"bg": "biomeClassification",
 	"gif": false,
 	"type": "Personal",
 	"tools": ["Python","NVIDIA CUDA"],
