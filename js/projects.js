@@ -102,7 +102,7 @@ document.addEventListener("DOMContentLoaded", function() {
                 // On hover GIF
                 if (data[i]["gif"] === true) {
                     projectElement.addEventListener('mouseenter', function() {
-                        projectElement.style.backgroundImage = `url('../img/projects/preview/${data[i]["bg"]}.gif')`;
+                        projectElement.style.backgroundImage = `url('../img/projects/preview/${data[i]["bg"]}.avif')`;
                     });
                     projectElement.addEventListener('mouseleave', function() {
                         projectElement.style.backgroundImage = `url('../img/projects/preview/${data[i]["bg"]}.jpg')`;
