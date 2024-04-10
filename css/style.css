@@ -21,10 +21,15 @@
     height: 72px;
     font-size: 32px;
 }
+hr { border-top: 1px solid rgb(201, 201, 201); }
 h1 { font-size: 70px; color: rgb(209, 205, 199); }
 h2 { font-size: 40px; color: rgb(209, 205, 199); }
-h3 { font-size: 32px; }
-p { font-size: 20px; color: rgb(170, 158, 140); }
+h3 { font-size: 32px; color: rgb(209, 205, 199); }
+h4 { color: rgb(209, 205, 199); }
+h5 { color: rgb(209, 205, 199); }
+p { color: rgb(209, 205, 199); }
+li { color: rgb(209, 205, 199); }
+.pRich { font-size: 20px; color: rgb(170, 158, 140); }
 
 /* SMALL DESKTOP */
 @media screen and (max-width: 1000px) {
@@ -49,8 +54,9 @@ p { font-size: 20px; color: rgb(170, 158, 140); }
     h3 { font-size: 40px; }
     h4 { font-size: 36px; }
     h5 { font-size: 32px; }
-    ul { font-size: 28px; }
-    p { font-size: 28px; }
+    li { font-size: 28px; }
+    p { font-size: 18px; }
+    .pRich { font-size: 28px; }
 }
 
 /* MOBILE LANDSCAPE */
@@ -61,7 +67,8 @@ p { font-size: 20px; color: rgb(170, 158, 140); }
         height: 72px;
         font-size: 28px;
     }
-    p { font-size: 20px; }
+    p { font-size: normal; }
+    .pRich { font-size: 20px; }
 }
 
 /* ################### */
@@ -87,7 +94,7 @@ p { font-size: 20px; color: rgb(170, 158, 140); }
     top: -3px;
     right: 0;
     color: white;
-    background-color: rgb(39, 42, 44);
+    background-color: rgb(26, 28, 29);
     width: 100%;
     animation: typewritingProjects 4s steps(25) alternate infinite,
                 caret 1s infinite;

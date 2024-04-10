@@ -74,6 +74,7 @@ document.addEventListener("DOMContentLoaded", function() {
                 innerDiv.appendChild(header);
                 // Description
                 const desc = document.createElement("p");
+                desc.classList.add("pRich")
                 desc.innerHTML = "<br>"+data[i]["desc"];
                 innerDiv.appendChild(desc);
                 // Date
