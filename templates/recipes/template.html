@@ -8,7 +8,7 @@
     <link rel="stylesheet" href="../../css/style.css">
     <script src="../../js/topbar.js"></script>
     <script src="../../js/style.js"></script>
-    <title>Recipes</title>
+    <title>{{name}} | Recipes</title>
 	
 	<!-- FAVICON -->
 	<link rel="apple-touch-icon" sizes="180x180" href="../../img/favicon/apple-touch-icon.png">
@@ -45,15 +45,17 @@ rootFolder="../../">
         <div style="flex: 1;"></div>
         <div style="flex: 1 0 1000px;">
             <div style="display: flex; flex-wrap: wrap; text-align: center;">
-                <div style="flex: 3 0 600px"><img style="width: 100%; border-radius: 2px;" src="../../img/projects/preview/default.jpg" alt="Picture of the end result"></div>
+                <div style="flex: 3 0 600px"><img style="width: 100%; border-radius: 2px;" src="../../img/recipes/{{baseName}}.jpg" alt="Picture of the end result"></div>
                 <div style="flex: 1; text-align: left; margin-left: 18px; margin-top: 12px; min-width: 500px;">
-                    <p style="margin-bottom: 0px;">Category icon > Category name</p>
-                    <h2>Recipe title</h2>
-                    <p class="pRich">Recipe description. Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.</p>
+                    <div style="margin-bottom: 0px;">
+                        <span style="color: white; font-size: larger;">{{categoryIcon}}</span> <span style="color: rgb(213, 213, 45);">></span> <span style="color: rgb(201, 201, 201); font-size: large;">{{category}}</span> 
+                    </div>
+                    <h2>{{name}}</h2>
+                    <p class="pRich">{{description}}</p>
                 </div>
             </div>
             <div style="margin-left: 20px; margin-right: 30px; font-size: larger;">
-                <br><h2>Difficulty, labour time, total time, special flags like no gluten</h2>
+                <br><h2>Difficulty, country origin, labour time, total time, special flags like no gluten</h2>
                 <br><hr style="border-top: 1px solid rgb(143, 108, 80);"><br>
                 <h2>Ingredients for X people</h2>
                 <h4>Ingredient group 1 (General group if there is just one)</h4>
