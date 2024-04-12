@@ -39,7 +39,7 @@
 boldedTopbarButton ="recipesMenuButton"
 rootFolder="../../">
 </div>
-<img src="../../img/recipes/tiramisu.jpg" alt="blurred background image" style="
+<div style="
     width: 100vw;
     height: 100vh;
     background-image: url('../../img/recipes/{{baseName}}.jpg');
@@ -48,7 +48,7 @@ rootFolder="../../">
     filter: blur(8px);
     -webkit-filter: blur(8px);
     z-index: 0;;
-    ">
+    "></div>
 <div style="position: absolute; top: 0; left: 0; display: flex; flex-direction: column; height: 100vh; width: 100vw; overflow-x: hidden;">
 	<div id="HTMLtopbar" style="flex: 0;"></div>
     <div style="flex: 0; display: flex;">
@@ -59,19 +59,19 @@ rootFolder="../../">
                     <img style="width: 100%; border-radius: 1px;" src="../../img/recipes/{{baseName}}.jpg" alt="Picture of the end result">
                     <div class="recipeMainFlags">
                         <div class="recipeMainFlag">
-                            <img src="../../img/recipes/difficulty{{difficulty}}.png" alt="">
+                            <img src="../../img/icons/difficulty{{difficulty}}.png" alt="">
                             <strong>DIFFICULTY</strong><p>{{difficulty}}</p>
                         </div>
                         <div style="left: 25%;" class="recipeMainFlag">
-                            <img src="../../img/recipes/cuisine{{cuisine}}.png" alt="">
+                            <img src="../../img/icons/cuisine{{cuisine}}.png" alt="">
                             <strong>CUISINE</strong><p>{{cuisine}}</p>
                         </div>
                         <div style="left: 50%;" class="recipeMainFlag">
-                            <img src="../../img/recipes/prepTime.png" alt="">
+                            <img src="../../img/icons/prepTime.png" alt="">
                             <strong>PREP TIME</strong><p>{{prepTime}}</p>
                         </div>
                         <div style="left: 75%;" class="recipeMainFlag">
-                            <img src="../../img/recipes/totalTime.png" alt="">
+                            <img src="../../img/icons/totalTime.png" alt="">
                             <strong>TOTAL TIME</strong><p>{{totalTime}}</p>
                         </div>
                     </div>
