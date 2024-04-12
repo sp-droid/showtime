@@ -59,7 +59,12 @@ for recipePath in recipes:
     content = content.replace("{{category}}", recipe["category"])
     content = content.replace("{{description}}", recipe["description"])
     content = content.replace("{{origin}}", recipe["origin"])
-    content = content.replace("{{flags}}", "<br>".join(f"{k}: {v}" for k, v in recipe["flags"].items()))
+
+    content = content.replace("{{difficulty}}", recipe["flags"]["difficulty"])
+    content = content.replace("{{cuisine}}", recipe["flags"]["cuisine"])
+    content = content.replace("{{prepTime}}", recipe["flags"]["prepTime"])
+    content = content.replace("{{totalTime}}", recipe["flags"]["totalTime"])
+
     content = content.replace("{{portions}}", str(recipe["portions"]))
 
     ingredients = ""
@@ -93,7 +98,12 @@ for recipePath in recipes:
 
     content = content.replace("{{variants}}", str(recipe["variants"]))
 
-    content = content.replace("{{kcal}}", str(sum([nutrition[key][0] for key in nutrition])))
+    nutritionKcal = int(sum([nutrition[key][0] for key in nutrition])/recipe["portions"])
+    content = content.replace("{{nutritionKcal}}", str(nutritionKcal))
+    for i, elem in enumerate(["Kcal","Fat","Carbohydrates","Sugar","Protein"]):
+        metric = int(sum([nutrition[key][i] for key in nutrition])/recipe["portions"])
+        name = "{{nutrition"+elem+"}}"
+        content = content.replace(name, str(metric))
 
     nTips = len(recipe["tips"]["culinary"])+len(recipe["tips"]["serving"])
     if nTips == 0: tips = ""
@@ -102,13 +112,13 @@ for recipePath in recipes:
         i = 0
         for tip in recipe["tips"]["culinary"]:
             i += 1
-            tips += f"<h4>CULINARY TIP</h4><p>{tip}</p>"
+            tips += f'<h4 style="color: rgb(222, 70, 62);">CULINARY TIP</h4><p>{tip}</p>'
             if i != nTips: tips += '<hr style="border-top: 3px solid rgb(75, 29, 26);">'
         for tip in recipe["tips"]["serving"]:
             i += 1
-            tips += f"<h4>SERVING TIP</h4><p>{tip}</p>"
+            tips += f'<h4 style="color: rgb(222, 70, 62);">SERVING TIP</h4><p>{tip}</p>'
             if i != nTips: tips += '<hr style="border-top: 3px solid rgb(75, 29, 26);">'
-        tips = f"""<div class="recipeEndCard" style="border: 3px solid rgb(75, 29, 26);">
+        tips = f"""<div class="recipeEndCard" style="border: 3px solid rgb(75, 29, 26); width: 600px;">
                     <div style="background-color: rgb(219, 50, 41);">
                         <i style="font-size: 40px; color: black;" class="fas fa-apple-alt"></i>
                     </div>

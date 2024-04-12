@@ -39,13 +39,43 @@
 boldedTopbarButton ="recipesMenuButton"
 rootFolder="../../">
 </div>
-<div style="display: flex; flex-direction: column; height: 100vh; width: 100vw; overflow-x: hidden; background-color: rgb(26, 28, 29);">
+<img src="../../img/recipes/tiramisu.jpg" alt="blurred background image" style="
+    width: 100vw;
+    height: 100vh;
+    background-image: url('../../img/recipes/{{baseName}}.jpg');
+    background-attachment: fixed;
+    background-size: cover;
+    filter: blur(8px);
+    -webkit-filter: blur(8px);
+    z-index: 0;;
+    ">
+<div style="position: absolute; top: 0; left: 0; display: flex; flex-direction: column; height: 100vh; width: 100vw; overflow-x: hidden;">
 	<div id="HTMLtopbar" style="flex: 0;"></div>
     <div style="flex: 0; display: flex;">
-        <div style="flex: 1;"></div>
-        <div style="flex: 1 0 1000px;">
-            <div style="display: flex; flex-wrap: wrap; text-align: center;">
-                <div style="flex: 3 0 600px"><img style="width: 100%; border-radius: 2px;" src="../../img/recipes/{{baseName}}.jpg" alt="Picture of the end result"></div>
+        <div style="flex: 1; background-color: rgba(26, 28, 29, 0.7);"></div>
+        <div style="flex: 1 0 1000px; background-color: rgb(26, 28, 29); color: rgb(209, 205, 199);">
+            <div style="display: flex;flex-wrap: wrap; text-align: center;">
+                <div style="flex: 3 0 600px">
+                    <img style="width: 100%; border-radius: 1px;" src="../../img/recipes/{{baseName}}.jpg" alt="Picture of the end result">
+                    <div class="recipeMainFlags">
+                        <div class="recipeMainFlag">
+                            <img src="../../img/recipes/difficulty{{difficulty}}.png" alt="">
+                            <strong>DIFFICULTY</strong><p>{{difficulty}}</p>
+                        </div>
+                        <div style="left: 25%;" class="recipeMainFlag">
+                            <img src="../../img/recipes/cuisine{{cuisine}}.png" alt="">
+                            <strong>CUISINE</strong><p>{{cuisine}}</p>
+                        </div>
+                        <div style="left: 50%;" class="recipeMainFlag">
+                            <img src="../../img/recipes/prepTime.png" alt="">
+                            <strong>PREP TIME</strong><p>{{prepTime}}</p>
+                        </div>
+                        <div style="left: 75%;" class="recipeMainFlag">
+                            <img src="../../img/recipes/totalTime.png" alt="">
+                            <strong>TOTAL TIME</strong><p>{{totalTime}}</p>
+                        </div>
+                    </div>
+                </div>
                 <div style="flex: 1; text-align: left; margin-left: 18px; margin-top: 12px; min-width: 500px;">
                     <div style="margin-bottom: 0px;">
                         <span style="color: white; font-size: larger;">{{categoryIcon}}</span> <span style="color: rgb(213, 213, 45);">></span> <span style="color: rgb(201, 201, 201); font-size: large;">{{category}}</span> 
@@ -57,29 +87,39 @@ rootFolder="../../">
                     <p class="pRich">{{origin}}</p>
                 </div>
             </div>
-            <div style="margin-right: 20px; font-size: larger; color: rgb(209, 205, 199);">
-                <br>
-                {{flags}}
-                <br><hr style="border-top: 1px solid rgb(143, 108, 80);"><br>
-                <h2>Ingredients for {{portions}} portions</h2><br>
+            <div style="margin-right: 40px; margin-left: 40px; font-size: larger">
+                <hr style="border-top: 1px solid rgb(143, 108, 80);"><br>
+                <h2>Ingredients for {{portions}} servings</h2><br>
                 {{ingredients}}
                 <br><hr><br>
                 <h2>Utensils</h2><br>
                 {{utensils}}
-                <br><hr><br>
+                <br><br><hr><br>
                 <h2>Steps</h2><br>
                 {{instructions}}
                 <br><hr><br>
                 <h2>Variants</h2>
                 {{variants}}
-                <br><hr><br>
-                <div class="recipeEndCard" style="border: 3px solid rgb(65, 63, 58);">
+                <br><br><hr><br>
+                <div class="recipeEndCard" style="border: 3px solid rgb(65, 63, 58); width: 400px;">
                     <div style="background-color: rgb(57, 25, 4);">
                         <i class="fa-stack" style="font-size: 26px; color: black;"><i class="fa-regular fa-circle fa-stack-2x"></i><strong class="fa-stack-1x" style="font-style: normal; font-size: 36px;">!</strong></i>
                     </div>
-                    <div style="flex: 6; margin-left: 20px; margin-top: 16px;">
+                    <div style="flex: 6; margin-left: 20px; margin-right: 16px; margin-top: 16px; font-weight: bolder;">
                         <h4>NUTRITION FACTS</h4>
-                        <p>{{kcal}} kcal</p>
+                        <div style="width: 100%; text-align: right;">Per serving</div>
+                        <hr style="border-top: 4px solid; margin-bottom: 3px;">
+                        <div style="display: flex; justify-content: space-between; font-size: large;"><span>Calories</span><span>{{nutritionKcal}}kcal</span></div>
+                        <hr style="border-top: 2px solid; margin: 3px;">
+                        <div style="display: flex; justify-content: space-between;"><span>Fat</span><span>{{nutritionFat}}g</span></div>
+                        <hr style="border-top: 2px solid; margin: 3px;">
+                        <div style="display: flex; justify-content: space-between;"><span>Carbohydrates</span><span>{{nutritionCarbohydrates}}g</span></div>
+                        <hr style="border-top: 2px solid; margin: 3px;">
+                        <div style="display: flex; justify-content: space-between;"><span>&emsp; Sugar</span><span>{{nutritionSugar}}g</span></div>
+                        <hr style="border-top: 2px solid; margin: 3px;">
+                        <div style="display: flex; justify-content: space-between;"><span>Protein</span><span>{{nutritionProtein}}g</span></div>
+                        <hr style="border-top: 2px solid; margin: 3px;">
+                        <br>
                     </div>
                 </div>
                 <br>
@@ -88,7 +128,7 @@ rootFolder="../../">
                 <div style="margin-left: 20px; margin-right: 30px;" id="disqus_thread"></div>
             </div>
         </div>
-        <div style="flex: 1;"></div>
+        <div style="flex: 1; background-color: rgba(26, 28, 29, 0.7);"></div>
     </div>
 </div>
 </body>
