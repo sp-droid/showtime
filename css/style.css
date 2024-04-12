@@ -121,7 +121,7 @@ li { color: rgb(209, 205, 199); }
     display: flex;
 }
 .recipeEndCard > :first-child {
-    flex: 1;
+    flex: 0 0 80px;
     border-radius: 8px 0 0 8px;
     display: flex;
     align-items: center;
