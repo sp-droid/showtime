@@ -1,5 +1,52 @@
 {
     "name": "Tiramisù",
-    "category": "Dessert",
-    "description": "Tiramisù description"
+    "category": "Desserts",
+    "description": "Tiramisù description",
+    "portions": 8,
+    "flags": {
+        "difficulty": "Easy",
+        "origin": "1960-70s Treviso, Italy",
+        "labourTime": "30'",
+        "totalTime": "8h 30'"
+    },
+    "ingredients": {
+        "Cream": [
+            "75g white sugar",
+            "3 egg yolks",
+            "250g mascarpone (>40% fat)"
+        ],
+        "Layering": [
+            "Coffee",
+            "Cacao powder",
+            "15 Savoiardi"
+        ]
+    },
+    "utensils": [
+        "Hand mixer",
+        "Airtight container",
+        "Fridge"
+    ],
+    "instructions": [
+        "Brew coffee and set aside",
+        "# Making the cream",
+        "- Whip the yolks (whites are excess) with the sugar until it develops soft peaks.",
+        "- Incorporate the mascarpone, whip slowly then faster for 3 minutes. Cream shouldn't be pourable, but consistent.",
+        "# Layering",
+        "- Spread thin layer of cream on the bottom to avoid coffee leaks.",
+        "- Dip the ladyfingers once on the coffee, quickly, drain them vertically and place them.",
+        "- Add cream until the ladyfingers are hidden, repeat.",
+        "- Finally, add cacao powder on top.",
+        "8h rest in the fridge"
+    ],
+    "variants": [
+        "Substitute the Savoiardi for pan di Spagna (bizcocho, Spanish sponge cake)"
+    ],
+    "tips": {
+        "culinary": [
+            "It's a sin to throw away the whites! Conserve them in the fridge. They are high in protein and can be added to scrambled eggs, used for Amaretti biscuits, etc."
+        ],
+        "serving": [
+            "Tiramisù is best served as squares or rectangles."
+        ]
+    }
 }

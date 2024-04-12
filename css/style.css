@@ -81,6 +81,27 @@ li { color: rgb(209, 205, 199); }
 }
 
 /* ################### */
+/* Recipes */
+/* ################### */
+.recipeEndCard {
+    width: 600px;
+    border-radius: 12px;
+    display: flex;
+}
+.recipeEndCard > :first-child {
+    flex: 1;
+    border-radius: 8px 0 0 8px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+.recipeEndCard > :nth-child(2) {
+    flex: 6;
+    margin-left: 20px;
+    margin-top: 16px;
+}
+
+/* ################### */
 /* Typewriter */
 /* ################### */
 #typewriterProjects {
