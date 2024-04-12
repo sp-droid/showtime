@@ -9,29 +9,32 @@ def categoryIcon(category):
     else: raise ValueError(f"Category {category} not found.")
     return icon
 
-foodProperties = { # Eggs are counted per unit, other things per 100g
-    "egg": {"kcal": 66},
-    "egg yolk": {"kcal": 52},
-    "mascarpone": {"kcal": 355},
-    "savoiardi": {"kcal": 40},
-    "sugar": {"kcal": 387}
+foodProperties = { # Per 100g, calories / fat / carbohydrates / sugar / protein
+    "egg":          [       142,        9.96,       0.96,       0.2,        12.4],
+    "egg yolk":     [       322,        26.5,       3.59,       0.56,       15.9],
+    "mascarpone":   [       429,        50,         0,          0,          7.14],
+    "savoiardi":    [       367,        3,          77,         40,         7],
+    "sugar":        [       385,        0.32,       99.7,       99.7,       0]
 }
-specialFoods = {
-    "egg": 1,
-    "egg yolk": 1,
-    "savoiardi": 1
+specialFoods = { # Weigh of each e.g. egg in grams
+    "egg": 58,
+    "egg yolk": 15,
+    "savoiardi": 10
 }
 
 def getNutrition(ingredient, nutrition):
     ingredient = ingredient.lower().split("(")[0]
+    if "tsp" in ingredient or "tbsp" in ingredient: return nutrition
     quantity = ''.join(filter(str.isdigit, ingredient))
     if quantity == '': return nutrition
     else: quantity = float(quantity)
 
     ingredient = max((s for s in foodProperties.keys() if s in ingredient), key=len, default="")
-    factor = quantity/100 if ingredient not in specialFoods else quantity/specialFoods[ingredient]
+    factor = quantity/100
+    if ingredient in specialFoods: factor *= specialFoods[ingredient]
 
-    nutrition[ingredient] = {k: v*factor for k, v in foodProperties[ingredient].items()}
+    nutrition[ingredient] = [elem*factor for elem in foodProperties[ingredient]]
+    print(ingredient)
     return nutrition
     
 
@@ -47,6 +50,7 @@ recipes = Path("content/recipes").glob("*")
 for recipePath in recipes:
     with open(recipePath, "r", encoding="utf-8") as file:
         recipe = json.load(file)
+        print(f'---{recipe["name"]}---')
     content = template
 
     content = content.replace("{{baseName}}", recipePath.stem)
@@ -54,6 +58,7 @@ for recipePath in recipes:
     content = content.replace("{{categoryIcon}}", categoryIcon(recipe["category"]))
     content = content.replace("{{category}}", recipe["category"])
     content = content.replace("{{description}}", recipe["description"])
+    content = content.replace("{{origin}}", recipe["origin"])
     content = content.replace("{{flags}}", "<br>".join(f"{k}: {v}" for k, v in recipe["flags"].items()))
     content = content.replace("{{portions}}", str(recipe["portions"]))
 
@@ -88,7 +93,7 @@ for recipePath in recipes:
 
     content = content.replace("{{variants}}", str(recipe["variants"]))
 
-    content = content.replace("{{kcal}}", str(sum([nutrition[key]["kcal"] for key in nutrition])))
+    content = content.replace("{{kcal}}", str(sum([nutrition[key][0] for key in nutrition])))
 
     nTips = len(recipe["tips"]["culinary"])+len(recipe["tips"]["serving"])
     if nTips == 0: tips = ""
