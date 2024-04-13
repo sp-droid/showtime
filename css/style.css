@@ -55,7 +55,7 @@ li { color: rgb(209, 205, 199); }
     h4 { font-size: 36px; }
     h5 { font-size: 32px; }
     li { font-size: 28px; }
-    p { font-size: 18px; }
+    p { font-size: 28px; }
     .pRich { font-size: 28px; }
 }
 
@@ -88,7 +88,6 @@ li { color: rgb(209, 205, 199); }
     width: 100%;
     display: flex;
     overflow: auto;
-    font-size: smaller;
 }
 .recipeUtensils::-webkit-scrollbar {
     display: none;
