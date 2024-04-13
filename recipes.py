@@ -3,7 +3,7 @@ from pathlib import Path
 
 def categoryIcon(category):
     if category == "Appetizers": icon = None
-    elif category == "Main courses": icon = None
+    elif category == "Main courses": icon = '<i class="fas fa-drumstick-bite"></i>'
     elif category == "Desserts": icon = '<i class="fas fa-ice-cream"></i>'
     elif category == "Other": icon = None
     else: raise ValueError(f"Category {category} not found.")
@@ -76,7 +76,11 @@ for recipePath in recipes:
             ingredients += f"<li>{ingredient}</li>"
         ingredients += "</ul>"
     content = content.replace("{{ingredients}}", ingredients)
-    content = content.replace("{{utensils}}", "<br>".join(str(elem) for elem in recipe["utensils"]))
+
+    utensils = ""
+    for utensil in recipe["utensils"]:
+        utensils += f'<div class="recipeUtensil"><img src="../../img/icons/utensil{utensil}.png" alt=""><div>{utensil}</div></div>'
+    content = content.replace("{{utensils}}", utensils)
 
     instructions = ""
     for i, line in enumerate(recipe["instructions"]):
@@ -96,7 +100,7 @@ for recipePath in recipes:
             instructions += f'<p style="margin-bottom: 12px;">{line}</p>'
     content = content.replace("{{instructions}}", instructions)
 
-    content = content.replace("{{variants}}", str(recipe["variants"]))
+    content = content.replace("{{variants}}", "\n".join(str(elem) for elem in recipe["variants"]))
 
     nutritionKcal = int(sum([nutrition[key][0] for key in nutrition])/recipe["portions"])
     content = content.replace("{{nutritionKcal}}", str(nutritionKcal))

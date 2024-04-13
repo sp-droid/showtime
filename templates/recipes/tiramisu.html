@@ -93,13 +93,19 @@ rootFolder="../../">
                 <h4>Cream</h4><ul><li>75g white sugar</li><li>3 egg yolks</li><li>250g mascarpone (>40% fat)</li></ul><h4>Layering</h4><ul><li>Coffee</li><li>Bitter cocoa powder</li><li>15 Savoiardi</li></ul>
                 <br><hr><br>
                 <h2>Utensils</h2><br>
-                Hand mixer<br>Airtight container<br>Fridge
-                <br><br><hr><br>
+                <div style="height: 80px; max-width: 900px; position: relative;">
+                    <div id="buttonUtensilsLeft" class="btn recipeUtensilsButton" style="display: none;"><</div>
+                    <div id="buttonUtensilsRight" class="btn recipeUtensilsButton" style="right: 0px;">></div>
+                    <div id="scrollbarUtensils" class="recipeUtensils">
+                        <div class="recipeUtensil"><img src="../../img/icons/utensilHand mixer.png" alt=""><div>Hand mixer</div></div><div class="recipeUtensil"><img src="../../img/icons/utensilAirtight container.png" alt=""><div>Airtight container</div></div><div class="recipeUtensil"><img src="../../img/icons/utensilFridge.png" alt=""><div>Fridge</div></div>
+                    </div>
+                </div>
+                <br><hr><br>
                 <h2>Steps</h2><br>
                 <p style="margin-bottom: 12px;">Brew coffee and set aside</p><h4>Making the cream</h4><ol><li>Whip the yolks (whites are excess) with the sugar until it develops soft peaks.</li><li>Incorporate the mascarpone, whip slowly then faster for 3 minutes. Cream shouldn't be pourable, but consistent.</li></ol><h4>Layering</h4><ol><li>Spread thin layer of cream on the bottom to avoid coffee leaks.</li><li>Dip the ladyfingers once on the coffee, quickly, drain them vertically and place them.</li><li>Add cream until the ladyfingers are hidden, repeat.</li><li>Finally, add cacao powder on top.</li></ol><p style="margin-bottom: 12px;">8h rest in the fridge</p>
                 <br><hr><br>
                 <h2>Variants</h2>
-                ['Substitute the Savoiardi for pan di Spagna (bizcocho, Spanish sponge cake)']
+                Substitute the Savoiardi for pan di Spagna (bizcocho, Spanish sponge cake)
                 <br><br><hr><br>
                 <div class="recipeEndCard" style="border: 3px solid rgb(65, 63, 58); width: 400px;">
                     <div style="background-color: rgb(57, 25, 4);">
@@ -155,5 +161,39 @@ rootFolder="../../">
     s.setAttribute('data-timestamp', +new Date());
     (d.head || d.body).appendChild(s);
     })();
+
+    // Utensil horizontal scrollbar
+    const scrollbarUtensils = document.getElementById("scrollbarUtensils");
+    const buttonUtensilsLeft = document.getElementById("buttonUtensilsLeft");
+    const buttonUtensilsRight = document.getElementById("buttonUtensilsRight");
+
+    if (scrollbarUtensils.children.length === 0) {
+        scrollbarUtensils.parentElement.style.display = "none";
+    }
+    if (scrollbarUtensils.children.length < 5) {
+        buttonUtensilsRight.style.display = "none";
+    }
+
+    buttonUtensilsLeft.addEventListener("click", () => {
+        scrollbarUtensils.scrollTo({
+            left: scrollbarUtensils.scrollLeft - 200,
+            behavior: "smooth"
+        });
+        if (scrollbarUtensils.scrollLeft - 200 <= 10) {
+            buttonUtensilsLeft.style.display = "none";
+        }
+        buttonUtensilsRight.style.display = "block";
+    });
+    buttonUtensilsRight.addEventListener("click", () => {
+        scrollbarUtensils.scrollTo({
+            left: scrollbarUtensils.scrollLeft + 200,
+            behavior: "smooth"
+        });
+        const maxScrollLeft = scrollbarUtensils.scrollWidth - scrollbarUtensils.clientWidth;
+        if (scrollbarUtensils.scrollLeft + 200 >= maxScrollLeft - 10) {
+            buttonUtensilsRight.style.display = "none";
+        }
+        buttonUtensilsLeft.style.display = "block";
+    });
 </script>
 </html>
