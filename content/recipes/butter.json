@@ -1,0 +1,38 @@
+{
+    "name": "Homemade butter",
+    "category": "Other",
+    "description": " ",
+    "origin": "8000 BC, Africa.",
+    "portions": 24,
+    "flags": {
+        "difficulty": "Easy",
+        "cuisine": "None",
+        "prepTime": "20'",
+        "totalTime": "Idem",
+        "lactoseFree": false,
+        "glutenFree": true,
+        "vegetarian": true,
+        "vegan": false
+    },
+    "ingredients": {
+        "": [
+            "400 ml heavy cream"
+        ]
+    },
+    "utensils": [
+        "Hand mixer"
+    ],
+    "instructions": [
+        "- Whip the cream until it separates and the clumps of butter start coalescing on their own. The liquid left is called buttermilk, which is not only safe but quite tasty when fresh.",
+		"- Take the butter out and start washing it with the help of a dish on cold water. This is to remove as much of this buttermilk as possible, as it's the main reason the butter may spoil sooner than expected. Two good washes seem enough in my experience.",
+		"- Add a pinch of salt (or weigh the butter and add 1% of that) and spread it well, compressing the butter so it releases as much water as possible.",
+        "Place on food-grade paper (paper is better than plastic, it will absorb moisture), give it shape and save in the fridge."
+    ],
+    "variants": [
+		"In Europe, and France specially, it's common to have cultured butter. Before using the heavy cream, pour it in a container at room temperature and add some live cultures (e.g. natural unflavoured yogurt). Wait 24h and proceed normally. It will taste slightly more tangy, it's worth trying if you never have! Waiting too much can become a problem: if it develops mold, throw it away."
+	],
+    "tips": {
+        "culinary": [],
+        "serving": []
+    }
+}

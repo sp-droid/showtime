@@ -1,0 +1,41 @@
+{
+    "name": "Arroz con leche",
+    "category": "Desserts",
+    "description": "/'Rice with milk'/ ",
+    "origin": "3000-250 BC, Asia.",
+    "portions": 6,
+    "flags": {
+        "difficulty": "Easy",
+        "cuisine": "Spanish",
+        "prepTime": "20'",
+        "totalTime": "4h",
+        "lactoseFree": false,
+        "glutenFree": true,
+        "vegetarian": true,
+        "vegan": false
+    },
+    "ingredients": {
+        "": [
+            "700ml whole milk",
+            "50g white rice",
+            "45g sugar",
+			"Tsp of butter",
+			"Tsp of cinnamon",
+			"A couple of citrus fruit peels"
+        ]
+    },
+    "utensils": [
+        "Kitchen pot"
+    ],
+    "instructions": [
+        "-"
+    ],
+    "variants": [
+        "Use peels from different fruits like apples.",
+		"Explore how they make rice pudding in other countries."
+    ],
+    "tips": {
+        "culinary": [],
+        "serving": []
+    }
+}

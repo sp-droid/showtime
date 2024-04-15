@@ -1,0 +1,53 @@
+{
+    "name": "Pasta al pomodoro",
+    "category": "Main courses",
+    "description": "/'Tomato pasta'/ This simple dish product of the Columbian exchange wasn't common in Europe until the late 1800s. Though tomatoes were present in the continent for a while, cooks and doctors alike were aware of the poisonous nature of nightshades which is why it took so long for Europeans to enjoy them like we do today.",
+    "origin": "1800-30s Naples, country of Naples / the Two Sicilies.",
+    "portions": 1,
+    "flags": {
+        "difficulty": "Easy",
+        "cuisine": "Italian",
+        "prepTime": "15'",
+        "totalTime": "Idem",
+        "lactoseFree": true,
+        "glutenFree": false,
+        "vegetarian": true,
+        "vegan": true
+    },
+    "ingredients": {
+        "": [
+            "2 tomatoes (high quality, ripe, around 150g)",
+            "110g pasta",
+			"Salt",
+			"Olive oil"
+        ]
+    },
+    "utensils": [
+        "Hand blender",
+        "Kitchen pot"
+    ],
+    "instructions": [
+        "- Start heating up water (around 1L) in a pot at high along with a fist of salt (this is a trick. Contract the palm of your hand like you are making the Italian hand gesture and fill the base with salt. Remember this is per person).",
+		"- Put a bit of olive oil on a different pot, heat on low. Mash the tomatoes and add them with a pinch of salt, raise to medium heat and don't touch it.",
+		"- When the water boils, place the pasta inside, helping it with a wooden spoon. The moment all of it is under water place a timer for the minutes indicated in the pasta bag minus 1.",
+		"- Finally, save some pasta water, dry it in the sink, finish cooking it on the tomato sauce, adding pasta water if it gets too dry, though it's much better on the dry side and certainly it shouldn't be drenched. It's not a soup."
+    ],
+    "variants": [
+        "Fry a small clove of garlic in the oil before adding the mashed tomatoes.",
+		"It's possible to substitute the sauce by a store-bought good quality one, but fresh and ripe tomatoes will always make for a better experience.",
+		"Instead of using all the tomatoes at once, cut a few thin slices and caramelize them in the oil before adding the mash. The fried tomato skin will add some interesting notes.",
+		"A few leaves of basil can be mashed alongside the tomatoes, it really improves it",
+		"Add a touch of olive oil to the finished sauce",
+		"Finish with a few leaves of basil",
+		"Accompany with cheese: mozzarella or parmesan work well!"
+    ],
+    "tips": {
+        "culinary": [
+            "When cooking for multiple people it's likely the sauce will need more time. You can do it before the pasta instead.",
+			"You can use the opportunity to cook a larger batch of tomatoes and store the sauce in a sanitized, sealed glass. Save it in a cool place, it will last about a week in the fridge after opening it. Seal it when it's still very hot, remember the salt while making it."
+        ],
+        "serving": [
+			"Basil should be either really fine when added to the sauce or added only when plating, as it turns dark with heat and worsens the look of the dish."
+		]
+    }
+}

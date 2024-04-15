@@ -2,7 +2,7 @@
     "name": "English curry",
     "category": "Main courses",
     "description": "",
-    "origin": "Mid 1700s London, England",
+    "origin": "Mid 1700s London, England.",
     "portions": 4,
     "flags": {
         "difficulty": "Easy",
@@ -16,35 +16,30 @@
     },
     "ingredients": {
         "": [
-            "450g white sugar",
-            "3 egg yolks",
-            "250g mascarpone (>40% fat)"
+            "450g chicken breast",
+			"1 sweet bell pepper (better if half red, half green)",
+			"3 medium tomatoes",
+			"2 carrots",
+			"1 onion",
+			"3 cloves of garlic",
+			"Half glass of white wine",
+			"A bay leaf",
+			"1 tsp of thyme",
+			"Curry spice mix",
+			"Salt",
+			"Black pepper",
+			"Olive oil"
         ]
     },
     "utensils": [
         "Kitchen pot"
     ],
     "instructions": [
-        "Brew coffee and set aside",
-        "# Making the cream",
-        "- Whip the yolks (whites are excess) with the sugar until it develops soft peaks.",
-        "- Incorporate the mascarpone, whip slowly then faster for 3 minutes. Cream shouldn't be pourable, but consistent.",
-        "# Layering",
-        "- Spread thin layer of cream on the bottom to avoid coffee leaks.",
-        "- Dip the ladyfingers once on the coffee, quickly, drain them vertically and place them.",
-        "- Add cream until the ladyfingers are hidden, repeat.",
-        "- Finally, add cacao powder on top.",
-        "8h rest in the fridge"
+        "Brew coffee and set aside"
     ],
-    "variants": [
-        "Substitute the Savoiardi for pan di Spagna (bizcocho, Spanish sponge cake)"
-    ],
+    "variants": [],
     "tips": {
-        "culinary": [
-            "It's a sin to throw away the whites! Conserve them in the fridge. They are high in protein and can be added to scrambled eggs, used for Amaretti biscuits, etc."
-        ],
-        "serving": [
-            "Tiramisù is best served as squares or rectangles."
-        ]
+        "culinary": [],
+        "serving": []
     }
 }
