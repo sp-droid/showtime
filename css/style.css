@@ -135,7 +135,6 @@ li { color: rgb(209, 205, 199); }
     top: 0;
 }
 .recipeMainFlag > :first-child {
-    width: 100%;
     height: 38%;
 }
 .recipeMainFlag > :nth-child(2) {
