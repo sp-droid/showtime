@@ -16,6 +16,7 @@ foodProperties = { # Per 100g, calories / fat / carbohydrates / sugar / protein
     "egg":              [   142,    9.96,   0.96,   0.2,    12.4],
     "egg yolk":         [   322,    26.5,   3.59,   0.56,   15.9],
     "garlic":           [   143,    0.38,   28.2,   1,      6.62],
+    "gelatin":          [   357,    0,      0,      0,      89],
     "heavy cream":      [   340,    36.1,   2.9,    2.9,    2.84],
     "mascarpone":       [   429,    50,     0,      0,      7.14],
     "milk":             [   61,     3.2,    4.9,    4.9,    3.27],
@@ -67,9 +68,9 @@ recipes = Path("content/recipes").glob("*")
 recipeRows = ""
 # Load each file, edit the template accordingly and save as a new html
 for recipePath in recipes:
+    print(f'---{recipePath.stem}---')
     with open(recipePath, "r", encoding="utf-8") as file:
-        recipe = json.load(file)
-        print(f'---{recipe["name"]}---')
+        recipe = json.load(file)    
     content = template
 
     content = content.replace("{{baseName}}", recipePath.stem)

@@ -1,0 +1,41 @@
+{
+    "name": "Panna cotta",
+    "category": "Desserts",
+    "description": "/'Cooked cream'/ ",
+    "origin": "1800-1900s Piedmont, Italy.",
+    "portions": 4,
+    "flags": {
+        "difficulty": "Easy",
+        "cuisine": "Italian",
+        "prepTime": "10'",
+        "totalTime": "3h 10'",
+        "lactoseFree": false,
+        "glutenFree": true,
+        "vegetarian": false,
+        "vegan": false
+    },
+    "ingredients": {
+        "": [
+            "250ml heavy cream",
+            "30g sugar",
+			"2g gelatin",
+            "Vanilla flavouring"
+        ]
+    },
+    "utensils": [
+        "Kitchen pot"
+    ],
+    "instructions": [
+        "- Put gelatin in cold water for 5-10 min.",
+		"- Meanwhile heat up the cream along with the sugar.",
+		"- When it boils, turn off the stove and mix in the gelatin and vanilla.",
+		"- Pour it into a mold or a glass, refrigerate for at least 3h"
+    ],
+    "variants": [
+        "This recipe is very similar to variations of Blancmange without almonds."
+    ],
+    "tips": {
+        "culinary": [],
+        "serving": []
+    }
+}
