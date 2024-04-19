@@ -18,24 +18,29 @@ foodProperties = { # Per 100g, calories / fat / carbohydrates / sugar / protein
     "garlic":           [   143,    0.38,   28.2,   1,      6.62],
     "gelatin":          [   357,    0,      0,      0,      89],
     "heavy cream":      [   340,    36.1,   2.9,    2.9,    2.84],
+    "leek":             [   61,     0.3,    14,     3.9,    1.5],
     "mascarpone":       [   429,    50,     0,      0,      7.14],
     "milk":             [   61,     3.2,    4.9,    4.9,    3.27],
+    "olive oil":        [   884,    100,    0,      0,      0],
     "onion":            [   36,     0.13,   7.68,   5.76,   0.89],
     "pasta":            [   371,    1.51,   74.67,  2.7,    13.04],
+    "potato":           [   72,     0.26,   16,     0.65,   1.81],
+    "pumpkin":          [   26,     0.1,    7,      2.8,    1],
     "rice":             [   359,    1.3,    79.8,   0,      6.94],
     "savoiardi":        [   367,    3,      77,     40,     7],
     "sugar":            [   385,    0.32,   99.7,   99.7,   0],
     "tomato":           [   18,     0.2,    3.9,    2.6,    0.9]
 }
 specialFoods = { # Weigh of each e.g. egg in grams
-    "bell pepper": 120,
-    "carrot": 61,
-    "egg": 58,
-    "egg yolk": 15,
-    "garlic": 5,
-    "onion": 160,
-    "savoiardi": 10,
-    "tomato": 75
+    "bell pepper": 120,         # medium unit
+    "carrot": 61,               # medium unit
+    "egg": 58,                  # medium unit
+    "egg yolk": 15,             # medium unit
+    "garlic": 5,                # clove
+    "onion": 160,               # medium unit
+    "potato": 200,              # medium unit
+    "savoiardi": 10,            # normal unit
+    "tomato": 75                # medium unit
 }
 
 def getNutrition(string, nutrition):

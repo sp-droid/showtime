@@ -3,7 +3,7 @@
     "category": "Other",
     "description": " ",
     "origin": "8000 BC, Africa.",
-    "portions": 24,
+    "portions": 30,
     "flags": {
         "difficulty": "Easy",
         "cuisine": "None",
@@ -16,7 +16,7 @@
     },
     "ingredients": {
         "": [
-            "400 ml heavy cream"
+            "500 ml heavy cream"
         ]
     },
     "utensils": [

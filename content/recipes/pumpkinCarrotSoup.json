@@ -1,0 +1,51 @@
+{
+    "name": "Crema de calabaza y zanahoria",
+    "category": "Main courses",
+    "description": "/'Pumpkin and carrot soup'/ ",
+    "origin": "-",
+    "portions": 4,
+    "flags": {
+        "difficulty": "Easy",
+        "cuisine": "Spanish",
+        "prepTime": "15'",
+        "totalTime": "45'",
+        "lactoseFree": true,
+        "glutenFree": true,
+        "vegetarian": false,
+        "vegan": false
+    },
+    "ingredients": {
+        "": [
+            "450g pumpkin",
+            "3 carrots",
+			"0.5 leek",
+            "1 onion",
+			"1 potato",
+			"Salt",
+			"Black pepper",
+			"48g olive oil (4 tbsp)"
+        ]
+    },
+    "utensils": [
+        "Kitchen pot",
+		"Hand blender"
+    ],
+    "instructions": [
+        "- Chop the onions and leeks very finely, fry them in the pot with the oil when it's hot.",
+		"- Cut the pumpkin, carrots and potatoes in cubes, add them to the pot as you do.",
+		"- When the onion is at least transparent add salt, pepper and cover with about 850ml water.",
+		"- Once it comes to a boil, lower the heat until there is little bubbling and cook for 30'",
+		"- Turn off the stove and blend very well. Taste and correct for salt."
+    ],
+    "variants": [
+        "Boil an egg, cut it in small bits and sprinkle on top. Serve the extra in a side cup for everyone.",
+		"Make some fried bread crumbs and do the same or just serve it on the side.",
+		"Cheese also works in a similar way, you can serve it on the side."
+    ],
+    "tips": {
+        "culinary": [
+			"How long should you fry the mixture before adding water? At least until the onion is transparent, but no further than when it's caramelized. The longer you go, the sweeter it will taste."
+		],
+        "serving": []
+    }
+}
