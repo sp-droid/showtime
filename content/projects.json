@@ -1,5 +1,16 @@
 [
 {
+	"link": "#",
+	"bg": "default",
+	"gif": false,
+	"type": "Personal",
+	"tools": ["Kotlin","Python"],
+	"header": "Clicker & Pointer Android app",
+	"desc": "I couldn't find an app that allowed me to use my phone's volume buttons to pass the slides on a Powerpoint presentation, so I made one and added a 'laser' pointer extra functionality.",
+	"date": "21/04/2024",
+	"importance": 1
+},
+{
 	"link": "https://www.flickr.com/photos/200282744@N03/albums/72177720315521996",
 	"bg": "solarSystemBlender",
 	"gif": false,
