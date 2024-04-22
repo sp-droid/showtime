@@ -1,6 +1,8 @@
 import json
 from pathlib import Path
 
+import pandas as pd
+
 def categoryIcon(category):
     if category == "Appetizers": icon = None
     elif category == "Main courses": icon = '<i class="fas fa-drumstick-bite"></i>'
@@ -9,39 +11,14 @@ def categoryIcon(category):
     else: raise ValueError(f"Category {category} not found.")
     return icon
 
-foodProperties = { # Per 100g, calories / fat / carbohydrates / sugar / protein
-    "bell pepper":      [   32,     0.16,   6.7,    4.2,    0.88],
-    "carrot":           [   48,     0.35,   10.3,   4.7,    0.94],
-    "chicken breast":   [   106,    1.93,   0,      0,      22.5],
-    "egg":              [   142,    9.96,   0.96,   0.2,    12.4],
-    "egg yolk":         [   322,    26.5,   3.59,   0.56,   15.9],
-    "garlic":           [   143,    0.38,   28.2,   1,      6.62],
-    "gelatin":          [   357,    0,      0,      0,      89],
-    "heavy cream":      [   340,    36.1,   2.9,    2.9,    2.84],
-    "leek":             [   61,     0.3,    14,     3.9,    1.5],
-    "mascarpone":       [   429,    50,     0,      0,      7.14],
-    "milk":             [   61,     3.2,    4.9,    4.9,    3.27],
-    "olive oil":        [   884,    100,    0,      0,      0],
-    "onion":            [   36,     0.13,   7.68,   5.76,   0.89],
-    "pasta":            [   371,    1.51,   74.67,  2.7,    13.04],
-    "potato":           [   72,     0.26,   16,     0.65,   1.81],
-    "pumpkin":          [   26,     0.1,    7,      2.8,    1],
-    "rice":             [   359,    1.3,    79.8,   0,      6.94],
-    "savoiardi":        [   367,    3,      77,     40,     7],
-    "sugar":            [   385,    0.32,   99.7,   99.7,   0],
-    "tomato":           [   18,     0.2,    3.9,    2.6,    0.9]
-}
-specialFoods = { # Weigh of each e.g. egg in grams
-    "bell pepper": 120,         # medium unit
-    "carrot": 61,               # medium unit
-    "egg": 58,                  # medium unit
-    "egg yolk": 15,             # medium unit
-    "garlic": 5,                # clove
-    "onion": 160,               # medium unit
-    "potato": 200,              # medium unit
-    "savoiardi": 10,            # normal unit
-    "tomato": 75                # medium unit
-}
+# Load ingredient facts datasheet
+foodProperties = pd.read_excel("data/foodProperties.xlsx", skiprows=2).fillna(0)
+# Load special food conversions, e.g. how many grams is an average egg or garlic clove
+with open("data/specialFoods.json", "r") as file: specialFoods = json.load(file)
+# Load Dietary reference intakes
+with open("data/dietaryReferenceIntakes.json", "r") as file: DRI = json.load(file)
+# Load nutrient name conversion table
+with open("data/nutrientNames.json", "r") as file: nutrientNames = json.load(file)
 
 def getNutrition(string, nutrition):
     ingredient = string.lower().split("(")[0]
@@ -50,18 +27,22 @@ def getNutrition(string, nutrition):
     if quantity == '': return nutrition
     else: quantity = float(quantity)
 
-    ingredient = max((s for s in foodProperties.keys() if s in ingredient), key=len, default="")
+    ingredient = max((s for s in foodProperties["Ingredient"].values if s in ingredient), key=len, default="")
+    # All foods in the datasheet are scaled per 100g
     factor = quantity/100
+    # Some of them are assumed to be inputed as single units like an egg or so
     if ingredient in specialFoods: factor *= specialFoods[ingredient]
 
     try:
-        nutrition[ingredient] = [elem*factor for elem in foodProperties[ingredient]]
+        # Load ingredient datasheet corresponding row
+        entry = foodProperties[foodProperties["Ingredient"]==ingredient].values[0]
+        # Adjust for used quantity
+        entry[1:] = [elem*factor for elem in entry[1:]]
+        nutrition.loc[ingredient,:] = entry
     except:
         raise ValueError(string)
     
     return nutrition
-    
-
 
 # Load recipe template
 with open(f"templates/recipes/template.html", "r") as file:
@@ -93,7 +74,7 @@ for recipePath in recipes:
     content = content.replace("{{portions}}", str(recipe["portions"]))
 
     ingredients = ""
-    nutrition = {"dummy": [0,0,0,0,0]}
+    nutrition = pd.DataFrame(columns=foodProperties.columns)
     for group in recipe["ingredients"]:
         ingredients += f"<h4>{group}</h4><ul>"
         for ingredient in recipe["ingredients"][group]:
@@ -135,12 +116,18 @@ for recipePath in recipes:
         variants += "</li></ul>"
     content = content.replace("{{variants}}", variants)
 
-    nutritionKcal = int(sum([nutrition[key][0] for key in nutrition])/recipe["portions"])
-    content = content.replace("{{nutritionKcal}}", str(nutritionKcal))
-    for i, elem in enumerate(["Kcal","Fat","Carbohydrates","Sugar","Protein"]):
-        metric = int(sum([nutrition[key][i] for key in nutrition])/recipe["portions"])
-        name = "{{nutrition"+elem+"}}"
-        content = content.replace(name, str(metric))
+    for nutrient in ["Calories","Fat","Carbohydrates","Sugar","Protein"]:
+        value = int(sum(nutrition[nutrient].values)/recipe["portions"])
+        name = "{{nutrition"+nutrient+"}}"
+        content = content.replace(name, str(value))
+
+    nutritionExtra = ""
+    for nutrient in [elem for elem in foodProperties.columns if elem not in ["Ingredient","Calories","Fat","Carbohydrates","Sugar","Protein"]]:
+        name = nutrientNames[nutrient]
+        value = int(sum(nutrition[nutrient].values)/DRI[nutrient]/recipe["portions"]*100)
+        if value < 5: continue
+        nutritionExtra += f'<div style="display: flex; justify-content: space-between;"><span>{name}</span><span>{value}% DV</span></div>'
+    content = content.replace("{{nutritionExtra}}", nutritionExtra)
 
     nTips = len(recipe["tips"]["culinary"])+len(recipe["tips"]["serving"])
     if nTips == 0: tips = ""
