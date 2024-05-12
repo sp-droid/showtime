@@ -2,7 +2,7 @@
     "name": "Ragù alla bolognese",
     "category": "Main courses",
     "description": "/'Bolognese (meat) sauce'/ ",
-    "origin": "Late 1800s, Italy",
+    "origin": "Late 1800s, Italy.",
     "portions": 4,
     "flags": {
         "difficulty": "Medium",
@@ -12,7 +12,8 @@
         "lactoseFree": false,
         "glutenFree": false,
         "vegetarian": false,
-        "vegan": false
+        "vegan": false,
+		"finished": false
     },
     "ingredients": {
         "Ragù": [

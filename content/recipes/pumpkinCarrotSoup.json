@@ -12,7 +12,8 @@
         "lactoseFree": true,
         "glutenFree": true,
         "vegetarian": false,
-        "vegan": false
+        "vegan": false,
+		"finished": true
     },
     "ingredients": {
         "": [

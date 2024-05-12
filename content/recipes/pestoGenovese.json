@@ -12,7 +12,8 @@
         "lactoseFree": false,
         "glutenFree": false,
         "vegetarian": true,
-        "vegan": false
+        "vegan": false,
+		"finished": false
     },
     "ingredients": {
         "Pesto": [

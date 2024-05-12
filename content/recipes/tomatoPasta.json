@@ -12,7 +12,8 @@
         "lactoseFree": true,
         "glutenFree": false,
         "vegetarian": true,
-        "vegan": true
+        "vegan": true,
+		"finished": true
     },
     "ingredients": {
         "Sauce": [

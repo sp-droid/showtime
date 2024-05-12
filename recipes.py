@@ -155,9 +155,12 @@ for recipePath in recipes:
     with open(f"templates/recipes/{recipePath.stem}.html", "w", encoding="utf-8") as file:
         file.write(content)
 
-    recipeRows += "<tr><td>"
-    recipeRows += f'<a style="text-decoration: none;" href="recipes/{recipePath.stem}.html">{recipe["name"]}</a>'
-    recipeRows += f'</td><td>{recipe["flags"]["cuisine"]}</td></tr>'
+    recipeRows += "<tr>"
+    recipeRows += f'<td><a style="text-decoration: none;" href="recipes/{recipePath.stem}.html">{recipe["name"]}</a></td>'
+    recipeRows += f'<td>{recipe["flags"]["cuisine"]}</td>'
+    if recipe["flags"]["finished"]: recipeRows += '<td>✅</td>'
+    else: recipeRows += '<td>❌</td>'
+    recipeRows += "</tr>"
 
 with open("templates/recipes/templateIndex.html", "r", encoding="utf-8") as file:
     content = file.read()

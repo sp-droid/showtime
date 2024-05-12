@@ -1,0 +1,37 @@
+{
+    "name": "Pella de gofio",
+    "category": "Other",
+    "description": "/'Ball of toasted flour'/ This dessert, like gofio, comes from the amazigh tribes that inhabited the Canary Islands before the colonization. It's traditionally used to complement meals.",
+    "origin": "Before 1400s, Canary Islands.",
+    "portions": 30,
+    "flags": {
+        "difficulty": "Easy",
+        "cuisine": "Canarian",
+        "prepTime": "20'",
+        "totalTime": "Idem",
+        "lactoseFree": true,
+        "glutenFree": false,
+        "vegetarian": true,
+        "vegan": true,
+		"finished": false
+    },
+    "ingredients": {
+        "": [
+            ""
+        ]
+    },
+    "utensils": [],
+    "instructions": [
+        ""
+    ],
+    "variants": [
+		""
+	],
+    "tips": {
+        "culinary": [],
+        "serving": [
+			"It's served already sliced",
+			"Decorate with leaves of spearmint (hierbabuena in Spain, hierbahuerto in the Canaries), honey, palm honey, nuts, raisins..."
+		]
+    }
+}
