@@ -1,0 +1,32 @@
+{
+    "name": "Mimos or Suspiros de Moya",
+    "category": "Main courses",
+    "description": "/'Mimes or Moya's sighs'/ ",
+    "origin": "-, Canary Islands.",
+    "portions": 30,
+    "flags": {
+        "difficulty": "Easy",
+        "cuisine": "Canarian",
+        "prepTime": "20'",
+        "totalTime": "Idem",
+        "lactoseFree": true,
+        "glutenFree": false,
+        "vegetarian": true,
+        "vegan": true,
+		"finished": false
+    },
+    "ingredients": {
+        "": [
+            ""
+        ]
+    },
+    "utensils": [],
+    "instructions": [
+        ""
+    ],
+    "variants": [],
+    "tips": {
+        "culinary": [],
+        "serving": []
+    }
+}
