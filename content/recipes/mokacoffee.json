@@ -31,7 +31,9 @@
     ],
     "variants": [],
     "tips": {
-        "culinary": [],
+        "culinary": [
+			"Make sure the moka is clean. Old coffee stains don't add any good flavour."
+		],
         "serving": []
     }
 }
