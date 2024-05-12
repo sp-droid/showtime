@@ -1,0 +1,49 @@
+{
+    "name": "Pesto Genovese",
+    "category": "Main courses",
+    "description": "/'Genoese grounded paste'/ Although the first written recipe dates to 1852, very similar dishes can be found dating back to Roman times, but closer enactments were more prevalent in the Liguria region.",
+    "origin": "1852 Genoa, Italy. (Emanuele Rossi)",
+    "portions": 4,
+    "flags": {
+        "difficulty": "Easy",
+        "cuisine": "Italian",
+        "prepTime": "15'",
+        "totalTime": "8h 30'",
+        "lactoseFree": false,
+        "glutenFree": false,
+        "vegetarian": true,
+        "vegan": false
+    },
+    "ingredients": {
+        "Pesto": [
+            "30g fresh basil leaves",
+			"12.9g grated parmigiano reggiano / cured cheese (cow)",
+			"4.3g grated pecorino / cured cheese (sheep)",
+			"1 clove of garlic",
+            "5g pine nuts",
+            "48g olive oil (4 tbsp)",
+			"Pinch of salt"
+        ],
+		"Pasta": [
+			"110g pasta",
+			"Salt"
+		]
+    },
+    "utensils": [
+        "Hand blender",
+        "Airtight container",
+        "Fridge"
+    ],
+    "instructions": [
+        ""
+    ],
+    "variants": [
+        "Substitute the pine nuts for pistachios or walnuts."
+    ],
+    "tips": {
+        "culinary": [
+			"I find that pesto improves on the day after. After that it's worse however: it slowly oxidizes and loses color."
+        ],
+        "serving": []
+    }
+}

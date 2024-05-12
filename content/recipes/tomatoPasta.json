@@ -15,12 +15,14 @@
         "vegan": true
     },
     "ingredients": {
-        "": [
+        "Sauce": [
             "2 tomatoes (high quality, ripe, around 150g)",
-            "110g pasta",
-			"Salt",
 			"18g olive oil (1.5 tbsp)"
-        ]
+        ],
+		"Pasta": [
+			"110g pasta",
+			"Salt"
+		]
     },
     "utensils": [
         "Hand blender",
