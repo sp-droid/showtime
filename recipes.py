@@ -160,7 +160,7 @@ for recipePath in recipes:
     recipeRows += f'<td>{recipe["flags"]["cuisine"]}</td>'
     if recipe["flags"]["finished"]: recipeRows += '<td>✅</td>'
     else: recipeRows += '<td>❌</td>'
-    recipeRows += f'<td><img src="../../img/icons/difficulty{recipe["flags"]["difficulty"]}.png" alt="{recipe["flags"]["difficulty"]} difficulty icon"></td>'
+    recipeRows += f'<td><img src="../img/icons/difficulty{recipe["flags"]["difficulty"]}.png" alt="{recipe["flags"]["difficulty"]} difficulty icon"></td>'
     recipeRows += "</tr>"
 
 with open("templates/recipes/templateIndex.html", "r", encoding="utf-8") as file:
