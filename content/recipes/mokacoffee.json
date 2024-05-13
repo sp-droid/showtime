@@ -3,7 +3,7 @@
     "category": "Other",
     "description": "Brewing coffee on a moka is easy, everybody does it. Everybody seems to be, however, used to the burnt and bitter flavour. This recipe explains how I do it for the tiramisù since I'm not used to coffee and I really notice the bitterness otherwise. Being less bitter makes it drinkable with less sugar too. The moka is a relatively new invention, in the name of a city in Yemen renowned for its coffee: Mocha.",
     "origin": "1933 Piedmont, Italy. (Alfonso Bialetti)",
-    "portions": 30,
+    "portions": 1,
     "flags": {
         "difficulty": "Easy",
         "cuisine": "Italian",
@@ -28,7 +28,7 @@
 		"- While it's heating, fill the filter with coarsely ground coffee.",
 		"- Once it's boiling, pour on the moka container, quickly place filter, close the moka (it will be hot, grab a kitchen towel for it) and put it on the stove at medium heat.",
 		"- As soon as it starts gurgling (expelling air mixed with the extract) pour on a recipient.",
-		"The aim is to extract coffee while keeping it at low temperature as much as possible: this is why we brew it with already hot water or why we remove when it finishes."
+		"The aim is to extract coffee while keeping it at low temperature as much as possible: this is why we brew it with already hot water or why we remove it right after it finishes."
     ],
     "variants": [],
     "tips": {

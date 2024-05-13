@@ -3,7 +3,7 @@
     "category": "Main courses",
     "description": "/'Bolognese (meat) sauce'/ ",
     "origin": "Late 1800s, Italy.",
-    "portions": 4,
+    "portions": 8,
     "flags": {
         "difficulty": "Medium",
         "cuisine": "Italian",
@@ -18,21 +18,26 @@
     "ingredients": {
         "Ragù": [
             "8 tomatoes (around 600g. Some use passata, tomato paste... in my humble opinion I think it's better with fresh but ripe tomatoes)",
-			"Vegetable stock",
+			"Vegetable stock (keep reading)",
 			"2 carrots",
 			"2 stalks of celery",
 			"1 onion",
 			"250g beef (minced. You can substitute part of this for veal)",
 			"250g pork (minced)",
-			"Wine (1 glass, dry white is traditional)",
+			"Wine (1 glass, dry white wine is traditional)",
 			"80g milk (1/3 of a cup)",
 			"Nutmeg (1/3 of a tsp)",
             "Black pepper",
 			"Salt",
 			"36g olive oil (3 tbsp)"
         ],
-		"Rest of the dish": [
-			"110g pasta",
+		"Vegetable stock": [
+			"1 carrot",
+			"1 stalk of celery including leaves",
+			"1 onion"
+		],
+		"Pasta": [
+			"880g pasta",
 			"Grated cheese (parmesan does well)",
 			"Salt"
 		]

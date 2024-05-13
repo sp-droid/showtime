@@ -1,0 +1,32 @@
+{
+    "name": "Eastern Roman honey fritters",
+    "category": "Main courses",
+    "description": "/'Canarian chickpeas'/ ",
+    "origin": "-, Canary Islands.",
+    "portions": 30,
+    "flags": {
+        "difficulty": "Easy",
+        "cuisine": "Byzantine",
+        "prepTime": "20'",
+        "totalTime": "Idem",
+        "lactoseFree": true,
+        "glutenFree": false,
+        "vegetarian": true,
+        "vegan": true,
+		"finished": false
+    },
+    "ingredients": {
+        "": [
+            ""
+        ]
+    },
+    "utensils": [],
+    "instructions": [
+        ""
+    ],
+    "variants": [],
+    "tips": {
+        "culinary": [],
+        "serving": []
+    }
+}

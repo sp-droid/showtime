@@ -13,7 +13,7 @@
         "glutenFree": false,
         "vegetarian": true,
         "vegan": false,
-		"finished": false
+		"finished": true
     },
     "ingredients": {
         "Pesto": [
@@ -26,7 +26,7 @@
 			"Pinch of salt"
         ],
 		"Pasta": [
-			"110g pasta",
+			"440g pasta",
 			"Salt"
 		]
     },
@@ -36,13 +36,16 @@
         "Fridge"
     ],
     "instructions": [
-        ""
+        "Blend ingredients together until it forms a green paste and save in an airtight container",
+		"",
+		"Boil the pasta, dry out and mix with the pesto."
     ],
     "variants": [
         "Substitute the pine nuts for pistachios or walnuts."
     ],
     "tips": {
         "culinary": [
+			"The more slender of a container, the better, as it reduces the area of pesto in contact with the air.",
 			"I find that pesto improves on the day after. After that it's worse however: it slowly oxidizes and loses color."
         ],
         "serving": []
