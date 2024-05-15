@@ -7,36 +7,46 @@
     "flags": {
         "difficulty": "Easy",
         "cuisine": "English",
-        "prepTime": "1h",
-        "totalTime": "Idem",
-        "lactoseFree": true,
+        "prepTime": "30'",
+        "totalTime": "1h",
+        "lactoseFree": false,
         "glutenFree": true,
         "vegetarian": false,
         "vegan": false,
-		"finished": false
+		"finished": true
     },
     "ingredients": {
         "": [
-            "450g chicken breast",
-			"1 sweet bell pepper (better if half red, half green)",
-			"3 medium tomatoes",
+            "450g chicken breast, cut in cubes",
+			"0.5 sweet bell pepper (green/yellow)",
+			"2 medium tomatoes",
 			"2 carrots",
 			"1 onion",
+			"0.5 apple",
 			"3 cloves of garlic",
-			"Half glass of white wine",
+			"Quarter glass of white wine",
 			"A bay leaf",
 			"Tsp of thyme",
-			"Curry spice mix",
+			"Tbsp curry spice mix",
+			"Milk",
+			"Half tbsp flour",
 			"Salt",
 			"Black pepper",
 			"Olive oil"
         ]
     },
     "utensils": [
-        "Kitchen pot"
+        "Kitchen pot",
+		"Hand blender"
     ],
     "instructions": [
-        "Brew coffee and set aside"
+        "- In a large pan with some oil fry fry the chicken until slightly brown on all sides.",
+		"- Remove it and add the sliced carrots with the diced onions along with a bit more oil. Once the onions are cooked, add the finely chopped apples and bell peppers.",
+		"- After 3 minutes, add the wine and wait for it to evaporate. Once so, open a spot in the middle and add the flour with the minced garlic, waiting a minute.",
+		"- Put in the mashed tomatoes, wait until they reduce slightly."
+		"- Cover with water and put in the curry, bay leaf and thyme. You can also add the apple peels. Leave for 30 min.",
+		"- Add a splash of milk, check for consistency.",
+		"- Remove the bay leaf, apple peels and turn off heat."
     ],
     "variants": [],
     "tips": {
