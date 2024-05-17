@@ -1,0 +1,46 @@
+{
+    "name": "Pasta alla carbonara",
+    "category": "Main courses",
+    "description": "/'Pasta to the coal seller'/ The name 'Pasta alla carbonara' does not appear before WWII, where it was said to come from the interaction between American troops, rations, food scarcity and Italian cooks. The dish however appeared in the 1800s in Neapolitan cuisine, using lard instead of guanciale.",
+    "origin": "1800s, Italy.",
+    "portions": 2,
+    "flags": {
+        "difficulty": "Easy",
+        "cuisine": "Italian",
+        "prepTime": "10'",
+        "totalTime": "15'",
+        "lactoseFree": true,
+        "glutenFree": false,
+        "vegetarian": false,
+        "vegan": false,
+		"finished": true
+    },
+    "ingredients": {
+        "": [
+            "100g guanciale (you can try substituting it with other cured pork meats such as pancetta or even worse, bacon. It won't be the same)",
+			"1 egg",
+			"1 egg yolk",
+			"200g pasta",
+			"Parmigiano reggiano or pecorino romano cheese (I prefer the first one)",
+			"Black pepper",
+			"Salt"
+        ]
+    },
+    "utensils": [
+        "Cheese grater"
+    ],
+    "instructions": [
+        "- Cut the guanciale in small pieces and start cooking it on medium-low heat.",
+		"- Start heating water with salt. Once boiling, cook pasta for the time indicated in the package minus 1 minute.",
+		"- Finely grate some cheese, a touch of black pepper (the guanciale already has a lot) and beat it with the eggs.",
+		"- Once the pasta is done, remove the guanciale pieces, finish cooking the pasta in the guanciale oil with some pasta water.",
+		"- Turn off the heat and inmediately add the eggs and guanciale, beating with a wooden spoon."
+    ],
+    "variants": [
+		"If you don't have an inmediate use for the egg whites it's really fine not to use the extra egg yolk, but the yolk adds color and flavor."
+	],
+    "tips": {
+        "culinary": [],
+        "serving": []
+    }
+}
