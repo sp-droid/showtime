@@ -27,7 +27,9 @@
         ]
     },
     "utensils": [
-        "Cheese grater"
+        "Cheese grater",
+		"Kitchen pot",
+		"Pan"
     ],
     "instructions": [
         "- Cut the guanciale in small pieces and start cooking it on medium-low heat.",
