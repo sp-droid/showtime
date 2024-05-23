@@ -1,0 +1,49 @@
+{
+    "name": "Torrijas",
+    "category": "Main courses",
+    "description": "/'Drunkenness'/ Also known as French toast (though in Spain we do not use sandwich bread), it's a simple breakfast or dessert with origins in ancient Rome.",
+    "origin": "300s Rome, Ancient Rome. (De recoquinaria, Apicius)",
+    "portions": 4,
+    "flags": {
+        "difficulty": "Easy",
+        "cuisine": "Latin",
+        "prepTime": "15'",
+        "totalTime": "Idem",
+        "lactoseFree": false,
+        "glutenFree": false,
+        "vegetarian": false,
+        "vegan": false,
+		"finished": true
+    },
+    "ingredients": {
+        "": [
+            "1 egg",
+			"Milk",
+			"Bread (better if it's old, even)",
+			"Olive oil",
+			"Salt"
+        ]
+    },
+    "utensils": [
+        "Pan"
+    ],
+    "instructions": [
+        "- Cut bread in ~0.5 cm slices, leave in a flat plate.",
+		"- Beat an egg in a bowl, with salt (slightly more than you would normally put on a single egg).",
+		"- Put milk in another bowl and start heating oil to cover the pan.",
+		"- Soak the bread by turning in the milk twice, and in the egg 4 times, then cook on one side until brown, flip.",
+		"- Take them out and sprinkle sugar in their center."
+    ],
+    "variants": [
+        "Some people add cinnamon. I'm a big fan of cinnamon, but not on this.",
+		"Others use milk instead of sugar, and butter instead of oil.",
+		"You can find versions using sandwich bread, which is crazy to me. The whole point is to have hard bread that doesn't absorb excessive milk."
+    ],
+    "tips": {
+        "culinary": [
+			"For me, the thinner the bread you use to do this, the better. Baguettes work well.",
+			"Some bread just doesn't work, because when you slice it thin it crumbles. For this, cut it after buying it and freeze or leave them outside until you use them."
+        ],
+        "serving": []
+    }
+}

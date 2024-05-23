@@ -7,6 +7,7 @@ def categoryIcon(category):
     if category == "Appetizers": icon = None
     elif category == "Main courses": icon = '<i class="fas fa-drumstick-bite"></i>'
     elif category == "Desserts": icon = '<i class="fas fa-ice-cream"></i>'
+    elif category == "Drinks": icon = '<i class="fa-solid fa-beer-mug-empty"></i>'
     elif category == "Other": icon = '<i class="fas fa-lemon"></i>'
     else: raise ValueError(f"Category {category} not found.")
     return icon
