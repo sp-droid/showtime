@@ -1,0 +1,47 @@
+{
+    "name": "Homemade jam/jelly",
+    "category": "Other",
+    "description": "In Lanzarote we have the best black mulberries I've ever tasted. Unfortunately, I only get the chance to have some in June-July, which prompted me to make jam and enjoy them longer. This recipe is not too sweet nor it needs any artificial source for pectin.",
+    "origin": "300s Rome, Ancient Rome. (De recoquinaria, Apicius)",
+    "portions": 30,
+    "flags": {
+        "difficulty": "Very easy",
+        "cuisine": "American",
+        "prepTime": "10'",
+        "totalTime": "30'",
+        "lactoseFree": false,
+        "glutenFree": true,
+        "vegetarian": true,
+        "vegan": false,
+		"finished": true
+    },
+    "ingredients": {
+        "": [
+            "340g ripe strawberries or equivalent fruit",
+			"149g sugar",
+			"0.25 large green apple (green apples have a higher content in pectin)",
+			"0.5 tbsp lemon juice (the pectin reacts favorably in acidic conditions)"
+        ]
+    },
+    "utensils": [
+        "Kitchen pot"
+    ],
+    "instructions": [
+        "- Start heating the oven at 110ºC with the clean jars inside, to sanitize but also to heat the glass so it does not break on contact with the hot jam.",
+		"- In a kitchen pot place your fruit, the sugar, lemon juice and grated skinless apple. Start heating on high and mash the fruit with a fork.",
+		"- Boil for 20-25 minutes until it has a good consistency. Don't stir too much but check the bottom is not burning.",
+		"- Turn off the heat and skim off the foam with a spoon. Not doing this makes the jam foamy. Pour in a jar, leaving 1 cm of free space. Remove bubbles with a skewer and close the lid tight."
+    ],
+    "variants": [
+		"As said previously, you can swap the fruit for others.",
+		"You can also make jelly by filtering the jam before pouring in the jars."
+	],
+    "tips": {
+        "culinary": [
+			"To know it has the right consistency, take a frozen plate, put a tsp of the jam, put it back on the freezer for a minute and run a finger through the middle. If the trail is clear, it's ready.",
+			"Unopened it will last about a year at room temperature. Opened it and stored in the fridge it may last from a week to two months, depending on process cleanliness.",
+			"It may be obvious for some, but always use a clean spoon or knife when using it. The jam will last much more."
+		],
+        "serving": []
+    }
+}

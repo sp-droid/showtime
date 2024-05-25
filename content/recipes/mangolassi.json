@@ -13,7 +13,7 @@
         "glutenFree": true,
         "vegetarian": true,
         "vegan": false,
-		"finished": true
+		"finished": false
     },
     "ingredients": {
         "": [

@@ -158,6 +158,7 @@ for recipePath in recipes:
 
     recipeRows += "<tr>"
     recipeRows += f'<td><a style="text-decoration: none;" href="recipes/{recipePath.stem}.html">{recipe["name"]}</a></td>'
+    recipeRows += f'<td>{recipe["category"]}</td>'
     recipeRows += f'<td>{recipe["flags"]["cuisine"]}</td>'
     if recipe["flags"]["finished"]: recipeRows += '<td>✅</td>'
     else: recipeRows += '<td>❌</td>'

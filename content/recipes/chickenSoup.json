@@ -1,0 +1,54 @@
+{
+    "name": "Sopa de pollo con fideos",
+    "category": "Main courses",
+    "description": "/'Chicken noodle soup'/",
+    "origin": "1000s, China.",
+    "portions": 4,
+    "flags": {
+        "difficulty": "Easy",
+        "cuisine": "Spanish",
+        "prepTime": "15'",
+        "totalTime": "1h",
+        "lactoseFree": true,
+        "glutenFree": false,
+        "vegetarian": false,
+        "vegan": false,
+		"finished": true
+    },
+    "ingredients": {
+        "": [
+            "Fine noodles",
+			"1 onion",
+			"2 tomatoes",
+			"2 carrots",
+			"5 cloves of garlic",
+			"Half chicken breast or equivalent",
+			"1 tsp sweet paprika",
+			"Salt",
+			"2 tbsp olive oil"
+        ]
+    },
+    "utensils": [
+		"Kitchen pot",
+		"Hand blender"
+    ],
+    "instructions": [
+        "- Heat until boiling the chicken, 1.5L water and some salt.",
+		"- Add the tomatoes and onions, cut in half, the carrots and the garlic. Don't remove the skin of the tomatoes.",
+		"- Once it's boiling, lower to medium heat, add the oil, paprika and count 45 min.",
+		"- Cut carrots in slices, chicken in small pieces, mash the tomatoes (blender recommended) and remove the onion. Press it to extract the juice and throw it away.",
+		"- Correct for salt, take to a boil, measure the noodles to cover the low part of a bowl and add them, cooking for whatever the package says minus 1 minute.",
+		"- Take off the heat and rest for 5 minutes."
+    ],
+    "variants": [
+		"You can put a sliced quarter of a bell pepper.",
+		"Or a few strands of saffron, to give color and a subtle flavor."
+	],
+    "tips": {
+        "culinary": [
+			"After the 45 minutes I like to put a few carrot slices and garlic cloves in the blender along with the tomatoes.",
+			"This is one of those recipes for which it's traditional to use colorant. Beware of what you are using however, many food colorants aren't healthy."
+		],
+        "serving": []
+    }
+}
