@@ -8,7 +8,7 @@
         "difficulty": "Very easy",
         "cuisine": "Italian",
         "prepTime": "15'",
-        "totalTime": "8h 30'",
+        "totalTime": "8 h 30'",
         "lactoseFree": false,
         "glutenFree": false,
         "vegetarian": true,
@@ -17,16 +17,16 @@
     },
     "ingredients": {
         "Pesto": [
-            "30g fresh basil leaves",
-			"12.9g grated parmigiano reggiano / cured cheese (cow)",
-			"4.3g grated pecorino / cured cheese (sheep)",
+            "30 g fresh basil leaves",
+			"12.9 g grated parmigiano reggiano / cured cheese (cow)",
+			"4.3 g grated pecorino / cured cheese (sheep)",
 			"1 clove of garlic",
-            "5g pine nuts",
-            "48g olive oil (4 tbsp)",
+            "5 g pine nuts",
+            "48 g olive oil (4 tbsp)",
 			"Pinch of salt"
         ],
 		"Pasta": [
-			"440g pasta",
+			"440 g pasta",
 			"Salt"
 		]
     },

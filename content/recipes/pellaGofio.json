@@ -3,29 +3,32 @@
     "category": "Other",
     "description": "/'Ball of toasted flour'/ This dessert, like gofio, comes from the amazigh tribes that inhabited the Canary Islands before the colonization. It's traditionally used to complement meals.",
     "origin": "Before 1400s, Canary Islands.",
-    "portions": 30,
+    "portions": 1,
     "flags": {
         "difficulty": "Very easy",
         "cuisine": "Canarian",
-        "prepTime": "20'",
+        "prepTime": "5'",
         "totalTime": "Idem",
         "lactoseFree": true,
         "glutenFree": false,
         "vegetarian": true,
         "vegan": true,
-		"finished": false
+		"finished": true
     },
     "ingredients": {
         "": [
-            ""
+            "30 g gofio",
+			"Water (18 g)",
+			"5 g olive oil (soft)",
+			"4 g sugar"
         ]
     },
     "utensils": [],
     "instructions": [
-        ""
+        "Mix together and form balls."
     ],
     "variants": [
-		""
+		"Add finely ground almonds, palm honey, honey, fresh white cheese, raisings..."
 	],
     "tips": {
         "culinary": [],

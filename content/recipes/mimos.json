@@ -1,32 +1,41 @@
 {
     "name": "Mimos or Suspiros de Moya",
-    "category": "Main courses",
+    "category": "Desserts",
     "description": "/'Mimes or Moya's sighs'/ ",
-    "origin": "-, Canary Islands.",
-    "portions": 30,
+    "origin": "1900s Moya, Gran Canaria, Canary Islands.",
+    "portions": 3,
     "flags": {
-        "difficulty": "Easy",
+        "difficulty": "Very easy",
         "cuisine": "Canarian",
-        "prepTime": "20'",
-        "totalTime": "Idem",
+        "prepTime": "10'",
+        "totalTime": "1 h 10'",
         "lactoseFree": true,
-        "glutenFree": false,
-        "vegetarian": true,
-        "vegan": true,
-		"finished": false
+        "glutenFree": true,
+        "vegetarian": false,
+        "vegan": false,
+		"finished": true
     },
     "ingredients": {
         "": [
-            ""
+            "1 egg white",
+			"Splash of lemon juice (1/8 of a lemon)",
+			"25 g sugar"
         ]
     },
-    "utensils": [],
+    "utensils": [
+		"Hand mixer",
+		"Oven",
+		"Piping bag"
+	],
     "instructions": [
-        ""
+        "- Whip ingredients until it develops sharp peaks.",
+		"- Transfer to piping bag, make the shapes on an oven paper and bake for 1 h @90ºC."
     ],
     "variants": [],
     "tips": {
         "culinary": [],
-        "serving": []
+        "serving": [
+			"Serve shortly after baking or reheat in an oven because they will soak water from the air and turn gummy. Still good but it's not the same."
+		]
     }
 }

@@ -1,32 +1,59 @@
 {
     "name": "Puchero canario",
     "category": "Main courses",
-    "description": "/'Canarian earthenware cooked dish'/ ",
+    "description": "/'Canarian earthenware cooked dish'/ Not really cooked on earthenware anymore! It's one of my favourite dishes. This recipe forces you to have a pressure cooker, but you can try just spending 3 times the time with a normal pot. You will also have to add the chickpeas and potatoes later or they will crumble to bits.",
     "origin": "-, Canary Islands.",
-    "portions": 30,
+    "portions": 3,
     "flags": {
-        "difficulty": "Easy",
+        "difficulty": "Medium",
         "cuisine": "Canarian",
-        "prepTime": "20'",
-        "totalTime": "Idem",
+        "prepTime": "25'",
+        "totalTime": "1 h 30'",
         "lactoseFree": true,
-        "glutenFree": false,
-        "vegetarian": true,
-        "vegan": true,
-		"finished": false
+        "glutenFree": true,
+        "vegetarian": false,
+        "vegan": false,
+		"finished": true
     },
     "ingredients": {
-        "": [
-            ""
-        ]
+        "Cooking": [
+            "500 g beef cut in cubes, clean (whatever has too much fat you can boil separately to get the juice)",
+			"240 g chickpeas (either bought dry and put in water 8 h before, or bought canned. Drain the can very well. Both options are good)",
+			"200 g cabbage (col, in Spanish)",
+			"100 g green beans",
+			"100 g pumpkin",
+			"4 potatoes",
+			"2 carrots",
+			"2 tomatoes (ripe)",
+			"1 onion",
+			"1 cob of corn (can be sweet corn)",
+			"An entire head of garlic",
+			"Tsp of sweet paprika",
+			"Salt (This is a weak point in the recipe, I haven't measured either water or salt yet. Reminder to change it!)"
+        ],
+		"Serving": [
+			"High quality olive oil",
+			"Wine-derived vinegar"
+		]
     },
-    "utensils": [],
+    "utensils": [
+		"Pressure cooker"
+	],
     "instructions": [
-        ""
+        "- Pressure cook the meat with water and salt for 30'.",
+		"- Meanwhile, prepare the chickpeas, wash the cabbage (leave it whole), the beans, cut the pumpkin in blocks, the potatoes in big chunks, the carrots longitudinally, the tomatoes in two, the onion in two, wash the cob and remove the outer papery skin from the head of garlic.",
+		"- Open the pot, put everything in, cover with water, add some more salt, a teaspoon of paprika and leave for 20'.",
+		"- I personally now take out the head of garlic, onion and cabbage as they are there for flavor only. Some eat the cabbage.",
+		"- You have to fish now the food that you want: Everything but the tomato. Don't worry, it will be used to make 'Sopa de puchero' the days after."
     ],
     "variants": [],
     "tips": {
-        "culinary": [],
-        "serving": []
+        "culinary": [
+			"Be careful with the pressure cooker. Always count the time from when the pressure is high (vapor coming out, check valve rises...).",
+			"The nutritional information for this recipe is off since we only eat the tomato and a good part of the remains the days after."
+		],
+        "serving": [
+			"The person eating must add oil and vinegar on his own. If it's the first time start small, especially with the vinegar."
+		]
     }
 }
