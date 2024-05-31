@@ -1,0 +1,44 @@
+{
+    "name": "Amaretti",
+    "category": "Desserts",
+    "description": "/'From amaro or bitter'/ Amaretti are all about texture and flavor, crunchy on the outside, soft on the inside and with a slight bitterness from the almonds. Three core ingredients: almond, sugar, egg whites.",
+    "origin": "Mid 1600s Venice, Republic of Venice.",
+    "portions": 4,
+    "flags": {
+        "difficulty": "Very easy",
+        "cuisine": "Italian",
+        "prepTime": "20'",
+        "totalTime": "45'",
+        "lactoseFree": true,
+        "glutenFree": true,
+        "vegetarian": false,
+        "vegan": false,
+		"finished": true
+    },
+    "ingredients": {
+        "": [
+            "125 g finely grounded almond (skinless)",
+			"70 g sugar (experiment with less sugar next time, reminder)",
+			"1 egg white",
+			"2 tsp almond essence (optional)",
+			"Icing sugar"
+        ]
+    },
+    "utensils": [
+		"Oven"
+    ],
+    "instructions": [
+		"- If the almonds aren't ground up, I try to do as best as I can with a blender. Tends to get stuck. Buying almond meal is possible in many places though. It's possible you can also use a mortar and pestle",
+		"- Preheat oven",
+		"- Whisk the egg white a little on one side and on the other mix the almond and sugar, then combine and mix with your hands well.",
+		"- Prepare a plate with icing sugar and make balls using the measure of a full teaspoon. Roll the balls on the sugar and place on the baking tray. Press lightly on each with two fingers",
+		"- Cook 18' @180ºC."
+    ],
+    "variants": [],
+    "tips": {
+        "culinary": [
+			"The more ground up is the almond, the better."
+		],
+        "serving": []
+    }
+}
