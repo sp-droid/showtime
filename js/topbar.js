@@ -16,8 +16,8 @@ document.addEventListener("DOMContentLoaded", function() {
             <span class="longScreen">&emsp;This website is under construction</span>
         </div>
         <div style="flex: 1; display: flex; align-items: center; justify-content: center; background-color: rgb(76, 57, 2); height: 100%;">
-            <a class="linkPopUp longScreen" title="For work or other topics" href="https://docs.google.com/forms/d/1pK5hPSywf1resOSLIUOESFpqQn6cnRa2YjkRF7d77D8" style="font-weight: 500;">Contact link</a>
-            <a class="linkPopUp shortScreen" title="For work or other topics" href="https://docs.google.com/forms/d/1pK5hPSywf1resOSLIUOESFpqQn6cnRa2YjkRF7d77D8" style="font-weight: 500;">Contact</a>
+            <a class="linkPopUp longScreen" title="For work or other topics" href="https://docs.google.com/forms/d/1pK5hPSywf1resOSLIUOESFpqQn6cnRa2YjkRF7d77D8" style="font-weight: 500; color: rgb(222, 237, 240)">Contact link</a>
+            <a class="linkPopUp shortScreen" title="For work or other topics" href="https://docs.google.com/forms/d/1pK5hPSywf1resOSLIUOESFpqQn6cnRa2YjkRF7d77D8" style="font-weight: 500; color: rgb(222, 237, 240)">Contact</a>
         </div>
     </div>
     <div class="row" id="navTopbar" style="background: linear-gradient(to right, rgb(48, 40, 2), rgb(35, 38, 39))">
