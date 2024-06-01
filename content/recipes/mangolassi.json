@@ -5,10 +5,10 @@
     "origin": "1000 BC, Punjab.",
     "portions": 2,
     "flags": {
-        "difficulty": "Easy",
+        "difficulty": "Very easy",
         "cuisine": "North Indian",
-        "prepTime": "20'",
-        "totalTime": "Idem",
+        "prepTime": "3'",
+        "totalTime": "1 h",
         "lactoseFree": false,
         "glutenFree": true,
         "vegetarian": true,
