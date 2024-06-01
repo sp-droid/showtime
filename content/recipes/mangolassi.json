@@ -13,29 +13,27 @@
         "glutenFree": true,
         "vegetarian": true,
         "vegan": false,
-		"finished": false
+		"finished": true
     },
     "ingredients": {
         "": [
-            "170 g mango puree",
-			"100 g milk",
-			"300 g natural yogurt",
-			"35 g sugar"
+            "85 g mango puree",
+			"50 g milk",
+			"150 g natural yogurt",
+			"17 g sugar"
         ]
     },
     "utensils": [
-        "Hand blender"
     ],
     "instructions": [
-        "- Blend sugar, mango and yogurt.",
-		"- Add milk and mix by hand, to avoid adding too much air.",
+		"- Add everything, mix by hand with a wooden spoon to avoid adding air.",
         "- Refrigerate 1 h."
     ],
-    "variants": [],
+    "variants": [
+		"You can also do it from ripe fresh mangos, just blend them well before adding them into the mix. Be sure they don't contain fibers or else you will have to strain it."
+	],
     "tips": {
-        "culinary": [
-			"You can try blending for a shorter period of time or blending everything by hand to not introduce any air if you don't like that."
-		],
+        "culinary": [],
         "serving": []
     }
 }
