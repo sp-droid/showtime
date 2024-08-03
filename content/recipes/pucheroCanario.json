@@ -20,8 +20,8 @@
             "500 g beef cut in cubes, clean (whatever has too much fat you can boil separately to get the juice)",
 			"240 g chickpeas (either bought dry and put in water 8 h before, or bought canned. Drain the can very well. Both options are good)",
 			"200 g cabbage (col, in Spanish)",
+			"200 g pumpkin",
 			"100 g green beans",
-			"100 g pumpkin",
 			"4 potatoes",
 			"2 carrots",
 			"2 tomatoes (ripe)",
@@ -37,12 +37,14 @@
 		]
     },
     "utensils": [
-		"Pressure cooker"
+		"Pressure cooker",
+		"Hand blender"
 	],
     "instructions": [
         "- Pressure cook the meat with water and salt for 30'.",
 		"- Meanwhile, prepare the chickpeas, wash the cabbage (leave it whole), the beans, cut the pumpkin in blocks, the potatoes in big chunks, the carrots longitudinally, the tomatoes in two, the onion in two, wash the cob and remove the outer papery skin from the head of garlic.",
-		"- Open the pot, put everything in, cover with water, add some more salt, a teaspoon of paprika and leave for 20'.",
+		"- Open the pot, put everything in, cover with water, add some more salt and a teaspoon of paprika.",
+		"- Take some juice out and blend it with a piece of carrot (to give the potatoes color). Add it back in, seal and leave for 20'.",
 		"- I personally now take out the head of garlic, onion and cabbage as they are there for flavor only. Some eat the cabbage.",
 		"- You have to fish now the food that you want: Everything but the tomato. Don't worry, it will be used to make 'Sopa de puchero' the days after."
     ],
