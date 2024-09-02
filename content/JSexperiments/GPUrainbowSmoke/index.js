@@ -3,7 +3,7 @@ const canvas = document.querySelector("canvas");
 canvas.width = canvas.parentElement.clientWidth;
 canvas.height = canvas.parentElement.clientHeight;
 
-let GRID_SIZEx = 80;
+let GRID_SIZEx = 512;
 let FPS_VALUE = 120;
 let UPDATE_INTERVAL = 1000/FPS_VALUE;
 
@@ -81,11 +81,54 @@ const simulationShaderModule = device.createShaderModule({
 // Grid uniform |2
 let gridUniform = new Float32Array([GRID_SIZEx, GRID_SIZEy]);
 
-// Color pool parameter |X*Y*3
-let colorPoolArray = new Float32Array(GRID_SIZEx * GRID_SIZEy * 3+10);
-for (let i = 0; i < colorPoolArray.length; ++i) {
-    colorPoolArray[i] = Math.random();
+function rgbToHue(r, g, b) {
+    r /= 255;
+    g /= 255;
+    b /= 255;
+
+    let max = Math.max(r, g, b), min = Math.min(r, g, b);
+    let h;
+    
+    if (max === min) {
+        h = 0; // achromatic
+    } else {
+        let d = max - min;
+        switch(max) {
+            case r: h = (g - b) / d + (g < b ? 6 : 0); break;
+            case g: h = (b - r) / d + 2; break;
+            case b: h = (r - g) / d + 4; break;
+        }
+        h /= 6;
+    }
+
+    return h; // hue is in range [0, 1]
 }
+
+let colors = [];
+for (let i = 0; i < GRID_SIZEx * GRID_SIZEy+3; ++i) {
+    const r = Math.round(256*Math.random());
+    const g = Math.round(256*Math.random());
+    const b = Math.round(256*Math.random());
+
+    let hue = rgbToHue(r,g,b);
+    if (hue < 0.5) { hue  = hue + 1 }
+
+    colors.push({hue: hue, r: r/255, g: g/255, b: b/255})
+}
+colors.sort((a, b) => a.hue - b.hue);
+
+let colorPoolArray = new Float32Array(GRID_SIZEx * GRID_SIZEy * 3+9);
+for (let i = 0; i < GRID_SIZEx * GRID_SIZEy+3; ++i) {
+    colorPoolArray[i*3] = colors[i].r;
+    colorPoolArray[i*3+1] = colors[i].g;
+    colorPoolArray[i*3+2] = colors[i].b;
+}
+
+// Color pool parameter |X*Y*3
+// let colorPoolArray = new Float32Array(GRID_SIZEx * GRID_SIZEy * 3+9);
+// for (let i = 0; i < colorPoolArray.length; ++i) {
+//     colorPoolArray[i] = Math.round(256*Math.random())/255;
+// }
 
 // Cell state storage 0=inactive, 1=active, 2=painted|X*Y
 let cellStateStorage = new Uint32Array(GRID_SIZEx * GRID_SIZEy);
@@ -348,21 +391,7 @@ async function updateGrid() {
     if (continueLoop === true) {
         /////////////////////////////////////////////////////////////////////////////////////////////
         // Copy new target color into uniform
-        // let encoder = device.createCommandEncoder();
-        // await stagingBuffers[0].mapAsync(GPUMapMode.WRITE);
-        
-        // let data = new Float32Array(stagingBuffers[0].getMappedRange());
-        
-        // data.set([colorPoolArray[targetColor*3], colorPoolArray[targetColor*3+1], colorPoolArray[targetColor*3+2]]);
-        // stagingBuffers[0].unmap();
-
-        // encoder.copyBufferToBuffer(
-        //     stagingBuffers[0], 0,
-        //     computeBuffers[1], 0,
-        //     computeBuffers[1].size
-        // );
-        // await device.queue.submit([encoder.finish()]);
-        let encoder;
+        let encoder = device.createCommandEncoder();
         let data = new Float32Array([colorPoolArray[targetColor*3], colorPoolArray[targetColor*3+1], colorPoolArray[targetColor*3+2]]);
         await device.queue.writeBuffer(computeBuffers[1], 0, data);
         
@@ -380,27 +409,6 @@ async function updateGrid() {
         
         /////////////////////////////////////////////////////////////////////////////////////////////
         // Copy the GPU distance buffer into staging
-        // encoder = device.createCommandEncoder();
-        // encoder.copyBufferToBuffer(
-        //     computeBuffers[3], 0,
-        //     stagingBuffers[1], 0,
-        //     stagingBuffers[1].size
-        // );
-        // await device.queue.submit([encoder.finish()]);
-        
-        // // Read the staging buffer
-        // await stagingBuffers[1].mapAsync(GPUMapMode.READ);
-        // let data2 = new Float32Array(stagingBuffers[1].getMappedRange());
-
-        // let result = 10.0;
-        // let minimumValueIndex = 0;
-        // data2.forEach((x, i) => {
-        //     if (x < result) {
-        //         result = x;
-        //         minimumValueIndex = i;
-        //     }
-        // })
-        // stagingBuffers[1].unmap();
         encoder = device.createCommandEncoder();
         const gpuReadBuffer = device.createBuffer({
             size: computeBuffers[3].size,
@@ -416,10 +424,8 @@ async function updateGrid() {
         await gpuReadBuffer.mapAsync(GPUMapMode.READ);
         let data2 = new Float32Array(gpuReadBuffer.getMappedRange())
 
-        // if ((targetColor===1) | (targetColor===2)) {
-        //     console.log(data2)
-        // }
-        let result = 10.0;
+        // Get minimum distance index
+        let result = 9.0;
         let minimumValueIndex = -1;
         data2.forEach((x, i) => {
             if (x < result) {
@@ -433,19 +439,6 @@ async function updateGrid() {
 
         /////////////////////////////////////////////////////////////////////////////////////////////
         // Copy chosen cell index into uniform
-        // encoder = device.createCommandEncoder();
-        // await stagingBuffers[2].mapAsync(GPUMapMode.WRITE);
-        
-        // let data3 = new Uint32Array(stagingBuffers[2].getMappedRange());
-        // data3.set([minimumValueIndex]);
-        // stagingBuffers[2].unmap();
-        
-        // encoder.copyBufferToBuffer(
-        //     stagingBuffers[2], 0,
-        //     computeBuffers[2], 0,
-        //     computeBuffers[2].size
-        // );
-        // await device.queue.submit([encoder.finish()]);
         let data3 = new Uint32Array([minimumValueIndex]);
         await device.queue.writeBuffer(computeBuffers[2], 0, data3);
 
