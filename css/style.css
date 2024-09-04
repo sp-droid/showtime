@@ -8,7 +8,9 @@
     src: url('../fonts/garamondFont.ttf') format('truetype');
 } */
 body {
-  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol";
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol";
+    font-size: 20px;
+    color: rgb(238, 238, 238);
 }
 
 /* DESKTOP, DEFAULT */
@@ -22,16 +24,22 @@ body {
 #navTopbar {
     height: 64px;
     font-size: 28px;
+    letter-spacing: 1px;
+}
+#navTopbar > :first-child > * {
+    text-decoration: none;
+    color: rgb(202, 197, 190);
+    font-weight: 600;
+    margin: 14px;
 }
 hr { border-top: 1px solid rgb(201, 201, 201); }
-h1 { font-size: 48px; color: rgb(209, 205, 199); }
-h2 { font-size: 40px; color: rgb(209, 205, 199); }
-h3 { font-size: 32px; color: rgb(209, 205, 199); }
-h4 { color: rgb(209, 205, 199); }
-h5 { color: rgb(209, 205, 199); }
-p { color: rgb(209, 205, 199); }
-li { color: rgb(209, 205, 199); }
-.pRich { font-size: 20px; color: rgb(170, 158, 140); }
+h1 { color: white; font-size: 48px; letter-spacing: 1px;}
+h2 { color: white; font-size: 40px; letter-spacing: 1px;}
+h3 { color: white; font-size: 32px; letter-spacing: 1px;}
+h4 { color: white; letter-spacing: 1px;}
+h5 { color: white; letter-spacing: 1px;}
+p { font-size: 20px; }
+.pRich { font-size: 20px; color: rgb(230, 213, 189); }
 
 /* SMALL DESKTOP */
 @media screen and (max-width: 1000px) {
@@ -80,6 +88,31 @@ li { color: rgb(209, 205, 199); }
     text-decoration: none;
     /* target: _blank; THIS IS SETUP WITH JS*/
     /* rel: noopener noreferrer; THIS IS SETUP WITH JS*/
+}
+
+/* ################### */
+/* Blog */
+/* ################### */
+.blogEntry {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding-bottom: 14px;
+}
+.blogEntry > :nth-child(2) {
+    font-size: 18px;
+    color: rgb(203, 213, 225);
+}
+
+.blogLink {
+    text-decoration: underline;
+    text-decoration-color: rgb(71, 85, 105);
+    text-decoration-thickness: 4px;
+    text-underline-offset: 4px;
+    cursor: pointer;
+}
+.blogLink:hover {
+    text-decoration-color: rgb(236, 72, 153);
 }
 
 /* ################### */
