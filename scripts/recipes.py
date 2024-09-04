@@ -1,6 +1,7 @@
 import json
 from pathlib import Path
 
+from tqdm import tqdm
 import pandas as pd
 
 def categoryIcon(category):
@@ -50,12 +51,14 @@ with open(f"templates/recipes/template.html", "r") as file:
     template = file.read()
 
 # List existing recipes
-recipes = Path("content/recipes").glob("*")
+recipes = list(Path("content/recipes").glob("*"))
 
-recipeRows = ""
 # Load each file, edit the template accordingly and save as a new html
-for recipePath in recipes:
-    print(f'---{recipePath.stem}---')
+recipeRows = ""
+pbar = tqdm(recipes)
+for recipePath in pbar:
+    pbar.set_postfix_str(f"Current recipe: {recipePath.stem}")
+
     with open(recipePath, "r", encoding="utf-8") as file:
         recipe = json.load(file)    
     content = template
