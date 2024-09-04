@@ -1,0 +1,65 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<urlset
+      xmlns="http://www.sitemaps.org/schemas/sitemap/0.9"
+      xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+      xsi:schemaLocation="http://www.sitemaps.org/schemas/sitemap/0.9
+            http://www.sitemaps.org/schemas/sitemap/0.9/sitemap.xsd">
+            
+<url>
+  <loc>https://pabloarbelo.com/</loc>
+  <priority>0.9</priority>
+</url>
+<url>
+  <loc>https://pabloarbelo.com/templates/index.html</loc>
+  <priority>0.7</priority>
+</url>
+<url>
+  <loc>https://pabloarbelo.com/templates/about.html</loc>
+  <priority>0.7</priority>
+</url>
+
+<!-- PROJECTS -->
+<url>
+  <loc>https://pabloarbelo.com/templates/projects.html</loc>
+  <priority>0.7</priority>
+</url>
+<url><loc>https://pabloarbelo.com/content/JSexperiments/GPUrainbowSmoke/index.html</loc></url>
+<url><loc>https://pabloarbelo.com/content/JSexperiments/webGPUconway/index.html</loc></url>
+<url><loc>https://pabloarbelo.com/content/JSexperiments/noiseFlow/index.html</loc></url>
+<url><loc>https://pabloarbelo.com/content/JSexperiments/Lsystems/index.html</loc></url>
+<url><loc>https://pabloarbelo.com/content/JSexperiments/starfield/index.html</loc></url>
+
+<!-- RECIPES -->
+<url>
+  <loc>https://pabloarbelo.com/templates/recipes.html</loc>
+  <priority>0.7</priority>
+</url>
+<url><loc>https://pabloarbelo.com/templates/recipes/amaretti.html</loc></url>
+<url><loc>https://pabloarbelo.com/templates/recipes/arrozConLeche.html</loc></url>
+<url><loc>https://pabloarbelo.com/templates/recipes/butter.html</loc></url>
+<url><loc>https://pabloarbelo.com/templates/recipes/carbonara.html</loc></url>
+<url><loc>https://pabloarbelo.com/templates/recipes/chickenSoup.html</loc></url>
+<url><loc>https://pabloarbelo.com/templates/recipes/englishCurry.html</loc></url>
+<url><loc>https://pabloarbelo.com/templates/recipes/garbanzada.html</loc></url>
+<url><loc>https://pabloarbelo.com/templates/recipes/gofioEscaldado.html</loc></url>
+<url><loc>https://pabloarbelo.com/templates/recipes/honeyFritters.html</loc></url>
+<url><loc>https://pabloarbelo.com/templates/recipes/jam.html</loc></url>
+<url><loc>https://pabloarbelo.com/templates/recipes/mangolassi.html</loc></url>
+<url><loc>https://pabloarbelo.com/templates/recipes/mimos.html</loc></url>
+<url><loc>https://pabloarbelo.com/templates/recipes/mokacoffee.html</loc></url>
+<url><loc>https://pabloarbelo.com/templates/recipes/ovaSpongiaExLacte.html</loc></url>
+<url><loc>https://pabloarbelo.com/templates/recipes/pannaCotta.html</loc></url>
+<url><loc>https://pabloarbelo.com/templates/recipes/pellaGofio.html</loc></url>
+<url><loc>https://pabloarbelo.com/templates/recipes/pestoGenovese.html</loc></url>
+<url><loc>https://pabloarbelo.com/templates/recipes/polloCerveza.html</loc></url>
+<url><loc>https://pabloarbelo.com/templates/recipes/potajeCanario.html</loc></url>
+<url><loc>https://pabloarbelo.com/templates/recipes/pucheroCanario.html</loc></url>
+<url><loc>https://pabloarbelo.com/templates/recipes/pumpkinCarrotSoup.html</loc></url>
+<url><loc>https://pabloarbelo.com/templates/recipes/raguBolognese.html</loc></url>
+<url><loc>https://pabloarbelo.com/templates/recipes/sopaPuchero.html</loc></url>
+<url><loc>https://pabloarbelo.com/templates/recipes/tiramisu.html</loc></url>
+<url><loc>https://pabloarbelo.com/templates/recipes/tomatoPasta.html</loc></url>
+<url><loc>https://pabloarbelo.com/templates/recipes/torrijas.html</loc></url>
+<url><loc>https://pabloarbelo.com/templates/recipes/truchas.html</loc></url>
+
+</urlset>
