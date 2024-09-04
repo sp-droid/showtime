@@ -1,0 +1,54 @@
+{
+    "name": "Pollo a la cerveza",
+    "category": "Desserts",
+    "description": "/'Chicken with beer'/ ",
+    "origin": "-",
+    "portions": 4,
+    "flags": {
+        "difficulty": "Easy",
+        "cuisine": "Spanish",
+        "prepTime": "20'",
+        "totalTime": "1h",
+        "lactoseFree": true,
+        "glutenFree": true,
+        "vegetarian": false,
+        "vegan": false,
+		"finished": false
+    },
+    "ingredients": {
+        "": [
+            "350g chicken breast",
+			"1 onion",
+			"4 carrots",
+			"1 red bell pepper",
+			"4 garlic cloves",
+			"Small beer can",
+			"3 tbsp olive oil",
+			"Flour",
+			"Thyme",
+			"Rosemary",
+			"Bay leaf",
+			"Pepper",
+			"Salt"
+        ]
+    },
+    "utensils": [
+		"Kitchen pot",
+		"Pan"
+    ],
+    "instructions": [
+		"- To make the chicken more tender, add salt and leave in the fridge overnight.",
+		"- Brown the chicken with a bit of oil, set aside.",
+		"- Add the rest of the oil, cook the onion until transparent, then add carrots, pepper, garlic, pinch of salt leave for 10 min.",
+		"- Add the chicken back inside together with the beer, a pinch of thyme, rosemary, bay leaf and pepper.",
+		"- On a pan cook on medium 1 tbsp of flour, mixing until it changes color, then merge into the pot.",
+		"- Cook on a simmer for about 0.5-1h, until it reduces well. Correct for salt."
+    ],
+    "variants": [],
+    "tips": {
+        "culinary": [
+			"The beer can impart a tangy flavour, which usually mellows quite a lot on the second day. Depends on the beer type and how much you reduce it."
+		],
+        "serving": []
+    }
+}
