@@ -1,25 +1,30 @@
 /* Fonts */
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;700&display=swap');
 @font-face {
     font-family: brushScriptMTfont;
     src: url('../fonts/brushScriptMTfont.ttf') format('truetype');
 }
-@font-face {
+/* @font-face {
     font-family: garamondFont;
     src: url('../fonts/garamondFont.ttf') format('truetype');
+} */
+body {
+    font-family: 'Inter';
 }
 
 /* DESKTOP, DEFAULT */
 .shortScreen { display: none; }
 .longScreen { display: inline; }
 #linksTopbar {
-    font-family: brushScriptMTfont;
-    height: 44px;
-    font-size: 22px;
+    font-family: Inter;
+    height: 40px;
+    font-size: 16px;
+    font-weight: bolder;
 }
 #navTopbar {
-    font-family: garamondFont;
-    height: 72px;
-    font-size: 32px;
+    font-family: Inter;
+    height: 64px;
+    font-size: 24px;
 }
 hr { border-top: 1px solid rgb(201, 201, 201); }
 h1 { font-size: 70px; color: rgb(209, 205, 199); }
@@ -43,11 +48,11 @@ li { color: rgb(209, 205, 199); }
     .longScreen { display: none; }
     #linksTopbar {
         height: 76px;
-        font-size: 40px;
+        font-size: 29px;
     }
     #navTopbar {
         height: 120px;
-        font-size: 38px;
+        font-size: 32px;
     }
     h1 { font-size: 80px; }
     h2 { font-size: 60px; }
@@ -65,7 +70,7 @@ li { color: rgb(209, 205, 199); }
     .longScreen { display: inline; }
     #navTopbar {
         height: 72px;
-        font-size: 28px;
+        font-size: 21px;
     }
     p { font-size: normal; }
     .pRich { font-size: 20px; }
