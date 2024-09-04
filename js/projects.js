@@ -15,17 +15,6 @@ document.addEventListener("DOMContentLoaded", function() {
     // ################################
     const layoutList = document.getElementById("layoutList");
     const layoutText = document.getElementById("layoutText");
-    const buttonToLayoutText = document.getElementById("buttonToLayoutText");
-    const buttonToLayoutList = document.getElementById("buttonToLayoutList");
-
-    buttonToLayoutText.addEventListener("click", function() {
-        layoutList.style.display = "none";
-        layoutText.style.display = "flex";
-    });
-    buttonToLayoutList.addEventListener("click", function() {
-        layoutText.style.display = "none";
-        layoutList.style.display = "flex";
-    });
 
     // ################################
     // ########## Typewriter ##########

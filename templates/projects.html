@@ -44,7 +44,7 @@ rootFolder="../">
 	<div id="HTMLtopbar" style="flex: 0;"></div>
     <div id="layoutList" style="flex: 1; display: flex; flex-direction: column;">
         <div style="flex: 0;">
-            <div style="text-align: right; margin-top: 15px;"><span id="buttonToLayoutText" class="btn btn-info" style="border-radius: 1px;"><i class="fa fa-bars"></i> List layout</span>&emsp;</div>
+            <div style="text-align: right; margin-top: 15px;"><span id="buttonFilterMenu" class="btn btn-info" style="border-radius: 1px;"><i class="fa fa-bars"></i>&ensp;Filter</span>&emsp;</div>
             <div style="display: flex;">
                 <div style="flex: 1;"><p id="hideAlertChrome" style="color: orangered; font-weight: bolder; transition: opacity 2s">Not all <a class="linkPopUp" href="https://caniuse.com/?search=web%20gpu">browsers</a> support WebGPU yet!</p></div>
                 <h2 style="flex: 0;"" id="typewriterProjects">Projects from university.</h2>
@@ -63,59 +63,6 @@ rootFolder="../">
             <div style="flex: 1;"></div>
         </div>
         <br><br>
-    </div>
-    <div id="layoutText" style="display: none; flex: 1;">
-        <!-- Left side column -->
-        <div style="
-        flex: 0;
-        min-width: 400px;
-        margin-left: 26px;
-        background-color: rgb(240, 240, 240);
-        padding: 10px;">
-            <br>
-            <h3 style="text-align: center; color: black;">Project name</h1>
-            <div style="display: flex; justify-content: center;">
-                <div style="width: 98%; height: 227px; background-image: url(../img/projects/preview/default.jpg); background-size: 100% 100%; border-radius: 4px; margin-top: 8px;"></div>
-            </div>
-            <div style="display: flex; justify-content: space-between; width: 98%; height: 44px; margin-top: 12px;">
-                <img id="markerOH" src="../img/icons/Blender.svg"/>
-                <img id="markerH2O" src="../img/icons/Blender.svg"/>
-                <img id="markerCO" src="../img/icons/Blender.svg"/>
-                <img id="markerRare" src="../img/icons/Blender.svg" />
-                <img id="markerO" src="../img/icons/Blender.svg" />
-            </div>
-            <p style="color: black; font-weight: 700; margin-top: 16px; margin-left: 16px; white-space: nowrap;">Date: example</p>
-            <p style="color: black; font-weight: 700; margin-top: 16px; margin-left: 16px; white-space: nowrap;">Type: example</p>
-            <p style="cursor: pointer; color: black; font-weight: 700; margin-top: 16px; margin-left: 16px; white-space: nowrap;">Brief description</p>
-            <p style="color: black; display: none;"></p>
-            <p style="cursor: pointer; color: black; font-weight: 700; margin-top: 16px; margin-left: 16px; white-space: nowrap;">Tools used</p>
-            <p style="color: black; display: none;"></p>
-        </div>
-        <div style="flex: 1; display: flex; flex-direction: column; overflow-x: auto;">
-            <div style="flex: 0; text-align: right; margin-top: 15px;"><span id="buttonToLayoutList" class="btn btn-warning" style="border-radius: 1px;"><i class="fa fa-bars"></i> Table layout</span>&emsp;</div>
-            <!-- Projects table -->
-            <div style="
-            flex: 1;
-            display: flex;
-            margin-left: 18px;
-            margin-top: 18px;">
-                <div class="tableFixedHeader" id="MinDBtable" style="flex: 1;">
-                    <table class="table table-bordered table-striped" style="font-size: 18px; background-color: white;">
-                        <thead id="sortable-classes-table-head">
-                            <tr>
-                                <th class="sortable" data-index="Name" title="Project name">Name</th>
-                                <th class="sortable" data-index="Date" title="Date">Date</th>
-                                <th class="sortable" data-index="Type" title="Type: personal or for some organization">Type</th>
-                                <th data-index="Tools" title="Tools employed">Tools</th>
-                            </tr>
-                        </thead>
-                        <tbody id="sortable-classes-table-body">
-                            <!-- Table rows will be added dynamically here using JavaScript -->
-                        </tbody>
-                    </table>
-                </div>
-            </div>
-        </div>
     </div>
 </div>
 </body>
