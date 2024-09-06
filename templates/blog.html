@@ -4,10 +4,12 @@
     <meta name="darkreader-lock">
     <link rel="stylesheet" href="../libraries/bootstrap5.0.2/bootstrap.min.css">
     <link rel="stylesheet" href="../libraries/fontawesome6.5.1/css/all.min.css">
+    <script src="https://cdn.jsdelivr.net/npm/markdown-it/dist/markdown-it.min.js"></script>
     
     <link rel="stylesheet" href="../css/style.css">
+    <link rel="stylesheet" href="../css/github-markdown-dark.css">
+    <script src="../js/blog.js"></script>
     <script src="../js/topbar.js"></script>
-    <script src="../js/style.js"></script>
     <title>Blog</title>
 	
 	<!-- FAVICON -->
@@ -43,20 +45,8 @@ rootFolder="../">
 	<div id="HTMLtopbar" style="flex: 0;"></div>
     <div style="flex: 1; display: flex;">
         <div style="flex: 1;"></div>
-        <div style="flex: 0 1 800px; color: white;"><br><br><br>
-            <h1 style="font-weight: bold; color: white;">Blog</h2>
-            <br>tag filter selection
-            <br><br><br><h3 style="color: white;">2024</h3>
-            <br>
-            <div class="blogEntry"><div class="blogLink">Lorem ipsum - Lorem ipsum, dolor sit</div><div>29 Mar 24</div></div>
-            <div class="blogEntry"><div class="blogLink">Optio praesentium esse ea maiores assumenda aliquid ex. Sed, ullam maiores?</div><div>04 Jan 24</div></div>
-            <br><h3 style="color: white;">2024</h3>
-            <br>
-            <div class="blogEntry"><div class="blogLink">Lorem ipsum - Lorem ipsum, dolor sit</div><div>29 Mar 24</div></div>
-            <div class="blogEntry"><div class="blogLink">Optio praesentium esse ea maiores assumenda aliquid ex. Sed, ullam maiores?</div><div>04 Jan 24</div></div>
-            <div class="blogEntry"><div class="blogLink">Optio praesentium esse ea maiores assumenda aliquid ex. Sed, ullam maiores?</div><div>04 Jan 24</div></div>
-            <div class="blogEntry"><div class="blogLink">Optio praesentium esse ea maiores assumenda aliquid ex. Sed, ullam maiores?</div><div>04 Jan 24</div></div>
-        </div>
+        <div id="HTMLindex" style="flex: 0 1 800px; color: white;"></div>
+        <div class="markdown-body" id="HTMLpost" style="display: none; flex: 0 1 800px; color: white;"></div>
         <div style="flex: 1;"></div>
     </div>
 </div>

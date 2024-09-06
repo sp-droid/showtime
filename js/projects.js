@@ -53,7 +53,8 @@ document.addEventListener("DOMContentLoaded", function() {
                 projectElement.classList.add("gridElement");
                 projectElement.setAttribute("target", "_blank");
                 projectElement.setAttribute("rel", "noopener noreferrer");
-                projectElement.setAttribute("href", data[i]["link"]);
+                
+                if (data[i]["link"] != "#") { projectElement.setAttribute("href", data[i]["link"]) }
                 projectElement.style.backgroundImage = `url('../img/projects/preview/${data[i]["bg"]}.jpg')`;
                 
                 const innerDiv = document.createElement("div");
