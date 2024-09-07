@@ -40,7 +40,7 @@ document.addEventListener("DOMContentLoaded", function() {
             
         HTMLindex.innerHTML = `
         <br><br><br>
-        <h1 style="font-weight: bold; color: white;">Blog</h2>
+        <h1 style="font-weight: bold; color: white;">Blog</h1>
         <br><h3 style="color: white;">${prevYear}</h3><br>
         `
         for (let i = 0; i < data.length; i++) {
@@ -73,9 +73,26 @@ document.addEventListener("DOMContentLoaded", function() {
                         return response.text();
                     })
                     .then(text => {
-                        text = text.replace("](assets/", "](../content/blog/assets/");
-                        const md = window.markdownit();
-                        HTMLpost.innerHTML = `${formatDatePost(data[i]["date"])}` + md.render(text);
+                        text = `###### ${formatDatePost(data[i]["date"])}\n`+
+                            `# ${data[i]["title"]}\n`+
+                            `##### Reading time: ${calculateReadingTime(text)} mins\n\n---\n`+
+                            text.replace("](assets/", "](../content/blog/assets/");
+
+                        const md = window.markdownit({
+                            highlight: function (str, lang) {
+                                if (lang && hljs.getLanguage(lang)) {
+                                try {
+                                    return hljs.highlight(str, { language: lang }).value;
+                                } catch (__) {}
+                                }
+                            
+                                return ''; // use external default escaping
+                            }
+                            })
+                            .use(window.markdownitFootnote)
+                            .use(window.markdownitTaskLists)
+                            .use(window.markdownitEmoji);
+                        HTMLpost.innerHTML = md.render(text);
 
                         HTMLindex.style.display = "none";
                         HTMLpost.style.display = "block";
@@ -94,61 +111,77 @@ document.addEventListener("DOMContentLoaded", function() {
         }
     }
 
-    // ################################
-    // ############# Date #############
-    // ################################
-    function formatDateIndex(inputDate) {
-        const parts = inputDate.split('/'); // Split the date string into parts
-        const day = parseInt(parts[0], 10); // Extract the day
-        const month = parseInt(parts[1], 10); // Extract the month
-        const year = parseInt(parts[2], 10); // Extract the year
-
-        // Create a new Date object
-        const date = new Date(year, month - 1, day);
-
-        // Define month names array
-        const monthNames = [
-            'Jan', 'Feb', 'Mar', 'Apr',
-            'May', 'Jun', 'Jul', 'Aug',
-            'Sep', 'Oct', 'Nov', 'Dec'
-        ];
-
-        // Get month name and append 'th', 'st', 'nd', 'rd' suffix for day
-        const monthName = monthNames[date.getMonth()];
-
-        // Construct formatted date string
-        const formattedDate = `${day} ${monthName} ${year-2000}`;
-
-        return [formattedDate, year];
-    }
-
-    function formatDatePost(inputDate) {
-        const parts = inputDate.split('/'); // Split the date string into parts
-        const day = parseInt(parts[0], 10); // Extract the day
-        const month = parseInt(parts[1], 10); // Extract the month
-        const year = parseInt(parts[2], 10); // Extract the year
-
-        // Create a new Date object
-        const date = new Date(year, month - 1, day);
-
-        // Define month names array
-        const monthNames = [
-            'January', 'February', 'March', 'April',
-            'May', 'June', 'July', 'August',
-            'September', 'October', 'November', 'December'
-        ];
-
-        // Get month name and append 'th', 'st', 'nd', 'rd' suffix for day
-        const monthName = monthNames[date.getMonth()];
-        const suffix = (day === 11 || day === 12 || day === 13) ? 'th' :
-                        (day % 10 === 1) ? 'st' :
-                        (day % 10 === 2) ? 'nd' :
-                        (day % 10 === 3) ? 'rd' : 'th';
-
-        // Construct formatted date string
-        const formattedDate = `${monthName} ${day}${suffix}, ${year}`;
-
-        return formattedDate;
-    }
-
 });
+
+// ################################
+// ############# Date #############
+// ################################
+function formatDateIndex(inputDate) {
+    const parts = inputDate.split('/'); // Split the date string into parts
+    const day = parseInt(parts[0], 10); // Extract the day
+    const month = parseInt(parts[1], 10); // Extract the month
+    const year = parseInt(parts[2], 10); // Extract the year
+
+    // Create a new Date object
+    const date = new Date(year, month - 1, day);
+
+    // Define month names array
+    const monthNames = [
+        'Jan', 'Feb', 'Mar', 'Apr',
+        'May', 'Jun', 'Jul', 'Aug',
+        'Sep', 'Oct', 'Nov', 'Dec'
+    ];
+
+    // Get month name and append 'th', 'st', 'nd', 'rd' suffix for day
+    const monthName = monthNames[date.getMonth()];
+
+    // Construct formatted date string
+    const formattedDate = `${day} ${monthName} ${year-2000}`;
+
+    return [formattedDate, year];
+}
+
+function formatDatePost(inputDate) {
+    const parts = inputDate.split('/'); // Split the date string into parts
+    const day = parseInt(parts[0], 10); // Extract the day
+    const month = parseInt(parts[1], 10); // Extract the month
+    const year = parseInt(parts[2], 10); // Extract the year
+
+    // Create a new Date object
+    const date = new Date(year, month - 1, day);
+
+    // Define month names array
+    const monthNames = [
+        'January', 'February', 'March', 'April',
+        'May', 'June', 'July', 'August',
+        'September', 'October', 'November', 'December'
+    ];
+
+    // Get month name and append 'th', 'st', 'nd', 'rd' suffix for day
+    const monthName = monthNames[date.getMonth()];
+    const suffix = (day === 11 || day === 12 || day === 13) ? 'th' :
+                    (day % 10 === 1) ? 'st' :
+                    (day % 10 === 2) ? 'nd' :
+                    (day % 10 === 3) ? 'rd' : 'th';
+
+    // Construct formatted date string
+    const formattedDate = `${monthName} ${day}${suffix}, ${year}`;
+
+    return formattedDate;
+}
+
+// ################################
+// ########### Read time ##########
+// ################################
+function calculateReadingTime(text) {
+    // Define average reading speed (words per minute)
+    const wordsPerMinute = 225;
+    
+    // Remove any extra spaces and count the number of words
+    const wordCount = text.trim().split(/\s+/).length;
+    
+    // Calculate the reading time in minutes
+    const timeInMinutes = Math.ceil(wordCount / wordsPerMinute);
+    
+    return timeInMinutes;
+}

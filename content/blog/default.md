@@ -1,6 +1,53 @@
+This post serves as cheat sheet and check for all supported markdown features in this blog.
+
+### But before, how does it work?
+
+I write markdown files using Typora as md editor, save them on the server and log an entry with metadata (title, filename, date, tags...) on a JSON file. The blog page works as a Single Page Application with a vanilla JS script that dynamically reads from that JSON file to build the index and serve the text. This text is rendered into HTML and styled. Markdown files are very lightweight and do not carry any CSS, so I can keep the transfer of data lightweight with a quite small need of processing. 
+
+The recipes part works differently. Since I am writing in plain text with custom styling, I need to run a python script for the ingredients/nutrition calculation, and the structure between recipes is shared, I'm storing the HTML files directly. However I think a SPA application would make more sense.
+
+The projects part is by definition very diverse so I'm keeping it as a simple grid with links to either videos, completely different pages or nothing at all.
+
+### Q&A
+
+1. **Why not render it server-side?**
+   This entire site is hosted on Github Pages, so I can't dynamically render anything server-side. I considered statically exporting the markdown files to HTML but they would occupy ~10-15x more space, and for the index I need some sort of organizational file anyway.
+2. **Why markdown?**
+   It's an easy markup language to learn and write very fast, it looks pretty by default, you can style it with different themes, it's very lightweight and it's probably the most popular tool for this purpose nowadays. Unless you are writing research papers (LaTeX is still considerably ahead) Markdown is probably The choice.
+3. **Why Typora?**
+   Years ago I tried a couple editors and this was the best one. It used to be free, now I believe it's behind a small 1 time fee. It's as fast as it gets, with ongoing support and you can use the theme you prefer.
+
+---
+
+:warning: Rendered using 📝[markdown-it](https://github.com/markdown-it/markdown-it) plus several other add-ons:
+
+- :bulb:[highlight.js](https://highlightjs.org/) for code syntax highlighting with the *Atom-one-dark* theme
+- markdown-it-[footnote plugin](https://github.com/markdown-it/markdown-it-footnote)
+- markdown-it-[task-lists plugin](https://github.com/revin/markdown-it-task-lists)
+- markdown-it-[emoji plugin](https://github.com/markdown-it/markdown-it-emoji)
+- Custom parsing for links and a custom CSS style based on [github-markdown-css](https://github.com/sindresorhus/github-markdown-css)
+
+
+
+Eq
+
+$\sqrt{3x-1}+(1+x)^2$
+$$
+\begin{array}{c}
+
+\nabla \times \vec{\mathbf{B}} -\, \frac1c\, \frac{\partial\vec{\mathbf{E}}}{\partial t} &
+= \frac{4\pi}{c}\vec{\mathbf{j}}    \nabla \cdot \vec{\mathbf{E}} & = 4 \pi \rho \\
+
+\nabla \times \vec{\mathbf{E}}\, +\, \frac1c\, \frac{\partial\vec{\mathbf{B}}}{\partial t} & = \vec{\mathbf{0}} \\
+
+\nabla \cdot \vec{\mathbf{B}} & = 0
+
+\end{array}
+$$
+
 # Headers
 
-```
+```markdown
 # h1 Heading 8-)
 ## h2 Heading
 ### h3 Heading
@@ -15,9 +62,9 @@ Alt-H1
 
 Alt-H2
 ------
-```	
+```
 
-# h1 Heading 8-)
+# h1 Heading
 ## h2 Heading
 ### h3 Heading
 #### h4 Heading
@@ -36,7 +83,7 @@ Alt-H2
 
 # Emphasis
 
-```
+```markdown
 Emphasis, aka italics, with *asterisks* or _underscores_.
 
 Strong emphasis, aka bold, with **asterisks** or __underscores__.
@@ -78,7 +125,7 @@ _This is italic text_
 
 # Lists
 
-```
+```markdown
 1. First ordered list item
 2. Another item
 ⋅⋅* Unordered sub-list.
@@ -154,7 +201,7 @@ _This is italic text_
 
 # Task lists
 
-```
+```markdown
 - [x] Finish my changes
 - [ ] Push my commits to GitHub
 - [ ] Open a pull request
@@ -188,7 +235,7 @@ Let's rename \*our-new-project\* to \*our-old-project\*.
 
 # Links
 
-```
+```markdown
 [I'm an inline-style link](https://www.google.com)
 
 [I'm an inline-style link with title](https://www.google.com "Google's Homepage")
@@ -238,7 +285,7 @@ Some text to show that the reference links can follow later.
 
 # Images
 
-```
+```markdown
 Here's our logo (hover to see the title text):
 
 Inline-style:
@@ -286,7 +333,7 @@ With a reference later in the document defining the URL location:
 
 # [Footnotes](https://github.com/markdown-it/markdown-it-footnote)
 
-```
+```markdown
 Footnote 1 link[^first].
 
 Footnote 2 link[^second].
@@ -325,7 +372,7 @@ Inline `code` has `back-ticks around` it.
 ```
 
 Inline `code` has `back-ticks around` it.
-
+#### C#
 ```c#
 using System.IO.Compression;
 
@@ -344,7 +391,7 @@ namespace MyApplication
     }
 }
 ```
-
+#### CSS
 ```css
 @font-face {
   font-family: Chunkfive; src: url('Chunkfive.otf');
@@ -362,7 +409,7 @@ body, .usertext {
   }
 }
 ```
-
+#### JS
 ```javascript
 function $initHighlight(block, cls) {
   try {
@@ -380,7 +427,7 @@ function $initHighlight(block, cls) {
 
 export  $initHighlight;
 ```
-
+#### PHP
 ```php
 require_once 'Zend/Uri/Http.php';
 
@@ -440,7 +487,7 @@ datahere
 
 # Tables
 
-```
+```markdown
 Colons can be used to align columns.
 
 | Tables        | Are           | Cool  |
@@ -530,7 +577,7 @@ Markdown | Less | Pretty
 
 # Blockquotes
 
-```
+```markdown
 > Blockquotes are very handy in email to emulate reply text.
 > This line is part of the same quote.
 
@@ -553,34 +600,12 @@ Quote break.
 > Blockquotes can also be nested...
 >> ...by using additional greater-than signs right next to each other...
 > > > ...or with spaces between arrows.
-
-------
-
-# Inline HTML
-
-```
-<dl>
-  <dt>Definition list</dt>
-  <dd>Is something people use sometimes.</dd>
-
-  <dt>Markdown in HTML</dt>
-  <dd>Does *not* work **very** well. Use HTML <em>tags</em>.</dd>
-</dl>
-```
-
-<dl>
-  <dt>Definition list</dt>
-  <dd>Is something people use sometimes.</dd>
-
-  <dt>Markdown in HTML</dt>
-  <dd>Does *not* work **very** well. Use HTML <em>tags</em>.</dd>
-</dl>
 
 ------
 
 # Horizontal Rules
 
-```
+```markdown
 Three or more...
 
 ---
@@ -614,18 +639,9 @@ Underscores
 
 # YouTube Videos
 
-```
-<a href="http://www.youtube.com/watch?feature=player_embedded&v=YOUTUBE_VIDEO_ID_HERE" target="_blank">
-<img src="http://img.youtube.com/vi/YOUTUBE_VIDEO_ID_HERE/0.jpg" alt="IMAGE ALT TEXT HERE" width="240" height="180" border="10">
-</a>
+```markdown
+[![Test video](https://img.youtube.com/vi/WO2b03Zdu4Q/0.jpg)](https://www.youtube.com/watch?v=WO2b03Zdu4Q)
 ```
 
-<a href="http://www.youtube.com/watch?feature=player_embedded&v=YOUTUBE_VIDEO_ID_HERE" target="_blank">
-<img src="http://img.youtube.com/vi/YOUTUBE_VIDEO_ID_HERE/0.jpg" alt="IMAGE ALT TEXT HERE" width="240" height="180" border="10">
-</a>
+[![Test video](https://img.youtube.com/vi/WO2b03Zdu4Q/0.jpg)](https://www.youtube.com/watch?v=WO2b03Zdu4Q)
 
-```
-[![IMAGE ALT TEXT HERE](http://img.youtube.com/vi/YOUTUBE_VIDEO_ID_HERE/0.jpg)](http://www.youtube.com/watch?v=YOUTUBE_VIDEO_ID_HERE)
-```
-
-[![IMAGE ALT TEXT HERE](https://upload.wikimedia.org/wikipedia/commons/thumb/e/ef/YouTube_logo_2015.svg/1200px-YouTube_logo_2015.svg.png)](https://www.youtube.com/watch?v=ciawICBvQoE)
