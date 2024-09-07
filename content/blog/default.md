@@ -27,24 +27,6 @@ The projects part is by definition very diverse so I'm keeping it as a simple gr
 - markdown-it-[emoji plugin](https://github.com/markdown-it/markdown-it-emoji)
 - Custom parsing for links and a custom CSS style based on [github-markdown-css](https://github.com/sindresorhus/github-markdown-css)
 
-
-
-Eq
-
-$\sqrt{3x-1}+(1+x)^2$
-$$
-\begin{array}{c}
-
-\nabla \times \vec{\mathbf{B}} -\, \frac1c\, \frac{\partial\vec{\mathbf{E}}}{\partial t} &
-= \frac{4\pi}{c}\vec{\mathbf{j}}    \nabla \cdot \vec{\mathbf{E}} & = 4 \pi \rho \\
-
-\nabla \times \vec{\mathbf{E}}\, +\, \frac1c\, \frac{\partial\vec{\mathbf{B}}}{\partial t} & = \vec{\mathbf{0}} \\
-
-\nabla \cdot \vec{\mathbf{B}} & = 0
-
-\end{array}
-$$
-
 # Headers
 
 ```markdown
