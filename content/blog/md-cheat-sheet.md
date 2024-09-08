@@ -2,9 +2,9 @@ This post serves as cheat sheet and check for all supported markdown features in
 
 ### But before, how does it work?
 
-I write markdown files using Typora as md editor, save them on the server and log an entry with metadata (title, filename, date, tags...) on a JSON file. The blog page works as a Single Page Application with a vanilla JS script that dynamically reads from that JSON file to build the index and serve the text. This text is rendered into HTML and styled. Markdown files are very lightweight and do not carry any CSS, so I can keep the transfer of data lightweight with a quite small need of processing. 
+I write markdown files using Typora as md editor, save them on the server and log an entry with metadata (title, filename, date, tags...) on a JSON file. The blog page works as a Single Page Application with a vanilla JS script that dynamically reads from that JSON file to build the index and serve the text. This text is rendered into HTML and styled. Markdown files are very lightweight and do not carry any CSS, so I can keep the transfer of data lightweight with a quite small need of processing. Update: I'm going to revert to multi-page very soon, as client-side SPAs have terrible SEO visibility.
 
-The recipes part works differently. Since I am writing in plain text with custom styling, I need to run a python script for the ingredients/nutrition calculation, and the structure between recipes is shared, I'm storing the HTML files directly. However I think a SPA application would make more sense.
+The recipes part works differently. Since I am writing in plain text with custom styling, I need to run a python script for the ingredients/nutrition calculation, and the structure between recipes is shared, I'm storing the HTML files directly.
 
 The projects part is by definition very diverse so I'm keeping it as a simple grid with links to either videos, completely different pages or nothing at all.
 
