@@ -11,6 +11,7 @@
   "license": "ISC",
   "type": "module",
   "dependencies": {
+    "@mdit/plugin-align": "^0.13.1",
     "@ruanyf/markdown-it-katex": "^5.0.0",
     "highlight.js": "^11.10.0",
     "markdown-it": "^14.1.0",

@@ -26,7 +26,22 @@ The projects part is by definition very diverse so I'm keeping it as a simple gr
 - markdown-it-[task-lists plugin](https://github.com/revin/markdown-it-task-lists)
 - markdown-it-[emoji plugin](https://github.com/markdown-it/markdown-it-emoji)
 - markdown-it-[katex plugin](https://github.com/ruanyf/markdown-it-katex) and [KaTeX](https://katex.org/) library
+- markdown-it-[align plugin](https://github.com/mdit-plugins/mdit-plugins/tree/main/packages/align)
 - Custom parsing for links and a custom CSS style based on [github-markdown-css](https://github.com/sindresorhus/github-markdown-css)
+
+# Align
+
+```
+Markdown doesn't natively support this feature! Available: center, left, right, justify
+Usage:
+::: center
+Contents to align center
+:::
+```
+
+::: center
+Contents to align center
+:::
 
 # Equations
 
@@ -38,6 +53,10 @@ $$\sqrt{3x-1}+(1+x)^2$$
 $\sqrt{3x-1}+(1+x)^2$
 
 ```latex
+Small block:
+$$
+\sqrt{3x-1}+(1+x)^2
+$$
 Block:
 $$
 \begin{array}{ccc}
@@ -53,6 +72,11 @@ $$
 $$
 ```
 
+Small block:
+$$
+\sqrt{3x-1}+(1+x)^2
+$$
+Block:
 $$
 \begin{array}{ccc}
 
@@ -65,7 +89,6 @@ $$
 
 \end{array}
 $$
-
 
 
 # Headers

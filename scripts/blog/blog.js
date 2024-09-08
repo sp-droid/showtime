@@ -7,6 +7,7 @@ import markdownitFootnote from "markdown-it-footnote";
 import markdownitTaskLists from "markdown-it-task-lists";
 import { full as markdownitEmoji } from "markdown-it-emoji";
 import markdownitKatex from "@ruanyf/markdown-it-katex";
+import { align as markdownitAlign } from "@mdit/plugin-align";
 import hljs from "highlight.js";
 
 // ################################
@@ -70,7 +71,8 @@ function savePost(data, date) {
             .use(markdownitFootnote)
             .use(markdownitTaskLists)
             .use(markdownitEmoji)
-            .use(markdownitKatex);
+            .use(markdownitKatex)
+            .use(markdownitAlign);
         text = md.render(text);
         text = template.replace("{{content}}", text);
         text = text.replace("{{title}}", data["title"]);
