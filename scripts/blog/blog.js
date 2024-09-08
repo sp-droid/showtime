@@ -6,6 +6,7 @@ import markdownit from "markdown-it";
 import markdownitFootnote from "markdown-it-footnote";
 import markdownitTaskLists from "markdown-it-task-lists";
 import { full as markdownitEmoji } from "markdown-it-emoji";
+import markdownitKatex from "@ruanyf/markdown-it-katex";
 import hljs from "highlight.js";
 
 // ################################
@@ -68,7 +69,8 @@ function savePost(data, date) {
             })
             .use(markdownitFootnote)
             .use(markdownitTaskLists)
-            .use(markdownitEmoji);
+            .use(markdownitEmoji)
+            .use(markdownitKatex);
         text = md.render(text);
         text = template.replace("{{content}}", text);
         text = text.replace("{{title}}", data["title"]);
@@ -80,96 +82,6 @@ function savePost(data, date) {
             }
         });        
     });
-}
-
-// fetch("/../../content/blog.json")
-//     .then(response => {
-//         if (!response.ok) { throw new Error('Network response was not ok'); }
-//         return response.json();
-//     })
-//     .then(data => {
-//         //makeIndex(data);
-//         console.log(data)
-//     })
-//     .catch(error => { console.error('There was a problem fetching the JSON data:', error); });
-
-// ################################
-// ######### Remake index #########
-// ################################
-function makeIndex(data) {
-    let [, prevYear] = formatDateIndex(data[0]["date"]);
-        
-    HTMLindex.innerHTML = `
-    <br><br><br>
-    <h1 style="font-weight: bold; color: white;">Blog</h1>
-    <br><h3 style="color: white;">${prevYear}</h3><br>
-    `
-    for (let i = 0; i < data.length; i++) {
-
-        const [date, year] = formatDateIndex(data[i]["date"]);
-        
-        if (year != prevYear) {
-            prevYear = year;
-            HTMLindex.appendChild(document.createElement("br"));
-            const dateTitle = document.createElement("h3");
-            dateTitle.style.color = "white";
-            dateTitle.textContent = year;
-            HTMLindex.appendChild(dateTitle)
-            HTMLindex.appendChild(document.createElement("br"));
-        }
-
-        // <div class="blogEntry"><div class="blogLink">Lorem ipsum - Lorem ipsum, dolor sit</div><div>29 Mar 24</div></div>
-
-        const indexEntry = document.createElement("div");
-        indexEntry.classList.add("blogEntry");
-        
-        const entryText = document.createElement("div");
-        entryText.classList.add("blogLink");
-        entryText.textContent = data[i]["title"];
-
-        entryText.addEventListener("click", function() {
-            fetch(`../content/blog/${data[i]["file"]}`)
-                .then(response => {
-                    if (!response.ok) { throw new Error('Network response was not ok'); }
-                    return response.text();
-                })
-                .then(text => {
-                    text = `###### ${formatDatePost(data[i]["date"])}\n`+
-                        `# ${data[i]["title"]}\n`+
-                        `##### Reading time: ${calculateReadingTime(text)} mins\n\n---\n`+
-                        text.replace("](assets/", "](../content/blog/assets/");
-
-                    const md = window.markdownit({
-                        highlight: function (str, lang) {
-                            if (lang && hljs.getLanguage(lang)) {
-                            try {
-                                return hljs.highlight(str, { language: lang }).value;
-                            } catch (__) {}
-                            }
-                        
-                            return ''; // use external default escaping
-                        }
-                        })
-                        .use(window.markdownitFootnote)
-                        .use(window.markdownitTaskLists)
-                        .use(window.markdownitEmoji);
-                    HTMLpost.innerHTML = md.render(text);
-
-                    HTMLindex.style.display = "none";
-                    HTMLpost.style.display = "block";
-                    home = false;
-                    history.pushState({ key: 'value' }, 'Title', `blog.html`);
-                })
-                .catch(error => { console.error('There was a problem fetching the markdown file:', error); });
-        });
-        
-        const entryDate = document.createElement("div");
-        entryDate.textContent = date;
-
-        indexEntry.appendChild(entryText);
-        indexEntry.appendChild(entryDate);
-        HTMLindex.appendChild(indexEntry);
-    }
 }
 
 // ################################

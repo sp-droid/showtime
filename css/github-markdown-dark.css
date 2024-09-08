@@ -1,4 +1,8 @@
 /*dark*/
+/* This is because when I add equations for some reason the layout expands vertically, this fixes it */
+html { 
+  overflow: hidden !important;
+}
 
 @media (max-width: 767px) {
   .markdown-body {

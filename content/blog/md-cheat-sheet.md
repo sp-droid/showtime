@@ -1,17 +1,17 @@
-This post serves as cheat sheet and check for all supported markdown features in this blog.
+This technical post serves as first ever blog entry, cheat sheet and check for all supported markdown features I could implement.
 
 ### But before, how does it work?
 
-I write markdown files using Typora as md editor, save them on the server and log an entry with metadata (title, filename, date, tags...) on a JSON file. The blog page works as a Single Page Application with a vanilla JS script that dynamically reads from that JSON file to build the index and serve the text. This text is rendered into HTML and styled. Markdown files are very lightweight and do not carry any CSS, so I can keep the transfer of data lightweight with a quite small need of processing. Update: I'm going to revert to multi-page very soon, as client-side SPAs have terrible SEO visibility.
+I write markdown files using Typora as md editor, save them on the server and log an entry with metadata (title, filename, date, tags...) on a JSON file. Before uploading I run a script that, among other things, renders the markdown text into HTML. Since I found very good packages in JS, I'm using that language on top of node.js as package manager, called through _subprocess_ via the main python script.
 
 The recipes part works differently. Since I am writing in plain text with custom styling, I need to run a python script for the ingredients/nutrition calculation, and the structure between recipes is shared, I'm storing the HTML files directly.
 
-The projects part is by definition very diverse so I'm keeping it as a simple grid with links to either videos, completely different pages or nothing at all.
+The projects part is by definition very diverse so I'm keeping it as a simple grid with links to either videos, completely different pages or nothing at all. It relies on JS to bring up the content, but I'm planning on at least statically typing the links to each project beforehand so they are visible to crawlers.
 
 ### Q&A
 
-1. **Why not render it server-side?**
-   This entire site is hosted on Github Pages, so I can't dynamically render anything server-side. I considered statically exporting the markdown files to HTML but they would occupy ~10-15x more space, and for the index I need some sort of organizational file anyway.
+1. **Why not render it dynamically?**
+   This entire site is hosted on Github Pages, so I can't dynamically render anything server-side. I considered and actually fully completed a Single Page Application, rendering everything client-side, but I found out how terrible its SEO capabilities were so I reverted to making them statically.
 2. **Why markdown?**
    It's an easy markup language to learn and write very fast, it looks pretty by default, you can style it with different themes, it's very lightweight and it's probably the most popular tool for this purpose nowadays. Unless you are writing research papers (LaTeX is still considerably ahead) Markdown is probably The choice.
 3. **Why Typora?**
@@ -25,7 +25,48 @@ The projects part is by definition very diverse so I'm keeping it as a simple gr
 - markdown-it-[footnote plugin](https://github.com/markdown-it/markdown-it-footnote)
 - markdown-it-[task-lists plugin](https://github.com/revin/markdown-it-task-lists)
 - markdown-it-[emoji plugin](https://github.com/markdown-it/markdown-it-emoji)
+- markdown-it-[katex plugin](https://github.com/ruanyf/markdown-it-katex) and [KaTeX](https://katex.org/) library
 - Custom parsing for links and a custom CSS style based on [github-markdown-css](https://github.com/sindresorhus/github-markdown-css)
+
+# Equations
+
+```latex
+Inline:
+$$\sqrt{3x-1}+(1+x)^2$$
+```
+
+$\sqrt{3x-1}+(1+x)^2$
+
+```latex
+Block:
+$$
+\begin{array}{ccc}
+
+\nabla \times \vec{\mathbf{B}} -\, \frac1c\, \frac{\partial\vec{\mathbf{E}}}{\partial t} &
+= \frac{4\pi}{c}\vec{\mathbf{j}}    \nabla \cdot \vec{\mathbf{E}} & = 4 \pi \rho \\
+
+\nabla \times \vec{\mathbf{E}}\, +\, \frac1c\, \frac{\partial\vec{\mathbf{B}}}{\partial t} & = \vec{\mathbf{0}} \\
+
+\nabla \cdot \vec{\mathbf{B}} & = 0
+
+\end{array}
+$$
+```
+
+$$
+\begin{array}{ccc}
+
+\nabla \times \vec{\mathbf{B}} -\, \frac1c\, \frac{\partial\vec{\mathbf{E}}}{\partial t} &
+= \frac{4\pi}{c}\vec{\mathbf{j}}    \nabla \cdot \vec{\mathbf{E}} & = 4 \pi \rho \\
+
+\nabla \times \vec{\mathbf{E}}\, +\, \frac1c\, \frac{\partial\vec{\mathbf{B}}}{\partial t} & = \vec{\mathbf{0}} \\
+
+\nabla \cdot \vec{\mathbf{B}} & = 0
+
+\end{array}
+$$
+
+
 
 # Headers
 

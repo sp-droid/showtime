@@ -1,23 +1,6 @@
 document.addEventListener("DOMContentLoaded", function() {
     
     const HTMLindex = document.getElementById("HTMLindex");
-    const HTMLpost = document.getElementById("HTMLpost");
-    let home = true;
-
-    // ################################
-    // ###### Back button behav. ######
-    // ################################
-    window.addEventListener('popstate', function(event) {
-        if (home === false) {
-            HTMLpost.style.display = "none";
-            HTMLindex.style.display = "block";
-            home = true;
-        } else {
-            HTMLindex.style.display = "none";
-            HTMLpost.style.display = "block";
-            home = false;
-        }
-    });
 
     // ################################
     // ########## Blog index ##########
@@ -57,8 +40,6 @@ document.addEventListener("DOMContentLoaded", function() {
                 HTMLindex.appendChild(document.createElement("br"));
             }
 
-            // <div class="blogEntry"><div class="blogLink">Lorem ipsum - Lorem ipsum, dolor sit</div><div>29 Mar 24</div></div>
-
             const indexEntry = document.createElement("div");
             indexEntry.classList.add("blogEntry");
             
@@ -67,39 +48,7 @@ document.addEventListener("DOMContentLoaded", function() {
             entryText.textContent = data[i]["title"];
 
             entryText.addEventListener("click", function() {
-                fetch(`../content/blog/${data[i]["file"]}`)
-                    .then(response => {
-                        if (!response.ok) { throw new Error('Network response was not ok'); }
-                        return response.text();
-                    })
-                    .then(text => {
-                        text = `###### ${formatDatePost(data[i]["date"])}\n`+
-                            `# ${data[i]["title"]}\n`+
-                            `##### Reading time: ${calculateReadingTime(text)} mins\n\n---\n`+
-                            text.replace("](assets/", "](../content/blog/assets/");
-
-                        const md = window.markdownit({
-                            highlight: function (str, lang) {
-                                if (lang && hljs.getLanguage(lang)) {
-                                try {
-                                    return hljs.highlight(str, { language: lang }).value;
-                                } catch (__) {}
-                                }
-                            
-                                return ''; // use external default escaping
-                            }
-                            })
-                            .use(window.markdownitFootnote)
-                            .use(window.markdownitTaskLists)
-                            .use(window.markdownitEmoji);
-                        HTMLpost.innerHTML = md.render(text);
-
-                        HTMLindex.style.display = "none";
-                        HTMLpost.style.display = "block";
-                        home = false;
-                        history.pushState({ key: 'value' }, 'Title', `blog.html`);
-                    })
-                    .catch(error => { console.error('There was a problem fetching the markdown file:', error); });
+                window.location.href = `blog/${data[i]["file"]}.html`;
             });
             
             const entryDate = document.createElement("div");
