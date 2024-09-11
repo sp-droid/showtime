@@ -1,6 +1,11 @@
 document.addEventListener("DOMContentLoaded", function() {
     
-    const HTMLindex = document.getElementById("HTMLindex");
+    const HTMLbase = document.getElementById("HTMLindex").children[0];
+    const HTMLlist = document.getElementById("HTMLindex").children[1];
+
+    let blogJSON;
+    let uniqueTags;
+    let filtered = [];
 
     // ################################
     // ########## Blog index ##########
@@ -11,33 +16,73 @@ document.addEventListener("DOMContentLoaded", function() {
             return response.json();
         })
         .then(data => {
-            makeIndex(data);
+            blogJSON = data;
+            makeBase(blogJSON);
         })
         .catch(error => { console.error('There was a problem fetching the JSON data:', error); });
 
     // ################################
     // ######### Remake index #########
     // ################################
-    function makeIndex(data) {
-        let [, prevYear] = formatDateIndex(data[0]["date"]);
-            
-        HTMLindex.innerHTML = `
-        <br><br><br>
-        <h1 style="font-weight: bold; color: white;">Blog</h1>
-        <br><h3 style="color: white;">${prevYear}</h3><br>
-        `
-        for (let i = 0; i < data.length; i++) {
+    
+    function getIndicesOfMatchingTags(dict, includeList) {
+        if (includeList.length === 0) {
+            return dict.map((_, index) => index);
+        }
+        return dict
+            .map((entry, index) => includeList.includes(entry.tag) ? index : null)
+            .filter(index => index !== null);  // Filter out null values
+    }
 
+    function makeBase(data) {
+        HTMLbase.innerHTML = '<br><br><br><h1 style="font-weight: bold; color: white;">Blog</h1><br>'
+        
+        uniqueTags = [...new Set(data.map(entry => entry.tag))]
+        filtered = getIndicesOfMatchingTags(data, [])
+
+        const tags = document.createElement("div");
+        tags.classList.add("blogTags");        
+        for (let i = 0; i < uniqueTags.length; i++) {
+            const tag = document.createElement("button")
+            tag.textContent = uniqueTags[i];
+
+            tag.onclick = function() {
+                if (tag.classList.contains("blogTagSelected")) {
+                    tag.classList.remove("blogTagSelected")
+                    filtered = getIndicesOfMatchingTags(data, []);
+                } else {
+                    for (let j = 0; j < uniqueTags.length; j++) {
+                        tags.children[j].classList.remove('blogTagSelected');
+                    }
+                    tag.classList.add("blogTagSelected");
+                    filtered = getIndicesOfMatchingTags(data, [tag.textContent]);
+                }
+                fillList(data);
+                console.log(filtered)
+            }
+            tags.appendChild(tag);
+        }
+        HTMLbase.appendChild(tags);
+        HTMLbase.appendChild(document.createElement("br"));
+        fillList(data);
+    }
+
+    function fillList(data) {
+        let [, prevYear] = formatDateIndex(data[filtered[0]]["date"]);
+            
+        HTMLlist.innerHTML = `<h3 style="color: white;">${prevYear}</h3><br>`;
+        for (let index in filtered) {
+            let i = filtered[index];
             const [date, year] = formatDateIndex(data[i]["date"]);
             
             if (year != prevYear) {
                 prevYear = year;
-                HTMLindex.appendChild(document.createElement("br"));
+                HTMLlist.appendChild(document.createElement("br"));
                 const dateTitle = document.createElement("h3");
                 dateTitle.style.color = "white";
                 dateTitle.textContent = year;
-                HTMLindex.appendChild(dateTitle)
-                HTMLindex.appendChild(document.createElement("br"));
+                HTMLlist.appendChild(dateTitle)
+                HTMLlist.appendChild(document.createElement("br"));
             }
 
             const indexEntry = document.createElement("div");
@@ -56,7 +101,7 @@ document.addEventListener("DOMContentLoaded", function() {
 
             indexEntry.appendChild(entryText);
             indexEntry.appendChild(entryDate);
-            HTMLindex.appendChild(indexEntry);
+            HTMLlist.appendChild(indexEntry);
         }
     }
 

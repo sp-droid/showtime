@@ -93,6 +93,27 @@ p { font-size: 20px; }
 /* ################### */
 /* Blog */
 /* ################### */
+.blogTags button {
+    color: white;
+    font-size: 0.8em;
+    font-weight: 500;
+    background-color: transparent;
+    margin: 8px;
+    padding: 8px 16px 8px 16px;
+    border-radius: 6px;
+    border: 2px solid rgb(51, 65, 85);
+    transition: border-color 0.2s ease;
+}
+
+.blogTags button:hover {
+    border-color: rgb(219, 39, 119);
+}
+
+.blogTagSelected {
+    border-color:  rgb(219, 39, 119) !important;
+    
+}
+
 .blogEntry {
     display: flex;
     justify-content: space-between;
