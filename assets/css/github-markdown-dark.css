@@ -35,8 +35,17 @@ html {
   padding-bottom: 10px;
 }
 
+.markdown-body .footnote-item p {
+  padding-bottom: 0;
+}
+
+.markdown-body .footnote-item {
+  padding-bottom: 0;
+}
+
 .markdown-body li {
-  padding-bottom: 10px;
+  margin-top: 14px;
+  margin-bottom: 14px;
 }
 
 .markdown-body ul {
