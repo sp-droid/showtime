@@ -74,7 +74,7 @@ function savePost(data, date) {
             .use(markdownitKatex)
             .use(markdownitAlign);
         text = md.render(text);
-        text += `<hr><div class="blogTags blogTagSelected"><button title='Check more posts of the "${data["tag"]}" category on my blog!'>${data["tag"]}</button></div><br>`
+        text += `<hr><div class="blogTags"><button class="blogTagSelected" title='Check more posts of the "${data["tag"]}" category on my blog!'>${data["tag"]}</button></div><br>`
         text = template.replace("{{content}}", text);
         text = text.replace("{{title}}", data["title"]);
 
