@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta name="darkreader-lock">
+    <link rel="stylesheet" href="{{rootFolder}}assets/libraries/bootstrap5.0.2/bootstrap.min.css">
+    <link rel="stylesheet" href="{{rootFolder}}assets/libraries/fontawesome6.5.1/css/all.min.css">
+    
+    <script src="https://cdn.jsdelivr.net/npm/markdown-it/dist/markdown-it.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/markdown-it-footnote@4.0.0/dist/markdown-it-footnote.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/markdown-it-task-lists/dist/markdown-it-task-lists.min.js"></script>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/highlight.js@9.12.0/styles/atom-one-dark.css">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/highlight.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/markdown-it-emoji/dist/markdown-it-emoji.min.js"></script>
+
+    
+    <link rel="stylesheet" href="{{rootFolder}}assets/css/style.css">
+    <link rel="stylesheet" href="{{rootFolder}}assets/css/github-markdown-dark.css">
+    <script src="{{rootFolder}}assets/js/blog.js"></script>
+    <script src="{{rootFolder}}assets/js/common.js"></script>
+    <title>Blog</title>
+	
+	{{favicon}}
+</head>
+
+{{googleAnalytics}}
+
+<body>
+<div id="HTMLdata"
+section="blog">
+</div>
+<div style="display: flex; flex-direction: column; height: 100vh; width: 100vw; overflow-x: hidden; background-color: rgb(35, 39, 50);">
+	<div id="HTMLtopbar" style="flex: 0;">{{HTMLtopbar}}</div>
+    <div style="flex: 1; display: flex;">
+        <div style="flex: 1;"></div>
+        <div id="HTMLindex" style="flex: 0 1 800px; color: white;"></div>
+        <div class="markdown-body" id="HTMLpost" style="display: none; flex: 0 1 800px;"></div>
+        <div style="flex: 1;"></div>
+    </div>
+</div>
+</body>
+</html>

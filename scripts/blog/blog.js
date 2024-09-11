@@ -32,7 +32,7 @@ fs.readFile("../../content/blog.json", "utf8", (err, data) => {
 // ###### Retrieve template #######
 // ################################
 function retrieveTemplate() {
-    fs.readFile("../../templates/blog/template.html", "utf8", (err, data) => {
+    fs.readFile("../../assets/templates/blog/post.html", "utf8", (err, data) => {
         if (err) {
             console.error(err);
             return;
@@ -77,7 +77,7 @@ function savePost(data, date) {
         text = template.replace("{{content}}", text);
         text = text.replace("{{title}}", data["title"]);
 
-        fs.writeFile(`../../templates/blog/${data["file"]}.html`, text, 'utf8', (err) => {
+        fs.writeFile(`../../pages/blog/${data["file"]}.html`, text, 'utf8', (err) => {
             if (err) {
                 console.error('Error writing to file:', err);
                 return;

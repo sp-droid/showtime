@@ -14,13 +14,13 @@ def categoryIcon(category):
     return icon
 
 # Load ingredient facts datasheet
-foodProperties = pd.read_excel("data/foodProperties.xlsx", skiprows=2).fillna(0)
+foodProperties = pd.read_excel("assets/data/recipes/foodProperties.xlsx", skiprows=2).fillna(0)
 # Load special food conversions, e.g. how many grams is an average egg or garlic clove
-with open("data/specialFoods.json", "r") as file: specialFoods = json.load(file)
+with open("assets/data/recipes/specialFoods.json", "r") as file: specialFoods = json.load(file)
 # Load Dietary reference intakes
-with open("data/dietaryReferenceIntakes.json", "r") as file: DRI = json.load(file)
+with open("assets/data/recipes/dietaryReferenceIntakes.json", "r") as file: DRI = json.load(file)
 # Load nutrient name conversion table
-with open("data/nutrientNames.json", "r") as file: nutrientNames = json.load(file)
+with open("assets/data/recipes/nutrientNames.json", "r") as file: nutrientNames = json.load(file)
 
 def getNutrition(string, nutrition):
     ingredient = string.lower().split("(")[0]
@@ -47,7 +47,7 @@ def getNutrition(string, nutrition):
     return nutrition
 
 # Load recipe template
-with open(f"templates/recipes/template.html", "r") as file:
+with open(f"assets/templates/recipes/recipe.html", "r") as file:
     template = file.read()
 
 # List existing recipes
@@ -89,7 +89,7 @@ for recipePath in pbar:
 
     utensils = ""
     for utensil in recipe["utensils"]:
-        utensils += f'<div class="recipeUtensil"><img src="../../img/icons/utensil{utensil}.png" alt=""><div>{utensil}</div></div>'
+        utensils += f'<div class="recipeUtensil"><img src="../../assets/img/icons/utensil{utensil}.png" alt=""><div>{utensil}</div></div>'
     content = content.replace("{{utensils}}", utensils)
 
     instructions = ""
@@ -156,7 +156,7 @@ for recipePath in pbar:
                 </div>"""
     content = content.replace("{{tips}}", tips)
 
-    with open(f"templates/recipes/{recipePath.stem}.html", "w", encoding="utf-8") as file:
+    with open(f"pages/recipes/{recipePath.stem}.html", "w", encoding="utf-8") as file:
         file.write(content)
 
     recipeRows += "<tr>"
@@ -165,11 +165,11 @@ for recipePath in pbar:
     recipeRows += f'<td>{recipe["flags"]["cuisine"]}</td>'
     if recipe["flags"]["finished"]: recipeRows += '<td>✅</td>'
     else: recipeRows += '<td>❌</td>'
-    recipeRows += f'<td><img src="../img/icons/difficulty{recipe["flags"]["difficulty"]}.png" alt="{recipe["flags"]["difficulty"]} difficulty icon"></td>'
+    recipeRows += f'<td><img src="../assets/img/icons/difficulty{recipe["flags"]["difficulty"]}.png" alt="{recipe["flags"]["difficulty"]} difficulty icon"></td>'
     recipeRows += "</tr>"
 
-with open("templates/recipes/templateIndex.html", "r", encoding="utf-8") as file:
+with open("assets/templates/recipes.html", "r", encoding="utf-8") as file:
     content = file.read()
 content = content.replace("{{recipeRows}}", recipeRows)
-with open(f"templates/recipes.html", "w", encoding="utf-8") as file:
+with open(f"pages/recipes.html", "w", encoding="utf-8") as file:
     file.write(content)

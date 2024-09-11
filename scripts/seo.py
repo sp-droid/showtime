@@ -1,5 +1,8 @@
 import re
 import json
+import pathlib
+
+from tqdm import tqdm
 
 sitemap = '''<?xml version="1.0" encoding="UTF-8"?>
 <urlset
@@ -12,37 +15,16 @@ sitemap = '''<?xml version="1.0" encoding="UTF-8"?>
   <loc>https://pabloarbelo.com/</loc>
   <priority>0.9</priority>
 </url>
-<url>
-  <loc>https://pabloarbelo.com/templates/about.html</loc>
-  <priority>0.7</priority>
-</url>
+'''
 
-<!-- PROJECTS -->
-<url>
-  <loc>https://pabloarbelo.com/templates/projects.html</loc>
-  <priority>0.7</priority>
-</url>'''
+for file in tqdm(list(pathlib.Path("pages/").rglob("*.html"))):
+    sitemap += f'\n<url><loc>https://pabloarbelo.com/{str(file).replace("\\","/")}</loc></url>'
 
 with open("content/projects.json", "r", encoding="utf-8") as file:
     contents = json.load(file)
 for entry in contents:
     if entry["link"][:2] == "..":
         sitemap += f'\n<url><loc>https://pabloarbelo.com/{entry["link"][3:]}</loc></url>'
-
-sitemap += '''\n
-<!-- RECIPES -->
-<url>
-  <loc>https://pabloarbelo.com/templates/recipes.html</loc>
-  <priority>0.7</priority>
-</url>'''
-# Recipes
-with open(f"templates/recipes.html", "r", encoding="utf-8") as file:
-    contents = file.read()
-
-pattern = r'href="recipes/([^"]+).html'
-matches = re.findall(pattern, contents)
-for match in matches:
-    sitemap += f'\n<url><loc>https://pabloarbelo.com/templates/recipes/{match}.html</loc></url>'
 
 sitemap += "\n\n</urlset>"
 
