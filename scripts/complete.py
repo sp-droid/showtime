@@ -34,3 +34,10 @@ for file in tqdm(list(pathlib.Path("pages/").rglob("*.html"))):
     rootFolder = "../" * depth
 
     fillFile(file, HTMLtopbar, favicon, googleAnalytics, rootFolder)
+
+with open("pages/about.html", 'r', encoding='utf-8') as file:
+        contents = file.read()
+contents = """<meta http-equiv="Refresh" content="0; url='pages/about.html'" />""" + contents
+contents = contents.replace("<title>About me</title>", "<title>Index</title>")
+with open("index.html", 'w', encoding='utf-8') as file:
+    file.write(contents)
