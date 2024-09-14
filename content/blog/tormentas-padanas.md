@@ -12,7 +12,7 @@ Juntos consiguieron navegar ese difícil río hasta que la corriente los separó
 
 A pesar de todo y de nada, lo que ocurrió y ocurrirá no impide que se entiendan, nunca lo hizo, aunque quizás tampoco nunca lo sepan. No obstante, haber entendido para nada quitó el ser dolido, si bien el dolor mismo deje de serlo esta propia noche tormentosa. Dolor por no poder reír con ella, dolor por no volver a compartir nada juntos, dolor por no verla sonreír una vez más, por contener durante tanto tiempo tantos adjetivos y nunca oírlos salir de *mi* voz, dolor por saber que no *sientes* nada. En cualquier caso, y aunque si pudiera intentarlo de nuevo lo haría diferente, no se arrepiente, porque a pesar de todo y de nada, fue sublime.
 
-Finalmente la noche llegó, y su conciencia aclaró. *Por mucho que otrora creyéseme capaz de haber querido, no fue hasta que decidió marcharse, no hasta poder ver el vital vacío dejado por su partida, que con certeza pude comprender cuánto había amado por vez primera, y que por eso mismo no podía seguir viviendo así.* Comprender al fin por qué todo hombre debe dejar descansar a un muchacho, que además pequeño fuera en este caso.
+Finalmente la noche llegó, y su conciencia aclaró. *Por mucho que otrora creyéseme capaz de haber querido, no fue hasta que decidió marcharse, no hasta poder ver el vital vacío dejado por su partida, que con certeza pude comprender cuánto había amado por vez primera, y que por eso mismo no podía seguir viviendo así.* Comprender al fin por qué todo hombre finalmente debe dejar descansar a su muchacho, que además pequeño fuera, en este caso.
 
 ::: right
 ***P.***
