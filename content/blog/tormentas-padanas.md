@@ -1,3 +1,7 @@
+Sobre idealizar la realidad, y despertar de ella.
+
+---
+
 Anoche hubo tormenta. Se dirá que eso no la hace una noche especial, pues muchas acaban y empiezan así, propio del temperamento de esta parte alpina de la llanura Padana. Para un pequeño que fuera además muchacho no hubo, en cambio, muchas más consecuentes en su recuerdo.
 
 ... eventualmente tuvo que crecer, pero el muchacho se encontró, lejos de esos simples días, hecho ya al resto del mundo, con una flor que le hizo volver.
