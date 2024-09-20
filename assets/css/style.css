@@ -305,14 +305,42 @@ p { font-size: 20px; }
 .gridElement:hover { box-shadow: 0 0 20px rgba(0,0,0,0.7); }
 .gridElement:hover > :first-child > :nth-child(2) { opacity: 1; }
 
-/* ################### */
-/* Carousel */
-/* ################### */
-.carrousel-child {
-    flex: 0;
-    opacity: 0.2;
-    transition: opacity 0.8s ease;
+/* ################################## */
+/* Recipes */
+/* ################################## */
+.recipesTop {
+    position: relative;
+}
+.recipesTop img {
+    width: 100%;
+    border-radius: 1px;
+}
+.recipesTop h2 {
+    position: absolute;
+    top: 10%;
+    width: 100%;
     text-align: center;
+    text-shadow: 2px 2px 4px black;
+    color: rgb(191, 240, 255);
+}
+.recipesTop h2:hover {
+    cursor: pointer;
+}
+.recipesTop h1 {
+    position: absolute;
+    top: 44%;
+    margin-left: 1em;
+    cursor: pointer;
+}
+
+.tableRecipes {
+    
+}
+.tableRecipes tbody {
+    font-size: smaller;    
+}
+.tableRecipes tbody:hover {
+    cursor: pointer;
 }
 
 /* ################################## */
