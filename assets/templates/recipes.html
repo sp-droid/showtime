@@ -25,31 +25,33 @@ section="recipes">
         <div style="flex: 1;"></div>
         <div id="HTMLindex" style="flex: 0 1 900px; color: white; background-color: rgb(18, 18, 19);">
             <div class="recipesTop">
-                <img src="../assets/img/recipes/amaretti.jpg" style="width: 80%;" alt="Picture of the dish">
-                <h2>Recipe title</h2>
-                <h1 style="margin-left: 1em;"><</h1>
-                <h1 style="right: 20%; margin-right: 1em; text-align: right;">></h1>
+                <img id="imageRecipe" src="../assets/img/recipes/amaretti.jpg" style="width: 80%;" alt="Picture of the dish">
+                <a id="titleRecipe" href="#"><h2>Recipe title</h2></a>
+                <h1 id="buttonPrevRecipe" style="margin-left: 1em;"><</h1>
+                <h1 id="buttonNextRecipe" style="right: 20%; margin-right: 1em; text-align: right;">></h1>
                 <div class="recipesVerticalFlags">
-                    <div>
-                        <div><img src="../assets/img/icons/difficultyVery easy.png" alt="Very easy difficulty icon"></div>
-                        <strong>DIFFICULTY</strong><p>Very easy</p>
+                    <div id="flagDifficulty">
+                        <img src="../assets/img/icons/difficultyVery easy.png">
+                        <strong>Very easy</strong>
                     </div>
-                    <div style="top: 25%;">
-                        <div><img src="../assets/img/icons/cuisineItalian.png" alt="Italian cuisine icon"></div>
-                        <strong>CUISINE</strong><p>Italian</p>
+                    <div id="flagCuisine" style="top: 25%;">
+                        <img src="../assets/img/icons/cuisineItalian.png">
+                        <strong>Italian</strong>
                     </div>
                     <div style="top: 50%;">
-                        <div><img src="../assets/img/icons/prepTime.png" alt="Prep time icon"></div>
-                        <strong>PREP TIME</strong><p>20'</p>
+                        <img src="../assets/img/icons/prepTime.png">
+                        <strong id="flagPrepTime">20'</strong>
                     </div>
                     <div style="top: 75%; border: none;">
-                        <div><img src="../assets/img/icons/totalTime.png" alt="Total time icon"></div>
-                        <strong>TOTAL TIME</strong><p>45'</p>
+                        <img src="../assets/img/icons/totalTime.png">
+                        <strong id="flagTotalTime">45'</strong>
                     </div>
                 </div>
             </div>
+            <div style="border-bottom: 2px solid rgb(143, 108, 80); height: 2px;"></div>
             <br>
-            <table class="table table-dark table-striped table-hover tableRecipes" style="width: 100%;">
+            <div style="border-bottom: 2px solid rgb(143, 108, 80);"></div>
+            <table id="tableRecipes" class="table table-dark table-striped table-hover tableRecipes" style="width: 100%;">
                 <thead>
                     <tr>
                         <th>Recipe</th>

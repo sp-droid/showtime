@@ -160,14 +160,18 @@ for recipePath in pbar:
         file.write(content)
 
     recipeRows += "<tr>"
-    recipeRows += f'<td><a style="text-decoration: none;" href="recipes/{recipePath.stem}.html">{recipe["name"]}</a></td>'
+    recipeRows += f'<td>{recipe["name"]}</td>'
     recipeRows += f'<td>{recipe["category"]}</td>'
     recipeRows += f'<td>{recipe["flags"]["cuisine"]}</td>'
     if recipe["flags"]["finished"]: recipeRows += '<td>✅</td>'
     else: recipeRows += '<td>❌</td>'
     if recipe["flags"]["totalTime"] == "Idem": recipeRows += f'<td>{recipe["flags"]["prepTime"]}</td>'
     else: recipeRows += f'<td>{recipe["flags"]["totalTime"]}</td>'
-    recipeRows += f'<td><img src="../assets/img/icons/difficulty{recipe["flags"]["difficulty"]}.png" alt="{recipe["flags"]["difficulty"]} difficulty icon"></td>'
+    recipeRows += f'<td>{recipe["flags"]["difficulty"]}</td>'
+    recipeRows += f'<td>{recipePath.stem}</td>'
+    recipeRows += f'<td>{recipe["origin"]}</td>'
+    recipeRows += f'<td>{recipe["description"]}</td>'
+    recipeRows += f'<td>{recipe["flags"]["prepTime"]}</td>'
     recipeRows += "</tr>"
 
 with open("assets/templates/recipes.html", "r", encoding="utf-8") as file:
