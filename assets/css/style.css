@@ -14,8 +14,6 @@ body {
 }
 
 /* DESKTOP, DEFAULT */
-.shortScreen { display: none; }
-.longScreen { display: inline; }
 #linksTopbar {
     height: 40px;
     font-size: 16px;
@@ -42,15 +40,18 @@ p { font-size: 20px; }
 .pRich { font-size: 20px; color: rgb(230, 213, 189); }
 
 /* SMALL DESKTOP */
-@media screen and (max-width: 1000px) {
-    .shortScreen { display: inline; }
-    .longScreen { display: none; }
+@media screen and (max-width: 1600px) {
+    #linksTopbar {
+        height: 34px;
+    }
+    #navTopbar {
+        font-size: 20px;
+        height: 48px;
+    }
 }
 
 /* MOBILE PORTRAIT */
 @media (hover: none) and (orientation: portrait) {
-    .shortScreen { display: inline; }
-    .longScreen { display: none; }
     #linksTopbar {
         height: 76px;
         font-size: 29px;
@@ -71,8 +72,6 @@ p { font-size: 20px; }
 
 /* MOBILE LANDSCAPE */
 @media (hover: none) and (orientation: landscape) {
-    .shortScreen { display: none; }
-    .longScreen { display: inline; }
     #navTopbar {
         height: 72px;
         font-size: 21px;
@@ -318,7 +317,7 @@ p { font-size: 20px; }
 .recipesTop h2 {
     position: absolute;
     top: 10%;
-    width: 100%;
+    width: 80%;
     text-align: center;
     text-shadow: 2px 2px 4px black;
     color: rgb(191, 240, 255);
@@ -331,6 +330,21 @@ p { font-size: 20px; }
     top: 44%;
     margin-left: 1em;
     cursor: pointer;
+}
+
+.recipesVerticalFlags {
+    left: 80%;
+    width: 20%;
+    height: 100%;
+    top: 0;
+    position: absolute;
+}
+.recipesVerticalFlags div {
+    width: 100%;
+    height: 25%;
+    border-bottom: 1px solid rgb(143, 108, 80);
+    font-size: small;
+    position: absolute;
 }
 
 .tableRecipes {
