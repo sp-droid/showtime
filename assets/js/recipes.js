@@ -60,7 +60,7 @@ document.addEventListener("DOMContentLoaded", function() {
     });
 
     function selectRecipe(i) {
-        tableRecipesBody.children[prevSelected].style.textShadow = 'none';
+        tableRecipesBody.children[prevSelected].children[0].style.fontWeight = 'normal';
 
         imageRecipe.style.opacity = 0;
         setTimeout(() => {
@@ -80,7 +80,7 @@ document.addEventListener("DOMContentLoaded", function() {
         flagPrepTime.textContent = data[i]['prepTime'];
         flagTotalTime.textContent = data[i]['time'];
 
-        tableRecipesBody.children[selected].style.textShadow = '0.3px 0 0 white, -0.3px 0 0 white';
+        tableRecipesBody.children[selected].children[0].style.fontWeight = 'bolder';
     }
 
     function fillTable() {
