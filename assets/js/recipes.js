@@ -18,6 +18,7 @@ document.addEventListener("DOMContentLoaded", function() {
             'prepTime': row[9].textContent
         }  
     }
+    // something
     let order = Array(data.length);
     const fields = ['name','category','cuisine','time','difficulty'];
     let reOrder = Array(fields.length).fill(1);
