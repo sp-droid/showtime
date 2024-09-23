@@ -18,11 +18,12 @@ document.addEventListener("DOMContentLoaded", function() {
             'prepTime': row[9].textContent
         }  
     }
+    let order = Array(data.length);
+    const fields = ['name','category','cuisine','finished','time','difficulty'];
+    let reOrder = Array(fields.length).fill(1);
 
-    fillTable();
-
-    let selected = 0;
-    let prevSelected = 0;
+    let selected;
+    let prevSelected;
     const imageRecipe = document.getElementById('imageRecipe');
     const titleRecipe = document.getElementById('titleRecipe');
     const buttonPrevRecipe = document.getElementById('buttonPrevRecipe');
@@ -31,7 +32,14 @@ document.addEventListener("DOMContentLoaded", function() {
     const flagCuisine = document.getElementById('flagCuisine');
     const flagPrepTime = document.getElementById('flagPrepTime');
     const flagTotalTime = document.getElementById('flagTotalTime');
-    selectRecipe(selected);
+
+    const tableRecipesHead = document.getElementById('tableRecipes').children[0].children[0];
+    for (let i = 0; i < tableRecipesHead.children.length; i++) {
+        tableRecipesHead.children[i].addEventListener('click', function() {
+            orderData(i);
+        })
+    }
+    orderData(0); 
 
     buttonPrevRecipe.addEventListener('click', function() {
         prevSelected = selected;
@@ -59,7 +67,62 @@ document.addEventListener("DOMContentLoaded", function() {
         }
     });
 
-    function selectRecipe(i) {
+    function orderData(column) {
+        const field = fields[column];
+        
+        if (field === 'difficulty') {
+            func = function(x) { 
+                if (x === 'Very easy') { return 0; 
+                } else if (x === 'Easy') { return 1;
+                } else if (x === 'Medium') { return 2;
+                } else { return 3; }
+            }
+        } else if (field === 'time') {
+            func = function(x) {
+                let count = 0;
+                
+                const parts = x.split(' ');
+                for (let i=0; i<parts.length; i++) {
+                    const number = parseInt(parts[i].match(/\d+/)[0]);
+                    if (parts[i].includes('d')) {
+                        count += number*1440;
+                    } else if (parts[i].includes('h')) {
+                        count += number*60;
+                    } else {
+                        count += number;
+                    }
+                }
+                return count;
+            }
+        } else {
+            func = function(x) { return String(x); }
+        }
+        const orderList = data.map((item, index) => ({ value: func(item[field]), index: index }));
+        
+        order = orderList
+            .sort((a, b) => {
+                let comparison;
+                if (typeof a.value === 'string') { comparison = reOrder[column]*a.value.localeCompare(b.value);
+                } else {
+                    comparison = reOrder[column] * (a.value - b.value);
+                }
+
+                if (comparison == 0) { comparison = a.index - b.index; }
+                return comparison
+            })
+            .map(item => item.index);
+        
+        reOrder[column] *= -1;
+
+        fillTable();
+
+        selected = 0;
+        prevSelected = 0;
+        selectRecipe(selected);
+    }
+
+    function selectRecipe(j) {
+        const i = order[j];
         tableRecipesBody.children[prevSelected].children[0].style.fontWeight = 'normal';
 
         imageRecipe.style.opacity = 0;
@@ -85,7 +148,8 @@ document.addEventListener("DOMContentLoaded", function() {
 
     function fillTable() {
         tableRecipesBody.innerHTML = '';
-        for (let i = 0; i < data.length; i++) {
+        for (let j = 0; j < order.length; j++) {
+            const i = order[j];
             const newRow = document.createElement('tr');
 
             const name = document.createElement('td');
@@ -122,7 +186,7 @@ document.addEventListener("DOMContentLoaded", function() {
 
             newRow.addEventListener('click', function() {
                 prevSelected = selected;
-                selected = i;
+                selected = j;
                 selectRecipe(selected);
             })
             tableRecipesBody.appendChild(newRow);

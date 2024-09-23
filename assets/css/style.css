@@ -371,31 +371,6 @@ p { font-size: 20px; }
 .tableRecipes tbody {
     font-size: smaller;    
 }
-.tableRecipes tbody:hover {
+.tableRecipes tr:hover {
     cursor: pointer;
-}
-
-/* ################################## */
-/* Fixed header scrollable body table */
-/* ################################## */
-.tableFixedHeader {
-    overflow: auto;
-}
-/* First row sticky to the top when scrolling vertically */
-.tableFixedHeader thead th {
-    position: sticky;
-    top: 0;
-    text-align: center;
-}
-/* First header sticky to the left when scrolling horizontally */
-.tableFixedHeader thead th:first-child {
-    left: 0;
-    z-index: 2;
-}
-/* First column slightly bolder and sticky to the left when scrolling horizontally */
-.tableFixedHeader tbody td:first-child {
-    position: sticky;
-    left: 0;
-    z-index: 1;
-    font-weight: 500;
 }
