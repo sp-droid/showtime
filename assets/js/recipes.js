@@ -19,7 +19,7 @@ document.addEventListener("DOMContentLoaded", function() {
         }  
     }
     let order = Array(data.length);
-    const fields = ['name','category','cuisine','finished','time','difficulty'];
+    const fields = ['name','category','cuisine','time','difficulty'];
     let reOrder = Array(fields.length).fill(1);
 
     let selected;
@@ -154,7 +154,7 @@ document.addEventListener("DOMContentLoaded", function() {
 
             const name = document.createElement('td');
             const link = document.createElement('a');
-            link.textContent = data[i]['name'];
+            link.textContent = data[i]['name']+data[i]['finished'];
             link.href = `recipes/${data[i]['file']}.html`;
             link.title = data[i]['description'];
             name.appendChild(link);
@@ -168,10 +168,6 @@ document.addEventListener("DOMContentLoaded", function() {
             cuisine.textContent = data[i]['cuisine'];
             cuisine.title = data[i]['origin'];
             newRow.appendChild(cuisine);
-
-            const finished = document.createElement('td');
-            finished.textContent = data[i]['finished'];
-            newRow.appendChild(finished);
 
             const time = document.createElement('td');
             time.textContent = data[i]['time'];

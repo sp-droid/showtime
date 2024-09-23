@@ -163,7 +163,7 @@ for recipePath in pbar:
     recipeRows += f'<td>{recipe["name"]}</td>'
     recipeRows += f'<td>{recipe["category"]}</td>'
     recipeRows += f'<td>{recipe["flags"]["cuisine"]}</td>'
-    if recipe["flags"]["finished"]: recipeRows += '<td>✅</td>'
+    if recipe["flags"]["finished"]: recipeRows += '<td></td>'
     else: recipeRows += '<td>❌</td>'
     if recipe["flags"]["totalTime"] == "Idem": recipeRows += f'<td>{recipe["flags"]["prepTime"]}</td>'
     else: recipeRows += f'<td>{recipe["flags"]["totalTime"]}</td>'
