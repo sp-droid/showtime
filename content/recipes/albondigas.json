@@ -1,0 +1,58 @@
+{
+    "name": "Albóndigas en salsa",
+    "category": "Main courses",
+    "description": "/'Meatballs in sauce'/ ",
+    "origin": "300s Rome, Ancient Rome. (De recoquinaria, Apicius)",
+    "portions": 3,
+    "flags": {
+        "difficulty": "Easy",
+        "cuisine": "Spanish",
+        "prepTime": "45'",
+        "totalTime": "1h 45'",
+        "lactoseFree": false,
+        "glutenFree": false,
+        "vegetarian": false,
+        "vegan": false,
+		"finished": false
+    },
+    "ingredients": {
+        "Meatballs": [
+            "250 g minced beef",
+			"250 g minced pork",
+			"1 egg",
+			"3 slices of sandwich bread (without the crust)",
+			"1 garlic clove (minced)",
+			"Salt",
+			"Pepper"
+        ],
+		"The rest": [
+			"2 garlic cloves (cut)",
+			"2 onions",
+			"",
+			"Half glass of white wine",
+			"Salt"
+		]
+    },
+    "utensils": [
+		"Pressure cooker",
+		"Hand blender"
+	],
+    "instructions": [
+        "- Pressure cook the meat with water and salt for 30'.",
+		"- Meanwhile, prepare the chickpeas, wash the cabbage (leave it whole), the beans, cut the pumpkin in blocks, the potatoes in big chunks, the carrots longitudinally, the tomatoes in two, the onion in two, wash the cob and remove the outer papery skin from the head of garlic.",
+		"- Open the pot, put everything in, cover with water, add some more salt and a teaspoon of paprika.",
+		"- Take some juice out and blend it with a piece of carrot (to give the potatoes color). Add it back in, seal and leave for 20'.",
+		"- I personally now take out the head of garlic, onion and cabbage as they are there for flavor only. Some eat the cabbage.",
+		"- You have to fish now the food that you want: Everything but the tomato. Don't worry, it will be used to make 'Sopa de puchero' the days after."
+    ],
+    "variants": [],
+    "tips": {
+        "culinary": [
+			"Be careful with the pressure cooker. Always count the time from when the pressure is high (vapor coming out, check valve rises...).",
+			"The nutritional information for this recipe is off since we only eat the tomato and a good part of the remains the days after."
+		],
+        "serving": [
+			"The person eating must add oil and vinegar on his own. If it's the first time start small, especially with the vinegar."
+		]
+    }
+}

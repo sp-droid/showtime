@@ -1,0 +1,65 @@
+{
+    "name": "Tartaletas dulces",
+    "category": "Desserts",
+    "description": "/'Sweet tartlets'/ Bite-sized pastries, filled with a variety of ingredients and open on top. Though first seen in older times, sweet tartlets came to popularity with the spread of sugar in medieval Europe",
+    "origin": "Medieval western Europe, France-England",
+    "portions": 20,
+    "flags": {
+        "difficulty": "Easy",
+        "cuisine": "Spanish",
+        "prepTime": "20'",
+        "totalTime": "45'",
+        "lactoseFree": false,
+        "glutenFree": false,
+        "vegetarian": false,
+        "vegan": false,
+		"finished": false
+    },
+    "ingredients": {
+        "Base": [
+            "200g flour",
+			"60g sugar",
+			"100g butter (salted may be ok, though I would go with unsalted and adding a pinch of salt instead)",
+			"1 egg",
+			"0.5 tsp baking powder",
+			"Moulds (paper or metal)",
+			"Vanilla (optional)"
+        ],
+		"Filling": [
+			"Depends, check below"
+		]
+    },
+    "utensils": [
+		"Oven",
+		"Rolling pin",
+		"Piping bag"
+    ],
+    "instructions": [
+		"# Base",
+		"- Mix flour, sugar and cold butter until well combined. Now add egg, vanilla and knead until well mixed. Put it in the fridge 1h.",
+		"- Using a rolling pin and sprinkling some flour if needed, extend the dough well, aiming for a 0.5-1mm thickness",
+		"- Preheat oven to []",
+		"- Meanwhile cut the dough sheet in portions and press them inside each mould. You can use the edge of a glass to press and cut evenly sized portions.",
+		"- Take out and add filling",
+		"",
+		"# Filling ideas",
+		"<a class='recipeLink' href='https://preppykitchen.com/dulce-de-leche/'>Dulce de leche</a>: Submerge a condensed milk can under water in a pot. Boil for 3h to get caramel-like color.",
+		"<a class='recipeLink' href='https://odelices.ouest-france.fr/recette/caramel-au-beurre-sale-a-tartiner-r941/'>Caramel au Beurre Salé</a>, nutella...",
+		"Jams, jellies",
+		"Fresh fruits",
+		"Special creams and custards: <a class='recipeLink' href='https://preppykitchen.com/lemon-curd/'>lemon curd</a>, <a class='recipeLink' href='https://www.youtube.com/watch?v=PcOa_ZAx2nI'>creme patisserie</a>, <a class='recipeLink' href='https://www.youtube.com/watch?v=8ouVYQhR6HE'>crema diplomatica</a>, <a class='recipeLink' href='https://www.livewellbakeoften.com/how-to-make-stabilized-whipped-cream/'>stabilized whipped cream</a>...",
+		"Shavings or dusting on top, from i.e. chocolate, cacao, cocoa, cinnamon",
+		"or a combination of any of the above.",
+		"",
+		"# Lattice crust top",
+		"If you plan on filling with jams, a good option is to make thin dough stripes to form a <a class='recipeLink' href='https://www.youtube.com/watch?v=vwQYd2ljw-4'>lattice pattern on top</a>"
+    ],
+    "variants": [],
+    "tips": {
+        "culinary": [
+			"When piping the filling, you can decorate as much as you want, but beware if it's not thick enough it will slowly lose shape.",
+			"Very humid fillings like cream may make the tartlet soggy on the bottom. Glazing it with jam first helps it remain dry."
+		],
+        "serving": []
+    }
+}

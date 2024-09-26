@@ -15,16 +15,21 @@ document.addEventListener("DOMContentLoaded", function() {
             'file': row[6].textContent,
             'origin': row[7].textContent,
             'description': row[8].textContent,
-            'prepTime': row[9].textContent
+            'prepTime': row[9].textContent,
+            'flagLactose': row[10].textContent,
+            'flagGluten': row[11].textContent,
+            'flagVegetarian': row[12].textContent,
+            'flagVegan': row[13].textContent
         }  
     }
-    // something
+    
     let order = Array(data.length);
+    let filteredOrder = Array(data.length);
     const fields = ['name','category','cuisine','time','difficulty'];
     let reOrder = Array(fields.length).fill(1);
 
-    let selected;
-    let prevSelected;
+    let selected = 0;
+    let prevSelected = 0;
     const imageRecipe = document.getElementById('imageRecipe');
     const titleRecipe = document.getElementById('titleRecipe');
     const buttonPrevRecipe = document.getElementById('buttonPrevRecipe');
@@ -40,7 +45,18 @@ document.addEventListener("DOMContentLoaded", function() {
             orderData(i);
         })
     }
-    orderData(0); 
+    const nameSearch = document.getElementById('nameSearch');
+    nameSearch.addEventListener('keyup', function() { orderData(-1); })
+    const checkboxLactose = document.getElementById('checkboxLactose');
+    const checkboxGluten = document.getElementById('checkboxGluten');
+    const checkboxVegetarian = document.getElementById('checkboxVegetarian');
+    const checkboxVegan = document.getElementById('checkboxVegan');
+    checkboxLactose.addEventListener('click', function() { orderData(-1); })
+    checkboxGluten.addEventListener('click', function() { orderData(-1); })
+    checkboxVegetarian.addEventListener('click', function() { orderData(-1); })
+    checkboxVegan.addEventListener('click', function() { orderData(-1); })
+    orderData(0);
+    selectRecipe(selected);
 
     buttonPrevRecipe.addEventListener('click', function() {
         prevSelected = selected;
@@ -69,61 +85,76 @@ document.addEventListener("DOMContentLoaded", function() {
     });
 
     function orderData(column) {
-        const field = fields[column];
+        // Order according to clicked column
+        if (column != -1) {
+            const field = fields[column];
         
-        if (field === 'difficulty') {
-            func = function(x) { 
-                if (x === 'Very easy') { return 0; 
-                } else if (x === 'Easy') { return 1;
-                } else if (x === 'Medium') { return 2;
-                } else { return 3; }
-            }
-        } else if (field === 'time') {
-            func = function(x) {
-                let count = 0;
-                
-                const parts = x.split(' ');
-                for (let i=0; i<parts.length; i++) {
-                    const number = parseInt(parts[i].match(/\d+/)[0]);
-                    if (parts[i].includes('d')) {
-                        count += number*1440;
-                    } else if (parts[i].includes('h')) {
-                        count += number*60;
-                    } else {
-                        count += number;
+            if (field === 'difficulty') {
+                func = function(x) { 
+                    if (x === 'Very easy') { return 0; 
+                    } else if (x === 'Easy') { return 1;
+                    } else if (x === 'Medium') { return 2;
+                    } else { return 3; }
+                }
+            } else if (field === 'time') {
+                func = function(x) {
+                    let count = 0;
+                    
+                    const parts = x.split(' ');
+                    for (let i=0; i<parts.length; i++) {
+                        const number = parseInt(parts[i].match(/\d+/)[0]);
+                        if (parts[i].includes('d')) {
+                            count += number*1440;
+                        } else if (parts[i].includes('h')) {
+                            count += number*60;
+                        } else {
+                            count += number;
+                        }
                     }
+                    return count;
                 }
-                return count;
+            } else {
+                func = function(x) { return String(x); }
             }
-        } else {
-            func = function(x) { return String(x); }
-        }
-        const orderList = data.map((item, index) => ({ value: func(item[field]), index: index }));
-        
-        order = orderList
-            .sort((a, b) => {
-                let comparison;
-                if (typeof a.value === 'string') { comparison = reOrder[column]*a.value.localeCompare(b.value);
-                } else {
-                    comparison = reOrder[column] * (a.value - b.value);
-                }
+            const orderList = data.map((item, index) => ({ value: func(item[field]), index: index }));
+            
+            order = orderList
+                .sort((a, b) => {
+                    let comparison;
+                    if (typeof a.value === 'string') { comparison = reOrder[column]*a.value.localeCompare(b.value);
+                    } else {
+                        comparison = reOrder[column] * (a.value - b.value);
+                    }
 
-                if (comparison == 0) { comparison = a.index - b.index; }
-                return comparison
-            })
-            .map(item => item.index);
-        
-        reOrder[column] *= -1;
+                    if (comparison == 0) { comparison = a.index - b.index; }
+                    return comparison
+                })
+                .map(item => item.index);
+            
+            reOrder[column] *= -1;
+        }
+
+        // Apply filters
+        filteredOrder = order.filter(i => {
+            const entry = data[i]
+            return (
+                (nameSearch.value === 'Search by name' || entry.name.toLowerCase().includes(nameSearch.value.toLowerCase())) &&
+                !(checkboxLactose.checked && entry.flagLactose !=='True') &&
+                !(checkboxGluten.checked && entry.flagGluten !=='True') &&
+                !(checkboxVegetarian.checked && entry.flagVegetarian !=='True') &&
+                !(checkboxVegan.checked && entry.flagVegan !=='True')
+            );
+        });
 
         fillTable();
 
-        selected = 0;
-        prevSelected = 0;
-        selectRecipe(selected);
+        // selected = 0;
+        // prevSelected = 0;
+        // selectRecipe(selected);
     }
 
     function selectRecipe(j) {
-        const i = order[j];
+        const i = filteredOrder[j];
         tableRecipesBody.children[prevSelected].children[0].style.fontWeight = 'normal';
 
         imageRecipe.style.opacity = 0;
@@ -149,8 +180,8 @@ document.addEventListener("DOMContentLoaded", function() {
 
     function fillTable() {
         tableRecipesBody.innerHTML = '';
-        for (let j = 0; j < order.length; j++) {
-            const i = order[j];
+        for (let j = 0; j < filteredOrder.length; j++) {
+            const i = filteredOrder[j];
             const newRow = document.createElement('tr');
 
             const name = document.createElement('td');

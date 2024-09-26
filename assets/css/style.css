@@ -227,6 +227,18 @@ p { font-size: 20px; }
     margin-top: 16px;
 }
 
+.recipeLink {
+    color: rgb(255, 187, 221);
+    text-decoration: underline;
+    text-decoration-color: rgb(71, 85, 105);
+    text-decoration-thickness: 4px;
+    text-underline-offset: 4px;
+}
+.recipeLink:hover {
+    color: rgb(255, 187, 221);
+    text-decoration-color: rgb(236, 72, 153);
+}
+
 /* ################### */
 /* Typewriter */
 /* ################### */

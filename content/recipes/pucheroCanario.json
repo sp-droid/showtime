@@ -3,12 +3,12 @@
     "category": "Main courses",
     "description": "/'Canarian earthenware cooked dish'/ Not really cooked on earthenware anymore! It's one of my favourite dishes. This recipe forces you to have a pressure cooker, but you can try just cooking for 3 times longer with a normal pot. You will also have to add the chickpeas and potatoes later or they will crumble to bits.",
     "origin": "1500s, Canary Islands.",
-    "portions": 3,
+    "portions": 4,
     "flags": {
-        "difficulty": "Medium",
+        "difficulty": "Easy",
         "cuisine": "Canarian",
-        "prepTime": "25'",
-        "totalTime": "1h 30'",
+        "prepTime": "35'",
+        "totalTime": "2h",
         "lactoseFree": true,
         "glutenFree": true,
         "vegetarian": false,
@@ -29,7 +29,7 @@
 			"1 cob of corn (can be sweet corn)",
 			"An entire head of garlic",
 			"Tsp of sweet paprika",
-			"Salt (This is a weak point in the recipe, I haven't measured either water or salt yet. Reminder to change it!)"
+			"Salt"
         ],
 		"Serving": [
 			"High quality olive oil",
@@ -41,12 +41,12 @@
 		"Hand blender"
 	],
     "instructions": [
-        "- Pressure cook the meat with water and salt for 30'.",
+        "- Pressure cook the meat with water and a bit of salt for 30'. I separate the fat from the lean parts, and cook the first ones on a separate pot with some water and salt to extract the juice before discarding them.",
 		"- Meanwhile, prepare the chickpeas, wash the cabbage (leave it whole), the beans, cut the pumpkin in blocks, the potatoes in big chunks, the carrots longitudinally, the tomatoes in two, the onion in two, wash the cob and remove the outer papery skin from the head of garlic.",
-		"- Open the pot, put everything in, cover with water, add some more salt and a teaspoon of paprika.",
+		"- Open the pot, put everything in, cover with water, add some more salt and a teaspoon of paprika. It shouldn't taste salty by any means, though.",
 		"- Take some juice out and blend it with a piece of carrot (to give the potatoes color). Add it back in, seal and leave for 20'.",
 		"- I personally now take out the head of garlic, onion and cabbage as they are there for flavor only. Some eat the cabbage.",
-		"- You have to fish now the food that you want: Everything but the tomato. Don't worry, it will be used to make 'Sopa de puchero' the days after."
+		"- You have to fish now the food that you want: Everything but the tomato. Don't worry, it will be used to make <a class='recipeLink' href='sopaPuchero.html'>sopa de puchero</a> the days after."
     ],
     "variants": [],
     "tips": {

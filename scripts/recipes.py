@@ -172,6 +172,10 @@ for recipePath in pbar:
     recipeRows += f'<td>{recipe["origin"]}</td>'
     recipeRows += f'<td>{recipe["description"]}</td>'
     recipeRows += f'<td>{recipe["flags"]["prepTime"]}</td>'
+    recipeRows += f'<td>{recipe["flags"]["lactoseFree"]}</td>'
+    recipeRows += f'<td>{recipe["flags"]["glutenFree"]}</td>'
+    recipeRows += f'<td>{recipe["flags"]["vegetarian"]}</td>'
+    recipeRows += f'<td>{recipe["flags"]["vegan"]}</td>'
     recipeRows += "</tr>"
 
 with open("assets/templates/recipes.html", "r", encoding="utf-8") as file:

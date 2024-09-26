@@ -50,6 +50,13 @@ section="recipes">
             </div>
             <div style="border-bottom: 2px solid rgb(143, 108, 80); height: 2px;"></div>
             <br>
+            <div style="display: flex; margin: 4px; font-size: smaller; align-items: center;">
+                <div style="flex: 2;"><input type="text" id="nameSearch" placeholder="Search by name" style="width: 100%;"></div>
+                <div style="flex: 1; text-align: center;"><label><input type="checkbox" id="checkboxLactose"> Lactose free</label></div>
+                <div style="flex: 1; text-align: center;"><label><input type="checkbox" id="checkboxGluten"> Gluten free</label></div>
+                <div style="flex: 1; text-align: center;"><label><input type="checkbox" id="checkboxVegetarian"> Vegetarian</label></div>
+                <div style="flex: 1; text-align: center;"><label><input type="checkbox" id="checkboxVegan"> Vegan</label></div>
+            </div>
             <div style="border-bottom: 2px solid rgb(143, 108, 80);"></div>
             <table id="tableRecipes" class="table table-dark table-striped table-hover tableRecipes" style="width: 100%;">
                 <thead>
