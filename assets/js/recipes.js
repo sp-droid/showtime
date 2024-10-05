@@ -9,7 +9,7 @@ document.addEventListener("DOMContentLoaded", function() {
             'name': row[0].textContent,
             'category': row[1].textContent,
             'cuisine': row[2].textContent,
-            'finished': row[3].textContent,
+            'finished': parseInt(row[3].textContent),
             'time': row[4].textContent,
             'difficulty': row[5].textContent,
             'file': row[6].textContent,
@@ -20,7 +20,7 @@ document.addEventListener("DOMContentLoaded", function() {
             'flagGluten': row[11].textContent,
             'flagVegetarian': row[12].textContent,
             'flagVegan': row[13].textContent
-        }  
+        }
     }
     
     let order = Array(data.length);
@@ -51,10 +51,12 @@ document.addEventListener("DOMContentLoaded", function() {
     const checkboxGluten = document.getElementById('checkboxGluten');
     const checkboxVegetarian = document.getElementById('checkboxVegetarian');
     const checkboxVegan = document.getElementById('checkboxVegan');
+    const checkboxIncomplete = document.getElementById('checkboxIncomplete');
     checkboxLactose.addEventListener('click', function() { orderData(-1); })
     checkboxGluten.addEventListener('click', function() { orderData(-1); })
     checkboxVegetarian.addEventListener('click', function() { orderData(-1); })
     checkboxVegan.addEventListener('click', function() { orderData(-1); })
+    checkboxIncomplete.addEventListener('click', function() { orderData(-1); })
     orderData(0);
     selectRecipe(selected);
 
@@ -137,12 +139,14 @@ document.addEventListener("DOMContentLoaded", function() {
         // Apply filters
         filteredOrder = order.filter(i => {
             const entry = data[i]
+            console.log(checkboxVegan.checkboxIncomplete == entry.finished)
             return (
                 (nameSearch.value === 'Search by name' || entry.name.toLowerCase().includes(nameSearch.value.toLowerCase())) &&
                 !(checkboxLactose.checked && entry.flagLactose !=='True') &&
                 !(checkboxGluten.checked && entry.flagGluten !=='True') &&
                 !(checkboxVegetarian.checked && entry.flagVegetarian !=='True') &&
-                !(checkboxVegan.checked && entry.flagVegan !=='True')
+                !(checkboxVegan.checked && entry.flagVegan !=='True') &&
+                !(checkboxIncomplete.checked == entry.finished)
             );
         });
 
@@ -186,7 +190,7 @@ document.addEventListener("DOMContentLoaded", function() {
 
             const name = document.createElement('td');
             const link = document.createElement('a');
-            link.textContent = data[i]['name']+data[i]['finished'];
+            link.textContent = data[i]['name'];
             link.href = `recipes/${data[i]['file']}.html`;
             link.title = data[i]['description'];
             name.appendChild(link);
