@@ -7,8 +7,8 @@
     "flags": {
         "difficulty": "Easy",
         "cuisine": "Spanish",
-        "prepTime": "45'",
-        "totalTime": "1h 45'",
+        "prepTime": "1h",
+        "totalTime": "2h",
         "lactoseFree": false,
         "glutenFree": false,
         "vegetarian": false,
@@ -20,39 +20,53 @@
             "250 g minced beef",
 			"250 g minced pork",
 			"1 egg",
-			"3 slices of sandwich bread (without the crust)",
+			"2 slices of sandwich bread (without the crust)",
+			"Milk",
 			"1 garlic clove (minced)",
 			"Salt",
-			"Pepper"
+			"Pepper",
+			"Flour"
         ],
 		"The rest": [
 			"2 garlic cloves (cut)",
 			"2 onions",
-			"",
-			"Half glass of white wine",
-			"Salt"
+			"3 ripe tomatoes (or equivalent)",
+			"Quarter glass of white wine",
+			"Salt",
+			"Sweet paprika",
+			"Bay leaf",
+			"Thyme",
+			"2 tbsp olive oil"
 		]
     },
     "utensils": [
-		"Pressure cooker",
-		"Hand blender"
+		"Kitchen pot",
+		"Pan"
 	],
     "instructions": [
-        "- Pressure cook the meat with water and salt for 30'.",
-		"- Meanwhile, prepare the chickpeas, wash the cabbage (leave it whole), the beans, cut the pumpkin in blocks, the potatoes in big chunks, the carrots longitudinally, the tomatoes in two, the onion in two, wash the cob and remove the outer papery skin from the head of garlic.",
-		"- Open the pot, put everything in, cover with water, add some more salt and a teaspoon of paprika.",
-		"- Take some juice out and blend it with a piece of carrot (to give the potatoes color). Add it back in, seal and leave for 20'.",
-		"- I personally now take out the head of garlic, onion and cabbage as they are there for flavor only. Some eat the cabbage.",
-		"- You have to fish now the food that you want: Everything but the tomato. Don't worry, it will be used to make 'Sopa de puchero' the days after."
+		"The first two steps can and should be prepared at the same time.",
+		"",
+        "# Tomatoes",
+		"- On a pot, put a tiny bit of oil with the tomatoes cut in half, cover and place on a low-medium heat.",
+		"- After some minutes the tomatoes are soft and they are to be mashed with a fork, and left cooking on low.",
+		"# Meatballs",
+		"- To a beaten egg add pepper, salt, a minced clove of garlic, mix well and add the meat. Shred the bread, slightly soak in milk and mix in with the rest.",
+		"- Add the 2 tbsp of oil on a pan and start heating on medium.",
+		"- Using the measure of your choice (i.e. a spoon) make evenly sized meatballs, cover in flour (shake the extra flour) and brown them on at least 2 sides.",
+		"- When they are done, add them to the tomato sauce, which by now can be turned off.",
+		"# Fritura",
+		"- Using the same oil, add the finely chopped onions, a tiny bit of the wine and deglaze using a wooden spatula to scrape the bottom of the pan.",
+		"- Add salt, finely chopped garlic, sliced carrots and cook on medium heat for at least 10-12'.",
+		"- Pour in the wine, wait until it evaporates completely and turn the heat off. Now move everything to the pot.",
+		"# Finishing",
+		"- Pour water until the meatballs are almost submerged, add a tsp of paprika, the bay leaf, a dusting of thyme and leave for 45'-1h on low-medium heat, half-covered.",
+		"- Correct for salt mid way, and check there is enough sauce or else add water."
     ],
-    "variants": [],
+    "variants": [
+		"I read once about an Italian grandma who added 1 or 2 seedless raisins to the meatballs' centers. I have done it and it's great. Soak them for a couple minutes in water before, but not too much."
+	],
     "tips": {
-        "culinary": [
-			"Be careful with the pressure cooker. Always count the time from when the pressure is high (vapor coming out, check valve rises...).",
-			"The nutritional information for this recipe is off since we only eat the tomato and a good part of the remains the days after."
-		],
-        "serving": [
-			"The person eating must add oil and vinegar on his own. If it's the first time start small, especially with the vinegar."
-		]
+        "culinary": [],
+        "serving": []
     }
 }
