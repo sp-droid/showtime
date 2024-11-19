@@ -1,19 +1,19 @@
 {
-    "name": "Albóndigas en salsa",
+    "name": "Estofado",
     "category": "Main courses",
     "description": "/'Meatballs in sauce'/ ",
     "origin": "300s Rome, Ancient Rome. (De recoquinaria, Apicius)",
     "portions": 3,
     "flags": {
-        "difficulty": "Medium",
+        "difficulty": "Easy",
         "cuisine": "Spanish",
         "prepTime": "1h",
         "totalTime": "2h",
-        "lactoseFree": false,
+        "lactoseFree": true,
         "glutenFree": false,
         "vegetarian": false,
         "vegan": false,
-		"finished": true
+		"finished": false
     },
     "ingredients": {
         "Meatballs": [
@@ -30,7 +30,6 @@
 		"The rest": [
 			"2 garlic cloves (cut)",
 			"2 onions",
-			"2 carrots",
 			"3 ripe tomatoes (or equivalent)",
 			"Quarter glass of white wine",
 			"Salt",
@@ -51,13 +50,12 @@
 		"- On a pot, put a tiny bit of oil with the tomatoes cut in half, cover and place on a low-medium heat.",
 		"- After some minutes the tomatoes are soft and they are to be mashed with a fork, and left cooking on low.",
 		"# Meatballs",
-		"- To a beaten egg add pepper, (quite a bit of) salt, a minced clove of garlic, mix well and add the meat. Shred the bread, slightly soak in milk and mix in with the rest.",
+		"- To a beaten egg add pepper, salt, a minced clove of garlic, mix well and add the meat. Shred the bread, slightly soak in milk and mix in with the rest.",
 		"- Add the 2 tbsp of oil on a pan and start heating on medium.",
 		"- Using the measure of your choice (i.e. a spoon) make evenly sized meatballs, cover in flour (shake the extra flour) and brown them on at least 2 sides.",
-		"- When they are done, add them to the tomato sauce, which by now can be turned off. Also remove any chunks left in the oil.",
+		"- When they are done, add them to the tomato sauce, which by now can be turned off.",
 		"# Fritura",
-		"- Deglaze the pan with a very tiny splash of the wine.",
-		"- Add the finely chopped onions, brown them. Sweetness is often an issue in this recipe and depends on the tomatoes, onion browning and if you decide to correct with sugar.",
+		"- Using the same oil, add the finely chopped onions, a tiny bit of the wine and deglaze using a wooden spatula to scrape the bottom of the pan.",
 		"- Add salt, finely chopped garlic, sliced carrots and cook on medium heat for at least 10-12'.",
 		"- Pour in the wine, wait until it evaporates completely and turn the heat off. Now move everything to the pot.",
 		"# Finishing",
@@ -65,8 +63,7 @@
 		"- Correct for salt mid way, and check there is enough sauce or else add water."
     ],
     "variants": [
-		"I read once about an Italian grandma who added 1 or 2 seedless raisins to each meatball. I simply add them to the mix after soaking them in water for a few minutes.",
-		"To improve thickness and texture, adding about 4 cashews to the tomato sauce helps. Remove them after a while, blend them very finely with a bit of water and pour it back in."
+		"I read once about an Italian grandma who added 1 or 2 seedless raisins to the meatballs' centers. I have done it and it's great. Soak them for a couple minutes in water before, but not too much."
 	],
     "tips": {
         "culinary": [],

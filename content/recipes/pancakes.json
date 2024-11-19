@@ -1,0 +1,49 @@
+{
+    "name": "Pancakes",
+    "category": "Desserts",
+    "description": "",
+    "origin": "500 BC, Ancient Greece.",
+    "portions": 3,
+    "flags": {
+        "difficulty": "Very easy",
+        "cuisine": "Latin",
+        "prepTime": "15'",
+        "totalTime": "Idem",
+        "lactoseFree": false,
+        "glutenFree": false,
+        "vegetarian": true,
+        "vegan": false,
+		"finished": true
+    },
+    "ingredients": {
+        "": [
+            "1 egg",
+			"150 g milk",
+			"35 g butter (if unsalted, add 1 g of salt)",
+			"12 g sugar",
+			"100 g flour",
+			"0.5 tsp vanilla",
+			"Oil and or butter to grease the pan",
+			"Baking powder (Up to 2 tsp. The less you add the more dense they will be. I personally don't like them too airy.)"
+        ]
+    },
+    "utensils": [
+        "Pan",
+		"Hand mixer"
+    ],
+    "instructions": [
+        "- In a bowl whisk the egg with the sugar, and separately heat the butter to melt it.",
+		"- Pour in the butter, vanilla, milk, mix well and add the flour in batches while whisking.",
+		"- Heat up a pan and grease it. Once it's hot, pour the mixture in (rather slowly) to make pancakes. Turn them with a spatula when they start bubbling on top.",
+		"- Stack them and decorate."
+    ],
+    "variants": [
+        "On top of the result it's common to add berries, syrup, honey..."
+    ],
+    "tips": {
+        "culinary": [
+			"You can do them by hand, but the mixer makes it smoother and faster."
+        ],
+        "serving": []
+    }
+}

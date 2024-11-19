@@ -1,0 +1,42 @@
+{
+    "name": "Shortbread cookies",
+    "category": "Desserts",
+    "description": "",
+    "origin": "13th century, Scotland",
+    "portions": 12,
+    "flags": {
+        "difficulty": "Very easy",
+        "cuisine": "Scottish",
+        "prepTime": "10'",
+        "totalTime": "45'",
+        "lactoseFree": false,
+        "glutenFree": false,
+        "vegetarian": false,
+        "vegan": false,
+		"finished": true
+    },
+    "ingredients": {
+        "": [
+            "56 g butter (salted, room temperature)",
+			"84 g flour",
+			"25 g sugar",
+			"1/4 tsp vanilla extract"
+        ]
+    },
+    "utensils": [
+		"Oven",
+		"Hand mixer"
+	],
+    "instructions": [
+		"- Cream together the butter and sugar, til pale and soft (at least some minutes). Slowly mix in the flour.",
+		"- Make a decently thick sheet and cut in 12 bars.",
+		"- Transfer onto a baking tray, preheat oven to 176ºC, freeze for 10' and bake until slightly golden (25').",
+		"- Allow them to cool before handling, or they will crumble."
+    ],
+    "variants": [
+	],
+    "tips": {
+        "culinary": [],
+        "serving": []
+    }
+}
