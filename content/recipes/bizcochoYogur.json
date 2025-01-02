@@ -1,0 +1,48 @@
+{
+    "name": "Bizcocho de yogur",
+    "category": "Desserts",
+    "description": "/'Yogurt sponge cake'/ Also called queque or bizcochón, the word bizcocho comes from latin. In Ancient Rome it was referred to a type of unleavened bread that was baked twice to make it last longer. In Spain the word can actually mean both: there's also a well-known version of what the Romans had, called biscote or pan bizcochado.",
+    "origin": "Likely Italian or Egyptian.",
+    "portions": 16,
+    "flags": {
+        "difficulty": "Easy",
+        "cuisine": "Spanish",
+        "prepTime": "15'",
+        "totalTime": "1h",
+        "lactoseFree": false,
+        "glutenFree": false,
+        "vegetarian": false,
+        "vegan": false,
+		"finished": true
+    },
+    "ingredients": {
+        "": [
+            "125 g yogurt (the standard size. I like the lemon flavored one)",
+			"3 eggs",
+			"118 g olive oil (using the yogurt recipient as measure from now on, it's one)",
+			"212 g sugar (2 measurements)",
+			"200 g flour (3 measurements)",
+			"Baking powder (6 g or half a packet)",
+			"Some butter to grease the mold"
+        ]
+    },
+    "utensils": [
+		"Oven"
+    ],
+    "instructions": [
+		"- Preheat the oven to 170ºC.",
+		"- Empty the yogurt and use the recipient as measurement.",
+		"- Mix, first eggs/sugar, then yogurt/oil/baking powder and finally add the flour slowly until combined. Doing it by hand makes it taste better for some reason.",
+		"- Grease the mold, pour mixture and bake 35/40' until brown like in the picture."
+    ],
+    "variants": [
+		"On top of using the lemon yogurt, I always add the zest of a lemon",
+		"Raisings inside. Do not soak them too much in water, they taste best when dry but they may fall to the bottom. Lightly moist them and dust in flour to prevent it.",
+		"Glass in chocolate. Melt some baking sweetened chocolate and paint it.",
+		"Some people dust some flour on the mold but I don't personally like it."
+	],
+    "tips": {
+        "culinary": [],
+        "serving": []
+    }
+}

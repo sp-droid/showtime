@@ -1,0 +1,55 @@
+{
+    "name": "Tarta de queso La Viña",
+    "category": "Desserts",
+    "description": "/'The Vineyard cheesecake'/ Recipe from the restaurant 'La Viña' in the Basque region of Spain.",
+    "origin": "1990s Basque country, Spain.",
+    "portions": 10,
+    "flags": {
+        "difficulty": "Easy",
+        "cuisine": "Spanish",
+        "prepTime": "20'",
+        "totalTime": "7h",
+        "lactoseFree": false,
+        "glutenFree": true,
+        "vegetarian": false,
+        "vegan": false,
+		"finished": true
+    },
+    "ingredients": {
+        "For 1L small mold": [
+            "8 g flour (can substitute with corn starch)",
+			"500 g cream cheese (see variants for substitutions)",
+			"250 g heavy cream",
+			"200 g sugar",
+			"3.5 eggs (3 eggs + 1 yolk)",
+			"Little amount of oil or butter",
+			"Baking paper"
+        ],
+		"For 2L / 23 cm mold": [
+			"(This is the original size. Double the ingredients, use 7 eggs, no extra yolk. Increase oven time by 5-10')"
+		]
+    },
+    "utensils": [
+		"Oven",
+		"Hand mixer",
+		"Fridge"
+    ],
+    "instructions": [
+		"- Preheat oven to 210ºC",
+		"- Beat eggs and progresively add flour/sugar. Pour in a separate container and shortly beat the cheese with the heavy cream. Mix both.",
+		"- Lightly grease the mold and place inside some oven paper, shaping it. Pour mixture and into the oven 40-45'.",
+		"- When the top is caramelized around 25-35', place some aluminum foil on top to prevent it from burning.",
+		"- It should jiggle slightly by the end. Turn the oven off, leave inside 5', 1h with the door open and 4-6h in the fridge."
+    ],
+    "variants": [
+		"Sometimes cream cheese is not available. Keeping in mind it has ~30% fat, a substitution that ends somewhere near that quantity should turn out similarly. I've done it with half ricotta (10% fat) half mascarpone (40%) and it worked out nicely."
+	],
+    "tips": {
+        "culinary": [
+			"Do not attempt to take it out of the mold before it's cold since it may crumble easily."
+		],
+        "serving": [
+			"It is traditionally served in the same baking paper and mold"
+		]
+    }
+}

@@ -60,6 +60,23 @@ document.addEventListener("DOMContentLoaded", function() {
     orderData(0);
     selectRecipe(selected);
 
+    const gridRecipes = document.getElementById("gridRecipes");
+    populateGrid();
+    const recipeIndexTable = document.getElementById("recipeIndexTable");
+    const recipeIndexGrid = document.getElementById("recipeIndexGrid");
+    const buttonSwitch = document.getElementById("buttonSwitch");
+    let switchState = 1;
+    buttonSwitch.addEventListener('click', function() {
+        if (switchState === 1) {
+            recipeIndexGrid.style.display = 'none'
+            recipeIndexTable.style.display = 'flex'
+        } else {
+            recipeIndexTable.style.display = 'none'
+            recipeIndexGrid.style.display = 'flex'
+        }
+        switchState *= -1;
+    })
+
     buttonPrevRecipe.addEventListener('click', function() {
         prevSelected = selected;
         selected -= 1;
@@ -86,6 +103,99 @@ document.addEventListener("DOMContentLoaded", function() {
         }
     });
 
+    function populateGrid() {
+        // const j = 0;
+        // const i = filteredOrder[j];
+        // tableRecipesBody.children[prevSelected].children[0].style.fontWeight = 'normal';
+
+        // imageRecipe.style.opacity = 0;
+        // setTimeout(() => {
+        //     imageRecipe.src = `../assets/img/recipes/${data[i]['file']}.jpg`;
+        //     imageRecipe.onload = () => {
+        //         imageRecipe.style.opacity = 1;
+        //     };
+        //     imageRecipe.title = data[i]['description'];
+        // }, 200);
+        // titleRecipe.children[0].textContent = data[i]['name']
+        // titleRecipe.href = `recipes/${data[i]['file']}.html`;
+        // flagDifficulty.children[0].src = `../assets/img/icons/difficulty${data[i]['difficulty']}.png`;
+        // flagDifficulty.children[1].textContent = data[i]['difficulty'];
+        // flagCuisine.children[0].src = `../assets/img/icons/cuisine${data[i]['cuisine']}.png`;
+        // flagCuisine.children[1].textContent = data[i]['cuisine'];
+        // flagCuisine.title = data[i]['origin'];
+        // flagPrepTime.textContent = data[i]['prepTime'];
+        // flagTotalTime.textContent = data[i]['time'];
+
+        // tableRecipesBody.children[selected].children[0].style.fontWeight = 'bolder';
+
+        for (let j = 0; j < filteredOrder.length; j++) {
+            const i = filteredOrder[j];
+            console.log(`../assets/img/recipes/${data[i]['file']}.jpg')`)
+            const gridElement = document.createElement("a");
+            gridElement.classList.add("gridRecipe");
+            //gridElement.setAttribute("target", "_blank");
+            //gridElement.setAttribute("rel", "noopener noreferrer");
+            
+            gridElement.href = `recipes/${data[i]['file']}.html`;
+            gridElement.style.backgroundImage = `url('../assets/img/recipes/${data[i]['file']}.jpg')`;
+            
+            // const innerDiv = document.createElement("div");
+            // // Header
+            // const header = document.createElement("h3");
+            // header.innerHTML = data[i]["header"];
+            // innerDiv.appendChild(header);
+            // // Description
+            // const desc = document.createElement("p");
+            // desc.classList.add("pRich")
+            // desc.innerHTML = "<br>"+data[i]["desc"];
+            // innerDiv.appendChild(desc);
+            // // Date
+            // const date = document.createElement("h5");
+            // date.innerHTML = formatDate(data[i]["date"]);
+            // date.setAttribute("title","The assigned date could be related to the latest major change to the project or an official date of termination");
+            // innerDiv.appendChild(date);
+            // // Project type icon
+            // const projectType = document.createElement("div");
+            // const projectTypeImage = document.createElement("img");
+            // projectTypeImage.src = `../assets/img/icons/${data[i]["type"]}.png`;
+            // projectTypeImage.setAttribute("title", `Project type: ${data[i]["type"]}`);
+            // projectType.appendChild(projectTypeImage);
+            // innerDiv.appendChild(projectType);
+            // // Tools used
+            // const tools = document.createElement("div");
+            // for (const toolName of data[i]["tools"]) {
+            //     const toolImage = document.createElement("img");
+            //     toolImage.src = `../assets/img/icons/${toolName}.svg`;
+            //     toolImage.setAttribute("title", `Tool employed: ${toolName}`);
+            //     tools.appendChild(toolImage);
+            // }
+            // innerDiv.appendChild(tools);
+            // gridElement.appendChild(innerDiv);
+            
+            // // On hover GIF
+            // if (data[i]["gif"] === true) {
+            //     gridElement.addEventListener('mouseenter', function() {
+            //         gridElement.style.backgroundImage = `url('../assets/img/projects/preview/${data[i]["bg"]}.avif')`;
+            //     });
+            //     gridElement.addEventListener('mouseleave', function() {
+            //         gridElement.style.backgroundImage = `url('../assets/img/projects/preview/${data[i]["bg"]}.jpg')`;
+            //     });
+            // };
+
+            // // Importance feature
+            // if (data[i]["importance"] === 1) {
+            //     gridElement.style.border = "1px solid";
+            //     gridElement.setAttribute("title","This project is important, taking days/weeks to complete.");
+            // } else if (data[i]["importance"] === 2) {
+            //     gridElement.style.border = "2px solid gold";
+            //     gridElement.setAttribute("title","This project is very important, taking months to complete.");
+            // } else if (data[i]["importance"] === 3) {
+            //     gridElement.style.border = "3px solid darkred";
+            //     gridElement.setAttribute("title","This is a major venture, taking years to complete.");
+            // }
+            gridRecipes.appendChild(gridElement);
+        }
+    }
     function orderData(column) {
         // Order according to clicked column
         if (column != -1) {
@@ -139,7 +249,6 @@ document.addEventListener("DOMContentLoaded", function() {
         // Apply filters
         filteredOrder = order.filter(i => {
             const entry = data[i]
-            console.log(checkboxVegan.checkboxIncomplete == entry.finished)
             return (
                 (nameSearch.value === 'Search by name' || entry.name.toLowerCase().includes(nameSearch.value.toLowerCase())) &&
                 !(checkboxLactose.checked && entry.flagLactose !=='True') &&

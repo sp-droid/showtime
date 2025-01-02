@@ -11,12 +11,6 @@ document.addEventListener("DOMContentLoaded", function() {
     }, 4000);
 
     // ################################
-    // ######## Layout swapping #######
-    // ################################
-    const layoutList = document.getElementById("layoutList");
-    const layoutText = document.getElementById("layoutText");
-
-    // ################################
     // ########## Typewriter ##########
     // ################################
     const typewriterProjects = document.getElementById("typewriterProjects");

@@ -136,7 +136,7 @@ p { font-size: 20px; }
 }
 
 /* ################### */
-/* Recipes */
+/* Standalone recipe */
 /* ################### */
 .recipeUtensils {
     height: 100%;
@@ -317,7 +317,7 @@ p { font-size: 20px; }
 .gridElement:hover > :first-child > :nth-child(2) { opacity: 1; }
 
 /* ################################## */
-/* Recipes */
+/* Recipes index */
 /* ################################## */
 .recipesTop {
     position: relative;
@@ -385,4 +385,27 @@ p { font-size: 20px; }
 }
 .tableRecipes tr:hover {
     cursor: pointer;
+}
+
+/* Recipes index grid */
+#gridRecipes {
+    flex: 8;
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(600px, 1fr));
+    gap: 2px;
+}
+#gridRecipes > :first-child {
+    grid-column: 1 / -1;
+    height: 800px;
+}
+.gridRecipe {
+    width: 100%;
+    aspect-ratio: 1.78;
+    padding: 20px;
+    margin: auto;
+    cursor: pointer;
+    transition: box-shadow 0.3s;
+    transition: background-image 0.5s;
+    background-size: cover;
+    text-decoration: none;
 }

@@ -7,8 +7,8 @@
     "flags": {
         "difficulty": "Very easy",
         "cuisine": "Italian",
-        "prepTime": "15'",
-        "totalTime": "8h 30'",
+        "prepTime": "5'",
+        "totalTime": "5'",
         "lactoseFree": false,
         "glutenFree": false,
         "vegetarian": true,
@@ -46,7 +46,7 @@
     "tips": {
         "culinary": [
 			"The more slender of a container, the better, as it reduces the area of pesto in contact with the air.",
-			"I find that pesto improves on the day after. After that it's worse however: it slowly oxidizes and loses color.",
+			"I find that pesto improves slightly the day after. After that it's worse however: it slowly oxidizes and loses color.",
 			"Use only basil leaves. The stems would leave annoying fibrous strands."
         ],
         "serving": []
