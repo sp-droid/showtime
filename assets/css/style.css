@@ -406,7 +406,17 @@ p { font-size: 20px; }
     text-decoration: none;
 }
 .gridRecipe > :first-child {
-    text-shadow: 2px 2px 4px rgba(0,0,0,0.8);
-    color: rgba(191, 240, 255, 0.9);
+    text-shadow: 2px 2px 4px black;
+    color: rgb(191, 240, 255);
     text-align: center;
+    opacity: 0;
+    transition: opacity 0.2s ease;
+}
+.gridRecipe:hover > :first-child {
+    opacity: 1;
+}
+@media (hover: none) {
+    .gridRecipe > :first-child {
+        opacity: 0.7;
+    }
 }
