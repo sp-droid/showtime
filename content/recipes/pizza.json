@@ -1,0 +1,43 @@
+{
+    "name": "Pizza",
+    "category": "Main courses",
+    "description": "/'Soup from puchero'/ The logical conclusion to every puchero, making soup from it.",
+    "origin": "1500s, Canary Islands.",
+    "portions": 4,
+    "flags": {
+        "difficulty": "Very easy",
+        "cuisine": "Canarian",
+        "prepTime": "10'",
+        "totalTime": "30'",
+        "lactoseFree": true,
+        "glutenFree": true,
+        "vegetarian": false,
+        "vegan": false,
+		"finished": false
+    },
+    "ingredients": {
+        "": [
+            "Remains from <a class='recipeLink' href='pucheroCanario.html'>puchero</a>",
+			"Two handfuls of rice",
+			"A few leaves of hierbahuerto (also called hierbabuena or menta spicata, a soft variety of mint)"
+        ]
+    },
+    "utensils": [
+		"Kitchen pot",
+		"Hand blender"
+    ],
+    "instructions": [
+		"- Remove tomatoes, blend them and put them back in. Slightly break the pieces of meat with your hands.",
+		"- Take to a simmer, add rice and count 20'",
+		"- Serve with a couple leaves of hierbahuerto"
+    ],
+    "variants": [],
+    "tips": {
+        "culinary": [
+			"Hierbahuerto is optional really, but quite traditional in the Canaries."
+		],
+        "serving": [
+			"Serve with a lot of bread on the side, and/or a side dish."
+		]
+    }
+}

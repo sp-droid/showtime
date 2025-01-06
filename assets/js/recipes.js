@@ -60,25 +60,25 @@ document.addEventListener("DOMContentLoaded", function() {
     buttonPrevRecipe.addEventListener('click', function() {
         prevSelected = selected;
         selected -= 1;
-        if (selected < 0) { selected = data.length - 1; }
+        if (selected < 0) { selected = filteredOrder.length - 1; }
         selectRecipe(selected);
     })
     buttonNextRecipe.addEventListener('click', function() {
         prevSelected = selected;
         selected += 1;
-        if (selected == data.length) { selected = 0; }
+        if (selected >= filteredOrder.length) { selected = 0; }
         selectRecipe(selected);
     })
     document.addEventListener('keydown', (event) => {
         if (event.key === 'ArrowLeft') {
             prevSelected = selected;
             selected -= 1;
-            if (selected < 0) { selected = data.length - 1; }
+            if (selected < 0) { selected = filteredOrder.length - 1; }
             selectRecipe(selected);
         } else if (event.key === 'ArrowRight') {
             prevSelected = selected;
             selected += 1;
-            if (selected == data.length) { selected = 0; }
+            if (selected >= filteredOrder.length) { selected = 0; }
             selectRecipe(selected);
         }
     });
