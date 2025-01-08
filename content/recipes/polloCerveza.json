@@ -1,27 +1,27 @@
 {
     "name": "Pollo a la cerveza",
-    "category": "Desserts",
+    "category": "Main courses",
     "description": "/'Chicken with beer'/ ",
-    "origin": "-",
-    "portions": 4,
+    "origin": "Middle Ages, Europe.",
+    "portions": 3,
     "flags": {
         "difficulty": "Easy",
         "cuisine": "Spanish",
         "prepTime": "20'",
-        "totalTime": "1h",
+        "totalTime": "1h 30'",
         "lactoseFree": true,
         "glutenFree": true,
         "vegetarian": false,
         "vegan": false,
-		"finished": false
+		"finished": true
     },
     "ingredients": {
         "": [
             "350g chicken breast",
 			"1 onion",
-			"4 carrots",
+			"3 carrots",
 			"1 red bell pepper",
-			"4 garlic cloves",
+			"3 garlic cloves",
 			"Small beer can",
 			"3 tbsp olive oil",
 			"Flour",

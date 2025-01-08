@@ -1,43 +1,60 @@
 {
     "name": "Pizza",
     "category": "Main courses",
-    "description": "/'Soup from puchero'/ The logical conclusion to every puchero, making soup from it.",
-    "origin": "1500s, Canary Islands.",
-    "portions": 4,
+    "description": "/'Pie'/",
+    "origin": "1889 Naples, Italy.(Raffaele Esposito)",
+    "portions": 2,
     "flags": {
-        "difficulty": "Very easy",
-        "cuisine": "Canarian",
-        "prepTime": "10'",
-        "totalTime": "30'",
+        "difficulty": "Hard",
+        "cuisine": "Italian",
+        "prepTime": "1h 30'",
+        "totalTime": "24h",
         "lactoseFree": true,
-        "glutenFree": true,
-        "vegetarian": false,
+        "glutenFree": false,
+        "vegetarian": true,
         "vegan": false,
-		"finished": false
+		"finished": true
     },
     "ingredients": {
         "": [
-            "Remains from <a class='recipeLink' href='pucheroCanario.html'>puchero</a>",
-			"Two handfuls of rice",
-			"A few leaves of hierbahuerto (also called hierbabuena or menta spicata, a soft variety of mint)"
+			"167 g high protein flour (i.e. bread flour, 00, pizza flour)",
+			"Salt (4 g)",
+			"Yeast (1.7 g dry yeast / 3.4 g fresh yeast / 1.13 g instant yeast / 3.8 brewer's yeast)",
+			"Water (100 g)"
         ]
     },
     "utensils": [
-		"Kitchen pot",
-		"Hand blender"
+		"Oven"
     ],
     "instructions": [
-		"- Remove tomatoes, blend them and put them back in. Slightly break the pieces of meat with your hands.",
-		"- Take to a simmer, add rice and count 20'",
-		"- Serve with a couple leaves of hierbahuerto"
+		"# Dough",
+		"- Mix flour and salt on one side, water and yeast on the other, leave for a couple minutes. Combine the two for a minute and leave 15-30'.",
+		"- Knead for 8-15', make a shiny ball of dough and place in the fridge for 1-5 days, in an airtight container.",
+		"",
+		"# Pizza day",
+		"- Take out of the fridge, reshape into a ball and leave it to warm up.",
+		"- Pre-heat oven to the maximum temperature.",
+		"- Cover in flour, remove excess and start shaping it with your fingers from the middle. Pushing the air outwards, not crushing the pizza. Then use your hands, lift it... whatever works for you to get the pizza to the required round shape with big lips.",
+		"- Since we are using a home oven, the next steps are slightly different.",
+		"- To char the sides. Wet your fingers with olive oil or use a spoon to cover the outer crust with it.",
+		"- Add the tomato on a spiral motion from the center so it's not even, cook until golden.",
+		"- Now take it out slightly and quickly add wet toppings. In this case for example, mozzarella and a bit of gorgonzola in the middle",
+		"- Once ready (by eye, look for melted bubbling cheese, not a wet pizza) shut it off, place things that burn like basil leaves, take out and split using a pizza cutter."
     ],
-    "variants": [],
+    "variants": [
+		"Pizza with other topping combinations. Google an Italian pizzeria's menu and steal their creativity.",
+		"Pizza bianca, or white pizza, is the whole array of pizza recipes that don't contain a tomato base. I hate it personally, many Italians love it.",
+		"Pizza with ananas/pineapple. It's traditional to bash on it, but many like it. If pizza bianca is a thing, this is okey too.",
+		"Neapolitan style pizza has very large but thin lips, Roman style has a very thin and crunchy crust. Your result depends on how you shape it.",
+		"Pizza fritta. Can't do it easily at home, but if you go to an authentic Neapolizan pizzeria you have to try it. 10/10",
+		"Calzone. A more known, also closed-up pizza you should try at least once. 6/10"
+	],
     "tips": {
         "culinary": [
-			"Hierbahuerto is optional really, but quite traditional in the Canaries."
+			"The recipe is marked as hard because some skills need practice: kneading, shaping the pizza, knowing when it's ready. But it is fundamentally simple, and contrary to other recipes such as making croissants, it's not messy or lengthy. After a while this recipe is easy.",
+			"The hotter the oven, the less important it is to cook the base first.",
+			"I've lived in Italy 2 years and eaten many traditional pizzas. Usually Italians are very picky and force you to make recipes exactly as they are. One would think it translates to pizzas too, but I disagree. This people put everything on top of them, and they will pretend otherwise! Don't believe them, use whatever floats your boat."
 		],
-        "serving": [
-			"Serve with a lot of bread on the side, and/or a side dish."
-		]
+        "serving": []
     }
 }

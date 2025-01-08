@@ -1,0 +1,49 @@
+{
+    "name": "Crema de calabacín",
+    "category": "Main courses",
+    "description": "/'Zucchini cream'/ ",
+    "origin": "No information",
+    "portions": 4,
+    "flags": {
+        "difficulty": "Easy",
+        "cuisine": "Spanish",
+        "prepTime": "20'",
+        "totalTime": "1h",
+        "lactoseFree": true,
+        "glutenFree": true,
+        "vegetarian": false,
+        "vegan": false,
+		"finished": true
+    },
+    "ingredients": {
+        "": [
+            "3 zucchini (or 2 large)",
+			"1 onion",
+			"1 potato",
+			"0.5 leek (or 1 small)",
+			"3 cloves of garlic",
+			"24 g olive oil (~2 tbsp)",
+			"Black pepper",
+			"Salt",
+			"Water (600 mL)"
+        ]
+    },
+    "utensils": [
+		"Kitchen pot",
+		"Hand blender"
+    ],
+    "instructions": [
+		"- Dice the onion and cook it until brown with the oil.",
+		"- Meanwhile chop the leek and garlic, add it when the onion is ready.",
+		"- Dice in larger chunks the zucchini (do NOT peel them. It gives it a nice green color), potato and throw them in with some salt and black pepper.",
+		"- After some minutes, add the water and boil for 20'",
+		"- When it's done, remove from the heat and blend. Correct for thickness (add water), and then for salt."
+    ],
+    "variants": [],
+    "tips": {
+        "culinary": [],
+        "serving": [
+			"Usually served along some grated cheese or bread"
+		]
+    }
+}
