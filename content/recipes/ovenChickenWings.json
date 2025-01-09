@@ -1,0 +1,47 @@
+{
+    "name": "Oven chicken wings",
+    "category": "Main courses",
+    "description": "Much less oily alternative to fried chicken wings",
+    "origin": "No information",
+    "portions": 2,
+    "flags": {
+        "difficulty": "Easy",
+        "cuisine": "American",
+        "prepTime": "10'",
+        "totalTime": "40'",
+        "lactoseFree": true,
+        "glutenFree": true,
+        "vegetarian": false,
+        "vegan": false,
+		"finished": true
+    },
+    "ingredients": {
+        "": [
+            "1 tsp garlic powder",
+			"1 tsp paprika",
+			"1 tsp sugar",
+			"0.75 tsp baking powder",
+			"0.5 tsp spicy paprika",
+			"0.5 tsp cumin",
+			"0.5 tsp salt",
+			"Some black pepper",
+			"500 g chicken wings",
+			"0.5 tbsp oil"
+        ]
+    },
+    "utensils": [
+        "Oven",
+		"Kitchen pot"
+    ],
+    "instructions": [
+        "- Prepare the spice mix, then preheat oven to 220ºC.",
+		"- Prepare the wings. If you bought them whole use a large knife and split them into drumstick, wings and tips, discarding or saving the tip in the freezer for other recipes.",
+		"- Pour oil in a pot, place the wings inside and get it into the oven for 22'.",
+		"- Take the wings out of the pot. Optionally drizzle it with a sauce done by glazing the pot with a splash of wine, a bit of butter and reducing it on the stove."
+    ],
+    "variants": [],
+    "tips": {
+        "culinary": [],
+        "serving": []
+    }
+}
