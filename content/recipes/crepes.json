@@ -1,0 +1,50 @@
+{
+    "name": "Crêpes (sweet)",
+    "category": "Desserts",
+    "description": "/'Curled, frizzed'/",
+    "origin": "13th century, Duchy of Brittany.",
+    "portions": 2,
+    "flags": {
+        "difficulty": "Very easy",
+        "cuisine": "French",
+        "prepTime": "15'",
+        "totalTime": "Idem",
+        "lactoseFree": false,
+        "glutenFree": false,
+        "vegetarian": true,
+        "vegan": false,
+		"finished": true
+    },
+    "ingredients": {
+        "": [
+            "1 egg",
+			"15 g butter (Another 5 g to grease the pan)",
+			"150 g milk",
+			"60 g flour",
+			"Pinch of salt (if the butter is unsalted, add more...)"
+        ]
+    },
+    "utensils": [
+        "Pan",
+		"Hand mixer"
+    ],
+    "instructions": [
+        "- Beat the egg on a pot, add the salt and butter, on a very low heat until it melts.",
+		"- Pour in the milk, turn the heat off and whisk strongly while slowly adding the flour to avoid lumps.",
+		"- Grease the pan and some part of the batter when hot. Rotate it until the batter stops moving.",
+		"- When the first side is ready, it should let you flip it without any extra tool. Cook for a bit and it's ready."
+    ],
+    "variants": [
+        "Toppings: honey, cream cheese, banana or non citrus fruits, nutella, maple syrup, chocolate syrup, dulce de leche, caramel...",
+		"Folding: there are two main ways, both in the picture. Either fold twice in half to form a quarter/triangle shape or like a cigar."
+    ],
+    "tips": {
+        "culinary": [
+			"The stove must be very low at the beginning or the egg will coagulate, but even if it does, beat it a lot to destroy the chunks and it will be fine.",
+			"It lasts up to 48 h in the fridge."
+        ],
+        "serving": [
+			"Powdered sugar can be added over to stylize the dish."
+		]
+    }
+}
