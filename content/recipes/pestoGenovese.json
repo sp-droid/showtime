@@ -1,14 +1,14 @@
 {
     "name": "Pesto Genovese",
     "category": "Main courses",
-    "description": "/'Genoese grounded paste'/ Although the first written recipe dates to 1852, very similar dishes can be found dating back to Roman times, but closer enactments were more prevalent in the Liguria region.",
+    "description": "/'Genoese grounded paste'/ Although the first written recipe dates to 1852, very similar dishes can be found dating back to Roman times, but closer enactments were more prevalent in the Liguria region. Pesto 'alla' Genovese is a clever trick supermarket brands employ to be able to use ingredients that are not in the original, official recipe, like sunflower oil.",
     "origin": "1852 Genoa, Italy. (Emanuele Rossi)",
-    "portions": 4,
+    "portions": 3,
     "flags": {
         "difficulty": "Very easy",
         "cuisine": "Italian",
-        "prepTime": "5'",
-        "totalTime": "5'",
+        "prepTime": "10'",
+        "totalTime": "10'",
         "lactoseFree": false,
         "glutenFree": false,
         "vegetarian": true,
@@ -17,26 +17,27 @@
     },
     "ingredients": {
         "Pesto": [
-            "30 g fresh basil leaves",
-			"12.9 g parmigiano reggiano / cured cheese (cow)",
-			"4.3 g pecorino / cured cheese (sheep)",
+            "30 g fresh basil leaves (no stems, preferably a green & small variety of basil, i.e. Genoese Basil DOP)",
+			"20 g parmigiano reggiano / cured cheese (cow)",
+			"10 g pecorino sardo / cured cheese (sheep, from Sardinia)",
 			"1 clove of garlic",
-            "5 g pine nuts",
-            "24 g olive oil (2 tbsp)",
+            "15 g pine nuts",
+            "30 g olive oil",
 			"Salt (1.5 g)"
         ],
 		"Pasta": [
-			"440 g pasta",
+			"330 g pasta",
 			"Salt"
 		]
     },
     "utensils": [
-        "Hand blender",
+        "Mortar",
         "Airtight container",
         "Fridge"
     ],
     "instructions": [
-        "Blend ingredients together until it forms a green paste and save in an airtight container",
+        "Grind ingredients together until it forms a green paste and save in an airtight container, starting with the basil.",
+		"It's alright to use a hand blender, but the result will not be the same.",
 		"",
 		"Boil the pasta, dry out and mix with the pesto."
     ],
@@ -47,7 +48,8 @@
         "culinary": [
 			"The more slender of a container, the better, as it reduces the area of pesto in contact with the air.",
 			"I find that pesto improves slightly the day after. After that it's worse however: it slowly oxidizes and loses color.",
-			"Use only basil leaves. The stems would leave annoying fibrous strands."
+			"Use only basil leaves. The stems would leave annoying fibrous strands.",
+			"Add a fine layer of oil to the container to preserve pesto further in time."
         ],
         "serving": []
     }
