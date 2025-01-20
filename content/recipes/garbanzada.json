@@ -2,31 +2,67 @@
     "name": "Garbanzada canaria",
     "category": "Main courses",
     "description": "/'Canarian chickpeas'/ ",
-    "origin": "-, Canary Islands.",
-    "portions": 30,
+    "origin": "Unknown, Canary Islands.",
+    "portions": 4,
     "flags": {
         "difficulty": "Easy",
         "cuisine": "Canarian",
-        "prepTime": "20'",
+        "prepTime": "1h 15'",
         "totalTime": "Idem",
         "lactoseFree": true,
-        "glutenFree": false,
-        "vegetarian": true,
-        "vegan": true,
-		"finished": false
+        "glutenFree": true,
+        "vegetarian": false,
+        "vegan": false,
+		"finished": true
     },
     "ingredients": {
-        "": [
-            ""
-        ]
+        "Browning": [
+			"150 g pancetta (or bacon, works too)",
+			"100 g beef (cubed small)",
+			"12 g olive oil (1 tbsp)"
+		],
+		"Fritura": [
+            "3 ripe tomatoes",
+			"1 onion",
+			"0.5 bell pepper (half red and half green do well)",
+			"3 garlic cloves",
+			"Splash of wine (red or white)",
+			"Salt"			
+        ],
+		"The rest": [
+			"500 g boiled chickpeas (2 medium cans)",
+			"Between a quarter and half of a chorizo asturiano and morcilla asturiana (hard to get outside Spain. Available online.)",
+			"1 bay leaf, a pinch of thyme, saffron and a tsp of sweet paprika"
+		]
     },
-    "utensils": [],
+    "utensils": [
+		"Kitchen pot"
+	],
     "instructions": [
-        ""
+        "# Browning the meat",
+		"- In a pot heat up the oil with the pancetta until it renders some fat.",
+		"- Add and brown the beef, then remove it for later.",
+		"# Making the fritura",
+		"- Add finely chopped onion. When transparent, throw in the also finely chopped pepper, crushed garlic and tomatoes, with some salt.",
+		"- After 5-15', pour in the wine and wait until it fully reduces.",
+		"# Finishing up",
+		"- Two options for the chorizo and morcilla, either slice them or remove the peel and then shred them with your hands. If the products are good I'd go for the 2nd. Wash the chickpeas.",
+		"- To the fritura add a glass of water, the chorizo, morcilla, chickpeas and spices. Leave for 30-60'",
+		"- Check for salt and aim for a thick but still abundant sauce."
     ],
-    "variants": [],
+    "variants": [
+		"Adding a piece of rib with the bone, or any bone typically used to flavor soups will enrich the dish even further.",
+		"Some people add a pinch of cumin.",
+		"You can add or substitute beef with ribs. It's traditional in parts of Tenerife."
+	],
     "tips": {
-        "culinary": [],
-        "serving": []
+        "culinary": [
+			"It's one of those dishes that stabilize and improve on its strong flavor profile after a night in the fridge.",
+			"Browning the onion without burning is important to avoid having to correct with sugar, especially when substituting tomatoes with passata."
+		],
+        "serving": [
+			"Usually served in a terracotta plate.",
+			"Although I do have it alone, in restaurants it's traditionally served alongside other dishes or even as a starter in small portion shared by everyone at the table."
+		]
     }
 }
