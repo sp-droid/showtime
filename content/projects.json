@@ -1,5 +1,16 @@
 [
 {
+	"link": "../content/JSexperiments/badmintonReaction/index.html",
+	"bg": "badmintonReaction",
+	"gif": false,
+	"type": "Personal",
+	"tools": ["P5js"],
+	"header": "Lateral reaction time minigame",
+	"desc": "I've been playing a lot of badminton over the last year and I wanted to make a simple game to train lateral eye-hand reaction time. Control with left and right keys.",
+	"date": "04/02/2025",
+	"importance": 0
+},
+{
 	"link": "#",
 	"bg": "default",
 	"gif": false,
