@@ -417,59 +417,80 @@ let computePipelines = [
 ]
 //#endregion
 
-function gameLoop() {
+// let lastTimestamp = performance.now();
+async function gameLoop() {
+    // Calculate time since last frame
+    // let timestamp = performance.now();
+    // let deltaTime = timestamp - lastTimestamp;
+    // console.log(`Frame time: ${deltaTime.toFixed(2)} ms`); // Log the time in milliseconds
+    // lastTimestamp = timestamp; // Update the last timestamp
+
     // Iteration
-    iteration++;
     if (iteration === nColors) { return; }
 
-    updateGrid();
+    // console.time('RENDER pass')
+    updateCompute(20);
+    updateRender();
+    // console.timeEnd('RENDER pass')
+
     requestAnimationFrame(gameLoop);
 }
 requestAnimationFrame(gameLoop);
 
 // WebGPU functions
-async function updateGrid() {
-    // console.time('RENDER pass')
-    /////////////////////////////////////////////////////////////////////////////////////////////
-    let encoder = device.createCommandEncoder();
+async function updateCompute(nTimes) {
+    
+    let encoder;
+    encoder = device.createCommandEncoder();
     let computePass;
 
-    computePass = encoder.beginComputePass();
-    computePass.setPipeline(computePipelines[2]);
-    computePass.setBindGroup(0, bindGroups[1]);
-    computePass.dispatchWorkgroups(1,1,1);
-    computePass.end();
-    
-    /////////////////////////////////////////////////////////////////////////////////////////////
-    // COMPUTE distances
-    computePass = encoder.beginComputePass();
-    computePass.setPipeline(computePipelines[0]);
-    computePass.setBindGroup(0, bindGroups[1]);
-    workgroupCountX = Math.ceil(GRID_SIZEx / WORKGROUP_SIZE);
-    workgroupCountY = Math.ceil(GRID_SIZEy / WORKGROUP_SIZE);
-    computePass.dispatchWorkgroups(workgroupCountX, workgroupCountY);
-    computePass.end();
-    
-    /////////////////////////////////////////////////////////////////////////////////////////////
-    // COMPUTE minimum distance
-    computePass = encoder.beginComputePass();
-    computePass.setPipeline(computePipelines[3]);
-    computePass.setBindGroup(0, bindGroups[1]);
-    computePass.dispatchWorkgroups(1,1,1);
-    computePass.end();
+    for (let i=0; i<nTimes; i++) {
+        iteration++;
+        if (iteration === nColors) { break; }
 
-    /////////////////////////////////////////////////////////////////////////////////////////////
-    // COMPUTE Place pixel, activate neighbors
-    computePass = encoder.beginComputePass();
-    computePass.setPipeline(computePipelines[1]);
-    computePass.setBindGroup(0, bindGroups[1]);
-    computePass.dispatchWorkgroups(1);
-    computePass.end();
-    
+        
+        /////////////////////////////////////////////////////////////////////////////////////////////
+        // COMPUTE advance iteration
+        computePass = encoder.beginComputePass();
+        computePass.setPipeline(computePipelines[2]);
+        computePass.setBindGroup(0, bindGroups[1]);
+        computePass.dispatchWorkgroups(1,1,1);
+        computePass.end();
+
+        /////////////////////////////////////////////////////////////////////////////////////////////
+        // COMPUTE distances
+        computePass = encoder.beginComputePass();
+        computePass.setPipeline(computePipelines[0]);
+        computePass.setBindGroup(0, bindGroups[1]);
+        workgroupCountX = Math.ceil(GRID_SIZEx / WORKGROUP_SIZE);
+        workgroupCountY = Math.ceil(GRID_SIZEy / WORKGROUP_SIZE);
+        computePass.dispatchWorkgroups(workgroupCountX, workgroupCountY);
+        computePass.end();
+
+        /////////////////////////////////////////////////////////////////////////////////////////////
+        // COMPUTE minimum distance
+        computePass = encoder.beginComputePass();
+        computePass.setPipeline(computePipelines[3]);
+        computePass.setBindGroup(0, bindGroups[1]);
+        computePass.dispatchWorkgroups(1,1,1);
+        computePass.end();
+
+        /////////////////////////////////////////////////////////////////////////////////////////////
+        // COMPUTE Place pixel, activate neighbors
+        computePass = encoder.beginComputePass();
+        computePass.setPipeline(computePipelines[1]);
+        computePass.setBindGroup(0, bindGroups[1]);
+        computePass.dispatchWorkgroups(1);
+        computePass.end();
+        
+    }
     device.queue.submit([encoder.finish()]);
+}
+
+async function updateRender() {
     /////////////////////////////////////////////////////////////////////////////////////////////
     // RENDER cells
-    encoder = device.createCommandEncoder();
+    let encoder = device.createCommandEncoder();
     const renderPass = encoder.beginRenderPass({
         colorAttachments: [{
             view: context.getCurrentTexture().createView(),
@@ -486,7 +507,6 @@ async function updateGrid() {
     renderPass.end();
 
     device.queue.submit([encoder.finish()]);
-    // console.timeEnd('RENDER pass')
 }
 
 // Functions

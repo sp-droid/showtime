@@ -97,16 +97,16 @@ fn distancesMinimumMethodMain(input: ComputeInput) {
     // Iterate over painted neighbors, picking the smallest one (minimum method)
     var result = 10.0;
     if (cellX - 1 >= 0) {
-        //if (cellY - 1 >= 0) { result = min(result, neighborDistanceOnly(cellX - 1, cellY - 1, targetColor, grid.x)); }
+        if (cellY - 1 >= 0) { result = min(result, neighborDistanceOnly(cellX - 1, cellY - 1, targetColor, grid.x)); }
         result = min(result, neighborDistanceOnly(cellX - 1, cellY, targetColor, grid.x));
-        //if (cellY + 1 < grid.y) { result = min(result, neighborDistanceOnly(cellX - 1, cellY + 1, targetColor, grid.x)); }
+        if (cellY + 1 < grid.y) { result = min(result, neighborDistanceOnly(cellX - 1, cellY + 1, targetColor, grid.x)); }
     }
     if (cellY + 1 < grid.y) { result = min(result, neighborDistanceOnly(cellX, cellY + 1, targetColor, grid.x)); }
     if (cellY - 1 >= 0) { result = min(result, neighborDistanceOnly(cellX, cellY - 1, targetColor, grid.x)); }
     if (cellX + 1 < grid.x) {
-        //if (cellY - 1 >= 0) { result = min(result, neighborDistanceOnly(cellX + 1, cellY - 1, targetColor, grid.x)); }
+        if (cellY - 1 >= 0) { result = min(result, neighborDistanceOnly(cellX + 1, cellY - 1, targetColor, grid.x)); }
         result = min(result, neighborDistanceOnly(cellX + 1, cellY, targetColor, grid.x));
-        //if (cellY + 1 < grid.y) { result = min(result, neighborDistanceOnly(cellX + 1, cellY + 1, targetColor, grid.x)); }
+        if (cellY + 1 < grid.y) { result = min(result, neighborDistanceOnly(cellX + 1, cellY + 1, targetColor, grid.x)); }
     }
     distancesGlobal[index1D] = result;
 
