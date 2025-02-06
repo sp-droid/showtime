@@ -38,7 +38,7 @@
 	"gif": true,
 	"type": "Personal",
 	"tools": ["WebGPU"],
-	"header": "Rainbow Smoke",
+	"header": "GPU Rainbow Smoke",
 	"desc": "WebGPU implementation of the Rainbow Smoke algorithm.",
 	"date": "11/03/2024",
 	"importance": 0
@@ -49,7 +49,7 @@
 	"gif": true,
 	"type": "Personal",
 	"tools": ["WebGPU"],
-	"header": "Conway's Game of Life",
+	"header": "GPU Conway's Game of Life",
 	"desc": "WebGPU implementation of Conway's Game of Life.",
 	"date": "21/02/2024",
 	"importance": 0
@@ -115,7 +115,7 @@
 	"gif": true,
 	"type": "Personal",
 	"tools": ["Python","NVIDIA CUDA"],
-	"header": "Iterative pseudo-voronoi",
+	"header": "GPU Iterative pseudo-voronoi",
 	"desc": "2D space segmentation using a GPU-powered (by numba-CUDA and python, specifically) pseudo-voronoi technique on +130M pixel images.",
 	"date": "25/04/2023",
 	"importance": 1
@@ -126,7 +126,7 @@
 	"gif": false,
 	"type": "Personal",
 	"tools": ["Python","NVIDIA CUDA"],
-	"header": "Historical biome prediction",
+	"header": "GPU Historical biome prediction",
 	"desc": "Using a variation of Whittaker's diagram (biome = f[temperature, rainfall, height]) and extrapolated Earth observational data to classify biomes on 1204 A.D. on +130M pixel images.",
 	"date": "11/03/2023",
 	"importance": 1
