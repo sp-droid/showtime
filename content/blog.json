@@ -1,5 +1,11 @@
 [
 {
+	"title": "GPU-accelerated Rainbow Smoke algorithm",
+	"file": "rainbow-smoke-gpu",
+	"tag": "Other",
+	"date": "12/02/2025"
+},
+{
 	"title": "Markdown cheat sheet and tools explanation",
 	"file": "md-cheat-sheet",
 	"tag": "Other",
