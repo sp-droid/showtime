@@ -24,10 +24,27 @@ section="blog">
 <div style="display: flex; flex-direction: column; height: 100vh; width: 100vw; overflow-x: hidden; background-color: rgb(35, 39, 50);">
 	<div id="HTMLtopbar" style="flex: 0;">{{HTMLtopbar}}</div>
     <div style="flex: 1; display: flex;">
-        <div style="flex: 1;"></div>
-        <div class="markdown-body" id="HTMLpost" style="flex: 0 1 800px;">{{content}}</div>
-        <div style="flex: 1;"></div>
+        <div class="markdown-body sidebarHide" style="flex: 1; min-width: 20px;"><br>[toc]</div>
+        <div class="markdown-body" id="HTMLpost" style="flex: 3;">{{content}}</div>
+        <div style="flex: 1; min-width: 20px;"></div>
     </div>
 </div>
+<script>
+function toggleDetails(event) {
+    // const details = liElement.firstChild;
+    console.log(event.offsetX)
+    console.log(event.offsetY)
+    console.log("\n")
+    if (event.offsetX < 0) {
+        event.stopPropagation();
+        const details = event.currentTarget.firstChild;
+        details.open = !details.open;
+    } else if (event.offsetY < 30) {
+        event.stopPropagation();
+        const details = event.currentTarget.firstChild;
+        details.open = true;
+    }
+}
+</script>
 </body>
 </html>

@@ -40,24 +40,68 @@ function retrieveTemplate() {
         template = data;
 
         for (let i = 0; i < blogJSON.length; i++) {
-            const [date, year] = formatDateIndex(blogJSON[i]["date"]);
-            savePost(blogJSON[i], date);
+            savePost(blogJSON[i]);
         }
     });
 }
 
-function savePost(data, date) {
+function savePost(data) {
     fs.readFile(`../../content/blog/${data["file"]}.md`, "utf8", (err, text) => {
         if (err) {
             console.error(err);
             return;
         }
-        text = `###### ${formatDatePost(data["date"])}\n`+
+        text = text.split(/\r?\n/);
+        let toc = false; let ignoreLines = false; let tocDict = {};
+        let lastH1 = ""; let lastH2 = ""; let ref = 1;
+        for (let i=0; i<text.length; i++) {
+            const line = text[i];
+            if (toc === false) {
+                if (line.trim() === "[toc]") {
+                    toc = true;
+                }
+            } else {
+                // Ignore lines in code blocks
+                if (ignoreLines === true && line.slice(0, 3) === "```") {
+                    ignoreLines = false;
+                    continue;
+                }
+                if (line.slice(0, 3) === "```") { 
+                    ignoreLines = true;
+                    continue;
+                }
+                if (ignoreLines === true) { continue; }
+                
+                if (line.slice(0, 2) === "# ") {
+                    lastH1 = line.slice(2);
+                    tocDict[lastH1] = {};
+                    text[i-1] += `<div id="section${ref}"></div>\n`
+                    ref++;
+                }
+                if (line.slice(0, 3) === "## ") {
+                    if (lastH1 === "") { lastH1 = " "; tocDict[lastH1] = {}; }
+                    lastH2 = line.slice(3);
+                    tocDict[lastH1][lastH2] = [];
+                    text[i-1] += `<div id="section${ref}"></div>\n`
+                    ref++;
+                }
+                if (line.slice(0, 4) === "### ") {
+                    if (lastH2 === "") { lastH2 = " "; tocDict[lastH1][lastH2] = []; }
+                    tocDict[lastH1][lastH2].push(line.slice(4));
+                    text[i-1] += `<div id="section${ref}"></div>\n`
+                    ref++;
+                }
+            }
+        }
+        text = text.join("\n");
+        text = '<div id="section0"></div>\n\n'+
+            `###### ${formatDatePost(data["date"])}\n`+
             `# ${data["title"]}\n`+
             `##### Reading time: ${calculateReadingTime(text)} mins\n\n---\n`+
-            text.replace("](assets/", "](../../content/blog/assets/");
+            text.replaceAll("](assets/", "](../../content/blog/assets/");
 
         const md = markdownit({
+            html: true,
             highlight: function (str, lang) {
                 if (lang && hljs.getLanguage(lang)) {
                 try {
@@ -78,6 +122,48 @@ function savePost(data, date) {
         text = template.replace("{{content}}", text);
         text = text.replace("{{title}}", data["title"]);
 
+        if (toc === true) {
+            ref = 1;
+            let tocText = "<div class='TOCpost'><h3>&nbsp;Contents</h3><ul><li><a href='#section0'>(Top)</a></li>";
+            for (let H1 in tocDict) {
+                if (Object.keys(tocDict[H1]).length > 0) {
+                    if (H1 === " ") {
+                        tocText += `<ul>`
+                    } else {
+                        tocText += `<li onclick="toggleDetails(event)"><details><summary><a href='#section${ref}'>${H1}</a></summary><ul>`
+                        ref++;
+                    }
+                    for (let H2 in tocDict[H1]) {
+                        if (tocDict[H1][H2].length > 0) {
+                            tocText += `<li onclick="toggleDetails(event)"><details><summary><a href='#section${ref}'>${H2}</a></summary><ul>`
+                            ref++;
+                            for (let H3 of tocDict[H1][H2]) {
+                                tocText += `<li><a href='#section${ref}'>${H3}</a></li>`;
+                                ref++;
+                            }
+                            tocText += "</ul></details></li>"
+                        } else {
+                            tocText += `<li><a href='#section${ref}'>${H2}</a></li>`;
+                            ref++;
+                        }
+                    }
+                    
+                    if (H1 === " ") {
+                        tocText += "</ul>"
+                    } else {
+                        tocText += "</ul></details></li>"
+                    }
+                } else {
+                    tocText += `<li><a href='#section${ref}'>${H1}</a></li>`;
+                    ref++;
+                }
+            }
+            tocText += "\n</ul></div>"
+            text = text.replaceAll("[toc]",tocText);
+        } else {
+            text = text.replace("[toc]","");
+        }
+        
         fs.writeFile(`../../pages/blog/${data["file"]}.html`, text, 'utf8', (err) => {
             if (err) {
                 console.error('Error writing to file:', err);
@@ -90,30 +176,6 @@ function savePost(data, date) {
 // ################################
 // ############# Date #############
 // ################################
-function formatDateIndex(inputDate) {
-    const parts = inputDate.split('/'); // Split the date string into parts
-    const day = parseInt(parts[0], 10); // Extract the day
-    const month = parseInt(parts[1], 10); // Extract the month
-    const year = parseInt(parts[2], 10); // Extract the year
-
-    // Create a new Date object
-    const date = new Date(year, month - 1, day);
-
-    // Define month names array
-    const monthNames = [
-        'Jan', 'Feb', 'Mar', 'Apr',
-        'May', 'Jun', 'Jul', 'Aug',
-        'Sep', 'Oct', 'Nov', 'Dec'
-    ];
-
-    // Get month name and append 'th', 'st', 'nd', 'rd' suffix for day
-    const monthName = monthNames[date.getMonth()];
-
-    // Construct formatted date string
-    const formattedDate = `${day} ${monthName} ${year-2000}`;
-
-    return [formattedDate, year];
-}
 
 function formatDatePost(inputDate) {
     const parts = inputDate.split('/'); // Split the date string into parts

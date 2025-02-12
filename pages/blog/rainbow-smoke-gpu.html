@@ -1,0 +1,162 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta name="darkreader-lock">
+    <link rel="stylesheet" href="../../assets/libraries/bootstrap5.0.2/bootstrap.min.css">
+    <link rel="stylesheet" href="../../assets/libraries/fontawesome6.5.1/css/all.min.css">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/highlight.js@9.12.0/styles/atom-one-dark.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.11.1/katex.min.css">
+    
+    <link rel="stylesheet" href="../../assets/css/style.css">
+    <link rel="stylesheet" href="../../assets/css/github-markdown-dark.css">
+    <script src="../../assets/js/common.js"></script>
+    <title>GPU-accelerated Rainbow Smoke algorithm</title>
+	
+	<link rel="apple-touch-icon" sizes="180x180" href="../../assets/img/favicon/apple-touch-icon.png">
+<link rel="icon" type="image/png" sizes="32x32" href="../../assets/img/favicon/favicon-32x32.png">
+<link rel="icon" type="image/png" sizes="16x16" href="../../assets/img/favicon/favicon-16x16.png">
+<link rel="manifest" href="../../assets/img/favicon/site.webmanifest">
+<link rel="mask-icon" href="../../assets/img/favicon/safari-pinned-tab.svg" color="#5bbad5">
+<link rel="shortcut icon" href="../../assets/img/favicon/favicon.ico">
+<meta name="msapplication-TileColor" content="#941739">
+<meta name="msapplication-config" content="../../assets/img/favicon/browserconfig.xml">
+<meta name="theme-color" content="#ffffff">
+</head>
+
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-5RWJF4E3GR"></script>
+<script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag(){dataLayer.push(arguments);}
+    gtag('js', new Date());
+
+    gtag('config', 'G-5RWJF4E3GR');
+</script>
+
+<body>
+<div id="HTMLdata"
+section="blog">
+</div>
+<div style="display: flex; flex-direction: column; height: 100vh; width: 100vw; overflow-x: hidden; background-color: rgb(35, 39, 50);">
+	<div id="HTMLtopbar" style="flex: 0;"><div class="row" style="display: flex;" id="linksTopbar">
+    <div style="flex: 6; display: flex; align-items: center; background-color: rgb(14, 60, 76); color: white; height: 100%;">
+        &emsp;<a href="../../pages/about.html" style="text-decoration: none; color: white;" title="Who am I?">Arbelo Cabrera, Pablo</a>
+        &emsp;<a class="linkPopUp" href="https://www.youtube.com/@pactomars"><i class="fa-brands fa-youtube fa-lg" title="YouTube channel" style="color: rgb(255, 129, 129)"></i></a>
+        &emsp;<a class="linkPopUp" href="https://www.flickr.com/photos/200282744@N03/albums" title="flickr albums"><img height="45em" src="../../assets/img/icons/flickr.svg" alt="flickr official logo."></a>
+        &emsp;<a class="linkPopUp" href="https://www.linkedin.com/in/pablo-arbelo-cabrera-051a951a2"><i class="fa-brands fa-linkedin-in fa-lg" title="LinkedIn profile" style="color: rgb(90, 176, 247)"></i></a>
+        &emsp;<a class="linkPopUp" href="https://github.com/sp-droid"><i class="fa-brands fa-github fa-lg" title="GitHub profile" style="color: rgb(230, 237, 243)"></i></a>
+    </div>
+    <div style="flex: 1; display: flex; align-items: center; justify-content: center; background-color: rgb(76, 57, 2); height: 100%;">
+        <a class="linkPopUp" title="For work or other topics" href="https://docs.google.com/forms/d/1pK5hPSywf1resOSLIUOESFpqQn6cnRa2YjkRF7d77D8" style="font-weight: 500; color: rgb(222, 237, 240)">Contact</a>
+    </div>
+</div>
+<div class="row" id="navTopbar" style="background: linear-gradient(to right, rgb(48, 40, 2), rgb(35, 38, 39))">
+    <div class="col d-flex align-items-center justify-content-center" style="line-height: 20px; height: 100%;">
+        <!-- <a id="indexMenuButton" href="../../pages/index.html" title="Homepage where recent or current projects/entries/news are showcased">Home</a> -->
+        <a id="projectsMenuButton" href="../../pages/projects.html" title="Projects of different kinds are highlighted, sometimes as a video, as a JS browser-app or as an entire webpage">Projects</a>
+        <a id="recipesMenuButton" href="../../pages/recipes.html" title="Some of my recipes since I like cooking quite a bit">Recipes</a>
+        <a id="blogMenuButton" href="../../pages/blog.html" title="Devlogs and personal notes">Blog</a>
+        <a id="aboutMenuButton" href="../../pages/about.html" title="Brief page about myself for anyone interested">About me</a>
+    </div>
+</div></div>
+    <div style="flex: 1; display: flex;">
+        <div class="markdown-body sidebarHide" style="flex: 1; min-width: 20px;"><br><div class='TOCpost'><h3>&nbsp;Contents</h3><ul><li><a href='#section0'>(Top)</a></li><ul><li><a href='#section1'>History</a></li><li onclick="toggleDetails(event)"><details><summary><a href='#section2'>The algorithm</a></summary><ul><li><a href='#section3'>My GPU implementation</a></li></ul></details></li></ul>
+</ul></div></div>
+        <div class="markdown-body" id="HTMLpost" style="flex: 3;"><div id="section0"></div>
+<h6>February 12th, 2025</h6>
+<h1>GPU-accelerated Rainbow Smoke algorithm</h1>
+<h5>Reading time: 4 mins</h5>
+<hr>
+<p>An implementation of the Rainbow Smoke algorithm using GPU compute shaders through WebGPU, in JavaScript. You can try it yourself <a href="https://caniuse.com/?search=web%20gpu">if your browser supports WebGPU</a>:</p>
+<p><a href="../../content/JSexperiments/GPUrainbowSmoke/index.html">Web implementation of Rainbow Smoke</a></p>
+<p>Example result using a square 512 resolution, average algorithm and random color shuffling:</p>
+<div style="text-align:center">
+<p><img src="../../content/blog/assets/512avgRandom.jpg" alt="example result"></p>
+</div>
+<p><div class='TOCpost'><h3>&nbsp;Contents</h3><ul><li><a href='#section0'>(Top)</a></li><ul><li><a href='#section1'>History</a></li><li onclick="toggleDetails(event)"><details><summary><a href='#section2'>The algorithm</a></summary><ul><li><a href='#section3'>My GPU implementation</a></li></ul></details></li></ul>
+</ul></div></p>
+<div id="section1"></div>
+<h2>History</h2>
+<p>Rainbow Smoke belongs to the generative art class of computer algorithms. Its origins lie in this Code Golf Stack Exchange <a href="https://codegolf.stackexchange.com/questions/22144/images-with-all-colors">post</a> from 2014. The Code Golf site hosts many coding challenges. In this case it was a 1-week popularity contest launched by the community with the goal of finding the best approach to a simple problem, in summary:</p>
+<ul>
+<li>Create an image purely algorithmically, that is, not using pictures or external information.</li>
+<li>Each pixel must have a unique color.</li>
+<li>Colors must evenly fill the RGB spectrum.</li>
+</ul>
+<p>The example image, which technically fulfills the requirements but is not artistically pleasing:</p>
+<div style="text-align:center">
+<p><img src="../../content/blog/assets/example.png" alt="example"></p>
+</div>
+<p>There were many interesting submissions, but &quot;Rainbow Smoke&quot;, submitted by Hungarian user fejescoco, quickly became the clear winner. He himself hosts a little <a href="http://rainbowsmoke.hu/home">website</a> where you can see a gallery of images crafted using his work, links to videos and articles talking about it. Indeed several news agencies back then picked up on the contest winner and it became quite popular. He explained it in a very graphic way here:</p>
+<p><a href="https://www.youtube.com/watch?v=OuvFsB4SLhA"><img class="embedVideo" src="https://img.youtube.com/vi/OuvFsB4SLhA/0.jpg" alt="fejescoco video"  /></a></p>
+<p>Throughout the years people interested on the subject have imagined different ways of building up on it, an example:</p>
+<p><a href="https://www.youtube.com/watch?v=dVQDYne8Bkc"><img src="https://img.youtube.com/vi/dVQDYne8Bkc/0.jpg" alt="Generative Garden video"></a></p>
+<div id="section2"></div>
+<h2>The algorithm</h2>
+<p>The original implementation was a CPU single-threaded C# code with some performance issues, but enough for the mandatory 256x128 pixel image of the contest. However, to deliver on higher resolutions (and he went up to 4k, which you can see on his website) the code had to be improved on performance and partly made parallelizable. Simple version of it:</p>
+<pre><code class="language-vhdl"><span class="hljs-keyword">procedure</span> RainbowSmoke
+    Create unique color X*Y <span class="hljs-keyword">array</span>
+    Shuffle order
+    Place seed/s <span class="hljs-keyword">on</span> <span class="hljs-keyword">new</span> X*Y cell <span class="hljs-keyword">array</span>
+    Activate seed/s neighbors
+    <span class="hljs-keyword">for</span> i <span class="hljs-keyword">in</span> <span class="hljs-keyword">range</span>(X*Y)
+        Pick color i
+        <span class="hljs-keyword">for</span> every active cell
+            distance = average <span class="hljs-keyword">or</span> minimum L2-norm difference between picked color <span class="hljs-keyword">and</span> painted neighbors
+        <span class="hljs-keyword">end</span>
+        Paint active cell <span class="hljs-keyword">with</span> the smallest distance
+        Activate its neighbors
+        Display cell <span class="hljs-keyword">array</span>
+    <span class="hljs-keyword">end</span>
+<span class="hljs-keyword">end</span> <span class="hljs-keyword">procedure</span>
+</code></pre>
+<p>There are many parameters you can change to obtain different looking images (although thanks to random shuffling, each result is probably unique):</p>
+<ul>
+<li><strong>Average or minimum variants</strong>. Severely influences the growth pattern.</li>
+<li><strong>Seed/s starting location</strong></li>
+<li><strong>Image resolution</strong>. Larger images produce better and better results.</li>
+<li><strong>Shuffling order.</strong> Instead of using randomness, the colors can be ordered using other properties such as <strong>hue</strong>.</li>
+</ul>
+<p>Other techniques not used in the initial post:</p>
+<ul>
+<li><strong>Distance modifiers.</strong> Randomness, constant values or even a flow field added to the distance.</li>
+<li><strong>Initial color array</strong>. As shown by Generative Garden, you could instead sample the colors from other pictures.</li>
+</ul>
+<p>Performance enhancements and iterations later, the algorithm allowed fejescoco to create 4K images, images which are frankly stunning. As said by him and as it can be deduced from looking at the pseudocode, the most expensive operation is the distance calculation part. For example, in a 4K image, even if only 10% of the pixels are active, that still means 1.6M active cells, and then 8 checks per cell for the neighbors, with an additional math operation for each painted one. This is something GPUs are very well built to compute.</p>
+<div id="section3"></div>
+<h3>My GPU implementation</h3>
+<p>This was my second WebGPU project so it has been quite a learning experience. Last year I finished a code that only did the rendering and distance calculation on the GPU. Each iteration I used staging buffers to:</p>
+<ul>
+<li>Move the picked or target color to a GPU buffer</li>
+<li>Move the entire distance array back to the CPU, to calculate there the minimum</li>
+<li>Return the index of the minimum to another GPU buffer, and then</li>
+</ul>
+<p>This was done because I didn't know how to parallelize a find minimum operation. After fighting strange bugs due to the staging part being not trivial to synchronize, the result was massive transfers on every frame, especially due to the distance array, which is not optimal. Still, it was relatively quick (though, much slower than the last C# version on a CPU).</p>
+<p>This year I came back to it, and decided to move all the operations on the GPU. Now instead I moved all arrays into GPU buffers at the beginning and performed the same calculations there. Even though I was still using a single thread to calculate the minimum, the performance was 10 to 20 times better. The next improvements:</p>
+<ul>
+<li>Use parallel reduction instead of finding minimums with a single thread</li>
+<li>On every iteration, the number of active cells only changes by -1 or +5, could there be a way to exploit this?</li>
+</ul>
+<p>[wip]</p>
+<hr><div class="blogTags"><button class="blogTagSelected" title='Check more posts of the "Projects" category on my blog!'>Projects</button></div><br></div>
+        <div style="flex: 1; min-width: 20px;"></div>
+    </div>
+</div>
+<script>
+function toggleDetails(event) {
+    // const details = liElement.firstChild;
+    console.log(event.offsetX)
+    console.log(event.offsetY)
+    console.log("\n")
+    if (event.offsetX < 0) {
+        event.stopPropagation();
+        const details = event.currentTarget.firstChild;
+        details.open = !details.open;
+    } else if (event.offsetY < 30) {
+        event.stopPropagation();
+        const details = event.currentTarget.firstChild;
+        details.open = true;
+    }
+}
+</script>
+</body>
+</html>

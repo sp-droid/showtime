@@ -29,6 +29,8 @@ The projects part is by definition very diverse so I'm keeping it as a simple gr
 - markdown-it-[align plugin](https://github.com/mdit-plugins/mdit-plugins/tree/main/packages/align)
 - Custom parsing for links and a custom CSS style based on [github-markdown-css](https://github.com/sindresorhus/github-markdown-css)
 
+
+[toc]
 # Align
 
 ```
@@ -94,7 +96,7 @@ $$
 # Headers
 
 ```markdown
-# h1 Heading 8-)
+Not showing h1 because it's of the same size as the header of every section so far.
 ## h2 Heading
 ### h3 Heading
 #### h4 Heading
@@ -110,7 +112,6 @@ Alt-H2
 ------
 ```
 
-# h1 Heading
 ## h2 Heading
 ### h3 Heading
 #### h4 Heading
@@ -124,6 +125,7 @@ Alt-H1
 
 Alt-H2
 ------
+My philosophy for headers is, h1 for chapters, h2 for sections (unless there are no chapters), h3 for subsections and I wouldn't use the other 3 with any organizational idea behind.
 
 ------
 
@@ -170,7 +172,7 @@ _This is italic text_
 ------
 
 # Lists
-
+## Ordered
 ```markdown
 1. First ordered list item
 2. Another item
@@ -185,10 +187,6 @@ _This is italic text_
 ⋅⋅⋅Note that this line is separate, but within the same paragraph.⋅⋅
 ⋅⋅⋅(This is contrary to the typical GFM line break behaviour, where trailing spaces are not required.)
 
-* Unordered list can use asterisks
-- Or minuses
-+ Or pluses
-
 1. Make my changes
     1. Fix bug
     2. Improve formatting
@@ -198,14 +196,6 @@ _This is italic text_
     * Describe my changes
     * Mention all the members of my team
         * Ask for feedback
-
-+ Create a list by starting a line with `+`, `-`, or `*`
-+ Sub-lists are made by indenting 2 spaces:
-  - Marker character change forces new list start:
-    * Ac tristique libero volutpat at
-    + Facilisis in pretium nisl aliquet
-    - Nulla volutpat aliquam velit
-+ Very easy!
 ```
 
 1. First ordered list item
@@ -221,19 +211,24 @@ _This is italic text_
 ⋅⋅⋅Note that this line is separate, but within the same paragraph.⋅⋅
 ⋅⋅⋅(This is contrary to the typical GFM line break behaviour, where trailing spaces are not required.)
 
+## Unordered
+```markdown
 * Unordered list can use asterisks
 - Or minuses
 + Or pluses
 
-1. Make my changes
-    1. Fix bug
-    2. Improve formatting
-        - Make the headings bigger
-2. Push my commits to GitHub
-3. Open a pull request
-    * Describe my changes
-    * Mention all the members of my team
-        * Ask for feedback
++ Create a list by starting a line with `+`, `-`, or `*`
++ Sub-lists are made by indenting 2 spaces:
+  - Marker character change forces new list start:
+    * Ac tristique libero volutpat at
+    + Facilisis in pretium nisl aliquet
+    - Nulla volutpat aliquam velit
++ Very easy!
+```
+
+* Unordered list can use asterisks
+- Or minuses
++ Or pluses
 
 + Create a list by starting a line with `+`, `-`, or `*`
 + Sub-lists are made by indenting 2 spaces:
@@ -243,9 +238,7 @@ _This is italic text_
     - Nulla volutpat aliquam velit
 + Very easy!
 
-------
-
-# Task lists
+## Task lists
 
 ```markdown
 - [x] Finish my changes
@@ -264,18 +257,6 @@ _This is italic text_
 - [x] list syntax required (any unordered or ordered list supported)
 - [ ] this is a complete item
 - [ ] this is an incomplete item
-
-------
-
-# Ignoring Markdown formatting
-
-You can tell GitHub to ignore (or escape) Markdown formatting by using \ before the Markdown character.
-
-```
-Let's rename \*our-new-project\* to \*our-old-project\*.
-```
-
-Let's rename \*our-new-project\* to \*our-old-project\*.
 
 ------
 
@@ -329,7 +310,7 @@ Some text to show that the reference links can follow later.
 
 ------
 
-# Images
+## Images
 
 ```markdown
 Here's our logo (hover to see the title text):
@@ -377,8 +358,9 @@ With a reference later in the document defining the URL location:
 
 ------
 
-# [Footnotes](https://github.com/markdown-it/markdown-it-footnote)
+## Footnotes
 
+Footnote [documentation](https://github.com/markdown-it/markdown-it-footnote)
 ```markdown
 Footnote 1 link[^first].
 
@@ -408,6 +390,26 @@ Duplicated footnote reference[^second].
     and multiple paragraphs.
 
 [^second]: Footnote text.
+
+## YouTube Videos
+
+```markdown
+[![Test video](https://img.youtube.com/vi/WO2b03Zdu4Q/0.jpg)](https://www.youtube.com/watch?v=WO2b03Zdu4Q)
+```
+
+[![Test video](https://img.youtube.com/vi/WO2b03Zdu4Q/0.jpg)](https://www.youtube.com/watch?v=WO2b03Zdu4Q)
+
+
+------
+# Ignoring Markdown formatting
+
+You can force the interpreter to ignore or escape Markdown formatting by using \ before the Markdown character.
+
+```
+Let's rename \*our-new-project\* to \*our-old-project\*.
+```
+
+Let's rename \*our-new-project\* to \*our-old-project\*.
 
 ------
 
@@ -680,14 +682,3 @@ Asterisks
 ___
 
 Underscores
-
-------
-
-# YouTube Videos
-
-```markdown
-[![Test video](https://img.youtube.com/vi/WO2b03Zdu4Q/0.jpg)](https://www.youtube.com/watch?v=WO2b03Zdu4Q)
-```
-
-[![Test video](https://img.youtube.com/vi/WO2b03Zdu4Q/0.jpg)](https://www.youtube.com/watch?v=WO2b03Zdu4Q)
-

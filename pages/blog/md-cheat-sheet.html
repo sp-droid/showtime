@@ -59,8 +59,10 @@ section="blog">
     </div>
 </div></div>
     <div style="flex: 1; display: flex;">
-        <div style="flex: 1;"></div>
-        <div class="markdown-body" id="HTMLpost" style="flex: 0 1 800px;"><h6>September 7th, 2024</h6>
+        <div class="markdown-body sidebarHide" style="flex: 1; min-width: 20px;"><br><div class='TOCpost'><h3>&nbsp;Contents</h3><ul><li><a href='#section0'>(Top)</a></li><li><a href='#section1'>Align</a></li><li><a href='#section2'>Equations</a></li><li onclick="toggleDetails(event)"><details><summary><a href='#section3'>Headers</a></summary><ul><li onclick="toggleDetails(event)"><details><summary><a href='#section4'>h2 Heading</a></summary><ul><li><a href='#section5'>h3 Heading</a></li></ul></details></li></ul></details></li><li><a href='#section6'>Emphasis</a></li><li onclick="toggleDetails(event)"><details><summary><a href='#section7'>Lists</a></summary><ul><li><a href='#section8'>Ordered</a></li><li><a href='#section9'>Unordered</a></li><li><a href='#section10'>Task lists</a></li></ul></details></li><li onclick="toggleDetails(event)"><details><summary><a href='#section11'>Links</a></summary><ul><li><a href='#section12'>Images</a></li><li><a href='#section13'>Footnotes</a></li><li><a href='#section14'>YouTube Videos</a></li></ul></details></li><li><a href='#section15'>Ignoring Markdown formatting</a></li><li><a href='#section16'>Code and Syntax Highlighting</a></li><li><a href='#section17'>Tables</a></li><li><a href='#section18'>Blockquotes</a></li><li><a href='#section19'>Horizontal Rules</a></li>
+</ul></div></div>
+        <div class="markdown-body" id="HTMLpost" style="flex: 3;"><div id="section0"></div>
+<h6>September 7th, 2024</h6>
 <h1>Markdown cheat sheet and tools explanation</h1>
 <h5>Reading time: 12 mins</h5>
 <hr>
@@ -89,6 +91,8 @@ Years ago I tried a couple editors and this was the best one. It used to be free
 <li>markdown-it-<a href="https://github.com/mdit-plugins/mdit-plugins/tree/main/packages/align">align plugin</a></li>
 <li>Custom parsing for links and a custom CSS style based on <a href="https://github.com/sindresorhus/github-markdown-css">github-markdown-css</a></li>
 </ul>
+<p><div class='TOCpost'><h3>&nbsp;Contents</h3><ul><li><a href='#section0'>(Top)</a></li><li><a href='#section1'>Align</a></li><li><a href='#section2'>Equations</a></li><li onclick="toggleDetails(event)"><details><summary><a href='#section3'>Headers</a></summary><ul><li onclick="toggleDetails(event)"><details><summary><a href='#section4'>h2 Heading</a></summary><ul><li><a href='#section5'>h3 Heading</a></li></ul></details></li></ul></details></li><li><a href='#section6'>Emphasis</a></li><li onclick="toggleDetails(event)"><details><summary><a href='#section7'>Lists</a></summary><ul><li><a href='#section8'>Ordered</a></li><li><a href='#section9'>Unordered</a></li><li><a href='#section10'>Task lists</a></li></ul></details></li><li onclick="toggleDetails(event)"><details><summary><a href='#section11'>Links</a></summary><ul><li><a href='#section12'>Images</a></li><li><a href='#section13'>Footnotes</a></li><li><a href='#section14'>YouTube Videos</a></li></ul></details></li><li><a href='#section15'>Ignoring Markdown formatting</a></li><li><a href='#section16'>Code and Syntax Highlighting</a></li><li><a href='#section17'>Tables</a></li><li><a href='#section18'>Blockquotes</a></li><li><a href='#section19'>Horizontal Rules</a></li>
+</ul></div><div id="section1"></div></p>
 <h1>Align</h1>
 <pre><code>Markdown doesn't natively support this feature! Available: center, left, right, justify
 Usage:
@@ -99,6 +103,7 @@ Contents to align center
 <div style="text-align:center">
 <p>Contents to align center</p>
 </div>
+<div id="section2"></div>
 <h1>Equations</h1>
 <pre><code class="language-latex">Inline:
 <span class="hljs-built_in">$</span><span class="hljs-built_in">$</span><span class="hljs-keyword">\sqrt</span>{3x-1}+(1+x)<span class="hljs-built_in">^</span>2<span class="hljs-built_in">$</span><span class="hljs-built_in">$</span>
@@ -207,8 +212,9 @@ c-16-25.333-24-45-24-59z"/></svg></span></span></span></span></span></span></spa
 -7 1c-4.667 0-9.167-1.833-13.5-5.5S337 184 337 178c0-12.667 15.667-32.333 47-59
 H213l-171-1c-8.667-6-13-12.333-13-19 0-4.667 4.333-11.333 13-20h359
 c-16-25.333-24-45-24-59z"/></svg></span></span></span></span></span></span></span></span></span><span style="top:-1.5854em;"><span class="pstrut" style="height:3.0724em;"></span><span class="mord"><span class="mrel">=</span><span class="mspace" style="margin-right:0.2778em;"></span><span class="mord">0</span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:1.8469em;"><span></span></span></span></span></span><span class="arraycolsep" style="width:0.5em;"></span><span class="arraycolsep" style="width:0.5em;"></span><span class="col-align-c"><span class="vlist-t"><span class="vlist-r"><span class="vlist" style="height:2.3469em;"><span style="top:-4.3469em;"><span class="pstrut" style="height:3.0724em;"></span><span class="mord"><span class="mrel">=</span><span class="mspace" style="margin-right:0.2778em;"></span><span class="mord">4</span><span class="mord mathnormal" style="margin-right:0.03588em;">π</span><span class="mord mathnormal">ρ</span></span></span></span></span></span></span><span class="arraycolsep" style="width:0.5em;"></span></span></span></span></span></span></span></p>
+<div id="section3"></div>
 <h1>Headers</h1>
-<pre><code class="language-markdown"><span class="hljs-section"># h1 Heading 8-)</span>
+<pre><code class="language-markdown">Not showing h1 because it&#x27;s of the same size as the header of every section so far.
 <span class="hljs-section">## h2 Heading</span>
 <span class="hljs-section">### h3 Heading</span>
 <span class="hljs-section">#### h4 Heading</span>
@@ -223,8 +229,8 @@ Alternatively, for H1 and H2, an underline-ish style:
 <span class="hljs-section">Alt-H2
 ------</span>
 </code></pre>
-<h1>h1 Heading</h1>
-<h2>h2 Heading</h2>
+<div id="section4"></div>
+<h2>h2 Heading<div id="section5"></div></h2>
 <h3>h3 Heading</h3>
 <h4>h4 Heading</h4>
 <h5>h5 Heading</h5>
@@ -232,7 +238,9 @@ Alternatively, for H1 and H2, an underline-ish style:
 <p>Alternatively, for H1 and H2, an underline-ish style:</p>
 <h1>Alt-H1</h1>
 <h2>Alt-H2</h2>
+<p>My philosophy for headers is, h1 for chapters, h2 for sections (unless there are no chapters), h3 for subsections and I wouldn't use the other 3 with any organizational idea behind.</p>
 <hr>
+<div id="section6"></div>
 <h1>Emphasis</h1>
 <pre><code class="language-markdown">Emphasis, aka italics, with <span class="hljs-emphasis">*asterisks*</span> or <span class="hljs-emphasis">_underscores_</span>.
 
@@ -262,7 +270,9 @@ Strikethrough uses two tildes. ~~Scratch this.~~
 <p><em>This is italic text</em></p>
 <p><s>Strikethrough</s></p>
 <hr>
-<h1>Lists</h1>
+<div id="section7"></div>
+<h1>Lists<div id="section8"></div></h1>
+<h2>Ordered</h2>
 <pre><code class="language-markdown"><span class="hljs-bullet">1.</span> First ordered list item
 <span class="hljs-bullet">2.</span> Another item
 ⋅⋅* Unordered sub-list.
@@ -276,10 +286,6 @@ Strikethrough uses two tildes. ~~Scratch this.~~
 ⋅⋅⋅Note that this line is separate, but within the same paragraph.⋅⋅
 ⋅⋅⋅(This is contrary to the typical GFM line break behaviour, where trailing spaces are not required.)
 
-<span class="hljs-bullet">*</span> Unordered list can use asterisks
-<span class="hljs-bullet">-</span> Or minuses
-<span class="hljs-bullet">+</span> Or pluses
-
 <span class="hljs-bullet">1.</span> Make my changes
 <span class="hljs-bullet">    1.</span> Fix bug
 <span class="hljs-bullet">    2.</span> Improve formatting
@@ -289,14 +295,6 @@ Strikethrough uses two tildes. ~~Scratch this.~~
 <span class="hljs-bullet">    *</span> Describe my changes
 <span class="hljs-bullet">    *</span> Mention all the members of my team
 <span class="hljs-bullet">        *</span> Ask for feedback
-
-<span class="hljs-bullet">+</span> Create a list by starting a line with <span class="hljs-code">`+`</span>, <span class="hljs-code">`-`</span>, or <span class="hljs-code">`*`</span>
-<span class="hljs-bullet">+</span> Sub-lists are made by indenting 2 spaces:
-<span class="hljs-bullet">  -</span> Marker character change forces new list start:
-<span class="hljs-bullet">    *</span> Ac tristique libero volutpat at
-<span class="hljs-bullet">    +</span> Facilisis in pretium nisl aliquet
-<span class="hljs-bullet">    -</span> Nulla volutpat aliquam velit
-<span class="hljs-bullet">+</span> Very easy!
 </code></pre>
 <ol>
 <li>First ordered list item</li>
@@ -310,6 +308,20 @@ Strikethrough uses two tildes. ~~Scratch this.~~
 <p>⋅⋅⋅To have a line break without a paragraph, you will need to use two trailing spaces.⋅⋅
 ⋅⋅⋅Note that this line is separate, but within the same paragraph.⋅⋅
 ⋅⋅⋅(This is contrary to the typical GFM line break behaviour, where trailing spaces are not required.)</p>
+<div id="section9"></div>
+<h2>Unordered</h2>
+<pre><code class="language-markdown"><span class="hljs-bullet">*</span> Unordered list can use asterisks
+<span class="hljs-bullet">-</span> Or minuses
+<span class="hljs-bullet">+</span> Or pluses
+
+<span class="hljs-bullet">+</span> Create a list by starting a line with <span class="hljs-code">`+`</span>, <span class="hljs-code">`-`</span>, or <span class="hljs-code">`*`</span>
+<span class="hljs-bullet">+</span> Sub-lists are made by indenting 2 spaces:
+<span class="hljs-bullet">  -</span> Marker character change forces new list start:
+<span class="hljs-bullet">    *</span> Ac tristique libero volutpat at
+<span class="hljs-bullet">    +</span> Facilisis in pretium nisl aliquet
+<span class="hljs-bullet">    -</span> Nulla volutpat aliquam velit
+<span class="hljs-bullet">+</span> Very easy!
+</code></pre>
 <ul>
 <li>Unordered list can use asterisks</li>
 </ul>
@@ -317,34 +329,14 @@ Strikethrough uses two tildes. ~~Scratch this.~~
 <li>Or minuses</li>
 </ul>
 <ul>
-<li>Or pluses</li>
-</ul>
-<ol>
-<li>Make my changes
-<ol>
-<li>Fix bug</li>
-<li>Improve formatting
-<ul>
-<li>Make the headings bigger</li>
-</ul>
+<li>
+<p>Or pluses</p>
 </li>
-</ol>
+<li>
+<p>Create a list by starting a line with <code>+</code>, <code>-</code>, or <code>*</code></p>
 </li>
-<li>Push my commits to GitHub</li>
-<li>Open a pull request
-<ul>
-<li>Describe my changes</li>
-<li>Mention all the members of my team
-<ul>
-<li>Ask for feedback</li>
-</ul>
-</li>
-</ul>
-</li>
-</ol>
-<ul>
-<li>Create a list by starting a line with <code>+</code>, <code>-</code>, or <code>*</code></li>
-<li>Sub-lists are made by indenting 2 spaces:
+<li>
+<p>Sub-lists are made by indenting 2 spaces:</p>
 <ul>
 <li>Marker character change forces new list start:
 <ul>
@@ -359,10 +351,12 @@ Strikethrough uses two tildes. ~~Scratch this.~~
 </li>
 </ul>
 </li>
-<li>Very easy!</li>
+<li>
+<p>Very easy!</p>
+</li>
 </ul>
-<hr>
-<h1>Task lists</h1>
+<div id="section10"></div>
+<h2>Task lists</h2>
 <pre><code class="language-markdown"><span class="hljs-bullet">-</span> [x] Finish my changes
 <span class="hljs-bullet">-</span> [ ] Push my commits to GitHub
 <span class="hljs-bullet">-</span> [ ] Open a pull request
@@ -375,18 +369,13 @@ Strikethrough uses two tildes. ~~Scratch this.~~
 <li class="task-list-item"><input class="task-list-item-checkbox" checked="" disabled="" type="checkbox"> Finish my changes</li>
 <li class="task-list-item"><input class="task-list-item-checkbox" disabled="" type="checkbox"> Push my commits to GitHub</li>
 <li class="task-list-item"><input class="task-list-item-checkbox" disabled="" type="checkbox"> Open a pull request</li>
-<li class="task-list-item"><input class="task-list-item-checkbox" checked="" disabled="" type="checkbox"> @mentions, #refs, <a href="">links</a>, <strong>formatting</strong>, and &lt;del&gt;tags&lt;/del&gt; supported</li>
+<li class="task-list-item"><input class="task-list-item-checkbox" checked="" disabled="" type="checkbox"> @mentions, #refs, <a href="">links</a>, <strong>formatting</strong>, and <del>tags</del> supported</li>
 <li class="task-list-item"><input class="task-list-item-checkbox" checked="" disabled="" type="checkbox"> list syntax required (any unordered or ordered list supported)</li>
 <li class="task-list-item"><input class="task-list-item-checkbox" disabled="" type="checkbox"> this is a complete item</li>
 <li class="task-list-item"><input class="task-list-item-checkbox" disabled="" type="checkbox"> this is an incomplete item</li>
 </ul>
 <hr>
-<h1>Ignoring Markdown formatting</h1>
-<p>You can tell GitHub to ignore (or escape) Markdown formatting by using \ before the Markdown character.</p>
-<pre><code>Let's rename \*our-new-project\* to \*our-old-project\*.
-</code></pre>
-<p>Let's rename *our-new-project* to *our-old-project*.</p>
-<hr>
+<div id="section11"></div>
 <h1>Links</h1>
 <pre><code class="language-markdown">[<span class="hljs-string">I&#x27;m an inline-style link</span>](<span class="hljs-link">https://www.google.com</span>)
 
@@ -421,7 +410,8 @@ http://www.example.com or <a href="http://www.example.com">http://www.example.co
 example.com (but not on Github, for example).</p>
 <p>Some text to show that the reference links can follow later.</p>
 <hr>
-<h1>Images</h1>
+<div id="section12"></div>
+<h2>Images</h2>
 <pre><code class="language-markdown">Here&#x27;s our logo (hover to see the title text):
 
 Inline-style:
@@ -454,7 +444,9 @@ With a reference later in the document defining the URL location:
 <p><img src="https://octodex.github.com/images/dojocat.jpg" alt="Alt text" title="The Dojocat"></p>
 <p>With a reference later in the document defining the URL location:</p>
 <hr>
-<h1><a href="https://github.com/markdown-it/markdown-it-footnote">Footnotes</a></h1>
+<div id="section13"></div>
+<h2>Footnotes</h2>
+<p>Footnote <a href="https://github.com/markdown-it/markdown-it-footnote">documentation</a></p>
 <pre><code class="language-markdown">Footnote 1 link[^first].
 
 Footnote 2 link[^second].
@@ -473,7 +465,19 @@ Duplicated footnote reference[^second].
 <p>Footnote 2 link<sup class="footnote-ref"><a href="#fn2" id="fnref2">[2]</a></sup>.</p>
 <p>Inline footnote<sup class="footnote-ref"><a href="#fn3" id="fnref3">[3]</a></sup> definition.</p>
 <p>Duplicated footnote reference<sup class="footnote-ref"><a href="#fn2" id="fnref2:1">[2:1]</a></sup>.</p>
+<div id="section14"></div>
+<h2>YouTube Videos</h2>
+<pre><code class="language-markdown">[<span class="hljs-string">![Test video</span>](<span class="hljs-link">https://img.youtube.com/vi/WO2b03Zdu4Q/0.jpg</span>)](<span class="hljs-link">https://www.youtube.com/watch?v=WO2b03Zdu4Q</span>)
+</code></pre>
+<p><a href="https://www.youtube.com/watch?v=WO2b03Zdu4Q"><img src="https://img.youtube.com/vi/WO2b03Zdu4Q/0.jpg" alt="Test video"></a></p>
+<p>------<div id="section15"></div></p>
+<h1>Ignoring Markdown formatting</h1>
+<p>You can force the interpreter to ignore or escape Markdown formatting by using \ before the Markdown character.</p>
+<pre><code>Let's rename \*our-new-project\* to \*our-old-project\*.
+</code></pre>
+<p>Let's rename *our-new-project* to *our-old-project*.</p>
 <hr>
+<div id="section16"></div>
 <h1>Code and Syntax Highlighting</h1>
 <pre><code>Inline `code` has `back-ticks around` it.
 </code></pre>
@@ -585,6 +589,7 @@ datahere */
 datahere
 </code></pre>
 <hr>
+<div id="section17"></div>
 <h1>Tables</h1>
 <pre><code class="language-markdown">Colons can be used to align columns.
 
@@ -773,6 +778,7 @@ raw Markdown line up prettily. You can also use inline Markdown.</p>
 </tbody>
 </table>
 <hr>
+<div id="section18"></div>
 <h1>Blockquotes</h1>
 <pre><code class="language-markdown"><span class="hljs-quote">&gt; Blockquotes are very handy in email to emulate reply text.</span>
 <span class="hljs-quote">&gt; This line is part of the same quote.</span>
@@ -803,6 +809,7 @@ This line is part of the same quote.</p>
 </blockquote>
 </blockquote>
 <hr>
+<div id="section19"></div>
 <h1>Horizontal Rules</h1>
 <pre><code class="language-markdown">Three or more...
 
@@ -825,11 +832,6 @@ Underscores
 <p>Asterisks</p>
 <hr>
 <p>Underscores</p>
-<hr>
-<h1>YouTube Videos</h1>
-<pre><code class="language-markdown">[<span class="hljs-string">![Test video</span>](<span class="hljs-link">https://img.youtube.com/vi/WO2b03Zdu4Q/0.jpg</span>)](<span class="hljs-link">https://www.youtube.com/watch?v=WO2b03Zdu4Q</span>)
-</code></pre>
-<p><a href="https://www.youtube.com/watch?v=WO2b03Zdu4Q"><img src="https://img.youtube.com/vi/WO2b03Zdu4Q/0.jpg" alt="Test video"></a></p>
 <hr class="footnotes-sep">
 <section class="footnotes">
 <ol class="footnotes-list">
@@ -843,8 +845,25 @@ Underscores
 </ol>
 </section>
 <hr><div class="blogTags"><button class="blogTagSelected" title='Check more posts of the "Other" category on my blog!'>Other</button></div><br></div>
-        <div style="flex: 1;"></div>
+        <div style="flex: 1; min-width: 20px;"></div>
     </div>
 </div>
+<script>
+function toggleDetails(event) {
+    // const details = liElement.firstChild;
+    console.log(event.offsetX)
+    console.log(event.offsetY)
+    console.log("\n")
+    if (event.offsetX < 0) {
+        event.stopPropagation();
+        const details = event.currentTarget.firstChild;
+        details.open = !details.open;
+    } else if (event.offsetY < 30) {
+        event.stopPropagation();
+        const details = event.currentTarget.firstChild;
+        details.open = true;
+    }
+}
+</script>
 </body>
 </html>

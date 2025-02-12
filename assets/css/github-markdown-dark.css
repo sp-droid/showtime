@@ -12,8 +12,6 @@ html {
 
 .markdown-body {
   box-sizing: border-box;
-  min-width: 200px;
-  max-width: 800px;
   margin: 0 auto;
   padding-top: 98px;
 
@@ -1142,4 +1140,65 @@ html {
 
 .markdown-body>*:first-child>.heading-element:first-child {
   margin-top: 0 !important;
+}
+
+/* Blogpost TOC */
+.TOCpost li {
+  list-style-type: none;
+  user-select: none;
+}
+.TOCpost li:has(details) {
+  position: relative;
+}
+.TOCpost li:has(details)::before {
+  content: ">  ";
+  font-weight: bold;
+  position: absolute;
+  left: -24px;
+  transition: rotate 0.1s ease;
+  cursor: pointer;
+}
+.TOCpost li:has(details[open])::before {
+  rotate: 90deg;
+}
+.TOCpost li > details > summary {
+  list-style-type: none;
+  pointer-events: none;
+}
+.TOCpost a {
+  pointer-events: auto;
+}
+.sidebarHide .TOCpost {
+  padding-left: 16px;
+  margin-right: 16px;
+  margin-top: 90px;
+  position: sticky;
+  top: 0;
+  height: fit-content;
+  max-height: 95vh;
+  overflow-y: auto;
+}
+
+
+.markdown-body {
+  max-width: 1800px;
+}
+#HTMLpost .TOCpost {
+  display: none;
+}
+@media (max-width: 1500px) {
+  .sidebarHide .TOCpost {
+    display: none;
+  }
+  .markdown-body {
+    max-width: 90%;
+  }
+  #HTMLpost .TOCpost {
+    display: block;
+  }
+}
+@media (max-width: 2000px) {
+  .markdown-body {
+    max-width: 1200px;
+  }
 }
