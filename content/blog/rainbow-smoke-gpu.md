@@ -2,11 +2,13 @@ An implementation of the Rainbow Smoke algorithm using GPU compute shaders throu
 
 [Web implementation of Rainbow Smoke](../../content/JSexperiments/GPUrainbowSmoke/index.html)
 
-Example result using a square 512 resolution, average algorithm and random color shuffling:
+Example result:
 
 ::: center
 
 ![example result](assets/512avgRandom.jpg)
+
+512x512 resolution, average variant and random color shuffling
 
 :::
 

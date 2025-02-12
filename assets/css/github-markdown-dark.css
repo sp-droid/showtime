@@ -1142,6 +1142,11 @@ html {
   margin-top: 0 !important;
 }
 
+/* Image/Video links */
+a:has(img):hover {
+  opacity: 0.6;
+}
+
 /* Blogpost TOC */
 .TOCpost li {
   list-style-type: none;
@@ -1179,7 +1184,7 @@ html {
   overflow-y: auto;
 }
 
-
+/* Sizing of sidebar and main content */
 .markdown-body {
   max-width: 1800px;
 }
