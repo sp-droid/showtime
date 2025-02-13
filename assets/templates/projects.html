@@ -23,15 +23,14 @@ section ="projects">
 	<div id="HTMLtopbar" style="flex: 0;">{{HTMLtopbar}}</div>
     <div id="layoutList" style="flex: 1; display: flex; flex-direction: column;">
         <div style="flex: 0;">
-            <div style="text-align: right; margin-top: 15px;"><span id="buttonFilterMenu" class="btn btn-info" style="border-radius: 1px;"><i class="fa fa-bars"></i>&ensp;Filter</span>&emsp;</div>
-            <div style="display: flex;">
+            <div style="display: flex; margin-top: 25px; margin-bottom: 20px;">
                 <div style="flex: 1;"><p id="hideAlertChrome" style="color: orangered; font-weight: bolder; transition: opacity 2s">Not all <a class="linkPopUp" href="https://caniuse.com/?search=web%20gpu">browsers</a> support WebGPU yet!</p></div>
-                <h2 style="flex: 0;"" id="typewriterProjects">Projects from university.</h2>
+                <h2 style="flex: 0;"" id="typewriterProjects">Personal projects...</h2>
                 <div style="flex: 1;"></div>
             </div>
-            <br>
-            <div style="text-align: center; width: 63%; margin: auto;">
-                <p class="pRich">Welcome to the projects section, the main part and reason for this website to exist! Towards these is where most of my effort has gone to, and I think it's great to be able to share some of them.</p>
+            <div style="margin-bottom: 25px; display: flex; justify-content: center;">
+                <button id="buttonFilterImportance" class="btn btn-warning" style="border-radius: 1px; margin-right: 12px;"><i class="fa fa-fire"></i>&ensp;Time invested</button>
+                <button id="buttonFilterTool" class="btn btn-info" style="border-radius: 1px;"><i class="fa fa-code"></i>&ensp;Tool: All</button>
             </div>
         </div>
         <div style="flex: 0; display: flex;">

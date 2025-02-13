@@ -8,7 +8,7 @@
 	"header": "GPU Rainbow Smoke",
 	"desc": "WebGPU implementation of the Rainbow Smoke algorithm.",
 	"date": "12/02/2025",
-	"importance": 0
+	"importance": 1
 },
 {
 	"link": "../content/JSexperiments/badmintonReaction/index.html",
@@ -55,36 +55,25 @@
 	"importance": 0
 },
 {
-	"link": "https://www.youtube.com/watch?v=rTtfvdIVifg",
-	"bg": "polimiLS",
+	"link": "../pages/blog/uni-projects.html",
+	"bg": "polimiOM",
 	"gif": true,
 	"type": "Polytechnic University of Milan",
 	"tools": ["MATLAB","Blender"],
-	"header": "(L.S.) Missile concept design",
-	"desc": "(Launch Systems assignment) Concept design of a missile system to deliver a non-military payload with a range of ~250km.",
+	"header": "MSc. Space Engineering",
+	"desc": "The results of some of the projects during my master in Space Engineering at PoliMi.",
 	"date": "22/12/2023",
-	"importance": 1
-},
-{
-	"link": "#",
-	"bg": "default",
-	"gif": false,
-	"type": "European Space Agency",
-	"tools": ["JavaScript","HTML","CSS","django"],
-	"header": "Spectral data portal PoC",
-	"desc": "On hold. I'm still sorting out how to lightly show this kind of stuff without breaking NDAs or doing any harm.",
-	"date": "31/12/2023",
 	"importance": 2
 },
 {
-	"link": "#",
-	"bg": "default",
+	"link": "../pages/blog/eac-internship.html",
+	"bg": "eacInternship",
 	"gif": false,
 	"type": "European Space Agency",
-	"tools": ["Python","Keras"],
-	"header": "ML classifier on mineral spectra",
-	"desc": "On hold. I'm still sorting out how to lightly show this kind of stuff without breaking NDAs or doing any harm.",
-	"date": "15/09/2023",
+	"tools": ["Python","Keras","JavaScript","HTML","CSS","django"],
+	"header": "European Space Agency internship",
+	"desc": "Light summary of the things I worked on during my internship at the European Astronaut Centre.",
+	"date": "31/12/2023",
 	"importance": 2
 },
 {
@@ -94,20 +83,9 @@
 	"type": "UPM & Airbus",
 	"tools": ["Python"],
 	"header": "Validation tool for (aircraft) ML models",
-	"desc": "On hold. I'm still sorting out how to lightly show this kind of stuff without breaking NDAs or doing any harm.",
+	"desc": "Writing wip.",
 	"date": "31/08/2023",
 	"importance": 2
-},
-{
-	"link": "https://www.youtube.com/watch?v=B0lHIo_tt7I",
-	"bg": "polimiSAD",
-	"gif": true,
-	"type": "Polytechnic University of Milan",
-	"tools": ["MATLAB","Blender"],
-	"header": "(S.A.D.) Satellite modelling",
-	"desc": "(Spacecraft Attitude Dynamics assignment) Modelling of the attitude dynamics of a Sun-synchronous satellite.",
-	"date": "07/01/2024",
-	"importance": 1
 },
 {
 	"link": "#",
@@ -129,17 +107,6 @@
 	"header": "GPU Historical biome prediction",
 	"desc": "Using a variation of Whittaker's diagram (biome = f[temperature, rainfall, height]) and extrapolated Earth observational data to classify biomes on 1204 A.D. on +130M pixel images.",
 	"date": "11/03/2023",
-	"importance": 1
-},
-{
-	"link": "https://www.youtube.com/watch?v=ByNQOdoczXE",
-	"bg": "polimiOM",
-	"gif": true,
-	"type": "Polytechnic University of Milan",
-	"tools": ["MATLAB"],
-	"header": "(O.M.) Satellite modelling",
-	"desc": "(Orbital Mechanics assignment) Modelling of the perturbations and movement of a satellite. <br>Attention! This is not finished. The project had two videos and I want to further explain it.",
-	"date": "01/01/2023",
 	"importance": 1
 },
 {

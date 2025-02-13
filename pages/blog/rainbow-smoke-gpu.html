@@ -59,7 +59,7 @@ section="blog">
     </div>
 </div></div>
     <div style="flex: 1; display: flex;">
-        <div class="markdown-body sidebarHide" style="flex: 1; min-width: 20px;"><br><div class='TOCpost'><h3>&nbsp;Contents</h3><ul><li><a href='#section0'>(Top)</a></li><ul><li><a href='#section1'>History</a></li><li onclick="toggleDetails(event)"><details><summary><a href='#section2'>The algorithm</a></summary><ul><li><a href='#section3'>My GPU implementation</a></li></ul></details></li></ul>
+        <div class="markdown-body sidebarHide" style="flex: 1; min-width: 20px;"><br><div class='TOCpost'><h3>&nbsp;Contents</h3><ul><li><a href='#section0'>(Top)</a></li><ul><li><a href='#section1'>History</a></li><li onclick="toggleDetails(event)"><details><summary><a href='#section2'>The Algorithm</a></summary><ul><li><a href='#section3'>My GPU Implementation</a></li></ul></details></li></ul>
 </ul></div></div>
         <div class="markdown-body" id="HTMLpost" style="flex: 3;"><div id="section0"></div>
 <h6>February 12th, 2025</h6>
@@ -73,7 +73,7 @@ section="blog">
 <p><img src="../../content/blog/assets/512avgRandom.jpg" alt="example result"></p>
 <p>512x512 resolution, average variant and random color shuffling</p>
 </div>
-<p><div class='TOCpost'><h3>&nbsp;Contents</h3><ul><li><a href='#section0'>(Top)</a></li><ul><li><a href='#section1'>History</a></li><li onclick="toggleDetails(event)"><details><summary><a href='#section2'>The algorithm</a></summary><ul><li><a href='#section3'>My GPU implementation</a></li></ul></details></li></ul>
+<p><div class='TOCpost'><h3>&nbsp;Contents</h3><ul><li><a href='#section0'>(Top)</a></li><ul><li><a href='#section1'>History</a></li><li onclick="toggleDetails(event)"><details><summary><a href='#section2'>The Algorithm</a></summary><ul><li><a href='#section3'>My GPU Implementation</a></li></ul></details></li></ul>
 </ul></div></p>
 <div id="section1"></div>
 <h2>History</h2>
@@ -88,11 +88,11 @@ section="blog">
 <p><img src="../../content/blog/assets/example.png" alt="example"></p>
 </div>
 <p>There were many interesting submissions, but &quot;Rainbow Smoke&quot;, submitted by Hungarian user fejescoco, quickly became the clear winner. He himself hosts a little <a href="http://rainbowsmoke.hu/home">website</a> where you can see a gallery of images crafted using his work, links to videos and articles talking about it. Indeed several news agencies back then picked up on the contest winner and it became quite popular. He explained it in a very graphic way here:</p>
-<p><a href="https://www.youtube.com/watch?v=OuvFsB4SLhA"><img class="embedVideo" src="https://img.youtube.com/vi/OuvFsB4SLhA/0.jpg" alt="fejescoco video"  /></a></p>
+<iframe width="640" height="360" src="https://www.youtube.com/embed/OuvFsB4SLhA" allowfullscreen></iframe>
 <p>Throughout the years people interested on the subject have imagined different ways of building up on it, an example:</p>
-<p><a href="https://www.youtube.com/watch?v=dVQDYne8Bkc"><img src="https://img.youtube.com/vi/dVQDYne8Bkc/0.jpg" alt="Generative Garden video"></a></p>
+<iframe width="640" height="360" src="https://www.youtube.com/embed/dVQDYne8Bkc" allowfullscreen></iframe>
 <div id="section2"></div>
-<h2>The algorithm</h2>
+<h2>The Algorithm</h2>
 <p>The original implementation was a CPU single-threaded C# code with some performance issues, but enough for the mandatory 256x128 pixel image of the contest. However, to deliver on higher resolutions (and he went up to 4k, which you can see on his website) the code had to be improved on performance and partly made parallelizable. Simple version of it:</p>
 <pre><code class="language-vhdl"><span class="hljs-keyword">procedure</span> RainbowSmoke
     Create unique color X*Y <span class="hljs-keyword">array</span>
@@ -124,7 +124,7 @@ section="blog">
 </ul>
 <p>Performance enhancements and iterations later, the algorithm allowed fejescoco to create 4K images, images which are frankly stunning. As said by him and as it can be deduced from looking at the pseudocode, the most expensive operation is the distance calculation part. For example, in a 4K image, even if only 10% of the pixels are active, that still means 1.6M active cells, and then 8 checks per cell for the neighbors, with an additional math operation for each painted one. This is something GPUs are very well built to compute.</p>
 <div id="section3"></div>
-<h3>My GPU implementation</h3>
+<h3>My GPU Implementation</h3>
 <p>This was my second WebGPU project so it has been quite a learning experience. Last year I finished a code that only did the rendering and distance calculation on the GPU. Each iteration I used staging buffers to:</p>
 <ul>
 <li>Move the picked or target color to a GPU buffer</li>

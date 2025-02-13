@@ -14,7 +14,7 @@ document.addEventListener("DOMContentLoaded", function() {
     // ########## Typewriter ##########
     // ################################
     const typewriterProjects = document.getElementById("typewriterProjects");
-    const typewriterPhrases = ["Projects from my university studies.", "Programs of my own.", "Work projects (not under NDA).", "Animations, timelapses..."];
+    const typewriterPhrases = ["Personal projects...", "Interactive web apps, timelapses, summaries...", "Work projects..."];
     const typewriterDelay = 4000;
     let typewriterCurrentPhrase = 1;
 
@@ -49,7 +49,7 @@ document.addEventListener("DOMContentLoaded", function() {
                 projectElement.setAttribute("rel", "noopener noreferrer");
                 
                 if (data[i]["link"] != "#") { projectElement.setAttribute("href", data[i]["link"]) }
-                projectElement.style.backgroundImage = `url('../assets/img/projects/preview/${data[i]["bg"]}.jpg')`;
+                projectElement.style.backgroundImage = `url('../assets/img/projects/${data[i]["bg"]}.jpg')`;
                 
                 const innerDiv = document.createElement("div");
                 // Header
@@ -64,7 +64,7 @@ document.addEventListener("DOMContentLoaded", function() {
                 // Date
                 const date = document.createElement("h5");
                 date.innerHTML = formatDate(data[i]["date"]);
-                date.setAttribute("title","The assigned date could be related to the latest major change to the project or an official date of termination");
+                date.setAttribute("title","The assigned date could be related to the latest major change or the date of completion");
                 innerDiv.appendChild(date);
                 // Project type icon
                 const projectType = document.createElement("div");
@@ -87,10 +87,10 @@ document.addEventListener("DOMContentLoaded", function() {
                 // On hover GIF
                 if (data[i]["gif"] === true) {
                     projectElement.addEventListener('mouseenter', function() {
-                        projectElement.style.backgroundImage = `url('../assets/img/projects/preview/${data[i]["bg"]}.avif')`;
+                        projectElement.style.backgroundImage = `url('../assets/img/projects/${data[i]["bg"]}.avif')`;
                     });
                     projectElement.addEventListener('mouseleave', function() {
-                        projectElement.style.backgroundImage = `url('../assets/img/projects/preview/${data[i]["bg"]}.jpg')`;
+                        projectElement.style.backgroundImage = `url('../assets/img/projects/${data[i]["bg"]}.jpg')`;
                     });
                 };
 

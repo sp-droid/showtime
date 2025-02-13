@@ -1,6 +1,6 @@
 This technical post serves as first ever blog entry, cheat sheet and check for all supported markdown features I could implement.
 
-### But before, how does it work?
+#### But before, how does it work?
 
 I write markdown files using Typora as md editor, save them on the server and log an entry with metadata (title, filename, date, tags...) on a JSON file. Before uploading I run a script that, among other things, renders the markdown text into HTML. Since I found very good packages in JS, I'm using that language on top of node.js as package manager, called through _subprocess_ via the main python script.
 
@@ -8,7 +8,7 @@ The recipes part works differently. Since I am writing in plain text with custom
 
 The projects part is by definition very diverse so I'm keeping it as a simple grid with links to either videos, completely different pages or nothing at all. It relies on JS to bring up the content, but I'm planning on at least statically typing the links to each project beforehand so they are visible to crawlers.
 
-### Q&A
+#### Q&A
 
 1. **Why not render it dynamically?**
    This entire site is hosted on Github Pages, so I can't dynamically render anything server-side. I considered and actually fully completed a Single Page Application, rendering everything client-side, but I found out how terrible its SEO capabilities were so I reverted to making them statically.
@@ -238,7 +238,7 @@ _This is italic text_
     - Nulla volutpat aliquam velit
 + Very easy!
 
-## Task lists
+## Task Lists
 
 ```markdown
 - [x] Finish my changes
@@ -394,14 +394,13 @@ Duplicated footnote reference[^second].
 ## YouTube Videos
 
 ```markdown
-[![Test video](https://img.youtube.com/vi/WO2b03Zdu4Q/0.jpg)](https://www.youtube.com/watch?v=WO2b03Zdu4Q)
+<iframe width="640" height="360" src="https://www.youtube.com/embed/WO2b03Zdu4Q" allowfullscreen></iframe>
 ```
-
-[![Test video](https://img.youtube.com/vi/WO2b03Zdu4Q/0.jpg)](https://www.youtube.com/watch?v=WO2b03Zdu4Q)
-
+<iframe width="640" height="360" src="https://www.youtube.com/embed/WO2b03Zdu4Q" allowfullscreen></iframe>
 
 ------
-# Ignoring Markdown formatting
+
+# Ignoring Markdown Formatting
 
 You can force the interpreter to ignore or escape Markdown formatting by using \ before the Markdown character.
 

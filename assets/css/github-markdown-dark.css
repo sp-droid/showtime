@@ -1142,11 +1142,6 @@ html {
   margin-top: 0 !important;
 }
 
-/* Image/Video links */
-a:has(img):hover {
-  opacity: 0.6;
-}
-
 /* Blogpost TOC */
 .TOCpost li {
   list-style-type: none;

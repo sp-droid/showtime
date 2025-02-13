@@ -59,7 +59,7 @@ section="blog">
     </div>
 </div></div>
     <div style="flex: 1; display: flex;">
-        <div class="markdown-body sidebarHide" style="flex: 1; min-width: 20px;"><br><div class='TOCpost'><h3>&nbsp;Contents</h3><ul><li><a href='#section0'>(Top)</a></li><li><a href='#section1'>Align</a></li><li><a href='#section2'>Equations</a></li><li onclick="toggleDetails(event)"><details><summary><a href='#section3'>Headers</a></summary><ul><li onclick="toggleDetails(event)"><details><summary><a href='#section4'>h2 Heading</a></summary><ul><li><a href='#section5'>h3 Heading</a></li></ul></details></li></ul></details></li><li><a href='#section6'>Emphasis</a></li><li onclick="toggleDetails(event)"><details><summary><a href='#section7'>Lists</a></summary><ul><li><a href='#section8'>Ordered</a></li><li><a href='#section9'>Unordered</a></li><li><a href='#section10'>Task lists</a></li></ul></details></li><li onclick="toggleDetails(event)"><details><summary><a href='#section11'>Links</a></summary><ul><li><a href='#section12'>Images</a></li><li><a href='#section13'>Footnotes</a></li><li><a href='#section14'>YouTube Videos</a></li></ul></details></li><li><a href='#section15'>Ignoring Markdown formatting</a></li><li><a href='#section16'>Code and Syntax Highlighting</a></li><li><a href='#section17'>Tables</a></li><li><a href='#section18'>Blockquotes</a></li><li><a href='#section19'>Horizontal Rules</a></li>
+        <div class="markdown-body sidebarHide" style="flex: 1; min-width: 20px;"><br><div class='TOCpost'><h3>&nbsp;Contents</h3><ul><li><a href='#section0'>(Top)</a></li><li><a href='#section1'>Align</a></li><li><a href='#section2'>Equations</a></li><li onclick="toggleDetails(event)"><details><summary><a href='#section3'>Headers</a></summary><ul><li onclick="toggleDetails(event)"><details><summary><a href='#section4'>h2 Heading</a></summary><ul><li><a href='#section5'>h3 Heading</a></li></ul></details></li></ul></details></li><li><a href='#section6'>Emphasis</a></li><li onclick="toggleDetails(event)"><details><summary><a href='#section7'>Lists</a></summary><ul><li><a href='#section8'>Ordered</a></li><li><a href='#section9'>Unordered</a></li><li><a href='#section10'>Task Lists</a></li></ul></details></li><li onclick="toggleDetails(event)"><details><summary><a href='#section11'>Links</a></summary><ul><li><a href='#section12'>Images</a></li><li><a href='#section13'>Footnotes</a></li><li><a href='#section14'>YouTube Videos</a></li></ul></details></li><li><a href='#section15'>Ignoring Markdown Formatting</a></li><li><a href='#section16'>Code and Syntax Highlighting</a></li><li><a href='#section17'>Tables</a></li><li><a href='#section18'>Blockquotes</a></li><li><a href='#section19'>Horizontal Rules</a></li>
 </ul></div></div>
         <div class="markdown-body" id="HTMLpost" style="flex: 3;"><div id="section0"></div>
 <h6>September 7th, 2024</h6>
@@ -67,11 +67,11 @@ section="blog">
 <h5>Reading time: 12 mins</h5>
 <hr>
 <p>This technical post serves as first ever blog entry, cheat sheet and check for all supported markdown features I could implement.</p>
-<h3>But before, how does it work?</h3>
+<h4>But before, how does it work?</h4>
 <p>I write markdown files using Typora as md editor, save them on the server and log an entry with metadata (title, filename, date, tags...) on a JSON file. Before uploading I run a script that, among other things, renders the markdown text into HTML. Since I found very good packages in JS, I'm using that language on top of node.js as package manager, called through <em>subprocess</em> via the main python script.</p>
 <p>The recipes part works differently. Since I am writing in plain text with custom styling, I need to run a python script for the ingredients/nutrition calculation, and the structure between recipes is shared, I'm storing the HTML files directly.</p>
 <p>The projects part is by definition very diverse so I'm keeping it as a simple grid with links to either videos, completely different pages or nothing at all. It relies on JS to bring up the content, but I'm planning on at least statically typing the links to each project beforehand so they are visible to crawlers.</p>
-<h3>Q&amp;A</h3>
+<h4>Q&amp;A</h4>
 <ol>
 <li><strong>Why not render it dynamically?</strong>
 This entire site is hosted on Github Pages, so I can't dynamically render anything server-side. I considered and actually fully completed a Single Page Application, rendering everything client-side, but I found out how terrible its SEO capabilities were so I reverted to making them statically.</li>
@@ -91,7 +91,7 @@ Years ago I tried a couple editors and this was the best one. It used to be free
 <li>markdown-it-<a href="https://github.com/mdit-plugins/mdit-plugins/tree/main/packages/align">align plugin</a></li>
 <li>Custom parsing for links and a custom CSS style based on <a href="https://github.com/sindresorhus/github-markdown-css">github-markdown-css</a></li>
 </ul>
-<p><div class='TOCpost'><h3>&nbsp;Contents</h3><ul><li><a href='#section0'>(Top)</a></li><li><a href='#section1'>Align</a></li><li><a href='#section2'>Equations</a></li><li onclick="toggleDetails(event)"><details><summary><a href='#section3'>Headers</a></summary><ul><li onclick="toggleDetails(event)"><details><summary><a href='#section4'>h2 Heading</a></summary><ul><li><a href='#section5'>h3 Heading</a></li></ul></details></li></ul></details></li><li><a href='#section6'>Emphasis</a></li><li onclick="toggleDetails(event)"><details><summary><a href='#section7'>Lists</a></summary><ul><li><a href='#section8'>Ordered</a></li><li><a href='#section9'>Unordered</a></li><li><a href='#section10'>Task lists</a></li></ul></details></li><li onclick="toggleDetails(event)"><details><summary><a href='#section11'>Links</a></summary><ul><li><a href='#section12'>Images</a></li><li><a href='#section13'>Footnotes</a></li><li><a href='#section14'>YouTube Videos</a></li></ul></details></li><li><a href='#section15'>Ignoring Markdown formatting</a></li><li><a href='#section16'>Code and Syntax Highlighting</a></li><li><a href='#section17'>Tables</a></li><li><a href='#section18'>Blockquotes</a></li><li><a href='#section19'>Horizontal Rules</a></li>
+<p><div class='TOCpost'><h3>&nbsp;Contents</h3><ul><li><a href='#section0'>(Top)</a></li><li><a href='#section1'>Align</a></li><li><a href='#section2'>Equations</a></li><li onclick="toggleDetails(event)"><details><summary><a href='#section3'>Headers</a></summary><ul><li onclick="toggleDetails(event)"><details><summary><a href='#section4'>h2 Heading</a></summary><ul><li><a href='#section5'>h3 Heading</a></li></ul></details></li></ul></details></li><li><a href='#section6'>Emphasis</a></li><li onclick="toggleDetails(event)"><details><summary><a href='#section7'>Lists</a></summary><ul><li><a href='#section8'>Ordered</a></li><li><a href='#section9'>Unordered</a></li><li><a href='#section10'>Task Lists</a></li></ul></details></li><li onclick="toggleDetails(event)"><details><summary><a href='#section11'>Links</a></summary><ul><li><a href='#section12'>Images</a></li><li><a href='#section13'>Footnotes</a></li><li><a href='#section14'>YouTube Videos</a></li></ul></details></li><li><a href='#section15'>Ignoring Markdown Formatting</a></li><li><a href='#section16'>Code and Syntax Highlighting</a></li><li><a href='#section17'>Tables</a></li><li><a href='#section18'>Blockquotes</a></li><li><a href='#section19'>Horizontal Rules</a></li>
 </ul></div><div id="section1"></div></p>
 <h1>Align</h1>
 <pre><code>Markdown doesn't natively support this feature! Available: center, left, right, justify
@@ -356,7 +356,7 @@ Strikethrough uses two tildes. ~~Scratch this.~~
 </li>
 </ul>
 <div id="section10"></div>
-<h2>Task lists</h2>
+<h2>Task Lists</h2>
 <pre><code class="language-markdown"><span class="hljs-bullet">-</span> [x] Finish my changes
 <span class="hljs-bullet">-</span> [ ] Push my commits to GitHub
 <span class="hljs-bullet">-</span> [ ] Open a pull request
@@ -467,11 +467,12 @@ Duplicated footnote reference[^second].
 <p>Duplicated footnote reference<sup class="footnote-ref"><a href="#fn2" id="fnref2:1">[2:1]</a></sup>.</p>
 <div id="section14"></div>
 <h2>YouTube Videos</h2>
-<pre><code class="language-markdown">[<span class="hljs-string">![Test video</span>](<span class="hljs-link">https://img.youtube.com/vi/WO2b03Zdu4Q/0.jpg</span>)](<span class="hljs-link">https://www.youtube.com/watch?v=WO2b03Zdu4Q</span>)
+<pre><code class="language-markdown"><span class="language-xml"><span class="hljs-tag">&lt;<span class="hljs-name">iframe</span> <span class="hljs-attr">width</span>=<span class="hljs-string">&quot;640&quot;</span> <span class="hljs-attr">height</span>=<span class="hljs-string">&quot;360&quot;</span> <span class="hljs-attr">src</span>=<span class="hljs-string">&quot;https://www.youtube.com/embed/WO2b03Zdu4Q&quot;</span> <span class="hljs-attr">allowfullscreen</span>&gt;</span></span><span class="language-xml"><span class="hljs-tag">&lt;/<span class="hljs-name">iframe</span>&gt;</span></span>
 </code></pre>
-<p><a href="https://www.youtube.com/watch?v=WO2b03Zdu4Q"><img src="https://img.youtube.com/vi/WO2b03Zdu4Q/0.jpg" alt="Test video"></a></p>
-<p>------<div id="section15"></div></p>
-<h1>Ignoring Markdown formatting</h1>
+<iframe width="640" height="360" src="https://www.youtube.com/embed/WO2b03Zdu4Q" allowfullscreen></iframe>
+<hr>
+<div id="section15"></div>
+<h1>Ignoring Markdown Formatting</h1>
 <p>You can force the interpreter to ignore or escape Markdown formatting by using \ before the Markdown character.</p>
 <pre><code>Let's rename \*our-new-project\* to \*our-old-project\*.
 </code></pre>

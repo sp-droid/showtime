@@ -29,15 +29,13 @@ The example image, which technically fulfills the requirements but is not artist
 
 There were many interesting submissions, but "Rainbow Smoke", submitted by Hungarian user fejescoco, quickly became the clear winner. He himself hosts a little [website](http://rainbowsmoke.hu/home) where you can see a gallery of images crafted using his work, links to videos and articles talking about it. Indeed several news agencies back then picked up on the contest winner and it became quite popular. He explained it in a very graphic way here:
 
-[<img class="embedVideo" src="https://img.youtube.com/vi/OuvFsB4SLhA/0.jpg" alt="fejescoco video"  />](https://www.youtube.com/watch?v=OuvFsB4SLhA)
+<iframe width="640" height="360" src="https://www.youtube.com/embed/OuvFsB4SLhA" allowfullscreen></iframe>
 
 Throughout the years people interested on the subject have imagined different ways of building up on it, an example:
 
-[![Generative Garden video](https://img.youtube.com/vi/dVQDYne8Bkc/0.jpg)](https://www.youtube.com/watch?v=dVQDYne8Bkc)
+<iframe width="640" height="360" src="https://www.youtube.com/embed/dVQDYne8Bkc" allowfullscreen></iframe>
 
-
-
-## The algorithm
+## The Algorithm
 
 The original implementation was a CPU single-threaded C# code with some performance issues, but enough for the mandatory 256x128 pixel image of the contest. However, to deliver on higher resolutions (and he went up to 4k, which you can see on his website) the code had to be improved on performance and partly made parallelizable. Simple version of it:
 
@@ -73,7 +71,7 @@ Other techniques not used in the initial post:
 
 Performance enhancements and iterations later, the algorithm allowed fejescoco to create 4K images, images which are frankly stunning. As said by him and as it can be deduced from looking at the pseudocode, the most expensive operation is the distance calculation part. For example, in a 4K image, even if only 10% of the pixels are active, that still means 1.6M active cells, and then 8 checks per cell for the neighbors, with an additional math operation for each painted one. This is something GPUs are very well built to compute.
 
-### My GPU implementation
+### My GPU Implementation
 
 This was my second WebGPU project so it has been quite a learning experience. Last year I finished a code that only did the rendering and distance calculation on the GPU. Each iteration I used staging buffers to:
 

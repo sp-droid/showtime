@@ -1,5 +1,17 @@
 [
 {
+	"title": "Internship at the European Space Agency",
+	"file": "eac-internship",
+	"tag": "Projects",
+	"date": "13/02/2025"
+},
+{
+	"title": "Projects during the MSc. in Space Engineering",
+	"file": "uni-projects",
+	"tag": "Projects",
+	"date": "13/02/2025"
+},
+{
 	"title": "GPU-accelerated Rainbow Smoke algorithm",
 	"file": "rainbow-smoke-gpu",
 	"tag": "Projects",
