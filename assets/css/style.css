@@ -271,6 +271,20 @@ p { font-size: 20px; }
 /* ################### */
 /* Project grid */
 /* ################### */
+#gridProjects {
+    max-width: 90%;
+}
+@media (max-width: 1500px) {
+    #gridProjects {
+        max-width: 99%;
+    }
+}
+@media (max-width: 2100px) {
+    #gridProjects {
+        max-width: 95%;
+    }
+}
+
 .gridElement {
     width: 600px;
     height: 340px;

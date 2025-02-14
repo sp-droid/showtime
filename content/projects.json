@@ -8,7 +8,7 @@
 	"header": "GPU Rainbow Smoke",
 	"desc": "WebGPU implementation of the Rainbow Smoke algorithm.",
 	"date": "12/02/2025",
-	"importance": 1
+	"importance": "Medium"
 },
 {
 	"link": "../content/JSexperiments/badmintonReaction/index.html",
@@ -19,7 +19,7 @@
 	"header": "Lateral reaction time minigame",
 	"desc": "I've been playing a lot of badminton over the last year and I wanted to make a simple game to train lateral eye-hand reaction time. Control with left and right keys.",
 	"date": "04/02/2025",
-	"importance": 0
+	"importance": "Low"
 },
 {
 	"link": "#",
@@ -30,7 +30,7 @@
 	"header": "Clicker & Pointer Android app",
 	"desc": "I couldn't find an app that allowed me to use my phone's volume buttons to pass the slides on a Powerpoint presentation, so I made one and added a 'laser' pointer extra functionality.",
 	"date": "21/04/2024",
-	"importance": 1
+	"importance": "Medium"
 },
 {
 	"link": "https://www.flickr.com/photos/200282744@N03/albums/72177720315521996",
@@ -41,7 +41,7 @@
 	"header": "Solar System in Blender",
 	"desc": "Various Solar System bodies brought to Blender, you can download their QHD renderings for wallpapers or anything else.",
 	"date": "17/03/2024",
-	"importance": 0
+	"importance": "Low"
 },
 {
 	"link": "../content/JSexperiments/webGPUconway/index.html",
@@ -52,7 +52,7 @@
 	"header": "GPU Conway's Game of Life",
 	"desc": "WebGPU implementation of Conway's Game of Life.",
 	"date": "21/02/2024",
-	"importance": 0
+	"importance": "Low"
 },
 {
 	"link": "../pages/blog/uni-projects.html",
@@ -63,18 +63,18 @@
 	"header": "MSc. Space Engineering",
 	"desc": "The results of some of the projects during my master in Space Engineering at PoliMi.",
 	"date": "22/12/2023",
-	"importance": 2
+	"importance": "High"
 },
 {
 	"link": "../pages/blog/eac-internship.html",
 	"bg": "eacInternship",
 	"gif": false,
 	"type": "European Space Agency",
-	"tools": ["Python","Keras","JavaScript","HTML","CSS","django"],
+	"tools": ["Python","Keras","JavaScript","HTML","CSS"],
 	"header": "European Space Agency internship",
 	"desc": "Light summary of the things I worked on during my internship at the European Astronaut Centre.",
 	"date": "31/12/2023",
-	"importance": 2
+	"importance": "High"
 },
 {
 	"link": "#",
@@ -85,7 +85,7 @@
 	"header": "Validation tool for (aircraft) ML models",
 	"desc": "Writing wip.",
 	"date": "31/08/2023",
-	"importance": 2
+	"importance": "High"
 },
 {
 	"link": "#",
@@ -96,7 +96,7 @@
 	"header": "GPU Iterative pseudo-voronoi",
 	"desc": "2D space segmentation using a GPU-powered (by numba-CUDA and python, specifically) pseudo-voronoi technique on +130M pixel images.",
 	"date": "25/04/2023",
-	"importance": 1
+	"importance": "Medium"
 },
 {
 	"link": "#",
@@ -107,7 +107,7 @@
 	"header": "GPU Historical biome prediction",
 	"desc": "Using a variation of Whittaker's diagram (biome = f[temperature, rainfall, height]) and extrapolated Earth observational data to classify biomes on 1204 A.D. on +130M pixel images.",
 	"date": "11/03/2023",
-	"importance": 1
+	"importance": "Medium"
 },
 {
 	"link": "../content/JSexperiments/noiseFlow/index.html",
@@ -118,7 +118,7 @@
 	"header": "Noise flowfield",
 	"desc": "Animating perlin noise flow fields.",
 	"date": "11/02/2024",
-	"importance": 0
+	"importance": "Low"
 },
 {
 	"link": "../content/JSexperiments/Lsystems/index.html",
@@ -129,7 +129,7 @@
 	"header": "L system tree",
 	"desc": "Drawing a natural looking tree from a rule-based fractal.",
 	"date": "09/02/2024",
-	"importance": 0
+	"importance": "Low"
 },
 {
 	"link": "../content/JSexperiments/starfield/index.html",
@@ -140,6 +140,6 @@
 	"header": "Starfield effect",
 	"desc": "Simple but cool effect that mimics how movies represent near-lightspeed travel.",
 	"date": "04/04/2022",
-	"importance": 0
+	"importance": "Low"
 }
 ]

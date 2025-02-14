@@ -29,16 +29,16 @@ section ="projects">
                 <div style="flex: 1;"></div>
             </div>
             <div style="margin-bottom: 25px; display: flex; justify-content: center;">
-                <button id="buttonFilterImportance" class="btn btn-warning" style="border-radius: 1px; margin-right: 12px;"><i class="fa fa-fire"></i>&ensp;Time invested</button>
+                <button id="buttonFilterImportance" class="btn btn-warning" style="border-radius: 1px; margin-right: 12px;"><i class="fa fa-fire"></i>&ensp;Prio: All</button>
                 <button id="buttonFilterTool" class="btn btn-info" style="border-radius: 1px;"><i class="fa fa-code"></i>&ensp;Tool: All</button>
             </div>
         </div>
         <div style="flex: 0; display: flex;">
-            <div style="flex: 1;"></div>
-            <div id="gridProjects" style="flex: 8; display: grid;  grid-template-columns: repeat(auto-fill, minmax(600px, 1fr)); gap: 10px;">
+            <div style="flex: 1; min-width: 20px;"></div>
+            <div id="gridProjects" style="flex: 1; display: grid;  grid-template-columns: repeat(auto-fill, minmax(600px, 1fr)); gap: 20px;">
                  <!-- Projects are generated here from parsing the {{rootFolder}}content/projects.json file -->
             </div>
-            <div style="flex: 1;"></div>
+            <div style="flex: 1; min-width: 20px;"></div>
         </div>
         <br><br>
     </div>
