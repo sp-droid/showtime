@@ -1181,12 +1181,12 @@ html {
 
 /* Sizing of sidebar and main content */
 .markdown-body {
-  max-width: 1800px;
+  max-width: 75%;
 }
 #HTMLpost .TOCpost {
   display: none;
 }
-@media (max-width: 1500px) {
+@media (max-width: 1600px) {
   .sidebarHide .TOCpost {
     display: none;
   }
@@ -1195,10 +1195,5 @@ html {
   }
   #HTMLpost .TOCpost {
     display: block;
-  }
-}
-@media (max-width: 2000px) {
-  .markdown-body {
-    max-width: 1200px;
   }
 }
