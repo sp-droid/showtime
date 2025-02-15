@@ -35,7 +35,8 @@ document.addEventListener("DOMContentLoaded", function() {
     // ################################
     let projectData;
     const buttonFilterImportance = document.getElementById("buttonFilterImportance");
-    let uniqueImportances = ["Major","High","Medium","Low"];
+    // REMEMBER TO ADD MAJOR IN THE FIRST SPOT WHEN I FINALLY (!) DO SOMETHING MAJOR 
+    let uniqueImportances = ["High","Medium","Low"];
     let filterImportance = 0;
     const buttonFilterTool = document.getElementById("buttonFilterTool");
     let uniqueTools;
@@ -66,8 +67,10 @@ document.addEventListener("DOMContentLoaded", function() {
             data = projectData.filter(item => item.importance === name);
             filterImportance++;
         }
-        buttonFilterImportance.innerHTML = "<i class='fa fa-fire'></i>&ensp;Prio: "+name;
         populateGrid(data);
+        buttonFilterImportance.innerHTML = "<i class='fa fa-fire'></i>&ensp;Prio: "+name;
+        buttonFilterTool.innerHTML = "<i class='fa fa-code'></i>&ensp;Tool: All";
+        filterTools = uniqueTools.length;
     };
     buttonFilterTool.onclick = function() {
         let data;
@@ -81,8 +84,10 @@ document.addEventListener("DOMContentLoaded", function() {
             data = projectData.filter(item => item.tools.includes(name));
             filterTools++;
         }
-        buttonFilterTool.innerHTML = "<i class='fa fa-code'></i>&ensp;Tool: "+name;
         populateGrid(data);
+        buttonFilterTool.innerHTML = "<i class='fa fa-code'></i>&ensp;Tool: "+name;
+        buttonFilterImportance.innerHTML = "<i class='fa fa-fire'></i>&ensp;Prio: All";
+        filterImportance = uniqueImportances.length;
     };
 
     function populateGrid(data) {
@@ -142,13 +147,13 @@ document.addEventListener("DOMContentLoaded", function() {
             // Importance feature
             if (data[i]["importance"] === "Medium") {
                 projectElement.style.border = "1px solid";
-                projectElement.setAttribute("title","This project is important, taking days/weeks to complete.");
+                projectElement.setAttribute("title","Medium relative importance");
             } else if (data[i]["importance"] === "High") {
                 projectElement.style.border = "2px solid gold";
-                projectElement.setAttribute("title","This project is very important, taking months to complete.");
+                projectElement.setAttribute("title","High relative importance");
             } else if (data[i]["importance"] === "Major") {
                 projectElement.style.border = "3px solid darkred";
-                projectElement.setAttribute("title","This is a major venture, taking years to complete.");
+                projectElement.setAttribute("title","Major importance");
             }
             gridProjects.appendChild(projectElement);
         }
