@@ -69,10 +69,7 @@ section="blog">
 <p>An implementation of the Rainbow Smoke algorithm using GPU compute shaders through WebGPU, in JavaScript. You can try it yourself <a href="https://caniuse.com/?search=web%20gpu">if your browser supports WebGPU</a>:</p>
 <p><a href="../../content/JSexperiments/GPUrainbowSmoke/index.html">Web implementation of Rainbow Smoke</a></p>
 <p>Example result:</p>
-<div style="text-align:center">
-<p><img src="../../content/blog/assets/512avgRandom.jpg" alt="example result"></p>
-<p>512x512 resolution, average variant and random color shuffling</p>
-</div>
+<p><img src="../../content/blog/assets/rainbow-smoke-main.jpg" alt="512x512 resolution rendering using the average variant with random color order."></p>
 <p><div class='TOCpost'><h3>&nbsp;Contents</h3><ul><li><a href='#section0'>(Top)</a></li><ul><li><a href='#section1'>History</a></li><li onclick="toggleDetails(event)"><details><summary><a href='#section2'>The Algorithm</a></summary><ul><li><a href='#section3'>My GPU Implementation</a></li></ul></details></li></ul>
 </ul></div></p>
 <div id="section1"></div>
@@ -83,10 +80,7 @@ section="blog">
 <li>Each pixel must have a unique color.</li>
 <li>Colors must evenly fill the RGB spectrum.</li>
 </ul>
-<p>The example image, which technically fulfills the requirements but is not artistically pleasing:</p>
-<div style="text-align:center">
-<p><img src="../../content/blog/assets/example.png" alt="example"></p>
-</div>
+<img src="../../content/blog/assets/rainbow-smoke-example.jpg" alt="Example image which technically fulfills the requirements." style="zoom:150%;" />
 <p>There were many interesting submissions, but &quot;Rainbow Smoke&quot;, submitted by Hungarian user fejescoco, quickly became the clear winner. He himself hosts a little <a href="http://rainbowsmoke.hu/home">website</a> where you can see a gallery of images crafted using his work, links to videos and articles talking about it. Indeed several news agencies back then picked up on the contest winner and it became quite popular. He explained it in a very graphic way here:</p>
 <iframe width="640" height="360" src="https://www.youtube.com/embed/OuvFsB4SLhA" allowfullscreen></iframe>
 <p>Throughout the years people interested on the subject have imagined different ways of building up on it, an example:</p>
@@ -143,11 +137,8 @@ section="blog">
     </div>
 </div>
 <script>
+// Table of contents fix for correct opening and closing of detail-summary blocks
 function toggleDetails(event) {
-    // const details = liElement.firstChild;
-    console.log(event.offsetX)
-    console.log(event.offsetY)
-    console.log("\n")
     if (event.offsetX < 0) {
         event.stopPropagation();
         const details = event.currentTarget.firstChild;
@@ -158,6 +149,25 @@ function toggleDetails(event) {
         details.open = true;
     }
 }
+// Add figure number and caption to all images
+window.onload = function() {   
+    const images = document.querySelectorAll("#HTMLpost img");
+    let figureNumber = 0;
+    images.forEach(img => {
+        if (img.alt === "INLINE") { return; }
+
+        figureNumber++;
+
+        img.style.display = "block";
+        img.style.margin = "auto";
+
+        const caption = document.createElement("p");
+        caption.textContent = `Figure ${figureNumber}. ${img.alt}`;
+        caption.style.textAlign = "center";
+        caption.style.fontSize = "0.9em"
+        img.parentNode.insertBefore(caption, img.nextSibling);        
+    });
+};
 </script>
 </body>
 </html>

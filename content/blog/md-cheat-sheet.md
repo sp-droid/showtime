@@ -316,10 +316,10 @@ Some text to show that the reference links can follow later.
 Here's our logo (hover to see the title text):
 
 Inline-style:
-![alt text](https://github.com/adam-p/markdown-here/raw/master/src/common/images/icon48.png "Logo Title Text 1")
+![INLINE](https://github.com/adam-p/markdown-here/raw/master/src/common/images/icon48.png "Logo Title Text 1")
 
 Reference-style:
-![alt text][logo]
+![INLINE][logo]
 
 [logo]: https://github.com/adam-p/markdown-here/raw/master/src/common/images/icon48.png "Logo Title Text 2"
 
@@ -328,7 +328,7 @@ Reference-style:
 
 Like links, Images also have a footnote style syntax
 
-![Alt text][id]
+![Figure text][id]
 
 With a reference later in the document defining the URL location:
 
@@ -338,10 +338,10 @@ With a reference later in the document defining the URL location:
 Here's our logo (hover to see the title text):
 
 Inline-style:
-![alt text](https://github.com/adam-p/markdown-here/raw/master/src/common/images/icon48.png "Logo Title Text 1")
+![INLINE](https://github.com/adam-p/markdown-here/raw/master/src/common/images/icon48.png "Logo Title Text 1")
 
 Reference-style:
-![alt text][logo]
+![INLINE][logo]
 
 [logo]: https://github.com/adam-p/markdown-here/raw/master/src/common/images/icon48.png "Logo Title Text 2"
 
@@ -350,7 +350,7 @@ Reference-style:
 
 Like links, Images also have a footnote style syntax
 
-![Alt text][id]
+![Figure text][id]
 
 With a reference later in the document defining the URL location:
 

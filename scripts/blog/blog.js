@@ -98,7 +98,7 @@ function savePost(data) {
             `###### ${formatDatePost(data["date"])}\n`+
             `# ${data["title"]}\n`+
             `##### Reading time: ${calculateReadingTime(text)} mins\n\n---\n`+
-            text.replaceAll("](assets/", "](../../content/blog/assets/");
+            text.replaceAll("assets/", "../../content/blog/assets/");
 
         const md = markdownit({
             html: true,

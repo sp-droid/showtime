@@ -415,10 +415,10 @@ example.com (but not on Github, for example).</p>
 <pre><code class="language-markdown">Here&#x27;s our logo (hover to see the title text):
 
 Inline-style:
-![<span class="hljs-string">alt text</span>](<span class="hljs-link">https://github.com/adam-p/markdown-here/raw/master/src/common/images/icon48.png &quot;Logo Title Text 1&quot;</span>)
+![<span class="hljs-string">INLINE</span>](<span class="hljs-link">https://github.com/adam-p/markdown-here/raw/master/src/common/images/icon48.png &quot;Logo Title Text 1&quot;</span>)
 
 Reference-style:
-![<span class="hljs-string">alt text</span>][<span class="hljs-symbol">logo</span>]
+![<span class="hljs-string">INLINE</span>][<span class="hljs-symbol">logo</span>]
 
 [<span class="hljs-symbol">logo</span>]: <span class="hljs-link">https://github.com/adam-p/markdown-here/raw/master/src/common/images/icon48.png &quot;Logo Title Text 2&quot;</span>
 
@@ -427,7 +427,7 @@ Reference-style:
 
 Like links, Images also have a footnote style syntax
 
-![<span class="hljs-string">Alt text</span>][<span class="hljs-symbol">id</span>]
+![<span class="hljs-string">Figure text</span>][<span class="hljs-symbol">id</span>]
 
 With a reference later in the document defining the URL location:
 
@@ -435,13 +435,13 @@ With a reference later in the document defining the URL location:
 </code></pre>
 <p>Here's our logo (hover to see the title text):</p>
 <p>Inline-style:
-<img src="https://github.com/adam-p/markdown-here/raw/master/src/common/images/icon48.png" alt="alt text" title="Logo Title Text 1"></p>
+<img src="https://github.com/adam-p/markdown-here/raw/master/src/common/images/icon48.png" alt="INLINE" title="Logo Title Text 1"></p>
 <p>Reference-style:
-<img src="https://github.com/adam-p/markdown-here/raw/master/src/common/images/icon48.png" alt="alt text" title="Logo Title Text 2"></p>
+<img src="https://github.com/adam-p/markdown-here/raw/master/src/common/images/icon48.png" alt="INLINE" title="Logo Title Text 2"></p>
 <p><img src="https://octodex.github.com/images/minion.png" alt="Minion">
 <img src="https://octodex.github.com/images/stormtroopocat.jpg" alt="Stormtroopocat" title="The Stormtroopocat"></p>
 <p>Like links, Images also have a footnote style syntax</p>
-<p><img src="https://octodex.github.com/images/dojocat.jpg" alt="Alt text" title="The Dojocat"></p>
+<p><img src="https://octodex.github.com/images/dojocat.jpg" alt="Figure text" title="The Dojocat"></p>
 <p>With a reference later in the document defining the URL location:</p>
 <hr>
 <div id="section13"></div>
@@ -850,11 +850,8 @@ Underscores
     </div>
 </div>
 <script>
+// Table of contents fix for correct opening and closing of detail-summary blocks
 function toggleDetails(event) {
-    // const details = liElement.firstChild;
-    console.log(event.offsetX)
-    console.log(event.offsetY)
-    console.log("\n")
     if (event.offsetX < 0) {
         event.stopPropagation();
         const details = event.currentTarget.firstChild;
@@ -865,6 +862,25 @@ function toggleDetails(event) {
         details.open = true;
     }
 }
+// Add figure number and caption to all images
+window.onload = function() {   
+    const images = document.querySelectorAll("#HTMLpost img");
+    let figureNumber = 0;
+    images.forEach(img => {
+        if (img.alt === "INLINE") { return; }
+
+        figureNumber++;
+
+        img.style.display = "block";
+        img.style.margin = "auto";
+
+        const caption = document.createElement("p");
+        caption.textContent = `Figure ${figureNumber}. ${img.alt}`;
+        caption.style.textAlign = "center";
+        caption.style.fontSize = "0.9em"
+        img.parentNode.insertBefore(caption, img.nextSibling);        
+    });
+};
 </script>
 </body>
 </html>

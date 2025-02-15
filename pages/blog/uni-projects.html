@@ -87,11 +87,8 @@ section="blog">
     </div>
 </div>
 <script>
+// Table of contents fix for correct opening and closing of detail-summary blocks
 function toggleDetails(event) {
-    // const details = liElement.firstChild;
-    console.log(event.offsetX)
-    console.log(event.offsetY)
-    console.log("\n")
     if (event.offsetX < 0) {
         event.stopPropagation();
         const details = event.currentTarget.firstChild;
@@ -102,6 +99,25 @@ function toggleDetails(event) {
         details.open = true;
     }
 }
+// Add figure number and caption to all images
+window.onload = function() {   
+    const images = document.querySelectorAll("#HTMLpost img");
+    let figureNumber = 0;
+    images.forEach(img => {
+        if (img.alt === "INLINE") { return; }
+
+        figureNumber++;
+
+        img.style.display = "block";
+        img.style.margin = "auto";
+
+        const caption = document.createElement("p");
+        caption.textContent = `Figure ${figureNumber}. ${img.alt}`;
+        caption.style.textAlign = "center";
+        caption.style.fontSize = "0.9em"
+        img.parentNode.insertBefore(caption, img.nextSibling);        
+    });
+};
 </script>
 </body>
 </html>

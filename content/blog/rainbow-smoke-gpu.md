@@ -4,13 +4,7 @@ An implementation of the Rainbow Smoke algorithm using GPU compute shaders throu
 
 Example result:
 
-::: center
-
-![example result](assets/512avgRandom.jpg)
-
-512x512 resolution, average variant and random color shuffling
-
-:::
+![512x512 resolution rendering using the average variant with random color order.](assets/rainbow-smoke-main.jpg)
 
 [toc]
 
@@ -22,10 +16,7 @@ Rainbow Smoke belongs to the generative art class of computer algorithms. Its or
 - Each pixel must have a unique color.
 - Colors must evenly fill the RGB spectrum.
 
-The example image, which technically fulfills the requirements but is not artistically pleasing:
-::: center
-![example](assets/example.png)
-:::
+<img src="assets/rainbow-smoke-example.jpg" alt="Example image which technically fulfills the requirements." style="zoom:150%;" />
 
 There were many interesting submissions, but "Rainbow Smoke", submitted by Hungarian user fejescoco, quickly became the clear winner. He himself hosts a little [website](http://rainbowsmoke.hu/home) where you can see a gallery of images crafted using his work, links to videos and articles talking about it. Indeed several news agencies back then picked up on the contest winner and it became quite popular. He explained it in a very graphic way here:
 
