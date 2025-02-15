@@ -76,7 +76,7 @@ section="blog">
 <p>Among other tasks, Igor manages a fluctuating group of interns that research and develop mineral/element recognition tools for the field trips. I arrived in July and the annual Pangaea tour was going to take place in September, when they would visit Lanzarote. My immediate goal was to design and train an ML classifier that would be executed on a device called EFB when an astronaut picked up a rock and used the handheld VNIR spectrometer on it.</p>
 <img src="https://m.media-amazon.com/images/I/5157F1MUymL.jpg" alt="VNIR spectrometer's example output. Source@amazon.com" style="zoom: 25%;" />
 <p>Quite a few interns had attacked the same problem before. Models were built and specialized for the equipment at hand (spectrometer quality, spectral bands, measurement type), collected data and geological region of interest. Talking about the specific architecture I ended up going for is off-reach, but the type was a 2D-CNN. After many hours tweaking the architecture,  hyperparameters tuning, data pre-processing (including manually removing outliers for 5000 spectra in about 60 classes...), validation...</p>
-<img src="../../content/blog/assets/esa-internship-classImbalance.jpg" alt="One of the main challenges: class imbalance. Every column is a different class." style="zoom: 50%;" />
+<img src="../../content/blog/assets/esa-internship-classImbalance.jpg" alt="One of the main challenges: class imbalance. Every column represents #samples per class." style="zoom: 50%;" />
 <p>The result was an adequately sized model that was, in their own words, &quot;the best one to date&quot;! The following is an extract from the final presentation:</p>
 <ul>
 <li>Runs <strong>fast on the EFB</strong></li>

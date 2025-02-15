@@ -14,7 +14,7 @@ Among other tasks, Igor manages a fluctuating group of interns that research and
 
 Quite a few interns had attacked the same problem before. Models were built and specialized for the equipment at hand (spectrometer quality, spectral bands, measurement type), collected data and geological region of interest. Talking about the specific architecture I ended up going for is off-reach, but the type was a 2D-CNN. After many hours tweaking the architecture,  hyperparameters tuning, data pre-processing (including manually removing outliers for 5000 spectra in about 60 classes...), validation... 
 
-<img src="assets/esa-internship-classImbalance.jpg" alt="One of the main challenges: class imbalance. Every column is a different class." style="zoom: 50%;" />
+<img src="assets/esa-internship-classImbalance.jpg" alt="One of the main challenges: class imbalance. Every column represents #samples per class." style="zoom: 50%;" />
 
 The result was an adequately sized model that was, in their own words, "the best one to date"! The following is an extract from the final presentation:
 
