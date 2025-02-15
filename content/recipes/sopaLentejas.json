@@ -1,12 +1,12 @@
 {
     "name": "Sopa de lentejas",
     "category": "Main courses",
-    "description": "/'Lentil soup'/ ",
+    "description": "/'Lentil soup'/ Simple and clear version of a classic lentil soup. In the canaries, soups are very thin because anything thicker takes the name of 'potaje' instead. Not the case on the Spanish Peninsula.",
     "origin": "No information",
     "portions": 3,
     "flags": {
         "difficulty": "Easy",
-        "cuisine": "Spanish",
+        "cuisine": "Canarian",
         "prepTime": "15'",
         "totalTime": "1h 20'",
         "lactoseFree": true,
