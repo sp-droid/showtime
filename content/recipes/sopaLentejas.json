@@ -1,0 +1,45 @@
+{
+    "name": "Sopa de lentejas",
+    "category": "Main courses",
+    "description": "/'Lentil soup'/ ",
+    "origin": "No information",
+    "portions": 3,
+    "flags": {
+        "difficulty": "Easy",
+        "cuisine": "Spanish",
+        "prepTime": "15'",
+        "totalTime": "1h 20'",
+        "lactoseFree": true,
+        "glutenFree": true,
+        "vegetarian": true,
+        "vegan": true,
+		"finished": true
+    },
+    "ingredients": {
+        "": [
+            "Lentils (worth the bottom of a deep kitchen plate)",
+			"1 onion",
+			"1 potato",
+			"0.5 sweet potato",
+			"1 clove of garlic",
+			"18 g olive oil (~1.5 tbsp)",
+			"A bay leaf",
+			"1 tsp of sweet paprika",
+			"Salt",
+			"Water (1300 mL)"
+        ]
+    },
+    "utensils": [
+		"Kitchen pot"
+    ],
+    "instructions": [
+		"- Bring to a boil the water, pinch of salt and lentils.",
+		"- Add very finely diced, potato/sweet potato in chunks, the oil, paprika and leave on a simmer 50-60'.",
+		"- Manually correct for salt in the meantime. Taste and slowly add until it feels right. Remember bland food can be always fixed, salty food can't."
+    ],
+    "variants": [],
+    "tips": {
+        "culinary": [],
+        "serving": []
+    }
+}
