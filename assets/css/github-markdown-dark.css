@@ -1186,6 +1186,9 @@ html {
 #HTMLpost .TOCpost {
   display: none;
 }
+#HTMLpost {
+  flex: 3;
+}
 @media (max-width: 1600px) {
   .sidebarHide .TOCpost {
     display: none;
@@ -1195,5 +1198,8 @@ html {
   }
   #HTMLpost .TOCpost {
     display: block;
+  }
+  #HTMLpost {
+    flex: 9;
   }
 }

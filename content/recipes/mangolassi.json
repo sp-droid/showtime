@@ -26,14 +26,20 @@
     "utensils": [
     ],
     "instructions": [
-		"- Add everything, mix by hand with a wooden spoon to avoid adding air.",
-        "- Refrigerate 1 h."
+		"Do these steps separately, otherwise it can get really airy and too thick:",
+		"- Mango puree on a container that can hold everything. Blend it only if it has clumps.",
+		"- Mix yogurt with a spoon until smooth",
+		"- Mix milk and sugar with a spoon until absorbed",
+		"",
+		"Now combine everything, mix with a spoon and optionally refrigerate 1 h."
     ],
     "variants": [
-		"You can also do it from ripe fresh mangos, just blend them well before adding them into the mix. Be sure they don't contain fibers or else you will have to strain it."
+		"You can also do it from ripe fresh mangos, but blend them well before adding them into the mix. Be sure they don't contain fibers or else you will have to strain it."
 	],
     "tips": {
-        "culinary": [],
+        "culinary": [
+			"Whatever you do, do not use a blender except for the mango itself. Milk and yogurt make it prone to foaming."
+		],
         "serving": []
     }
 }
