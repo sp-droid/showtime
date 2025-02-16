@@ -124,7 +124,7 @@ function savePost(data) {
 
         if (toc === true) {
             ref = 1;
-            let tocText = "<div class='TOCpost'><h3>&nbsp;Contents</h3><ul><li><a href='#section0'>(Top)</a></li>";
+            let tocText = "<div class='TOCpost'><h4>&emsp;&nbsp;Contents</h4><ul><li><a href='#section0'>(Top)</a></li>";
             for (let H1 in tocDict) {
                 if (Object.keys(tocDict[H1]).length > 0) {
                     if (H1 === " ") {
