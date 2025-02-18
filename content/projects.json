@@ -23,7 +23,7 @@
 },
 {
 	"link": "#",
-	"bg": "default",
+	"bg": "clicker-pointer",
 	"gif": false,
 	"type": "Personal",
 	"tools": ["Kotlin","Python"],
