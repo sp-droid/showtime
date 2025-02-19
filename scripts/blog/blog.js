@@ -122,6 +122,11 @@ function savePost(data) {
         text = template.replace("{{content}}", text);
         text = text.replace("{{title}}", data["title"]);
 
+        // Multiple row/col table cells
+        text = text.replace(">#rowspan=2 ", " rowspan=2>").replace(">#rowspan=3 ", " rowspan=3>").replace(">#rowspan=4 ", " rowspan=4>").replace(">#rowspan=5 ", " rowspan=5>");
+        text = text.replace(">#colspan=2 ", " colspan=2>").replace(">#colspan=3 ", " colspan=3>").replace(">#colspan=4 ", " colspan=4>").replace(">#colspan=5 ", " colspan=5>");
+        text = text.replace(/<td[^>]*>#remove<\/td>/g, "");
+
         if (toc === true) {
             ref = 1;
             let tocText = "<div class='TOCpost'><h4>&emsp;&nbsp;Contents</h4><ul><li><a href='#section0'>(Top)</a></li>";
