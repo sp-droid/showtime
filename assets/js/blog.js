@@ -7,6 +7,11 @@ document.addEventListener("DOMContentLoaded", function() {
     let uniqueTags;
     let filtered = [];
 
+    let wip = false;
+    if (window.location.hash === "#wip") {
+        wip = true;
+    }
+
     // ################################
     // ########## Blog index ##########
     // ################################
@@ -16,7 +21,11 @@ document.addEventListener("DOMContentLoaded", function() {
             return response.json();
         })
         .then(data => {
-            blogJSON = data;
+            if (wip) {
+                blogJSON = data;
+            } else {
+                blogJSON = data.filter(entry => entry.tag !== "WIP")
+            }
             makeBase(blogJSON);
         })
         .catch(error => { console.error('There was a problem fetching the JSON data:', error); });

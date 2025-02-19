@@ -1,0 +1,219 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta name="darkreader-lock">
+    <link rel="stylesheet" href="../../assets/libraries/bootstrap5.0.2/bootstrap.min.css">
+    <link rel="stylesheet" href="../../assets/libraries/fontawesome6.5.1/css/all.min.css">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/highlight.js@9.12.0/styles/atom-one-dark.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.11.1/katex.min.css">
+    
+    <link rel="stylesheet" href="../../assets/css/style.css">
+    <link rel="stylesheet" href="../../assets/css/github-markdown-dark.css">
+    <script src="../../assets/js/common.js"></script>
+    <title>WebGPU</title>
+	
+	<link rel="apple-touch-icon" sizes="180x180" href="../../assets/img/favicon/apple-touch-icon.png">
+<link rel="icon" type="image/png" sizes="32x32" href="../../assets/img/favicon/favicon-32x32.png">
+<link rel="icon" type="image/png" sizes="16x16" href="../../assets/img/favicon/favicon-16x16.png">
+<link rel="manifest" href="../../assets/img/favicon/site.webmanifest">
+<link rel="mask-icon" href="../../assets/img/favicon/safari-pinned-tab.svg" color="#5bbad5">
+<link rel="shortcut icon" href="../../assets/img/favicon/favicon.ico">
+<meta name="msapplication-TileColor" content="#941739">
+<meta name="msapplication-config" content="../../assets/img/favicon/browserconfig.xml">
+<meta name="theme-color" content="#ffffff">
+</head>
+
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-5RWJF4E3GR"></script>
+<script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag(){dataLayer.push(arguments);}
+    gtag('js', new Date());
+
+    gtag('config', 'G-5RWJF4E3GR');
+</script>
+
+<body>
+<div id="HTMLdata"
+section="blog">
+</div>
+<div style="display: flex; flex-direction: column; height: 100vh; width: 100vw; overflow-x: hidden; background-color: rgb(35, 39, 50);">
+	<div id="HTMLtopbar" style="flex: 0;"><div class="row" style="display: flex;" id="linksTopbar">
+    <div style="flex: 6; display: flex; align-items: center; background-color: rgb(14, 60, 76); color: white; height: 100%;">
+        &emsp;<a href="../../pages/about.html" style="text-decoration: none; color: white;" title="Who am I?">Arbelo Cabrera, Pablo</a>
+        &emsp;<a class="linkPopUp" href="https://www.youtube.com/@pactomars"><i class="fa-brands fa-youtube fa-lg" title="YouTube channel" style="color: rgb(255, 129, 129)"></i></a>
+        &emsp;<a class="linkPopUp" href="https://www.flickr.com/photos/200282744@N03/albums" title="flickr albums"><img height="45em" src="../../assets/img/icons/flickr.svg" alt="flickr official logo."></a>
+        &emsp;<a class="linkPopUp" href="https://www.linkedin.com/in/pablo-arbelo-cabrera-051a951a2"><i class="fa-brands fa-linkedin-in fa-lg" title="LinkedIn profile" style="color: rgb(90, 176, 247)"></i></a>
+        &emsp;<a class="linkPopUp" href="https://github.com/sp-droid"><i class="fa-brands fa-github fa-lg" title="GitHub profile" style="color: rgb(230, 237, 243)"></i></a>
+    </div>
+    <div style="flex: 1; display: flex; align-items: center; justify-content: center; background-color: rgb(76, 57, 2); height: 100%;">
+        <a class="linkPopUp" title="For work or other topics" href="https://docs.google.com/forms/d/1pK5hPSywf1resOSLIUOESFpqQn6cnRa2YjkRF7d77D8" style="font-weight: 500; color: rgb(222, 237, 240)">Contact</a>
+    </div>
+</div>
+<div class="row" id="navTopbar" style="background: linear-gradient(to right, rgb(48, 40, 2), rgb(35, 38, 39))">
+    <div class="col d-flex align-items-center justify-content-center" style="line-height: 20px; height: 100%;">
+        <!-- <a id="indexMenuButton" href="../../pages/index.html" title="Homepage where recent or current projects/entries/news are showcased">Home</a> -->
+        <a id="projectsMenuButton" href="../../pages/projects.html" title="Projects of different kinds are highlighted, sometimes as a video, as a JS browser-app or as an entire webpage">Projects</a>
+        <a id="recipesMenuButton" href="../../pages/recipes.html" title="Some of my recipes since I like cooking quite a bit">Recipes</a>
+        <a id="blogMenuButton" href="../../pages/blog.html" title="Devlogs and personal notes">Blog</a>
+        <a id="aboutMenuButton" href="../../pages/about.html" title="Brief page about myself for anyone interested">About me</a>
+    </div>
+</div></div>
+    <div style="flex: 1; display: flex;">
+        <div class="markdown-body sidebarHide" style="flex: 1; min-width: 20px;"><br></div>
+        <div class="markdown-body" id="HTMLpost"><div id="section0"></div>
+<h6>February 19th, 2025</h6>
+<h1>WebGPU</h1>
+<h5>Reading time: 3 mins</h5>
+<hr>
+<h2>Utils</h2>
+<h3>Built-ins</h3>
+<table>
+<thead>
+<tr>
+<th><strong>Builtin Name</strong></th>
+<th><strong>Stage</strong></th>
+<th>ID</th>
+<th>Type</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><em>vertex_index</em></td>
+<td>vertex</td>
+<td>input</td>
+<td>u32</td>
+<td>Index of the current vertex within the current API-level draw command, independent of draw instancing.<br />For a non-indexed draw, the first vertex has an index equal to the <code>firstVertex</code> argument of the draw, whether provided directly or indirectly. The index is incremented by one for each additional vertex in the draw instance. For an indexed draw, the index is equal to the index buffer entry for the vertex, plus the <code>baseVertex</code> argument of the draw, whether provided directly or indirectly.</td>
+</tr>
+<tr>
+<td><em>instance_index</em></td>
+<td>vertex</td>
+<td>input</td>
+<td>u32</td>
+<td>Instance index of the current vertex within the current API-level draw command.<br />The first instance has an index equal to the <code>firstInstance</code> argument of the draw, whether provided directly or indirectly. The index is incremented by one for each additional instance in the draw.</td>
+</tr>
+<tr>
+<td rowspan=2><em>position</em></td>
+<td>vertex</td>
+<td>output</td>
+<td>vec4f</td>
+<td>Output position of the current vertex, using homogeneous coordinates. After homogeneous normalization (where each of the <em>x</em>, <em>y</em>, and <em>z</em> components are divided by the <em>w</em> component), the position is in the WebGPU normalized device coordinate space. See <a href="https://www.w3.org/TR/webgpu/#coordinate-systems">WebGPU § 3.3 Coordinate Systems</a>.</td>
+</tr>
+<tr>
+
+<td>fragment</td>
+<td>input</td>
+<td>vec4f</td>
+<td>Framebuffer position of the current fragment in <a href="https://gpuweb.github.io/gpuweb/#framebuffer">framebuffer</a> space. (The <em>x</em>, <em>y</em>, and <em>z</em> components have already been scaled such that <em>w</em> is now 1.) See <a href="https://www.w3.org/TR/webgpu/#coordinate-systems">WebGPU § 3.3 Coordinate Systems</a>.</td>
+</tr>
+<tr>
+<td><em>front_facing</em></td>
+<td>fragment</td>
+<td>input</td>
+<td>bool</td>
+<td>True when the current fragment is on a <a href="https://gpuweb.github.io/gpuweb/#front-facing">front-facing</a> primitive. False otherwise.</td>
+</tr>
+<tr>
+<td><em>frag_depth</em></td>
+<td>fragment</td>
+<td>output</td>
+<td>f32</td>
+<td>Updated depth of the fragment, in the viewport depth range. See <a href="https://www.w3.org/TR/webgpu/#coordinate-systems">WebGPU § 3.3 Coordinate Systems</a>.</td>
+</tr>
+<tr>
+<td><em>local_invocation_id</em></td>
+<td>compute</td>
+<td>input</td>
+<td>vec3u</td>
+<td>The current invocation’s <a href="https://webgpufundamentals.org/webgpu/lessons/webgpu-wgsl.html#local-invocation-id">local invocation ID</a>, i.e. its position in the <a href="https://webgpufundamentals.org/webgpu/lessons/webgpu-wgsl.html#workgroup-grid">workgroup grid</a>.</td>
+</tr>
+<tr>
+<td><em>local_invocation_index</em></td>
+<td>compute</td>
+<td>input</td>
+<td>u32</td>
+<td>The current invocation’s <a href="https://webgpufundamentals.org/webgpu/lessons/webgpu-wgsl.html#local-invocation-index">local invocation index</a>, a linearized index of the invocation’s position within the <a href="https://webgpufundamentals.org/webgpu/lessons/webgpu-wgsl.html#workgroup-grid">workgroup grid</a>.</td>
+</tr>
+<tr>
+<td><em>global_invocation_id</em></td>
+<td>compute</td>
+<td>input</td>
+<td>vec3u</td>
+<td>The current invocation’s <a href="https://webgpufundamentals.org/webgpu/lessons/webgpu-wgsl.html#global-invocation-id">global invocation ID</a>, i.e. its position in the <a href="https://webgpufundamentals.org/webgpu/lessons/webgpu-wgsl.html#compute-shader-grid">compute shader grid</a>.</td>
+</tr>
+<tr>
+<td><em>workgroup_id</em></td>
+<td>compute</td>
+<td>input</td>
+<td>vec3u</td>
+<td>The current invocation’s <a href="https://webgpufundamentals.org/webgpu/lessons/webgpu-wgsl.html#workgroup-id">workgroup ID</a>, i.e. the position of the workgroup in the <a href="https://webgpufundamentals.org/webgpu/lessons/webgpu-wgsl.html#compute-shader-grid">compute shader grid</a>.</td>
+</tr>
+<tr>
+<td><em>num_workgroups</em></td>
+<td>compute</td>
+<td>input</td>
+<td>vec3u</td>
+<td>The <a href="https://webgpufundamentals.org/webgpu/lessons/webgpu-wgsl.html#dispatch-size">dispatch size</a>, <code>vec&lt;u32&gt;(group_count_x, group_count_y, group_count_z)</code>, of the compute shader <a href="https://www.w3.org/TR/webgpu/#compute-pass-encoder-dispatch">dispatched</a> by the API.</td>
+</tr>
+<tr>
+<td><em>sample_index</em></td>
+<td>fragment</td>
+<td>input</td>
+<td>u32</td>
+<td>Sample index for the current fragment. The value is least 0 and at most <code>sampleCount</code>-1, where <code>sampleCount</code> is the MSAA sample <code>count</code> specified for the GPU render pipeline.<br/>See <a href="https://www.w3.org/TR/webgpu/#gpurenderpipeline">WebGPU § 10.3 GPURenderPipeline</a>.</td>
+</tr>
+<tr>
+<td rowspan=2><em>sample_mask</em></td>
+<td>fragment</td>
+<td>input</td>
+<td>u32</td>
+<td>Sample coverage mask for the current fragment. It contains a bitmask indicating which samples in this fragment are covered by the primitive being rendered.<br/>See <a href="https://www.w3.org/TR/webgpu/#sample-masking">WebGPU § 23.3.11 Sample Masking</a>.</td>
+</tr>
+<tr>
+
+<td>fragment</td>
+<td>output</td>
+<td>u32</td>
+<td>Sample coverage mask control for the current fragment. The last value written to this variable becomes the <a href="https://gpuweb.github.io/gpuweb/#shader-output-mask">shader-output mask</a>. Zero bits in the written value will cause corresponding samples in the color attachments to be discarded.<br/>See <a href="https://www.w3.org/TR/webgpu/#sample-masking">WebGPU § 23.3.11 Sample Masking</a>.</td>
+</tr>
+</tbody>
+</table>
+<hr><div class="blogTags"><button class="blogTagSelected" title='Check more posts of the "WIP" category on my blog!'>WIP</button></div><br></div>
+        <div style="flex: 1; min-width: 20px;"></div>
+    </div>
+</div>
+<script>
+// Table of contents fix for correct opening and closing of detail-summary blocks
+function toggleDetails(event) {
+    if (event.offsetX < 0) {
+        event.stopPropagation();
+        const details = event.currentTarget.firstChild;
+        details.open = !details.open;
+    } else if (event.offsetY < 30) {
+        event.stopPropagation();
+        const details = event.currentTarget.firstChild;
+        details.open = true;
+    }
+}
+// Add figure number and caption to all images
+window.onload = function() {   
+    const images = document.querySelectorAll("#HTMLpost img");
+    let figureNumber = 0;
+    images.forEach(img => {
+        if (img.alt === "INLINE") { return; }
+
+        figureNumber++;
+
+        img.style.display = "block";
+        img.style.margin = "auto";
+
+        const caption = document.createElement("p");
+        caption.textContent = `Figure ${figureNumber}. ${img.alt}`;
+        caption.style.textAlign = "center";
+        caption.style.fontSize = "0.9em"
+        img.parentNode.insertBefore(caption, img.nextSibling);        
+    });
+};
+</script>
+</body>
+</html>

@@ -123,9 +123,9 @@ function savePost(data) {
         text = text.replace("{{title}}", data["title"]);
 
         // Multiple row/col table cells
-        text = text.replace(">#rowspan=2 ", " rowspan=2>").replace(">#rowspan=3 ", " rowspan=3>").replace(">#rowspan=4 ", " rowspan=4>").replace(">#rowspan=5 ", " rowspan=5>");
-        text = text.replace(">#colspan=2 ", " colspan=2>").replace(">#colspan=3 ", " colspan=3>").replace(">#colspan=4 ", " colspan=4>").replace(">#colspan=5 ", " colspan=5>");
-        text = text.replace(/<td[^>]*>#remove<\/td>/g, "");
+        text = text.replaceAll(">#rowspan=2 ", " rowspan=2>").replaceAll(">#rowspan=3 ", " rowspan=3>").replaceAll(">#rowspan=4 ", " rowspan=4>").replaceAll(">#rowspan=5 ", " rowspan=5>");
+        text = text.replaceAll(">#colspan=2 ", " colspan=2>").replaceAll(">#colspan=3 ", " colspan=3>").replaceAll(">#colspan=4 ", " colspan=4>").replaceAll(">#colspan=5 ", " colspan=5>");
+        text = text.replaceAll(/<td[^>]*>#remove<\/td>/g, "");
 
         if (toc === true) {
             ref = 1;
