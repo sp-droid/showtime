@@ -1,4 +1,35 @@
-## Utils
+This article will cover several concepts in relation to WebGPU, and some algorithms implemented on it as I'm learning.
+
+[toc]
+
+# The standard
+
+[Official documentation](https://www.w3.org/TR/WGSL/)
+
+[definition]
+
+## History
+
+[]
+
+### Implementations as of 2025
+
+[]
+
+## Architecture
+
+[]
+
+### Equivalent nomenclature
+
+| Concept                             | WebGPU (& Vulkan) | NVIDIA | AMD            | Intel            | Apple       |
+| ----------------------------------- | ----------------- | ------ | -------------- | ---------------- | ----------- |
+| **Execution unit**                  | Invocation        | Thread | Wavefront lane | EU thread        | Thread      |
+| **Group of threads (SIMD capable)** | Subgroup          | Warp   | Wavefront      | Subgroup         | SIMD group  |
+| **Shared memory group**             | Workgroup         | Block  | Workgroup      | Workgroup        | Threadgroup |
+| **Task group**                      | Dispatch of (..)  | Grid   | NDRange        | Dispatch of (..) | Grid        |
+
+I personally like using thread, warp and workgroup.
 
 ### Built-ins
 
@@ -19,3 +50,10 @@
 | #rowspan=2 *sample_mask* | fragment  | input  | u32   | Sample coverage mask for the current fragment. It contains a bitmask indicating which samples in this fragment are covered by the primitive being rendered.<br/>See [WebGPU § 23.3.11 Sample Masking](https://www.w3.org/TR/webgpu/#sample-masking). |
 | #remove                  | fragment  | output | u32   | Sample coverage mask control for the current fragment. The last value written to this variable becomes the [shader-output mask](https://gpuweb.github.io/gpuweb/#shader-output-mask). Zero bits in the written value will cause corresponding samples in the color attachments to be discarded.<br/>See [WebGPU § 23.3.11 Sample Masking](https://www.w3.org/TR/webgpu/#sample-masking). |
 
+# Algorithms
+
+## Parallel reduction
+
+### Min (& max) variants
+
+### Argmin (& argmax) variant
