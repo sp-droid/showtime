@@ -1,0 +1,88 @@
+{
+    "name": "Chicken Makhani",
+    "category": "Main courses",
+    "description": "/'Butter chicken'/",
+    "origin": "",
+    "portions": 3,
+    "flags": {
+        "difficulty": "Medium",
+        "cuisine": "North Indian",
+        "prepTime": "1h 30'",
+        "totalTime": "13h",
+        "lactoseFree": false,
+        "glutenFree": false,
+        "vegetarian": false,
+        "vegan": false,
+		"finished": true
+    },
+    "ingredients": {
+        "First short marinade": [
+            "500 g chicken breast in cubes (should be thighs. I think it's okay to use breast though)",
+			"Salt"
+        ],
+		"Second marinade": [
+			"0.5 tsp Kashmiri red chili powder (don't substitute it entirely with paprika, the flavor is completely different)",
+			"0.3 tsp salt",
+			"1 tbsp lemon juice",
+			"80 g greek yogurt",
+			"2 tsp ginger garlic paste (substitute with half ginger half garlic)",
+			"0.3 tsp turmeric",
+			"1 tsp garam masala",
+			"0.3 tsp cumin powder",
+			"1 tsp coriander powder",
+			"12 g olive oil (1 tbsp)"
+		],
+		"Sauce": [
+			"2 tbsp ghee (unholy substitute it with half oil half butter, 24 g)",
+			"Cinnamon stick (1)",
+			"Green cardamoms (3)",
+			"Cloves (3)",
+			"8 tomatoes (or 260 g passata. Read culinary tip #2)",
+			"2 tsp ginger garlic paste",
+			"Green chili (1, deseeded, slit or chopped)",
+			"Raw cashews (28)",
+			"1 tsp Kashmiri red chili powder",
+			"1 tsp garam masala",
+			"0.3 tsp cumin powder",
+			"1 tsp coriander powder"
+		],
+		"Finishing": [
+			"90 g heavy cream",
+			"0.5 tbsp Kasuri methi (dried fenugreek leaves, crushed)",
+			"1 tbsp chopped coriander leaves"
+		]
+    },
+    "utensils": [
+		"Kitchen pot",
+		"Oven"
+	],
+    "instructions": [
+        "# First short marinade",
+		"- Prepare the chicken in medium cubes, removing bones and extra fat.",
+		"- Add some salt to it, leave aside.",
+		"# Second marinade",
+		"- Prepare and mix the spices.",
+		"- Spread it on the chicken and leave it covered for at least 8 h.",
+		"# Grilling the chicken",
+		"You can either do this in a pan or in the oven. I use the oven. After pre-heating, set at 220ºC (convection) for 21'.",
+		"Prepare the next spice mix and leave the cashews on some boiling water",
+		"# Making the sauce",
+		"- On the same pot, open a spot on the center and add the ingredients listed, previously mixed, except the tomato and cashews.",
+		"- After 1-2', before the spices burn, add some water with the passata / blended tomatoes / tomatoes boiled and crushed separately.",
+		"- Blend the cashew liquid finely, pour it in.",
+		"# Finishing",
+		"- After left out for some time, you should be able to see traces of fat on top. Add heavy cream and reduce for 2-3'.",
+		"- Throw in the fine leaves. Doing so before is also possible but they will turn black."
+    ],
+    "variants": [],
+    "tips": {
+        "culinary": [
+			"Some people add onions. But the whole point of butter chicken is having a silky smooth sauce. Onions will mess with it.",
+			"To counteract tomato acidity, instead of adding sugar or onions, you can slowly add to the sauce sodium bicarbonate. Mix it and taste it after every time.",
+			"If you are not used to hot spicy food, reduce the amount of Kashmiri chili powder."
+		],
+        "serving": [
+			"Served with naan bread, rice..."
+		]
+    }
+}
