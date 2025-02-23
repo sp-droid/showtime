@@ -29,7 +29,7 @@ This article will cover several concepts in relation to WebGPU, and some algorit
 | **Shared memory group**             | Workgroup         | Block  | Workgroup      | Workgroup        | Threadgroup |
 | **Task group**                      | Dispatch of (..)  | Grid   | NDRange        | Dispatch of (..) | Grid        |
 
-I personally like using thread, warp and workgroup.
+I personally like using thread, warp, workgroup and dispatch.
 
 ### Built-ins
 
