@@ -1,0 +1,152 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta name="darkreader-lock">
+    <link rel="stylesheet" href="../../assets/libraries/bootstrap5.0.2/bootstrap.min.css">
+    <link rel="stylesheet" href="../../assets/libraries/fontawesome6.5.1/css/all.min.css">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/highlight.js@9.12.0/styles/atom-one-dark.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.11.1/katex.min.css">
+    
+    <link rel="stylesheet" href="../../assets/css/style.css">
+    <link rel="stylesheet" href="../../assets/css/github-markdown-dark.css">
+    <script src="../../assets/js/common.js"></script>
+    <title>Discrete bilinear interpolation</title>
+	
+	<link rel="apple-touch-icon" sizes="180x180" href="../../assets/img/favicon/apple-touch-icon.png">
+<link rel="icon" type="image/png" sizes="32x32" href="../../assets/img/favicon/favicon-32x32.png">
+<link rel="icon" type="image/png" sizes="16x16" href="../../assets/img/favicon/favicon-16x16.png">
+<link rel="manifest" href="../../assets/img/favicon/site.webmanifest">
+<link rel="mask-icon" href="../../assets/img/favicon/safari-pinned-tab.svg" color="#5bbad5">
+<link rel="shortcut icon" href="../../assets/img/favicon/favicon.ico">
+<meta name="msapplication-TileColor" content="#941739">
+<meta name="msapplication-config" content="../../assets/img/favicon/browserconfig.xml">
+<meta name="theme-color" content="#ffffff">
+</head>
+
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-5RWJF4E3GR"></script>
+<script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag(){dataLayer.push(arguments);}
+    gtag('js', new Date());
+
+    gtag('config', 'G-5RWJF4E3GR');
+</script>
+
+<body>
+<div id="HTMLdata"
+section="blog">
+</div>
+<div style="display: flex; flex-direction: column; height: 100vh; width: 100vw; overflow-x: hidden; background-color: rgb(35, 39, 50);">
+	<div id="HTMLtopbar" style="flex: 0;"><div class="row" style="display: flex;" id="linksTopbar">
+    <div style="flex: 6; display: flex; align-items: center; background-color: rgb(14, 60, 76); color: white; height: 100%;">
+        &emsp;<a href="../../pages/about.html" style="text-decoration: none; color: white;" title="Who am I?">Arbelo Cabrera, Pablo</a>
+        &emsp;<a class="linkPopUp" href="https://www.youtube.com/@pactomars"><i class="fa-brands fa-youtube fa-lg" title="YouTube channel" style="color: rgb(255, 129, 129)"></i></a>
+        &emsp;<a class="linkPopUp" href="https://www.flickr.com/photos/200282744@N03/albums" title="flickr albums"><img height="45em" src="../../assets/img/icons/flickr.svg" alt="flickr official logo."></a>
+        &emsp;<a class="linkPopUp" href="https://www.linkedin.com/in/pablo-arbelo-cabrera-051a951a2"><i class="fa-brands fa-linkedin-in fa-lg" title="LinkedIn profile" style="color: rgb(90, 176, 247)"></i></a>
+        &emsp;<a class="linkPopUp" href="https://github.com/sp-droid"><i class="fa-brands fa-github fa-lg" title="GitHub profile" style="color: rgb(230, 237, 243)"></i></a>
+    </div>
+    <div style="flex: 1; display: flex; align-items: center; justify-content: center; background-color: rgb(76, 57, 2); height: 100%;">
+        <a class="linkPopUp" title="For work or other topics" href="https://docs.google.com/forms/d/1pK5hPSywf1resOSLIUOESFpqQn6cnRa2YjkRF7d77D8" style="font-weight: 500; color: rgb(222, 237, 240)">Contact</a>
+    </div>
+</div>
+<div class="row" id="navTopbar" style="background: linear-gradient(to right, rgb(48, 40, 2), rgb(35, 38, 39))">
+    <div class="col d-flex align-items-center justify-content-center" style="line-height: 20px; height: 100%;">
+        <!-- <a id="indexMenuButton" href="../../pages/index.html" title="Homepage where recent or current projects/entries/news are showcased">Home</a> -->
+        <a id="projectsMenuButton" href="../../pages/projects.html" title="Projects of different kinds are highlighted, sometimes as a video, as a JS browser-app or as an entire webpage">Projects</a>
+        <a id="recipesMenuButton" href="../../pages/recipes.html" title="Some of my recipes since I like cooking quite a bit">Recipes</a>
+        <a id="blogMenuButton" href="../../pages/blog.html" title="Devlogs and personal notes">Blog</a>
+        <a id="aboutMenuButton" href="../../pages/about.html" title="Brief page about myself for anyone interested">About me</a>
+    </div>
+</div></div>
+    <div style="flex: 1; display: flex;">
+        <div class="markdown-body sidebarHide" style="flex: 1; min-width: 20px;"><br><div class='TOCpost'><h4>&emsp;&nbsp;Contents</h4><ul><li><a href='#section0'>(Top)</a></li><ul><li><a href='#section1'>Motivation</a></li><li onclick="toggleDetails(event)"><details><summary><a href='#section2'>Discrete bilinear interpolation</a></summary><ul><li><a href='#section3'>The algorithm</a></li></ul></details></li></ul>
+</ul></div></div>
+        <div class="markdown-body" id="HTMLpost"><div id="section0"></div>
+<h6>February 24th, 2025</h6>
+<h1>Discrete bilinear interpolation</h1>
+<h5>Reading time: 3 mins</h5>
+<hr>
+<p>A description into a pixel sampling algorithm I started using for a long term project of mine.</p>
+<p><div class='TOCpost'><h4>&emsp;&nbsp;Contents</h4><ul><li><a href='#section0'>(Top)</a></li><ul><li><a href='#section1'>Motivation</a></li><li onclick="toggleDetails(event)"><details><summary><a href='#section2'>Discrete bilinear interpolation</a></summary><ul><li><a href='#section3'>The algorithm</a></li></ul></details></li></ul>
+</ul></div></p>
+<div id="section1"></div>
+<h2>Motivation</h2>
+<p>This long term project involves rendering a map of the world among other challenges. Going at it I quickly found out how even 16K images were not enough when zooming in at otherwise (in other similar projects) reasonable levels, for example:</p>
+<p><img src="../../content/blog/assets/dbi-gibraltarStrait.png" alt="Extract of the Strait of Gibraltar area."></p>
+<p>If, when zooming in enough, we use a Nearest Neighbors filter on the fragment shader, each pixel on the screen will adopt the color of the nearest square and produce a pixelated look. It is possible to mitigate this problem in at least two main ways:</p>
+<ul>
+<li><strong>Bilinear interpolation</strong>. The 4 nearest squares' colors (up, down, left, right) are sampled, weighted according to their distance, and mixed.</li>
+</ul>
+<p><img src="https://upload.wikimedia.org/wikipedia/commons/thumb/9/91/Bilinear_interpolation_visualisation.svg/170px-Bilinear_interpolation_visualisation.svg.png" alt="Bilinear interpolation algorithm. Source@wikipedia.org"></p>
+<p>The result is a color gradient appearing, blurring the frontier between different colors. It solves the problem of blocky edges and serrated diagonals, but introduces blur. For images with sharp color gradients as in this one, blocks can still be seen:</p>
+<p><img src="../../content/blog/assets/dbi-bilinear.png" alt="Bilinear interpolation."></p>
+<ul>
+<li><strong>Stacked noise layers</strong>. Adding noise (i.e. 2D Perlin) to the x and y coordinates of the pixel at different noise levels can create the perception of fine details and stray further from the pixelated look. Nearest neighbors and 3 layers of noise:</li>
+</ul>
+<p><img src="../../content/blog/assets/dbi-noise.png" alt="Nearest neighbors with noise, at x4 (L) and x64 (R) detail"></p>
+<p>Noise works quite well alone, but combining it with bilinear interpolation doesn't:</p>
+<p><img src="../../content/blog/assets/dbi-noiseBilinear.png" alt="Noise with bilinear filter at x64 detail."></p>
+<p>Bilinear interpolation performs well in a regular texture, but not for one with discrete values. For example, instead of terrain let's imagine we have a province map with 4 thousand territories, each one represented by a unique integer. Other instances of similar behaviors could be ownership and terrain type maps, anything that represents discrete values instead of continuous colors. In this case, if we were to use bilinear interpolation and there was a spot surrounded by, let's say, province IDs 200, 1, 1 and 1, the bilinear average could be any float between 200 and 1. Rounding doesn't solve the issue, because the result should be either 1 or 200, not any province with an ID in between. This works only with binary states like sea/land.</p>
+<div id="section2"></div>
+<h2>Discrete bilinear interpolation</h2>
+<p>The following is my approach to tackle the problem, with good results:</p>
+<p><img src="../../content/blog/assets/dbi-dbi.png" alt="DBI (L) and DBI with noise at x64 detail (R)"></p>
+<p>The effect of DBI or a binary clamped bilinear interpolation on high detail is the appearance of diagonals and rounded edges which improve the natural look considerably. A square turns into a circle, a serrated line turns into a clean diagonal. It's too straight though, so we employ noise to arrive to a good final result. It can also be observed how noise with nearest neighbors still retained some of the blocky aspect on large features, but not here.</p>
+<div id="section3"></div>
+<h3>The algorithm</h3>
+<p>Let's imagine a screen pixel in the original coordinates of the image like in the 2^nd^ figure:</p>
+<pre><code class="language-vhdl"><span class="hljs-keyword">procedure</span> DBI
+    left, right, top, bottom values are sampled (A, B, C, D)
+    color = [A,B,C,D]
+    score[<span class="hljs-number">0</span>] = (Ax-Px)(Ay-Py), score[<span class="hljs-number">1</span>] = (Bx...)
+    cumulativeScores = [.<span class="hljs-number">0</span>, .<span class="hljs-number">0</span>, .<span class="hljs-number">0</span>, .<span class="hljs-number">0</span>]
+    <span class="hljs-keyword">for</span> i = <span class="hljs-number">0</span>...<span class="hljs-number">3</span>
+       <span class="hljs-keyword">for</span> j = <span class="hljs-number">0</span>...<span class="hljs-number">3</span>
+          <span class="hljs-keyword">if</span> color[i] == color[j]
+             cumulativeScores[i] += score[j] 
+          <span class="hljs-keyword">end</span>
+       <span class="hljs-keyword">end</span>
+    <span class="hljs-keyword">end</span>
+    chosenColor = color[argmax(cumulativeScores)]
+<span class="hljs-keyword">end</span> <span class="hljs-keyword">procedure</span>
+</code></pre>
+<p>The formula is fundamentally the same as in bilinear interpolation, but it can't be done in a few operations if the end color has to be discrete and the inputs are non-continuous.</p>
+<hr><div class="blogTags"><button class="blogTagSelected" title='Check more posts of the "Other" category on my blog!'>Other</button></div><br></div>
+        <div style="flex: 1; min-width: 20px;"></div>
+    </div>
+</div>
+<script>
+// Table of contents fix for correct opening and closing of detail-summary blocks
+function toggleDetails(event) {
+    if (event.offsetX < 0) {
+        event.stopPropagation();
+        const details = event.currentTarget.firstChild;
+        details.open = !details.open;
+    } else if (event.offsetY < 30) {
+        event.stopPropagation();
+        const details = event.currentTarget.firstChild;
+        details.open = true;
+    }
+}
+// Add figure number and caption to all images
+window.onload = function() {   
+    const images = document.querySelectorAll("#HTMLpost img");
+    let figureNumber = 0;
+    images.forEach(img => {
+        if (img.alt === "INLINE") { return; }
+
+        figureNumber++;
+
+        img.style.display = "block";
+        img.style.margin = "auto";
+
+        const caption = document.createElement("p");
+        caption.textContent = `Figure ${figureNumber}. ${img.alt}`;
+        caption.style.textAlign = "center";
+        caption.style.fontSize = "0.9em"
+        img.parentNode.insertBefore(caption, img.nextSibling);        
+    });
+};
+</script>
+</body>
+</html>

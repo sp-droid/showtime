@@ -1,5 +1,16 @@
 [
 {
+	"link": "../pages/blog/dbi.html",
+	"bg": "dbi",
+	"gif": false,
+	"type": "Personal",
+	"tools": [],
+	"header": "Discrete Bilinear Interpolation",
+	"desc": "Walkthrough on an algorithm I started using for a different project.",
+	"date": "24/02/2025",
+	"importance": "Low"
+},
+{
 	"link": "../pages/blog/rainbow-smoke-gpu.html",
 	"bg": "rainbowSmoke",
 	"gif": true,

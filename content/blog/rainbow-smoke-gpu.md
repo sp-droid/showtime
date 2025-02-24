@@ -62,19 +62,20 @@ Other techniques not used in the initial post:
 
 Performance enhancements and iterations later, the algorithm allowed fejescoco to create 4K images, images which are frankly stunning. As said by him and as it can be deduced from looking at the pseudocode, the most expensive operation is the distance calculation part. For example, in a 4K image, even if only 10% of the pixels are active, that still means 1.6M active cells, and then 8 checks per cell for the neighbors, with an additional math operation for each painted one. This is something GPUs are very well built to compute.
 
-### My GPU Implementation
+### Working up to it
 
-This was my second WebGPU project so it has been quite a learning experience. Last year I finished a code that only did the rendering and distance calculation on the GPU. Each iteration I used staging buffers to:
+I tried different versions and approaches, here's a rough benchmark for the ones I have, making 32^2^|64^2^|128^2^|256^2^ pixel images using the average variant, random colors and center start, done on a i5-12400+RTX2060 machine:
 
-- Move the picked or target color to a GPU buffer
-- Move the entire distance array back to the CPU, to calculate there the minimum
-- Return the index of the minimum to another GPU buffer, and then 
+[benchmark of my different implementations]
 
-This was done because I didn't know how to parallelize a find minimum operation. After fighting strange bugs due to the staging part being not trivial to synchronize, the result was massive transfers on every frame, especially due to the distance array, which is not optimal. Still, it was relatively quick (though, much slower than the last C# version on a CPU). 
+p5js - 14, 54, 395 s
+WebGPU0 - 8, 33, 128 s
+WebGPU1 - 0.5, 0.8, 3, 32 s 
+WebGPU2 - 
 
-This year I came back to it, and decided to move all the operations on the GPU. Now instead I moved all arrays into GPU buffers at the beginning and performed the same calculations there. Even though I was still using a single thread to calculate the minimum, the performance was 10 to 20 times better. The next improvements:
-
-- Use parallel reduction instead of finding minimums with a single thread
-- On every iteration, the number of active cells only changes by -1 or +5, could there be a way to exploit this?
+- **p5.js** - Single-threaded on the CPU, no optimizations whatsoever.
+- **WebGPU0** - On each iteration, the target color is sent to GPU memory, the distance array is brought back through a staging buffer, the CPU does an argmin operation and the index found is again sent. Obviously so many memory transfers are very inefficient, but it was a great learning experience. I had many problems using this approach also due to GPU synchronization issues.
+- **WebGPU1** - Everything is sent to the GPU at the start and each iteration is handled through the different compute shaders, the calls for which are now batched together and several iterations may take place before a draw call. The argmin operation is done now by a single GPU thread, which is still not optimal. Also, there are no optimizations of the algorithm itself: on every iteration the number of active cells can increase only by a handful but we haven't exploited it yet. The 0 version also had a bug in floating point comparisons and it's now mitigated by adding a small pseudo-random quantity to the distances.
+- **WebGPU2** - Parallel reduction is now used 
 
 [wip]

@@ -1,9 +1,9 @@
 [
 {
 	"title": "Discrete bilinear interpolation",
-	"file": "discrete-bilinear-interpol",
-	"tag": "WIP",
-	"date": "21/02/2025"
+	"file": "dbi",
+	"tag": "Other",
+	"date": "24/02/2025"
 },
 {
 	"title": "WebGPU",
