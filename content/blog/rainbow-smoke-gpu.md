@@ -64,7 +64,7 @@ Performance enhancements and iterations later, the algorithm allowed fejescoco t
 
 ### Working up to it
 
-I tried different versions and approaches, here's a rough benchmark for the ones I have, making 32^2^|64^2^|128^2^|256^2^ pixel images using the average variant, random colors and center start, done on a i5-12400+RTX2060 machine:
+I tried different versions and approaches, here's a rough benchmark for the ones I have, making 32^2^ | 64^2^ | 128^2^ | 256^2^  pixel images using the average variant, random colors and center start, done on a i5-12400+RTX2060 machine:
 
 [benchmark of my different implementations]
 

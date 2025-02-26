@@ -94,7 +94,7 @@ section="blog">
 <p>The effect of DBI or a binary clamped bilinear interpolation on high detail is the appearance of diagonals and rounded edges which improve the natural look considerably. A square turns into a circle, a serrated line turns into a clean diagonal. It's too straight though, so we employ noise to arrive to a good final result. It can also be observed how noise with nearest neighbors still retained some of the blocky aspect on large features, but not here.</p>
 <div id="section3"></div>
 <h3>The algorithm</h3>
-<p>Let's imagine a screen pixel in the original coordinates of the image like in the 2^nd^ figure:</p>
+<p>Let's imagine a screen pixel in the original coordinates of the image like in the 2<sup>nd</sup> figure:</p>
 <pre><code class="language-vhdl"><span class="hljs-keyword">procedure</span> DBI
     left, right, top, bottom values are sampled (A, B, C, D)
     color = [A,B,C,D]
@@ -144,6 +144,7 @@ window.onload = function() {
         caption.textContent = `Figure ${figureNumber}. ${img.alt}`;
         caption.style.textAlign = "center";
         caption.style.fontSize = "0.9em"
+        caption.style.marginTop = "0.5em";
         img.parentNode.insertBefore(caption, img.nextSibling);        
     });
 };

@@ -8,6 +8,8 @@ import markdownitTaskLists from "markdown-it-task-lists";
 import { full as markdownitEmoji } from "markdown-it-emoji";
 import markdownitKatex from "@ruanyf/markdown-it-katex";
 import { align as markdownitAlign } from "@mdit/plugin-align";
+import markdownitSup from "markdown-it-sup";
+import markdownitSub from "markdown-it-sub";
 import hljs from "highlight.js";
 
 // ################################
@@ -116,7 +118,9 @@ function savePost(data) {
             .use(markdownitTaskLists)
             .use(markdownitEmoji)
             .use(markdownitKatex)
-            .use(markdownitAlign);
+            .use(markdownitAlign)
+            .use(markdownitSup)
+            .use(markdownitSub);
         text = md.render(text);
         text += `<hr><div class="blogTags"><button class="blogTagSelected" title='Check more posts of the "${data["tag"]}" category on my blog!'>${data["tag"]}</button></div><br>`
         text = template.replace("{{content}}", text);

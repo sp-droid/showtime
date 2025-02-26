@@ -285,6 +285,7 @@ window.onload = function() {
         caption.textContent = `Figure ${figureNumber}. ${img.alt}`;
         caption.style.textAlign = "center";
         caption.style.fontSize = "0.9em"
+        caption.style.marginTop = "0.5em";
         img.parentNode.insertBefore(caption, img.nextSibling);        
     });
 };
