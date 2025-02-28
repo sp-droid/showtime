@@ -1,3 +1,8 @@
+// Constants
+const COARSE_FACTOR = 32;
+let WORKGROUP_SIZE = 1024;
+const WORKGROUP_SIZE2D = 8;
+
 // UI
 const canvas = document.querySelector("canvas");
 canvas.width = canvas.parentElement.clientWidth;
@@ -22,12 +27,14 @@ if (algorithmPrompt == 1) {
 }
 
 let GRID_SIZEx = horizontalResolutionPrompt;
-let FPS_VALUE = 144;
-let UPDATE_INTERVAL = 1000/FPS_VALUE;
+let squareSizeX = canvas.width / GRID_SIZEx;
+let GRID_SIZEy = Math.floor(canvas.height / squareSizeX);
+
+const nColors = GRID_SIZEx * GRID_SIZEy;
+const dispatches = Math.ceil(nColors/WORKGROUP_SIZE/COARSE_FACTOR);
 
 //#region WebGPU initialization
 // Constants
-const WORKGROUP_SIZE = 8;
 let workgroupCountX;
 let workgroupCountY;
 
@@ -39,8 +46,27 @@ if (!navigator.gpu) {
 // Requesting GPU adapter
 const adapter = await navigator.gpu.requestAdapter();
 if (!adapter) { throw new Error("No appropriate GPUAdapter found.") }
+
+// Handling adapter limits
+if (adapter.limits.maxComputeWorkgroupSizeX < WORKGROUP_SIZE) {
+    WORKGROUP_SIZE = 256;
+}
+if (adapter.limits.maxStorageBufferBindingSize < nColors*4) {
+    throw new Error("Storage buffer size not supported.");
+}
+if (adapter.limits.maxBufferSize < nColors*4) {
+    throw new Error("Storage buffer size not supported.");
+}
+
 // Requesting GPU device
-const device = await adapter.requestDevice();
+const device = await adapter.requestDevice({
+    requiredLimits: {
+        maxComputeWorkgroupSizeX: WORKGROUP_SIZE,
+        maxComputeInvocationsPerWorkgroup: WORKGROUP_SIZE,
+        maxStorageBufferBindingSize: nColors*4,
+        maxBufferSize: nColors*4
+    }
+});
 
 // Requesting GPU canvas context
 const context = canvas.getContext('webgpu');
@@ -49,10 +75,6 @@ context.configure({
     device: device,
     format: canvasFormat
 });
-
-// Defining the scale in Y direction
-let squareSizeX = canvas.width / GRID_SIZEx;
-let GRID_SIZEy = Math.floor(canvas.height / squareSizeX);
 
 // Defining a square as two triangles
 const pos = 1.00;
@@ -90,9 +112,14 @@ const cellShaderModule = device.createShaderModule({
     label: "Cell shader",
     code: await loadTextFile("default.wgsl")
 });
+
+let fileComputeShader = await loadTextFile("compute.wgsl");
+fileComputeShader = fileComputeShader
+    .replace("$WORKGROUP_SIZE$", WORKGROUP_SIZE)
+    .replace("$COARSE_FACTOR$", COARSE_FACTOR);
 const simulationShaderModule = device.createShaderModule({
     label: "Rainbow Smoke shader",
-    code: await loadTextFile("compute.wgsl")
+    code: fileComputeShader
 });
 
 //#endregion
@@ -103,25 +130,43 @@ const simulationShaderModule = device.createShaderModule({
 let gridUniform = new Uint32Array([GRID_SIZEx, GRID_SIZEy]);
 
 // Color pool parameter |colors to be painted
-const nColors = GRID_SIZEx * GRID_SIZEy;
 let colorPoolStorage = new Float32Array(nColors * 3);
 
+// Initially i assumed that, on a large painting, the sampling pattern wouldn't matter, but I was very wrong. Doing it randomly vs evenly sampling colors and then
+// randomizing is the proper way
+let nColors1D = Math.ceil(nColors**(1/3));
+console.log("Missing colors: ", nColors1D**3-nColors, " out of ",nColors1D**3/1000,"K")
 if (colorOrderPrompt == 1) {
-    for (let i = 0; i < colorPoolStorage.length; ++i) {
-        colorPoolStorage[i] = Math.random();
+    let order = [...Array(nColors).keys()].sort(() => Math.random() - 0.5);
+    let i = 0;
+    for (let r=0; r<nColors1D; r++) {
+        for (let g=0; g<nColors1D; g++) {
+            for (let b=0; b<nColors1D; b++) {
+                if (i===nColors) { break; }
+                let j = order[i];
+                colorPoolStorage[3*j] = r/(nColors1D-1);
+                colorPoolStorage[3*j+1] = g/(nColors1D-1);
+                colorPoolStorage[3*j+2] = b/(nColors1D-1);
+                i++;
+            }
+        }
     }
 } else { // Ordered by hue
-    console.log(hueOffset, hueDirection)
+    let nColors1D = Math.ceil(nColors**(1/3));
+    let i = 0;
     let colors = [];
-    for (let i = 0; i < nColors; ++i) {
-        const r = Math.round(256*Math.random());
-        const g = Math.round(256*Math.random());
-        const b = Math.round(256*Math.random());
+    for (let r=0; r<nColors1D; r++) {
+        for (let g=0; g<nColors1D; g++) {
+            for (let b=0; b<nColors1D; b++) {
+                if (i===nColors) { break; }
 
-        let hue = rgbToHue(r,g,b);
-        if (hue < 0.5) { hue  = hue + 1 }
+                let hue = rgbToHue(Math.round(r/(nColors1D-1)*255), Math.round(g/(nColors1D-1)*255), Math.round(b/(nColors1D-1)*255));
 
-        colors.push({hue: hue, r: r/255, g: g/255, b: b/255})
+                colors.push({hue: hue, r: r/(nColors1D-1), g: g/(nColors1D-1), b: b/(nColors1D-1)})
+
+                i++;
+            }
+        }
     }
     colors.sort((a, b) => hueDirection*((a.hue - hueOffset + 1) % 1 - (b.hue - hueOffset + 1) % 1));
 
@@ -203,14 +248,14 @@ let computeBuffers = [
         usage: GPUBufferUsage.STORAGE | GPUBufferUsage.COPY_DST
     }),
     device.createBuffer({
-        label: "Minimum index of distance",
+        label: "Argmin dispatches count",
         size: minIndexStorage.byteLength,
         usage: GPUBufferUsage.STORAGE | GPUBufferUsage.COPY_DST
     }),
     device.createBuffer({
         label: "Distances",
         size: distancesStorage.byteLength,
-        usage: GPUBufferUsage.STORAGE | GPUBufferUsage.COPY_DST | GPUBufferUsage.COPY_SRC
+        usage: GPUBufferUsage.STORAGE | GPUBufferUsage.COPY_DST
     }),
     device.createBuffer({
         label: "Iteration",
@@ -221,22 +266,13 @@ let computeBuffers = [
         label: "Target color",
         size: new Float32Array(3).byteLength,
         usage: GPUBufferUsage.STORAGE | GPUBufferUsage.COPY_DST
-    })
-];
-
-// Staging buffers
-let stagingBuffers = [
-    device.createBuffer({
-        label: "Staging buffer for reading distances",
-        size: distancesStorage.byteLength,
-        usage: GPUBufferUsage.MAP_READ | GPUBufferUsage.COPY_DST
     }),
     device.createBuffer({
-        label: "Staging buffer for writing the index of the minimum value",
-        size: minIndexStorage.byteLength,
-        usage: GPUBufferUsage.MAP_WRITE | GPUBufferUsage.COPY_SRC
+        label: "Argmin result",
+        size: dispatches*4,
+        usage: GPUBufferUsage.STORAGE | GPUBufferUsage.COPY_DST
     })
-]
+];
 
 // Writing buffers
 device.queue.writeBuffer(commonBuffers[0], 0, gridUniform);
@@ -244,6 +280,7 @@ device.queue.writeBuffer(commonBuffers[1], 0, cellColorStorage);
 
 device.queue.writeBuffer(computeBuffers[0], 0, cellStateStorage);
 device.queue.writeBuffer(computeBuffers[1], 0, colorPoolStorage);
+device.queue.writeBuffer(computeBuffers[2], 0, new Uint32Array([dispatches]));
 
 // Bind layouts
 let bindGroupLayouts = [
@@ -280,7 +317,7 @@ let bindGroupLayouts = [
         }, {
             binding: 4,
             visibility: GPUShaderStage.COMPUTE,
-            buffer: { type: "storage" } // Minimum index
+            buffer: { type: "read-only-storage" } // Argmin dispatches count
         }, {
             binding: 5,
             visibility: GPUShaderStage.COMPUTE,
@@ -293,6 +330,10 @@ let bindGroupLayouts = [
             binding: 7,
             visibility: GPUShaderStage.COMPUTE,
             buffer: { type: "storage" } // Target color
+        }, {
+            binding: 8,
+            visibility: GPUShaderStage.COMPUTE,
+            buffer: { type: "storage" } // Argmin result
         }]
     })
 ];
@@ -345,6 +386,10 @@ let bindGroups = [
         {
             binding: 7,
             resource: { buffer: computeBuffers[5] }
+        },
+        {
+            binding: 8,
+            resource: { buffer: computeBuffers[6] }
         }]
     })
 ]
@@ -407,90 +452,94 @@ let computePipelines = [
         }
     }),
     device.createComputePipeline({
-        label: "Minimum single-threaded",
+        label: "Argmin parallel reduction",
         layout: pipelineLayouts[1],
         compute: {
             module: simulationShaderModule,
-            entryPoint: "minimumSTMain"
+            entryPoint: "reductionArgminMain"
+        }
+    }),
+    device.createComputePipeline({
+        label: "Argmin parallel reduction 2nd step",
+        layout: pipelineLayouts[1],
+        compute: {
+            module: simulationShaderModule,
+            entryPoint: "reductionArgminMain2step"
         }
     })
 ]
 //#endregion
 
-// let lastTimestamp = performance.now();
-async function gameLoop() {
-    // Calculate time since last frame
-    // let timestamp = performance.now();
-    // let deltaTime = timestamp - lastTimestamp;
-    // console.log(`Frame time: ${deltaTime.toFixed(2)} ms`); // Log the time in milliseconds
-    // lastTimestamp = timestamp; // Update the last timestamp
+console.log("Dispatches: ", dispatches);
+console.log("Number of colors: ", nColors);
+workgroupCountX = Math.ceil(GRID_SIZEx / WORKGROUP_SIZE2D);
+workgroupCountY = Math.ceil(GRID_SIZEy / WORKGROUP_SIZE2D);
 
+const buffer = device.createBuffer({
+    size: 4, // 4 bytes (e.g., a single float or uint32)
+    usage: GPUBufferUsage.COPY_DST | GPUBufferUsage.MAP_READ, // Allow copying & CPU access
+});
+
+async function gameLoop() {
     // Iteration
     if (iteration === nColors) { return; }
 
     // console.time('RENDER pass')
-    updateCompute(20);
-    updateRender();
+    const encoder = device.createCommandEncoder();
+    updateCompute(300, encoder);
+    updateRender(encoder);
+
+    // encoder.copyBufferToBuffer(computeBuffers[2], 0, buffer, 0, 4);
+    device.queue.submit([encoder.finish()]);
+
+    // Wait for GPU work to finish and map the buffer for CPU access
+    // await buffer.mapAsync(GPUMapMode.READ);
+    // const data = new Uint32Array(buffer.getMappedRange());
+    // console.log(data[0]);
+    // buffer.unmap();
     // console.timeEnd('RENDER pass')
 
-    requestAnimationFrame(gameLoop);
+    // if (iteration < 10) { requestAnimationFrame(gameLoop) };
+    requestAnimationFrame(gameLoop)
 }
 requestAnimationFrame(gameLoop);
 
 // WebGPU functions
-async function updateCompute(nTimes) {
-    
-    let encoder;
-    encoder = device.createCommandEncoder();
-    let computePass;
-
+async function updateCompute(nTimes, encoder) {
+    const computePass = encoder.beginComputePass();
+    computePass.setBindGroup(0, bindGroups[1]);
     for (let i=0; i<nTimes; i++) {
         iteration++;
         if (iteration === nColors) { break; }
 
-        
         /////////////////////////////////////////////////////////////////////////////////////////////
         // COMPUTE advance iteration
-        computePass = encoder.beginComputePass();
         computePass.setPipeline(computePipelines[2]);
-        computePass.setBindGroup(0, bindGroups[1]);
-        computePass.dispatchWorkgroups(1,1,1);
-        computePass.end();
+        computePass.dispatchWorkgroups(1);
 
         /////////////////////////////////////////////////////////////////////////////////////////////
         // COMPUTE distances
-        computePass = encoder.beginComputePass();
         computePass.setPipeline(computePipelines[0]);
-        computePass.setBindGroup(0, bindGroups[1]);
-        workgroupCountX = Math.ceil(GRID_SIZEx / WORKGROUP_SIZE);
-        workgroupCountY = Math.ceil(GRID_SIZEy / WORKGROUP_SIZE);
         computePass.dispatchWorkgroups(workgroupCountX, workgroupCountY);
-        computePass.end();
 
         /////////////////////////////////////////////////////////////////////////////////////////////
         // COMPUTE minimum distance
-        computePass = encoder.beginComputePass();
         computePass.setPipeline(computePipelines[3]);
-        computePass.setBindGroup(0, bindGroups[1]);
-        computePass.dispatchWorkgroups(1,1,1);
-        computePass.end();
+        computePass.dispatchWorkgroups(dispatches);
+        computePass.setPipeline(computePipelines[4]);
+        computePass.dispatchWorkgroups(1);
 
         /////////////////////////////////////////////////////////////////////////////////////////////
         // COMPUTE Place pixel, activate neighbors
-        computePass = encoder.beginComputePass();
         computePass.setPipeline(computePipelines[1]);
-        computePass.setBindGroup(0, bindGroups[1]);
         computePass.dispatchWorkgroups(1);
-        computePass.end();
-        
     }
-    device.queue.submit([encoder.finish()]);
+    computePass.end();
 }
 
-async function updateRender() {
+async function updateRender(encoder) {
     /////////////////////////////////////////////////////////////////////////////////////////////
     // RENDER cells
-    let encoder = device.createCommandEncoder();
     const renderPass = encoder.beginRenderPass({
         colorAttachments: [{
             view: context.getCurrentTexture().createView(),
@@ -505,8 +554,6 @@ async function updateRender() {
     renderPass.setVertexBuffer(0, vertexBuffer);
     renderPass.draw(vertices.length / 2, GRID_SIZEx*GRID_SIZEy); // 6 vertices
     renderPass.end();
-
-    device.queue.submit([encoder.finish()]);
 }
 
 // Functions

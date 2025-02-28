@@ -2,22 +2,37 @@ struct ComputeInput {
     @builtin(global_invocation_id) cell: vec3u
 }
 
+// Constants
+const WORKGROUP_SIZE: u32 = $WORKGROUP_SIZE$;
+const COARSE_FACTOR: u32 = $COARSE_FACTOR$;
+
 // Global memory
 @group(0) @binding(0) var<uniform> gridGlobal: vec2u;
 @group(0) @binding(1) var<storage, read_write> cellColorGlobal: array<f32>;
 @group(0) @binding(2) var<storage, read_write> cellStateGlobal: array<u32>;
 @group(0) @binding(3) var<storage> colorPoolGlobal: array<f32>;
-@group(0) @binding(4) var<storage, read_write> minIndexGlobal: u32;
+@group(0) @binding(4) var<storage> argminCounter: u32;
 @group(0) @binding(5) var<storage, read_write> distancesGlobal: array<f32>;
 @group(0) @binding(6) var<storage, read_write> iterationGlobal: u32;
 @group(0) @binding(7) var<storage, read_write> targetColorGlobal: vec3f;
+@group(0) @binding(8) var<storage, read_write> argminOutputGlobal: array<u32>;
+
+// Shared memory
+struct indexValueStruct {
+    index: u32,
+    value: f32,
+};
+var<workgroup> sdataWithIndex: array<indexValueStruct, WORKGROUP_SIZE>;
 
 fn cellIndex(x: u32, y: u32, gridX: u32) -> u32 {
     return y * gridX + x;
 }
 
 fn l2normSquared(v1: vec3f, v2: vec3f) -> f32 {
-    return pow(v1.x-v2.x,2) + pow(v1.y-v2.y,2) + pow(v1.z-v2.z,2);
+    let a = v1.x-v2.x;
+    let b = v1.y-v2.y;
+    let c = v1.z-v2.z;
+    return sqrt(a*a+b*b+c*c);
 }
 
 fn neighborDistance(x: u32, y: u32, targetColor: vec3f, gridX: u32) -> vec2f {
@@ -75,7 +90,7 @@ fn distancesAverageMethodMain(input: ComputeInput) {
         results += neighborDistance(cellX + 1, cellY, targetColor, grid.x);
         if (cellY + 1 < grid.y) { results += neighborDistance(cellX + 1, cellY + 1, targetColor, grid.x); }
     }
-    distancesGlobal[index1D] = results.y / results.x;
+    distancesGlobal[index1D] = results.y / results.x;// +(f32(iterationGlobal+index1D) % 13)*0.0000001;
 }
 
 @compute @workgroup_size(8, 8)
@@ -108,7 +123,7 @@ fn distancesMinimumMethodMain(input: ComputeInput) {
         result = min(result, neighborDistanceOnly(cellX + 1, cellY, targetColor, grid.x));
         if (cellY + 1 < grid.y) { result = min(result, neighborDistanceOnly(cellX + 1, cellY + 1, targetColor, grid.x)); }
     }
-    distancesGlobal[index1D] = result;
+    distancesGlobal[index1D] = result +(f32(iterationGlobal+index1D) % 13)*0.0000001;
 
 }
 
@@ -123,7 +138,7 @@ fn neighborActivation(x: u32, y: u32, gridX: u32) {
 @compute @workgroup_size(1)
 fn placeMain(input: ComputeInput) {
     let grid = gridGlobal;
-    let bestIndex1D = minIndexGlobal;
+    let bestIndex1D = argminOutputGlobal[0];
 
     let y = bestIndex1D / grid.x;
     let x = bestIndex1D - y * grid.x;
@@ -164,20 +179,101 @@ fn iterationMain(input: ComputeInput) {
     targetColorGlobal.b = colorPoolGlobal[i3+2];
 }
 
-// Minimum distance
-@compute @workgroup_size(1)
-fn minimumSTMain(input: ComputeInput) {
-    let nColors = gridGlobal.x*gridGlobal.y;
+fn minSharedWithIndex(id1: u32, id2: u32) {
+    let value = sdataWithIndex[id2].value;
+    if (value < sdataWithIndex[id1].value) {
+        sdataWithIndex[id1].index = sdataWithIndex[id2].index;
+        sdataWithIndex[id1].value = value;
+    }
+}
+@compute @workgroup_size(WORKGROUP_SIZE)
+fn reductionArgminMain(
+    @builtin(local_invocation_id) local_invocation_id: vec3u,
+    @builtin(workgroup_id) workgroup_id: vec3u
+) {
+    let localID = local_invocation_id.x;
+    let workgroupID = workgroup_id.x;
+    var globalID = workgroupID * WORKGROUP_SIZE * COARSE_FACTOR + localID;
+    let size = gridGlobal.x*gridGlobal.y;
 
-    var minIndex = 0u;
-    var result = 9.0;
-    for (var i = 0u; i < nColors; i++) {
-        let value = distancesGlobal[i];
-        if (value < result) {
-            result = value;
-            minIndex = i;
+    var index = 0u;
+    var minValue = 10.0;
+    if (globalID < size) {
+        index = globalID;
+        minValue = distancesGlobal[globalID];
+    }
+    for (var tile = 1u; tile < COARSE_FACTOR; tile++) {
+        globalID += WORKGROUP_SIZE;
+        if (globalID < size) {
+            let value = distancesGlobal[globalID];
+            if (value < minValue) {
+                index = globalID;
+                minValue = value;
+            }
         }
     }
+    sdataWithIndex[localID].index = index;
+    sdataWithIndex[localID].value = minValue;
+    workgroupBarrier();
 
-    minIndexGlobal = minIndex;
+    if (WORKGROUP_SIZE >= 2048) { if (localID < 1024) { minSharedWithIndex(localID, localID + 1024); } workgroupBarrier();}
+    if (WORKGROUP_SIZE >= 1024) { if (localID < 512) { minSharedWithIndex(localID, localID + 512); } workgroupBarrier();}
+    if (WORKGROUP_SIZE >= 512) { if (localID < 256) { minSharedWithIndex(localID, localID + 256); } workgroupBarrier();}
+    if (WORKGROUP_SIZE >= 256) { if (localID < 128) { minSharedWithIndex(localID, localID + 128); } workgroupBarrier();}
+    if (WORKGROUP_SIZE >= 128) { if (localID < 64) { minSharedWithIndex(localID, localID + 64); } workgroupBarrier();}
+    if (localID < 32) { minSharedWithIndex(localID, localID + 32); } workgroupBarrier();
+    if (localID < 16) { minSharedWithIndex(localID, localID + 16); } workgroupBarrier();
+    if (localID < 8) { minSharedWithIndex(localID, localID + 8); } workgroupBarrier();
+    if (localID < 4) { minSharedWithIndex(localID, localID + 4); } workgroupBarrier();
+    if (localID < 2) { minSharedWithIndex(localID, localID + 2); } workgroupBarrier();
+
+    if (localID == 0) {
+        minSharedWithIndex(0, 1);
+        argminOutputGlobal[workgroupID] = sdataWithIndex[0].index;
+    }
+}
+
+@compute @workgroup_size(WORKGROUP_SIZE)
+fn reductionArgminMain2step(
+    @builtin(local_invocation_id) local_invocation_id: vec3u
+) {
+    let localID = local_invocation_id.x;
+    var globalID = localID;
+    let size = argminCounter;
+
+    var index = 0u;
+    var minValue = 10.0;
+    if (globalID < size) {
+        index = argminOutputGlobal[globalID];
+        minValue = distancesGlobal[index];
+    }
+    globalID += WORKGROUP_SIZE;
+    while (globalID < size) {
+        let index2 = argminOutputGlobal[globalID];
+        let value = distancesGlobal[index2];
+        if (value < minValue) {
+            index = index2;
+            minValue = value;
+        }
+        globalID += WORKGROUP_SIZE;
+    }
+    sdataWithIndex[localID].index = index;
+    sdataWithIndex[localID].value = minValue;
+    workgroupBarrier();
+
+    if (WORKGROUP_SIZE >= 2048) { if (localID < 1024) { minSharedWithIndex(localID, localID + 1024); } workgroupBarrier();}
+    if (WORKGROUP_SIZE >= 1024) { if (localID < 512) { minSharedWithIndex(localID, localID + 512); } workgroupBarrier();}
+    if (WORKGROUP_SIZE >= 512) { if (localID < 256) { minSharedWithIndex(localID, localID + 256); } workgroupBarrier();}
+    if (WORKGROUP_SIZE >= 256) { if (localID < 128) { minSharedWithIndex(localID, localID + 128); } workgroupBarrier();}
+    if (WORKGROUP_SIZE >= 128) { if (localID < 64) { minSharedWithIndex(localID, localID + 64); } workgroupBarrier();}
+    if (localID < 32) { minSharedWithIndex(localID, localID + 32); } workgroupBarrier();
+    if (localID < 16) { minSharedWithIndex(localID, localID + 16); } workgroupBarrier();
+    if (localID < 8) { minSharedWithIndex(localID, localID + 8); } workgroupBarrier();
+    if (localID < 4) { minSharedWithIndex(localID, localID + 4); } workgroupBarrier();
+    if (localID < 2) { minSharedWithIndex(localID, localID + 2); } workgroupBarrier();
+
+    if (localID == 0) {
+        minSharedWithIndex(0, 1);
+        argminOutputGlobal[0] = sdataWithIndex[0].index;
+    }
 }
