@@ -29,6 +29,7 @@ The projects part is by definition very diverse so I'm keeping it as a simple gr
 - markdown-it-[align plugin](https://github.com/mdit-plugins/mdit-plugins/tree/main/packages/align)
 - Custom CSS style based on [github-markdown-css](https://github.com/sindresorhus/github-markdown-css)
 - Custom table of contents, links, tables with multirow and multicolumn
+- Interactive embedded graphs through Flourish
 
 From here, this entry is for **my own use**, as I need to have a template when writing new articles. Of course you are free to read on to see what's possible to do with MD, and everything is public so you can see how to do it.
 

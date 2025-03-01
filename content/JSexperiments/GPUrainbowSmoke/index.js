@@ -8,7 +8,7 @@ const canvas = document.querySelector("canvas");
 canvas.width = canvas.parentElement.clientWidth;
 canvas.height = canvas.parentElement.clientHeight;
 
-const horizontalResolutionPrompt = parseInt(prompt("Horizontal resolution:", "56"));
+const horizontalResolutionPrompt = parseInt(prompt("Horizontal resolution:", "256"));
 const algorithmPrompt = prompt("Type 1 to use the AVERAGE or anything else to use the MINIMUM Rainbow Smoke algorithm variant:", "1");
 const colorOrderPrompt = prompt("Type 1 to use RANDOM or anything else for HUE ORDERED colors:", "1");
 

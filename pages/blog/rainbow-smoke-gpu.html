@@ -6,6 +6,7 @@
     <link rel="stylesheet" href="../../assets/libraries/fontawesome6.5.1/css/all.min.css">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/highlight.js@9.12.0/styles/atom-one-dark.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.11.1/katex.min.css">
+    <script src="https://public.flourish.studio/resources/embed.js"></script>
     
     <link rel="stylesheet" href="../../assets/css/style.css">
     <link rel="stylesheet" href="../../assets/css/github-markdown-dark.css">
@@ -64,10 +65,10 @@ section="blog">
         <div class="markdown-body" id="HTMLpost"><div id="section0"></div>
 <h6>February 12th, 2025</h6>
 <h1>GPU-accelerated Rainbow Smoke algorithm</h1>
-<h5>Reading time: 4 mins</h5>
+<h5>Reading time: 5 mins</h5>
 <hr>
 <p>An implementation of the Rainbow Smoke algorithm using GPU compute shaders through WebGPU, in JavaScript. You can try it yourself <a href="https://caniuse.com/?search=web%20gpu">if your browser supports WebGPU</a>:</p>
-<p><a href="../../content/JSexperiments/GPUrainbowSmoke/index.html">Web implementation of Rainbow Smoke</a></p>
+<p><a href="../../content/JSexperiments/GPUrainbowSmoke/index.html"><strong>Web implementation of Rainbow Smoke</strong></a></p>
 <p>Example result:</p>
 <p><img src="../../content/blog/assets/rainbow-smoke-main.jpg" alt="512x512 resolution rendering using the average variant with random color order."></p>
 <p><div class='TOCpost'><h4>&emsp;&nbsp;Contents</h4><ul><li><a href='#section0'>(Top)</a></li><ul><li><a href='#section1'>History</a></li><li onclick="toggleDetails(event)"><details><summary><a href='#section2'>The Algorithm</a></summary><ul><li><a href='#section3'>Working up to it</a></li></ul></details></li></ul>
@@ -119,19 +120,18 @@ section="blog">
 <p>Performance enhancements and iterations later, the algorithm allowed fejescoco to create 4K images, images which are frankly stunning. As said by him and as it can be deduced from looking at the pseudocode, the most expensive operation is the distance calculation part. For example, in a 4K image, even if only 10% of the pixels are active, that still means 1.6M active cells, and then 8 checks per cell for the neighbors, with an additional math operation for each painted one. This is something GPUs are very well built to compute.</p>
 <div id="section3"></div>
 <h3>Working up to it</h3>
-<p>I tried different versions and approaches, here's a rough benchmark for the ones I have, making 32<sup>2</sup> | 64<sup>2</sup> | 128<sup>2</sup> | 256<sup>2</sup>  pixel images using the average variant, random colors and center start, done on a i5-12400+RTX2060 machine:</p>
-<p>[benchmark of my different implementations]</p>
-<p>p5js - 14, 54, 395 s
-WebGPU0 - 8, 33, 128 s
-WebGPU1 - 0.5, 0.8, 3, 32 s
-WebGPU2 -</p>
+<p>I tried different versions and approaches:</p>
 <ul>
 <li><strong>p5.js</strong> - Single-threaded on the CPU, no optimizations whatsoever.</li>
 <li><strong>WebGPU0</strong> - On each iteration, the target color is sent to GPU memory, the distance array is brought back through a staging buffer, the CPU does an argmin operation and the index found is again sent. Obviously so many memory transfers are very inefficient, but it was a great learning experience. I had many problems using this approach also due to GPU synchronization issues.</li>
 <li><strong>WebGPU1</strong> - Everything is sent to the GPU at the start and each iteration is handled through the different compute shaders, the calls for which are now batched together and several iterations may take place before a draw call. The argmin operation is done now by a single GPU thread, which is still not optimal. Also, there are no optimizations of the algorithm itself: on every iteration the number of active cells can increase only by a handful but we haven't exploited it yet. The 0 version also had a bug in floating point comparisons and it's now mitigated by adding a small pseudo-random quantity to the distances.</li>
-<li><strong>WebGPU2</strong> - Parallel reduction is now used</li>
+<li><strong>WebGPU2</strong> - Parallel reduction is now used to calculate the minimum of the distance array.</li>
 </ul>
-<p>[wip]</p>
+<p>For posterity, I benchmarked the different procedures, making increasingly larger images using the average variant, random colors and center start, done on a i5-12400+RTX2060 machine. I added the original author's final algorithm as well, extrapolated from a comment at the end of his post:</p>
+<p><code>I can now render huge images in 5-10 hours. I already have some 4Kx4K renders</code></p>
+<p>I then assumed computation time to be scaling quadratically with the resolution, and 5 h for 4096<sup>2</sup> images.</p>
+<div class="flourish-embed flourish-chart" data-src="visualisation/21875906"><noscript><img src="https://public.flourish.studio/visualisation/21875906/thumbnail" width="100%" alt="chart visualization" /></noscript></div>
+<p>The result so far already scales far better and produces similar outputs, two key goals of mine when I started working my way up through both the algorithm and using WebGPU. It has served me also to understand many key optimization and architectural concepts in GPU computing because it's quite different from my experience using CPUs.</p>
 <hr><div class="blogTags"><button class="blogTagSelected" title='Check more posts of the "Projects" category on my blog!'>Projects</button></div><br></div>
         <div style="flex: 1; min-width: 20px;"></div>
     </div>

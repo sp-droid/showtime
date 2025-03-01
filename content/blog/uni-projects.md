@@ -42,7 +42,7 @@ Some were omitted.
 
 ## Space Systems Engineering and Operations [SSEO]
 
-Preliminary design of the **New Horizons** mission to Pluto and the **Juno** mission to Jupiter through reverse engineering. The different major subsystems were designed with the depth one would expect from a systems engineering at a Pre-A stage.
+Preliminary design of the **New Horizons** mission to Pluto and the **Juno** mission to Jupiter through reverse engineering. The different major subsystems were designed with the depth one would expect from a systems engineering standpoint at a Pre-A stage.
 
 
 

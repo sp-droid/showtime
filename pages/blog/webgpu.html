@@ -6,6 +6,7 @@
     <link rel="stylesheet" href="../../assets/libraries/fontawesome6.5.1/css/all.min.css">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/highlight.js@9.12.0/styles/atom-one-dark.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.11.1/katex.min.css">
+    <script src="https://public.flourish.studio/resources/embed.js"></script>
     
     <link rel="stylesheet" href="../../assets/css/style.css">
     <link rel="stylesheet" href="../../assets/css/github-markdown-dark.css">
@@ -67,11 +68,15 @@ section="blog">
 <h5>Reading time: 4 mins</h5>
 <hr>
 <p>This article will cover several concepts in relation to WebGPU, and some algorithms implemented on it as I'm learning.</p>
+<p>Useful links:</p>
+<ul>
+<li><a href="https://www.w3.org/TR/WGSL/">Official documentation</a></li>
+<li><a href="https://webgpufundamentals.org/webgpu/lessons/webgpu-limits-and-features.html">Adapter/device limits &amp; features</a></li>
+</ul>
 <p><div class='TOCpost'><h4>&emsp;&nbsp;Contents</h4><ul><li><a href='#section0'>(Top)</a></li><li onclick="toggleDetails(event)"><details><summary><a href='#section1'>The standard</a></summary><ul><li onclick="toggleDetails(event)"><details><summary><a href='#section2'>History</a></summary><ul><li><a href='#section3'>Implementations as of 2025</a></li></ul></details></li><li onclick="toggleDetails(event)"><details><summary><a href='#section4'>Architecture</a></summary><ul><li><a href='#section5'>Equivalent nomenclature</a></li><li><a href='#section6'>Built-ins</a></li></ul></details></li></ul></details></li><li onclick="toggleDetails(event)"><details><summary><a href='#section7'>Algorithms</a></summary><ul><li onclick="toggleDetails(event)"><details><summary><a href='#section8'>Parallel reduction</a></summary><ul><li><a href='#section9'>Min (& max) variants</a></li><li><a href='#section10'>Argmin (& argmax) variant</a></li></ul></details></li></ul></details></li>
 </ul></div></p>
 <div id="section1"></div>
 <h1>The standard</h1>
-<p><a href="https://www.w3.org/TR/WGSL/">Official documentation</a></p>
 <p>[definition]</p>
 <div id="section2"></div>
 <h2>History</h2>

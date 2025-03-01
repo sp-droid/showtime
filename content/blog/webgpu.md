@@ -1,10 +1,13 @@
 This article will cover several concepts in relation to WebGPU, and some algorithms implemented on it as I'm learning.
 
+Useful links:
+
+- [Official documentation](https://www.w3.org/TR/WGSL/)
+- [Adapter/device limits & features](https://webgpufundamentals.org/webgpu/lessons/webgpu-limits-and-features.html)
+
 [toc]
 
 # The standard
-
-[Official documentation](https://www.w3.org/TR/WGSL/)
 
 [definition]
 

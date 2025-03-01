@@ -12,11 +12,11 @@ Among other tasks, Igor manages a fluctuating group of interns that research and
 
 <img src="https://m.media-amazon.com/images/I/5157F1MUymL.jpg" alt="VNIR spectrometer's example output. Source@amazon.com" style="zoom: 25%;" />
 
-Quite a few interns had attacked the same problem before. Models were built and specialized for the equipment at hand (spectrometer quality, spectral bands, measurement type), collected data and geological region of interest. Talking about the specific architecture I ended up going for is off-reach, but the type was a 2D-CNN. After many hours tweaking the architecture,  hyperparameters tuning, data pre-processing (including manually removing outliers for 5000 spectra in about 60 classes...), validation... 
+Quite a few interns had attacked the same problem before. Models were built and specialized for the equipment at hand (spectrometer quality, spectral bands, measurement type), collected data and geological region of interest. Talking about the specific architecture I ended up going for is off-reach, but the type was a 2D-CNN. After many hours tweaking the architecture,  hyperparameters tuning, data pre-processing (including manually removing outliers for 5000 spectra in about 60 classes...), validation... the result was an adequately sized model that was, in their own words, "the best one to date"!
 
 <img src="assets/esa-internship-classImbalance.jpg" alt="One of the main challenges: class imbalance. Every column represents #samples per class." style="zoom: 50%;" />
 
-The result was an adequately sized model that was, in their own words, "the best one to date"! The following is an extract from the final presentation:
+The following is an extract from the final presentation:
 
 - Runs **fast on the EFB**
 - **Performs well on the validation set** globally and in most classes
