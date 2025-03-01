@@ -1,5 +1,11 @@
 [
 {
+	"title": "GPU-accelerated Rainbow Smoke algorithm",
+	"file": "rainbow-smoke-gpu",
+	"tag": "Projects",
+	"date": "01/03/2025"
+},
+{
 	"title": "Discrete bilinear interpolation",
 	"file": "dbi",
 	"tag": "Other",
@@ -22,12 +28,6 @@
 	"file": "uni-projects",
 	"tag": "Projects",
 	"date": "13/02/2025"
-},
-{
-	"title": "GPU-accelerated Rainbow Smoke algorithm",
-	"file": "rainbow-smoke-gpu",
-	"tag": "Projects",
-	"date": "12/02/2025"
 },
 {
 	"title": "Markdown cheat sheet and tools explanation",

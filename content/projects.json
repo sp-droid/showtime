@@ -1,5 +1,16 @@
 [
 {
+	"link": "../pages/blog/rainbow-smoke-gpu.html",
+	"bg": "rainbowSmoke",
+	"gif": true,
+	"type": "Personal",
+	"tools": ["JavaScript","WebGPU"],
+	"header": "GPU Rainbow Smoke",
+	"desc": "WebGPU implementation of the Rainbow Smoke algorithm.",
+	"date": "01/03/2025",
+	"importance": "Medium"
+},
+{
 	"link": "../pages/blog/dbi.html",
 	"bg": "dbi",
 	"gif": false,
@@ -9,17 +20,6 @@
 	"desc": "Walkthrough on an algorithm I started using for a different project.",
 	"date": "24/02/2025",
 	"importance": "Low"
-},
-{
-	"link": "../pages/blog/rainbow-smoke-gpu.html",
-	"bg": "rainbowSmoke",
-	"gif": true,
-	"type": "Personal",
-	"tools": ["JavaScript","WebGPU"],
-	"header": "GPU Rainbow Smoke",
-	"desc": "WebGPU implementation of the Rainbow Smoke algorithm.",
-	"date": "12/02/2025",
-	"importance": "Medium"
 },
 {
 	"link": "../content/JSexperiments/badmintonReaction/index.html",

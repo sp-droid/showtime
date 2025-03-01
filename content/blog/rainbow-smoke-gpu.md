@@ -80,3 +80,7 @@ I then assumed computation time to be scaling quadratically with the resolution,
 <div class="flourish-embed flourish-chart" data-src="visualisation/21875906"><noscript><img src="https://public.flourish.studio/visualisation/21875906/thumbnail" width="100%" alt="chart visualization" /></noscript></div>
 
 The result so far already scales far better and produces similar outputs, two key goals of mine when I started working my way up through both the algorithm and using WebGPU. It has served me also to understand many key optimization and architectural concepts in GPU computing because it's quite different from my experience using CPUs.
+
+## Some results from 4K resolution
+
+![Downsampled 4K, minimum variant, ordered by hue, hue shifted +0.5](assets/rainbow-smoke-2.jpg)
