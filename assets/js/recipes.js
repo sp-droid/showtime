@@ -179,7 +179,7 @@ document.addEventListener("DOMContentLoaded", function() {
             gridRecipe.classList.add("gridRecipe");
             
             gridRecipe.href = `recipes/${data[i]['file']}.html`;
-            gridRecipe.style.backgroundImage = `url('../assets/img/recipes/${data[i]['file']}.jpg')`;
+            gridRecipe.style.backgroundImage = `url('../assets/img/recipes/lowRes/${data[i]['file']}.jpg')`;
             gridRecipe.title = data[i]['description'];
 
             const recipeTitle = document.createElement("h3");
