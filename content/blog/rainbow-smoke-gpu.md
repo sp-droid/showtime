@@ -1,6 +1,9 @@
-An implementation of the Rainbow Smoke algorithm using GPU compute shaders through WebGPU, in JavaScript. You can try it yourself [if your browser supports WebGPU](https://caniuse.com/?search=web%20gpu):
+[**Run Rainbow Smoke**](../../content/JSexperiments/GPUrainbowSmoke/index.html)
+======
 
-[**Web implementation of Rainbow Smoke**](../../content/JSexperiments/GPUrainbowSmoke/index.html)
+---
+
+An implementation of the Rainbow Smoke algorithm using GPU compute shaders through WebGPU, in JavaScript. You can try it yourself [if your browser supports WebGPU](https://caniuse.com/?search=web%20gpu).
 
 Example result:
 
