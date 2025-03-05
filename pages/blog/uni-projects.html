@@ -60,25 +60,29 @@ section="blog">
     </div>
 </div></div>
     <div style="flex: 1; display: flex;">
-        <div class="markdown-body sidebarHide" style="flex: 1; min-width: 20px;"><br><div class='TOCpost'><h4>&emsp;&nbsp;Contents</h4><ul><li><a href='#section0'>(Top)</a></li><li onclick="toggleDetails(event)"><details><summary><a href='#section1'>Assignments with visuals</a></summary><ul><li><a href='#section2'>Orbital Mechanics [OM]</a></li><li><a href='#section3'>Spacecraft Attitude Dynamics [SAD]</a></li><li><a href='#section4'>Launch Systems [LS]</a></li></ul></details></li><li onclick="toggleDetails(event)"><details><summary><a href='#section5'>Other assignments</a></summary><ul><li><a href='#section6'>Space Systems Engineering and Operations [SSEO]</a></li><li><a href='#section7'>Space Propulsion [SP]</a></li><li><a href='#section8'>Payload Design [PD]</a></li></ul></details></li>
+        <div class="markdown-body sidebarHide" style="flex: 1; min-width: 20px;"><br><div class='TOCpost'><h4>&emsp;&nbsp;Contents</h4><ul><li><a href='#section0'>(Top)</a></li><li onclick="toggleDetails(event)"><details><summary><a href='#section1'>Assignments with animations</a></summary><ul><li><a href='#section2'>Orbital Mechanics [OM]</a></li><li><a href='#section3'>Spacecraft Attitude Dynamics [SAD]</a></li><li><a href='#section4'>Launch Systems [LS]</a></li></ul></details></li><li onclick="toggleDetails(event)"><details><summary><a href='#section5'>Other assignments</a></summary><ul><li><a href='#section6'>Space Systems Engineering and Operations [SSEO]</a></li><li><a href='#section7'>Space Propulsion [SP]</a></li><li><a href='#section8'>Payload Design [PD]</a></li></ul></details></li>
 </ul></div></div>
         <div class="markdown-body" id="HTMLpost"><div id="section0"></div>
 <h6>February 13th, 2025</h6>
 <h1>Projects during the MSc. in Space Engineering</h1>
-<h5>Reading time: 2 mins</h5>
+<h5>Reading time: 4 mins</h5>
 <hr>
-<p>For now I'm only mentioning projects that I made an animation for in the end.</p>
-<p><div class='TOCpost'><h4>&emsp;&nbsp;Contents</h4><ul><li><a href='#section0'>(Top)</a></li><li onclick="toggleDetails(event)"><details><summary><a href='#section1'>Assignments with visuals</a></summary><ul><li><a href='#section2'>Orbital Mechanics [OM]</a></li><li><a href='#section3'>Spacecraft Attitude Dynamics [SAD]</a></li><li><a href='#section4'>Launch Systems [LS]</a></li></ul></details></li><li onclick="toggleDetails(event)"><details><summary><a href='#section5'>Other assignments</a></summary><ul><li><a href='#section6'>Space Systems Engineering and Operations [SSEO]</a></li><li><a href='#section7'>Space Propulsion [SP]</a></li><li><a href='#section8'>Payload Design [PD]</a></li></ul></details></li>
+<p>Here I show the flashy bits of some of the assignments I did during the masters, acknowledging that most of the actual work doesn't make it into a nice graph or animation.</p>
+<p><div class='TOCpost'><h4>&emsp;&nbsp;Contents</h4><ul><li><a href='#section0'>(Top)</a></li><li onclick="toggleDetails(event)"><details><summary><a href='#section1'>Assignments with animations</a></summary><ul><li><a href='#section2'>Orbital Mechanics [OM]</a></li><li><a href='#section3'>Spacecraft Attitude Dynamics [SAD]</a></li><li><a href='#section4'>Launch Systems [LS]</a></li></ul></details></li><li onclick="toggleDetails(event)"><details><summary><a href='#section5'>Other assignments</a></summary><ul><li><a href='#section6'>Space Systems Engineering and Operations [SSEO]</a></li><li><a href='#section7'>Space Propulsion [SP]</a></li><li><a href='#section8'>Payload Design [PD]</a></li></ul></details></li>
 </ul></div></p>
 <div id="section1"></div>
-<h1>Assignments with visuals</h1>
+<h1>Assignments with animations</h1>
 <div id="section2"></div>
 <h2>Orbital Mechanics [OM]</h2>
 <p>Earth <strong>Molniya orbit design</strong> given some basic orbit parameters, with the objective of comparing to a real life object found through publicly available data and <strong>modelling</strong> the most important <strong>perturbations</strong>, in <strong>MATLAB</strong>. This was one of the most interesting projects I did, and motivated me to read a chapter of a book about perturbations, and implementing the <strong>EGM96</strong> model, relativistic effects, etc.</p>
 <p>I went ahead and did these two animations using the same software. That was probably a mistake, it was hell on Earth to make, and motivated me to learn <strong>Blender</strong> for the same purpose later.</p>
 <iframe width="640" height="360" src="https://www.youtube.com/embed/nJ_P-hUO-3g" allowfullscreen></iframe>
 <iframe width="640" height="360" src="https://www.youtube.com/embed/ByNQOdoczXE" allowfullscreen></iframe>
-<p>The project had a different part about an <strong>interplanetary transfer</strong>.</p>
+<p>Some figures:</p>
+<img src="../../content/blog/assets/uni-projects-OM1.png" alt="Undulation from perfect geoid according to EGM96, used in the perturbations model."  />
+<img src="../../content/blog/assets/uni-projects-OM2.png" alt="Long term perturbed orbit evolution." style="zoom: 80%;" />
+<img src="../../content/blog/assets/uni-projects-OM3.png" alt="Perturbation models (blue, orange) accuracy vs. real (black) historic data." style="zoom: 80%;" />
+<p>The project had a second part about an <strong>interplanetary transfer</strong>.</p>
 <div id="section3"></div>
 <h2>Spacecraft Attitude Dynamics [SAD]</h2>
 <p>Control and simulation of satellite attitude dynamics using <strong>MATLAB Simulink</strong>. Orbit trajectory computed using <strong>MATLAB</strong> and drawn with <strong>Blender</strong>.</p>
@@ -92,14 +96,30 @@ section="blog">
 <p>Some were omitted.</p>
 <div id="section6"></div>
 <h2>Space Systems Engineering and Operations [SSEO]</h2>
-<p>Preliminary design of the <strong>New Horizons</strong> mission to Pluto and the <strong>Juno</strong> mission to Jupiter through reverse engineering. The different major subsystems were designed with the depth one would expect from a systems engineering standpoint at a Pre-A stage.</p>
+<p>Preliminary design of the <strong>New Horizons</strong> mission to Pluto and the <strong>Juno</strong> mission to Jupiter through reverse engineering. The different major subsystems were designed with the depth one would expect from a systems engineering standpoint at a Pre-A stage, including: mission definition (goals, drivers, phases...), mission analysis (mainly trajectory), propulsion, telecommand &amp; telecommunications, attitude control, thermal control, electrical power, on-board data handling and configuration. Some figures from the Juno assignment:</p>
+<img src="../../content/blog/assets/uni-projects-sseoTMTC1.png" alt="TMTC high gain antenna downlink losses." style="zoom: 33%;" />
+<img src="../../content/blog/assets/uni-projects-sseoAOCS1.png" alt="Voxelization of the model to calculate accurate inertia moments for AOCS." style="zoom: 50%;" />
+<img src="../../content/blog/assets/uni-projects-sseoTCS1.png" alt="TCS usage during the mission's span." style="zoom: 67%;" />
 <div id="section7"></div>
 <h2>Space Propulsion [SP]</h2>
-<p>1-workshop for the design of a <strong>pressure-fed liquid propellant rocket motor</strong>. The team and task was considerable, and the time available was very short, but it ended up being one of the most unique projects I've ever done. I used <strong>MATLAB</strong> for the parts I worked on: <strong>thermal analysis</strong>, <strong>basic injector design</strong> and <strong>cooling solutions</strong> (ablative, heat sink, regenerative, liquid film).</p>
+<p>One-week long workshop for the design of a <strong>pressure-fed liquid propellant rocket motor</strong>. The team and task was considerable, and the time available was very short, but it ended up being one of the most unique projects I've ever done. I used <strong>MATLAB</strong> for the parts I worked on: <strong>thermal analysis</strong>, <strong>basic injector design</strong> and <strong>cooling solutions</strong> (ablative, heat sink, regenerative, liquid film). The design was to be performed for two propellant pairs (one more eco-friendly than the other) and three thrust targets (nominal, half and double thrust). Here are some images for the nominal thrust with the (more) toxic propellant pair of MMH (monomethyl hydrazine) and NTO (nitrogen tetroxide):</p>
+<img src="../../content/blog/assets/uni-projects-SP1.png" alt="Cross-section of combustion chamber and nozzle parts." style="zoom: 67%;" />
+<img src="../../content/blog/assets/uni-projects-SP2.png" alt="Estimated cross-sectional heat flux." style="zoom: 67%;" />
+<img src="../../content/blog/assets/uni-projects-SP3.png" alt="Stress-derived minimum wall thickness." style="zoom: 67%;" />
 <p>A much smaller assignment consisted in the internal ballistic analysis of solid rocket motors. From Ballistic Test and Evaluation System (BATES) results at the lab (pressure traces), Vielle's law parameters were statistically derived to get the expected performance.</p>
+<img src="../../content/blog/assets/uni-projects-SPFlipped1.png" alt="Fitted model from experimental data." style="zoom: 33%;" />
+<img src="../../content/blog/assets/uni-projects-SPFlipped2.png" alt="70 bar pressure traces against fitted Vielle's model." style="zoom: 33%;" />
 <div id="section8"></div>
 <h2>Payload Design [PD]</h2>
 <p>Preliminary <strong>design of an instrument</strong> with the same goals as KaRIn in the SWOT mission. Using <strong>MATLAB</strong> as well, I worked in the <strong>environmental</strong> analysis (specifically <strong>tides</strong>, <strong>atmospheric attenuation</strong> and orbit <strong>perturbations</strong>) , <strong>orbit design</strong> (accounting for <strong>tidal aliasing</strong> and <strong>tidal separability</strong> requirements) and Interferometric Synthetic Aperture Radar (<strong>InSAR</strong>) setup: radar equation and interferometric baseline preliminary design. Very lengthy, well researched and interesting for me.</p>
+<img src="../../content/blog/assets/uni-projects-PD1.png" alt="Estimated perturbations for preliminary orbit." style="zoom: 50%;" />
+<img src="../../content/blog/assets/uni-projects-PD2.png" alt="ITUR-676 1-way zenith signal attenuation." style="zoom: 33%;" />
+<img src="../../content/blog/assets/uni-projects-PD3.png" alt="Slice of the candidate orbit pool."  />
+<p><img src="../../content/blog/assets/uni-projects-PD4.png" alt="Retrograde and high inclination orbits are filtered due to high aliasing periods."></p>
+<p><img src="../../content/blog/assets/uni-projects-PD5.png" alt="Only candidates with certain days per cycle remain."></p>
+<p><img src="../../content/blog/assets/uni-projects-PD6.png" alt="Selection is narrowed down using tidal separability criteria."></p>
+<p><img src="../../content/blog/assets/uni-projects-PD7.png" alt="Final two clusters and their subcycle characteristics."></p>
+<p><img src="../../content/blog/assets/uni-projects-PD8.png" alt="Earth coverage and ground track."></p>
 <hr><div class="blogTags"><button class="blogTagSelected" title='Check more posts of the "Projects" category on my blog!'>Projects</button></div><br></div>
         <div style="flex: 1; min-width: 20px;"></div>
     </div>
