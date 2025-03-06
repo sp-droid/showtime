@@ -10,10 +10,10 @@ const sliderFPS = document.getElementById("sliderFPS");
 const resetButton = document.getElementById("resetButton");
 
 let GRID_SIZEx = sliderGridSize.value;
-let UPDATE_INTERVAL = 1000/sliderFPS.value;
 
 // Constants
 const WORKGROUP_SIZE = 8;
+let UPDATE_INTERVAL = 1000/sliderFPS.value;
 
 sliderGridSize.oninput = function() {
     const yValue = Math.floor(canvas.height / canvas.width * this.value);
@@ -63,7 +63,7 @@ let squareSizeX = canvas.width / GRID_SIZEx;
 let GRID_SIZEy = Math.floor(canvas.height / squareSizeX);
 
 // Defining a square as two triangles
-const pos = 0.90;
+const pos = 0.99;
 const vertices = new Float32Array([
     -pos, -pos,
      pos, -pos,
@@ -116,24 +116,32 @@ let pipelineLayout;
 let cellPipeline;
 let simulationPipeline;
 
-let gameLoop;
 startGame();
 
 // WebGPU functions
-function updateGrid() {
+let lastTime = 0;
+async function gameLoop() {
+    const timestamp = performance.now();
+    const elapsed = timestamp - lastTime;
+
+    // Only proceed if the time passed is greater than the target interval (e.g., 33.33ms for 30 FPS)
+    if (elapsed < UPDATE_INTERVAL) {
+        requestAnimationFrame(gameLoop);
+        return;
+    } else {
+        lastTime = timestamp;
+    }
+
     // Encoder that sends instructions to the GPU
     const encoder = device.createCommandEncoder();
 
     // Compute pass
     const computePass = encoder.beginComputePass();
-
     computePass.setPipeline(simulationPipeline);
     computePass.setBindGroup(0, bindGroups[frameNumber % 2]);
-
     const workgroupCountX = Math.ceil(GRID_SIZEx / WORKGROUP_SIZE);
     const workgroupCountY = Math.ceil(GRID_SIZEy / WORKGROUP_SIZE);
     computePass.dispatchWorkgroups(workgroupCountX, workgroupCountY);
-
     computePass.end();
 
     frameNumber++;
@@ -152,11 +160,11 @@ function updateGrid() {
     pass.setBindGroup(0, bindGroups[frameNumber % 2]);
     pass.setVertexBuffer(0, vertexBuffer);
     pass.draw(vertices.length / 2, GRID_SIZEx*GRID_SIZEy); // 6 vertices
-
     pass.end();
 
     // Create a command buffer and submit it to the queue of the GPU device
     device.queue.submit([encoder.finish()]);
+    requestAnimationFrame(gameLoop);
 }
 
 function startGame() {
@@ -186,7 +194,7 @@ function startGame() {
 
     // Set each cell to a random state, then copy the JavaScript array into the storage buffer.
     for (let i = 0; i < cellStateArray.length; ++i) {
-        cellStateArray[i] = Math.random() > 0.6 ? 1 : 0;
+        cellStateArray[i] = Math.random() > 0.7 ? 1 : 0;
     }
     device.queue.writeBuffer(cellStateStorage[0], 0, cellStateArray);
 
@@ -195,7 +203,7 @@ function startGame() {
         label: "Cell bind group layout",
         entries: [{
             binding: 0,
-            visibility: GPUShaderStage.VERTEX | GPUShaderStage.FRAGMENT | GPUShaderStage.COMPUTE,
+            visibility: GPUShaderStage.VERTEX | GPUShaderStage.COMPUTE,
             buffer: {} // Grid uniform buffer
         }, {
             binding: 1,
@@ -278,7 +286,7 @@ function startGame() {
         }
     });
 
-    gameLoop = setInterval(updateGrid, UPDATE_INTERVAL);
+    requestAnimationFrame(gameLoop);
 }
 
 // Functions
