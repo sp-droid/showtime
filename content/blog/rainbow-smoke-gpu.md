@@ -67,12 +67,13 @@ Performance enhancements and iterations later, the algorithm allowed fejescoco t
 
 ### Working up to it
 
-I tried different versions and approaches:
+I tried different versions and approaches, finding incremental improvements:
 
 - **p5.js** - Single-threaded on the CPU, no optimizations whatsoever.
-- **WebGPU0** - On each iteration, the target color is sent to GPU memory, the distance array is brought back through a staging buffer, the CPU does an argmin operation and the index found is again sent. Obviously so many memory transfers are very inefficient, but it was a great learning experience. I had many problems using this approach also due to GPU synchronization issues.
-- **WebGPU1** - Everything is sent to the GPU at the start and each iteration is handled through the different compute shaders, the calls for which are now batched together and several iterations may take place before a draw call. The argmin operation is done now by a single GPU thread, which is still not optimal. Also, there are no optimizations of the algorithm itself: on every iteration the number of active cells can increase only by a handful but we haven't exploited it yet. The 0 version also had a bug in floating point comparisons and it's now mitigated by adding a small pseudo-random quantity to the distances.
-- **WebGPU2** - Parallel reduction is now used to calculate the minimum of the distance array.
+- **V0 (ST CPU argmin)** - From here, everything is coded on JS and WebGPU. On each iteration, the target color is sent to GPU memory, the distance array is brought back through a staging buffer, the CPU does an argmin operation and the index found is again sent. Obviously so many memory transfers are very inefficient, but it was a great learning experience. I had many problems using this approach also due to GPU synchronization issues.
+- **V1 (no CPU transfers)** - Everything is sent to the GPU at the start and each iteration is handled through the different compute shaders, the calls for which are now batched together and several iterations may take place before a draw call. The argmin operation is done now by a single GPU thread, which is still not optimal.
+- **V2 (parallel reduction)** - Parallel reduction is now used to calculate the minimum of the distance array. There is an issue with ties between equal numbers, where it pushes the growth towards one edge always, so I added a small custom made pseudorandom number to the distance calculation.
+- **V3 (bit packed colors)** -  I swapped my own PRN generator code for the PCG hash and took out the square root of the L2-norm because it is not necessary, the patterns have improved. Colors are now 4-bit 0-255, packed into a single uint32 instead of 3 f32s and unpacked when needed, which should lower data transfer volumes considerably.
 
 For posterity, I benchmarked the different procedures, making increasingly larger images using the average variant, random colors and center start, done on a i5-12400+RTX2060 machine. I added the original author's final algorithm as well, extrapolated from a comment at the end of his post:
 

@@ -8,7 +8,7 @@ const canvas = document.querySelector("canvas");
 canvas.width = canvas.parentElement.clientWidth;
 canvas.height = canvas.parentElement.clientHeight;
 
-const horizontalResolutionPrompt = parseInt(prompt("Horizontal resolution:", "256"));
+const horizontalResolutionPrompt = parseInt(prompt("Horizontal resolution:", "512"));
 const algorithmPrompt = prompt("Type 1 to use the AVERAGE or anything else to use the MINIMUM Rainbow Smoke algorithm variant:", "1");
 const colorOrderPrompt = prompt("Type 1 to use RANDOM or anything else for HUE ORDERED colors:", "1");
 
@@ -130,7 +130,7 @@ const simulationShaderModule = device.createShaderModule({
 let gridUniform = new Uint32Array([GRID_SIZEx, GRID_SIZEy]);
 
 // Color pool parameter |colors to be painted
-let colorPoolStorage = new Float32Array(nColors * 3);
+let colorPoolStorage = new Uint32Array(nColors);
 
 // Initially i assumed that, on a large painting, the sampling pattern wouldn't matter, but I was very wrong. Doing it randomly vs evenly sampling colors and then
 // randomizing is the proper way
@@ -143,10 +143,9 @@ if (colorOrderPrompt == 1) {
         for (let g=0; g<nColors1D; g++) {
             for (let b=0; b<nColors1D; b++) {
                 if (i===nColors) { break; }
-                let j = order[i];
-                colorPoolStorage[3*j] = r/(nColors1D-1);
-                colorPoolStorage[3*j+1] = g/(nColors1D-1);
-                colorPoolStorage[3*j+2] = b/(nColors1D-1);
+                const j = order[i];
+                const [r2, g2, b2] = [Math.round(255*r/(nColors1D-1)), Math.round(255*g/(nColors1D-1)), Math.round(255*b/(nColors1D-1))];
+                colorPoolStorage[j] = (r2 << 24) | (g2 << 16) | (b2 << 8) | 255;
                 i++;
             }
         }
@@ -160,9 +159,10 @@ if (colorOrderPrompt == 1) {
             for (let b=0; b<nColors1D; b++) {
                 if (i===nColors) { break; }
 
-                let hue = rgbToHue(Math.round(r/(nColors1D-1)*255), Math.round(g/(nColors1D-1)*255), Math.round(b/(nColors1D-1)*255));
+                const [r2, g2, b2] = [Math.round(255*r/(nColors1D-1)), Math.round(255*g/(nColors1D-1)), Math.round(255*b/(nColors1D-1))];
+                let hue = rgbToHue(r2, g2, b2);
 
-                colors.push({hue: hue, r: r/(nColors1D-1), g: g/(nColors1D-1), b: b/(nColors1D-1)})
+                colors.push({hue: hue, r: r2, g: g2, b: b2})
 
                 i++;
             }
@@ -171,9 +171,7 @@ if (colorOrderPrompt == 1) {
     colors.sort((a, b) => hueDirection*((a.hue - hueOffset + 1) % 1 - (b.hue - hueOffset + 1) % 1));
 
     for (let i = 0; i < nColors; ++i) {
-        colorPoolStorage[i*3] = colors[i].r;
-        colorPoolStorage[i*3+1] = colors[i].g;
-        colorPoolStorage[i*3+2] = colors[i].b;
+        colorPoolStorage[i] = (colors[i].r << 24) | (colors[i].g << 16) | (colors[i].b << 8) | 255;
     }
 }
 
@@ -185,19 +183,17 @@ for (let i = 0; i < cellStateStorage.length; ++i) {
 }
 
 // Cell color storage |painted colors
-let cellColorStorage = new Float32Array(nColors * 3);
-for (let i = 0; i < cellColorStorage.length; ++i) {
-    cellColorStorage[i] = 0.0;
-}
+let cellColorStorage = new Uint32Array(nColors);
+// for (let i = 0; i < cellColorStorage.length; ++i) {
+//     cellColorStorage[i] = 0.0;
+// }
 
 // Seed
 let x = Math.floor(GRID_SIZEx/2); // Middle option
 let y = Math.floor(GRID_SIZEy/2); // Middle option
 let seedCoord = from2Dto1Dindex(x, y, GRID_SIZEx);
 cellStateStorage[seedCoord] = 2;
-cellColorStorage[seedCoord*3] = colorPoolStorage[0];
-cellColorStorage[seedCoord*3+1] = colorPoolStorage[1];
-cellColorStorage[seedCoord*3+2] = colorPoolStorage[2];
+cellColorStorage[seedCoord] = colorPoolStorage[0];
 
 cellStateStorage[from2Dto1Dindex(x+1, y, GRID_SIZEx)] = 1;
 cellStateStorage[from2Dto1Dindex(x-1, y, GRID_SIZEx)] = 1;
@@ -264,7 +260,7 @@ let computeBuffers = [
     }),
     device.createBuffer({
         label: "Target color",
-        size: new Float32Array(3).byteLength,
+        size: 4,
         usage: GPUBufferUsage.STORAGE | GPUBufferUsage.COPY_DST
     }),
     device.createBuffer({
@@ -486,7 +482,7 @@ async function gameLoop() {
 
     // console.time('RENDER pass')
     const encoder = device.createCommandEncoder();
-    updateCompute(300, encoder);
+    updateCompute(500, encoder);
     updateRender(encoder);
 
     // encoder.copyBufferToBuffer(computeBuffers[2], 0, buffer, 0, 4);
@@ -500,7 +496,7 @@ async function gameLoop() {
     // console.timeEnd('RENDER pass')
 
     // if (iteration < 10) { requestAnimationFrame(gameLoop) };
-    requestAnimationFrame(gameLoop)
+    requestAnimationFrame(gameLoop);
 }
 requestAnimationFrame(gameLoop);
 

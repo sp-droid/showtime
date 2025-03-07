@@ -8,13 +8,13 @@ const COARSE_FACTOR: u32 = $COARSE_FACTOR$;
 
 // Global memory
 @group(0) @binding(0) var<uniform> gridGlobal: vec2u;
-@group(0) @binding(1) var<storage, read_write> cellColorGlobal: array<f32>;
+@group(0) @binding(1) var<storage, read_write> cellColorGlobal: array<u32>;
 @group(0) @binding(2) var<storage, read_write> cellStateGlobal: array<u32>;
-@group(0) @binding(3) var<storage> colorPoolGlobal: array<f32>;
+@group(0) @binding(3) var<storage> colorPoolGlobal: array<u32>;
 @group(0) @binding(4) var<storage> argminCounter: u32;
 @group(0) @binding(5) var<storage, read_write> distancesGlobal: array<f32>;
 @group(0) @binding(6) var<storage, read_write> iterationGlobal: u32;
-@group(0) @binding(7) var<storage, read_write> targetColorGlobal: vec3f;
+@group(0) @binding(7) var<storage, read_write> targetColorGlobal: u32;
 @group(0) @binding(8) var<storage, read_write> argminOutputGlobal: array<u32>;
 
 // Shared memory
@@ -32,7 +32,15 @@ fn l2normSquared(v1: vec3f, v2: vec3f) -> f32 {
     let a = v1.x-v2.x;
     let b = v1.y-v2.y;
     let c = v1.z-v2.z;
-    return sqrt(a*a+b*b+c*c);
+    return a*a+b*b+c*c;
+}
+
+fn unpackRGB(packedColor: u32) -> vec3f {
+    let r: f32 = f32((packedColor >> 24) & 0xFF)/255.0;
+    let g: f32 = f32((packedColor >> 16) & 0xFF)/255.0;
+    let b: f32 = f32((packedColor >> 8) & 0xFF)/255.0;
+
+    return vec3(r, g, b);
 }
 
 fn neighborDistance(x: u32, y: u32, targetColor: vec3f, gridX: u32) -> vec2f {
@@ -41,8 +49,7 @@ fn neighborDistance(x: u32, y: u32, targetColor: vec3f, gridX: u32) -> vec2f {
     let index1Dneighbor = cellIndex(x, y, gridX);
     if (cellStateGlobal[index1Dneighbor] == 2) {
         nPainted += 1;
-        let i = index1Dneighbor*3;
-        let color = vec3f(cellColorGlobal[i], cellColorGlobal[i+1], cellColorGlobal[i+2]);
+        let color = unpackRGB(cellColorGlobal[index1Dneighbor]);
         distance += l2normSquared(targetColor, color);
     }
     return vec2f(nPainted, distance);
@@ -52,11 +59,21 @@ fn neighborDistanceOnly(x: u32, y: u32, targetColor: vec3f, gridX: u32) -> f32 {
     var distance = 10.0;
     let index1Dneighbor = cellIndex(x, y, gridX);
     if (cellStateGlobal[index1Dneighbor] == 2) {
-        let i = index1Dneighbor*3;
-        let color = vec3f(cellColorGlobal[i], cellColorGlobal[i+1], cellColorGlobal[i+2]);
+        let color = unpackRGB(cellColorGlobal[index1Dneighbor]);
         distance = l2normSquared(targetColor, color);
     }
     return distance;
+}
+
+fn randomU32(seed: u32) -> u32 { // PCG hash random int generator
+    let state = seed * 747796405u + 2891336453u;
+    let word = ((state >> ((state >> 28u) + 4u)) ^ state) * 277803737u;
+    return (word >> 22u) ^ word;
+}
+
+fn randomF32(seed: u32) -> f32 { // PCG hash random float generator
+    let MAX_UINT32 = 4294967295u;
+    return f32(randomU32(seed))/f32(MAX_UINT32);
 }
 
 // Calculate distance from active cells (in color) to target RGB
@@ -68,7 +85,7 @@ fn distancesAverageMethodMain(input: ComputeInput) {
     let cellY = input.cell.y;
     let index1D = cellIndex(cellX, cellY, grid.x);
 
-    let targetColor = targetColorGlobal;
+    let targetColor = unpackRGB(targetColorGlobal);
 
     // Return if the cell is not active
     if (cellStateGlobal[index1D] != 1) { 
@@ -90,7 +107,7 @@ fn distancesAverageMethodMain(input: ComputeInput) {
         results += neighborDistance(cellX + 1, cellY, targetColor, grid.x);
         if (cellY + 1 < grid.y) { results += neighborDistance(cellX + 1, cellY + 1, targetColor, grid.x); }
     }
-    distancesGlobal[index1D] = results.y / results.x;// +(f32(iterationGlobal+index1D) % 13)*0.0000001;
+    distancesGlobal[index1D] = results.y / results.x + randomF32(index1D+iterationGlobal)*1e-6;
 }
 
 @compute @workgroup_size(8, 8)
@@ -101,7 +118,7 @@ fn distancesMinimumMethodMain(input: ComputeInput) {
     let cellY = input.cell.y;
     let index1D = cellIndex(cellX, cellY, grid.x);
 
-    let targetColor = targetColorGlobal;
+    let targetColor = unpackRGB(targetColorGlobal);
 
     // Return if the cell is not active
     if (cellStateGlobal[index1D] != 1) { 
@@ -123,7 +140,7 @@ fn distancesMinimumMethodMain(input: ComputeInput) {
         result = min(result, neighborDistanceOnly(cellX + 1, cellY, targetColor, grid.x));
         if (cellY + 1 < grid.y) { result = min(result, neighborDistanceOnly(cellX + 1, cellY + 1, targetColor, grid.x)); }
     }
-    distancesGlobal[index1D] = result +(f32(iterationGlobal+index1D) % 13)*0.0000001;
+    distancesGlobal[index1D] = result + randomF32(index1D+iterationGlobal)*1e-6;
 
 }
 
@@ -144,10 +161,7 @@ fn placeMain(input: ComputeInput) {
     let x = bestIndex1D - y * grid.x;
 
     // Paint cell
-    let bestIndex1D3 = bestIndex1D*3;
-    cellColorGlobal[bestIndex1D3] = targetColorGlobal.r;
-    cellColorGlobal[bestIndex1D3+1] = targetColorGlobal.g;
-    cellColorGlobal[bestIndex1D3+2] = targetColorGlobal.b;
+    cellColorGlobal[bestIndex1D] = targetColorGlobal;
 
     // Mark cell as painted
     cellStateGlobal[bestIndex1D] = 2;
@@ -173,10 +187,7 @@ fn iterationMain(input: ComputeInput) {
     let i = iterationGlobal+1;
     iterationGlobal = i;
     
-    let i3 = i*3;
-    targetColorGlobal.r = colorPoolGlobal[i3];
-    targetColorGlobal.g = colorPoolGlobal[i3+1];
-    targetColorGlobal.b = colorPoolGlobal[i3+2];
+    targetColorGlobal = colorPoolGlobal[i];
 }
 
 fn minSharedWithIndex(id1: u32, id2: u32) {

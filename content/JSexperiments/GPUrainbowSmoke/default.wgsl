@@ -9,15 +9,22 @@ struct VertexOutput {
 }
 
 @group(0) @binding(0) var<uniform> gridGlobal: vec2u;
-@group(0) @binding(1) var<storage> cellColorGlobal: array<f32>;
+@group(0) @binding(1) var<storage> cellColorGlobal: array<u32>;
+
+fn unpackRGB(packedColor: u32) -> vec3f {
+    let r: f32 = f32((packedColor >> 24) & 0xFF)/255.0;
+    let g: f32 = f32((packedColor >> 16) & 0xFF)/255.0;
+    let b: f32 = f32((packedColor >> 8) & 0xFF)/255.0;
+
+    return vec3(r, g, b);
+}
 
 @vertex
 fn vertexMain (input: VertexInput) -> VertexOutput {
     let grid = vec2f(gridGlobal);
-    // 1D cell index
-    let i = f32(input.instance);
-    // 2D cell index
-    let cell = vec2f(i % grid.x, floor(i / grid.x));
+    // 2D cell indexes
+    let if32 = f32(input.instance);
+    let cell = vec2f(if32 % grid.x, floor(if32 / grid.x));
     
     // Cell position
     let gridPos = (input.pos + 1 + cell*2) / grid - 1;
@@ -26,9 +33,7 @@ fn vertexMain (input: VertexInput) -> VertexOutput {
     output.pos = vec4f(gridPos, 0, 1);
 
     // Cell color
-    let i3 = input.instance*3;
-    let color = vec3f(cellColorGlobal[i3], cellColorGlobal[i3+1], cellColorGlobal[i3+2]);
-    output.cellColor = vec3f(color);
+    output.cellColor = unpackRGB(cellColorGlobal[input.instance]);
     return output;
 }
 

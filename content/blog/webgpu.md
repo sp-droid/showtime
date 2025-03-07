@@ -62,3 +62,20 @@ This is loosely based on NVIDIA's 200something paper on parallel reduction. As a
 ### Min (& max) variants
 
 ### Argmin (& argmax) variant
+
+## PseudoRandom Number generator
+
+PCG hash PRN generator:
+```rust
+fn randomU32(seed: u32) -> u32 { // PCG hash random int generator
+    let state = seed * 747796405u + 2891336453u;
+    let word = ((state >> ((state >> 28u) + 4u)) ^ state) * 277803737u;
+    return (word >> 22u) ^ word;
+}
+
+fn randomF32(seed: u32) -> f32 { // PCG hash random float generator
+    let MAX_UINT32 = 4294967295u;
+    return f32(randomU32(seed))/f32(MAX_UINT32);
+}
+```
+
