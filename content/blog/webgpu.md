@@ -1,4 +1,4 @@
-This article will cover several concepts in relation to WebGPU, and some algorithms implemented on it as I'm learning.
+I'm writing this article to serve me as a repository for information on WebGPU as I'm learning it. It covers useful links, architecture description and some non-flashy -but still very important- algorithms implemented on it.
 
 Useful links:
 
@@ -25,12 +25,12 @@ Useful links:
 
 ### Equivalent nomenclature
 
-| Concept                             | WebGPU (& Vulkan) | NVIDIA | AMD            | Intel            | Apple       |
-| ----------------------------------- | ----------------- | ------ | -------------- | ---------------- | ----------- |
-| **Execution unit**                  | Invocation        | Thread | Wavefront lane | EU thread        | Thread      |
-| **Group of threads (SIMD capable)** | Subgroup          | Warp   | Wavefront      | Subgroup         | SIMD group  |
-| **Shared memory group**             | Workgroup         | Block  | Workgroup      | Workgroup        | Threadgroup |
-| **Task group**                      | Dispatch of (..)  | Grid   | NDRange        | Dispatch of (..) | Grid        |
+| Concept                             | WebGPU (& Vulkan)    | NVIDIA     | AMD            | Intel            | Apple       |
+| ----------------------------------- | -------------------- | ---------- | -------------- | ---------------- | ----------- |
+| **Execution unit**                  | Invocation           | **Thread** | Wavefront lane | EU thread        | Thread      |
+| **Group of threads (SIMD capable)** | Subgroup             | **Warp**   | Wavefront      | Subgroup         | SIMD group  |
+| **Shared memory group**             | **Workgroup**        | Block      | Workgroup      | Workgroup        | Threadgroup |
+| **Task group**                      | **Dispatch** of (..) | Grid       | NDRange        | Dispatch of (..) | Grid        |
 
 I personally like using thread, warp, workgroup and dispatch.
 
@@ -56,6 +56,8 @@ I personally like using thread, warp, workgroup and dispatch.
 # Algorithms
 
 ## Parallel reduction
+
+This is loosely based on NVIDIA's 200something paper on parallel reduction. As a note, GPUs have changed quite a bit since then, and apparently using atomics on a part of the parallel reduction has become more performant. But I'm gonna omit that for now.
 
 ### Min (& max) variants
 
