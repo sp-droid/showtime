@@ -9,19 +9,36 @@ Useful links:
 
 # The standard
 
-[definition]
+WebGPU is a graphics API standard being developed over the last few years, built as a performant method to bridge graphics programming between different platforms:
 
-## History
+- Metal, an API for Apple products. I'm mentioning it first because apparently it's the one WebGPU is most similar to.
+- Vulkan, open source and very low level.
+- DirectX, for Microsoft products.
+- OpenGL, open source no compute API, it has been showing its age for some time.
+- WebGL, a port of an OpenGL version for the web. However, it didn't really stick and soon suffered from the same issue.
+- CUDA, compute API for NVIDIA GPUs
+- ROCm, compute API for AMD GPUs
+- OpenCL, open source compute API
 
-[]
+As you can see, there were a myriad of solutions, each with its own syntax and shader language, for each operating system, GPU or even for each period of time. What if there was a single top level API that chose which one to use but always exposed the same behavior to the user? And so WebGPU was born from the joint effort between the partners behind those APIs.
+
+WebGPU's shader language is called WGSL. The syntax is quite similar to Rust, in fact, even though for now highlight.js doesn't officially support WGSL I could reproduce a similar highlight by setting the language to Rust. 
 
 ### Implementations as of 2025
 
-[]
+There are 3 different ways of tapping into the standard:
+
+- For the web* in JS, through the WebGPU JS API
+- For native apps in C++, through Dawn, developed by Google.
+- For native apps in Rust, through WGPU, developed by Mozilla.
+
+*: It's also available for native apps through some of the JS runtime environments like Node.js
+
+If you are a beginner in strongly typed languages, I recommend to build a few small projects through the JS API first, so you don't need to worry about garbage collection. I find it quite easy to get into it in this way. This [tutorial](https://codelabs.developers.google.com/your-first-webgpu-app) was especially good.
+
+So, WebGPU is the GPU API with the biggest backing in history, not so low level, with access to compute shaders, performant and allows its use both for web and native apps, multiplatform in terms of OS but also in terms of the GPU vendor itself... for me it's quite hard to pass on it.
 
 ## Architecture
-
-[]
 
 ### Equivalent nomenclature
 
@@ -57,11 +74,13 @@ I personally like using thread, warp, workgroup and dispatch.
 
 ## Parallel reduction
 
-This is loosely based on NVIDIA's 200something paper on parallel reduction. As a note, GPUs have changed quite a bit since then, and apparently using atomics on a part of the parallel reduction has become more performant. But I'm gonna omit that for now.
+This is loosely based on NVIDIA's [webinar](https://developer.download.nvidia.com/assets/cuda/files/reduction.pdf) on parallel reduction. As a note, GPUs have changed quite a bit since then, and apparently using atomics on a part of the parallel reduction has become more performant. But I'm gonna omit that for now.
 
 ### Min (& max) variants
 
 ### Argmin (& argmax) variant
+
+
 
 ## PseudoRandom Number generator
 

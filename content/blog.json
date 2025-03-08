@@ -3,7 +3,7 @@
 	"title": "GPU-accelerated Rainbow Smoke algorithm",
 	"file": "rainbow-smoke-gpu",
 	"tag": "Projects",
-	"date": "01/03/2025"
+	"date": "06/03/2025"
 },
 {
 	"title": "Discrete bilinear interpolation",
@@ -14,25 +14,25 @@
 {
 	"title": "WebGPU",
 	"file": "webgpu",
-	"tag": "WIP",
-	"date": "19/02/2025"
+	"tag": "Reference",
+	"date": "19/08/2025"
 },
 {
 	"title": "Internship at the European Space Agency",
 	"file": "eac-internship",
 	"tag": "Projects",
-	"date": "15/02/2025"
+	"date": "31/12/2023"
 },
 {
 	"title": "Projects during the MSc. in Space Engineering",
 	"file": "uni-projects",
 	"tag": "Projects",
-	"date": "13/02/2025"
+	"date": "05/03/2025"
 },
 {
 	"title": "Markdown cheat sheet and tools explanation",
 	"file": "md-cheat-sheet",
-	"tag": "Other",
+	"tag": "Reference",
 	"date": "07/09/2024"
 }
 ]

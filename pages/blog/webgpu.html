@@ -60,12 +60,12 @@ section="blog">
     </div>
 </div></div>
     <div style="flex: 1; display: flex;">
-        <div class="markdown-body sidebarHide" style="flex: 1; min-width: 20px;"><br><div class='TOCpost'><h4>&emsp;&nbsp;Contents</h4><ul><li><a href='#section0'>(Top)</a></li><li onclick="toggleDetails(event)"><details><summary><a href='#section1'>The standard</a></summary><ul><li onclick="toggleDetails(event)"><details><summary><a href='#section2'>History</a></summary><ul><li><a href='#section3'>Implementations as of 2025</a></li></ul></details></li><li onclick="toggleDetails(event)"><details><summary><a href='#section4'>Architecture</a></summary><ul><li><a href='#section5'>Equivalent nomenclature</a></li><li><a href='#section6'>Built-ins</a></li></ul></details></li></ul></details></li><li onclick="toggleDetails(event)"><details><summary><a href='#section7'>Algorithms</a></summary><ul><li onclick="toggleDetails(event)"><details><summary><a href='#section8'>Parallel reduction</a></summary><ul><li><a href='#section9'>Min (& max) variants</a></li><li><a href='#section10'>Argmin (& argmax) variant</a></li></ul></details></li><li><a href='#section11'>PseudoRandom Number generator</a></li></ul></details></li>
+        <div class="markdown-body sidebarHide" style="flex: 1; min-width: 20px;"><br><div class='TOCpost'><h4>&emsp;&nbsp;Contents</h4><ul><li><a href='#section0'>(Top)</a></li><li onclick="toggleDetails(event)"><details><summary><a href='#section1'>The standard</a></summary><ul><li onclick="toggleDetails(event)"><details><summary><a href='#section2'> </a></summary><ul><li><a href='#section3'>Implementations as of 2025</a></li></ul></details></li><li onclick="toggleDetails(event)"><details><summary><a href='#section4'>Architecture</a></summary><ul><li><a href='#section5'>Equivalent nomenclature</a></li><li><a href='#section6'>Built-ins</a></li></ul></details></li></ul></details></li><li onclick="toggleDetails(event)"><details><summary><a href='#section7'>Algorithms</a></summary><ul><li onclick="toggleDetails(event)"><details><summary><a href='#section8'>Parallel reduction</a></summary><ul><li><a href='#section9'>Min (& max) variants</a></li><li><a href='#section10'>Argmin (& argmax) variant</a></li></ul></details></li><li><a href='#section11'>PseudoRandom Number generator</a></li></ul></details></li>
 </ul></div></div>
         <div class="markdown-body" id="HTMLpost"><div id="section0"></div>
-<h6>February 19th, 2025</h6>
+<h6>August 19th, 2025</h6>
 <h1>WebGPU</h1>
-<h5>Reading time: 4 mins</h5>
+<h5>Reading time: 6 mins</h5>
 <hr>
 <p>I'm writing this article to serve me as a repository for information on WebGPU as I'm learning it. It covers useful links, architecture description and some non-flashy -but still very important- algorithms implemented on it.</p>
 <p>Useful links:</p>
@@ -73,21 +73,37 @@ section="blog">
 <li><a href="https://www.w3.org/TR/WGSL/">Official documentation</a></li>
 <li><a href="https://webgpufundamentals.org/webgpu/lessons/webgpu-limits-and-features.html">Adapter/device limits &amp; features</a></li>
 </ul>
-<p><div class='TOCpost'><h4>&emsp;&nbsp;Contents</h4><ul><li><a href='#section0'>(Top)</a></li><li onclick="toggleDetails(event)"><details><summary><a href='#section1'>The standard</a></summary><ul><li onclick="toggleDetails(event)"><details><summary><a href='#section2'>History</a></summary><ul><li><a href='#section3'>Implementations as of 2025</a></li></ul></details></li><li onclick="toggleDetails(event)"><details><summary><a href='#section4'>Architecture</a></summary><ul><li><a href='#section5'>Equivalent nomenclature</a></li><li><a href='#section6'>Built-ins</a></li></ul></details></li></ul></details></li><li onclick="toggleDetails(event)"><details><summary><a href='#section7'>Algorithms</a></summary><ul><li onclick="toggleDetails(event)"><details><summary><a href='#section8'>Parallel reduction</a></summary><ul><li><a href='#section9'>Min (& max) variants</a></li><li><a href='#section10'>Argmin (& argmax) variant</a></li></ul></details></li><li><a href='#section11'>PseudoRandom Number generator</a></li></ul></details></li>
+<p><div class='TOCpost'><h4>&emsp;&nbsp;Contents</h4><ul><li><a href='#section0'>(Top)</a></li><li onclick="toggleDetails(event)"><details><summary><a href='#section1'>The standard</a></summary><ul><li onclick="toggleDetails(event)"><details><summary><a href='#section2'> </a></summary><ul><li><a href='#section3'>Implementations as of 2025</a></li></ul></details></li><li onclick="toggleDetails(event)"><details><summary><a href='#section4'>Architecture</a></summary><ul><li><a href='#section5'>Equivalent nomenclature</a></li><li><a href='#section6'>Built-ins</a></li></ul></details></li></ul></details></li><li onclick="toggleDetails(event)"><details><summary><a href='#section7'>Algorithms</a></summary><ul><li onclick="toggleDetails(event)"><details><summary><a href='#section8'>Parallel reduction</a></summary><ul><li><a href='#section9'>Min (& max) variants</a></li><li><a href='#section10'>Argmin (& argmax) variant</a></li></ul></details></li><li><a href='#section11'>PseudoRandom Number generator</a></li></ul></details></li>
 </ul></div></p>
 <div id="section1"></div>
 <h1>The standard</h1>
-<p>[definition]</p>
+<p>WebGPU is a graphics API standard being developed over the last few years, built as a performant method to bridge graphics programming between different platforms:</p>
+<ul>
+<li>Metal, an API for Apple products. I'm mentioning it first because apparently it's the one WebGPU is most similar to.</li>
+<li>Vulkan, open source and very low level.</li>
+<li>DirectX, for Microsoft products.</li>
+<li>OpenGL, open source no compute API, it has been showing its age for some time.</li>
+<li>WebGL, a port of an OpenGL version for the web. However, it didn't really stick and soon suffered from the same issue.</li>
+<li>CUDA, compute API for NVIDIA GPUs</li>
+<li>ROCm, compute API for AMD GPUs</li>
+<li>OpenCL, open source compute API</li>
+</ul>
+<p>As you can see, there were a myriad of solutions, each with its own syntax and shader language, for each operating system, GPU or even for each period of time. What if there was a single top level API that chose which one to use but always exposed the same behavior to the user? And so WebGPU was born from the joint effort between the partners behind those APIs.</p>
+<p>WebGPU's shader language is called WGSL. The syntax is quite similar to Rust, in fact, even though for now highlight.js doesn't officially support WGSL I could reproduce a similar highlight by setting the language to Rust.</p>
 <div id="section2"></div>
-<h2>History</h2>
-<p>[]</p>
-<div id="section3"></div>
 <h3>Implementations as of 2025</h3>
-<p>[]</p>
-<div id="section4"></div>
+<p>There are 3 different ways of tapping into the standard:</p>
+<ul>
+<li>For the web* in JS, through the WebGPU JS API</li>
+<li>For native apps in C++, through Dawn, developed by Google.</li>
+<li>For native apps in Rust, through WGPU, developed by Mozilla.</li>
+</ul>
+<p>*: It's also available for native apps through some of the JS runtime environments like Node.js</p>
+<p>If you are a beginner in strongly typed languages, I recommend to build a few small projects through the JS API first, so you don't need to worry about garbage collection. I find it quite easy to get into it in this way. This <a href="https://codelabs.developers.google.com/your-first-webgpu-app">tutorial</a> was especially good.</p>
+<p>So, WebGPU is the GPU API with the biggest backing in history, not so low level, with access to compute shaders, performant and allows its use both for web and native apps, multiplatform in terms of OS but also in terms of the GPU vendor itself... for me it's quite hard to pass on it.</p>
+<div id="section3"></div>
 <h2>Architecture</h2>
-<p>[]</p>
-<div id="section5"></div>
+<div id="section4"></div>
 <h3>Equivalent nomenclature</h3>
 <table>
 <thead>
@@ -136,7 +152,7 @@ section="blog">
 </tbody>
 </table>
 <p>I personally like using thread, warp, workgroup and dispatch.</p>
-<div id="section6"></div>
+<div id="section5"></div>
 <h3>Built-ins</h3>
 <table>
 <thead>
@@ -249,16 +265,16 @@ section="blog">
 </tr>
 </tbody>
 </table>
-<div id="section7"></div>
+<div id="section6"></div>
 <h1>Algorithms</h1>
-<div id="section8"></div>
+<div id="section7"></div>
 <h2>Parallel reduction</h2>
-<p>This is loosely based on NVIDIA's 200something paper on parallel reduction. As a note, GPUs have changed quite a bit since then, and apparently using atomics on a part of the parallel reduction has become more performant. But I'm gonna omit that for now.</p>
-<div id="section9"></div>
+<p>This is loosely based on NVIDIA's <a href="https://developer.download.nvidia.com/../../content/blog/assets/cuda/files/reduction.pdf">webinar</a> on parallel reduction. As a note, GPUs have changed quite a bit since then, and apparently using atomics on a part of the parallel reduction has become more performant. But I'm gonna omit that for now.</p>
+<div id="section8"></div>
 <h3>Min (&amp; max) variants</h3>
-<div id="section10"></div>
+<div id="section9"></div>
 <h3>Argmin (&amp; argmax) variant</h3>
-<div id="section11"></div>
+<div id="section10"></div>
 <h2>PseudoRandom Number generator</h2>
 <p>PCG hash PRN generator:</p>
 <pre><code class="language-rust"><span class="hljs-keyword">fn</span> <span class="hljs-title function_">randomU32</span>(seed: <span class="hljs-type">u32</span>) <span class="hljs-punctuation">-&gt;</span> <span class="hljs-type">u32</span> { <span class="hljs-comment">// PCG hash random int generator</span>
@@ -272,7 +288,7 @@ section="blog">
     <span class="hljs-keyword">return</span> <span class="hljs-title function_ invoke__">f32</span>(<span class="hljs-title function_ invoke__">randomU32</span>(seed))/<span class="hljs-title function_ invoke__">f32</span>(MAX_UINT32);
 }
 </code></pre>
-<hr><div class="blogTags"><button class="blogTagSelected" title='Check more posts of the "WIP" category on my blog!'>WIP</button></div><br></div>
+<hr><div class="blogTags"><button class="blogTagSelected" title='Check more posts of the "Reference" category on my blog!'>Reference</button></div><br></div>
         <div style="flex: 1; min-width: 20px;"></div>
     </div>
 </div>

@@ -7,8 +7,19 @@
 	"tools": ["JavaScript","WebGPU"],
 	"header": "GPU Rainbow Smoke",
 	"desc": "WebGPU implementation of the Rainbow Smoke algorithm.",
-	"date": "01/03/2025",
+	"date": "06/03/2025",
 	"importance": "Medium"
+},
+{
+	"link": "../pages/blog/uni-projects.html",
+	"bg": "polimiOM",
+	"gif": true,
+	"type": "Polytechnic University of Milan",
+	"tools": ["MATLAB","Blender"],
+	"header": "MSc. Space Engineering",
+	"desc": "The results of some of the projects during my master in Space Engineering at PoliMi.",
+	"date": "05/03/2025",
+	"importance": "High"
 },
 {
 	"link": "../pages/blog/dbi.html",
@@ -66,17 +77,6 @@
 	"importance": "Low"
 },
 {
-	"link": "../pages/blog/uni-projects.html",
-	"bg": "polimiOM",
-	"gif": true,
-	"type": "Polytechnic University of Milan",
-	"tools": ["MATLAB","Blender"],
-	"header": "MSc. Space Engineering",
-	"desc": "The results of some of the projects during my master in Space Engineering at PoliMi.",
-	"date": "22/12/2023",
-	"importance": "High"
-},
-{
 	"link": "../pages/blog/eac-internship.html",
 	"bg": "eacInternship",
 	"gif": false,
@@ -128,7 +128,7 @@
 	"tools": ["JavaScript","P5js"],
 	"header": "Noise flowfield",
 	"desc": "Animating perlin noise flow fields.",
-	"date": "11/02/2024",
+	"date": "04/04/2022",
 	"importance": "Low"
 },
 {
@@ -139,7 +139,7 @@
 	"tools": ["JavaScript","P5js"],
 	"header": "L system tree",
 	"desc": "Drawing a natural looking tree from a rule-based fractal.",
-	"date": "09/02/2024",
+	"date": "04/04/2022",
 	"importance": "Low"
 },
 {
