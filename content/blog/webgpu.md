@@ -1,10 +1,5 @@
 I'm writing this article to serve me as a repository for information on WebGPU as I'm learning it. It covers useful links, architecture description and some non-flashy -but still very important- algorithms implemented on it.
 
-Useful links:
-
-- [Official documentation](https://www.w3.org/TR/WGSL/)
-- [Adapter/device limits & features](https://webgpufundamentals.org/webgpu/lessons/webgpu-limits-and-features.html)
-
 [toc]
 
 # The standard
@@ -38,7 +33,10 @@ If you are a beginner in strongly typed languages, I recommend to build a few sm
 
 So, WebGPU is the GPU API with the biggest backing in history, not so low level, with access to compute shaders, performant and allows its use both for web and native apps, multiplatform in terms of OS but also in terms of the GPU vendor itself... for me it's quite hard to pass on it.
 
-## Architecture
+## Useful documentation
+
+- [Official documentation](https://www.w3.org/TR/WGSL/)
+- [Adapter/device limits & features](https://webgpufundamentals.org/webgpu/lessons/webgpu-limits-and-features.html)
 
 ### Equivalent nomenclature
 
@@ -51,7 +49,7 @@ So, WebGPU is the GPU API with the biggest backing in history, not so low level,
 
 I personally like using thread, warp, workgroup and dispatch.
 
-### Built-ins
+### Built-in inputs
 
 | **Builtin Name**         | **Stage** | ID     | Type  | Description                                                  |
 | ------------------------ | --------- | ------ | ----- | ------------------------------------------------------------ |
@@ -69,6 +67,34 @@ I personally like using thread, warp, workgroup and dispatch.
 | *sample_index*           | fragment  | input  | u32   | Sample index for the current fragment. The value is least 0 and at most `sampleCount`-1, where `sampleCount` is the MSAA sample `count` specified for the GPU render pipeline.<br/>See [WebGPU § 10.3 GPURenderPipeline](https://www.w3.org/TR/webgpu/#gpurenderpipeline). |
 | #rowspan=2 *sample_mask* | fragment  | input  | u32   | Sample coverage mask for the current fragment. It contains a bitmask indicating which samples in this fragment are covered by the primitive being rendered.<br/>See [WebGPU § 23.3.11 Sample Masking](https://www.w3.org/TR/webgpu/#sample-masking). |
 | #remove                  | fragment  | output | u32   | Sample coverage mask control for the current fragment. The last value written to this variable becomes the [shader-output mask](https://gpuweb.github.io/gpuweb/#shader-output-mask). Zero bits in the written value will cause corresponding samples in the color attachments to be discarded.<br/>See [WebGPU § 23.3.11 Sample Masking](https://www.w3.org/TR/webgpu/#sample-masking). |
+
+### Benchmarking GPU dispatches
+
+2 types:
+
+- Benchmarking the time it takes for the instructions to be dispatched and compute from the perspective of the CPU. 
+
+
+
+- Benchmarking the time it takes for the kernel to execute. 
+
+### Common problems
+
+- **Memory race conditions**. Happens when memory is accessed at the same time by multiple threads. For example, if a thread needs to add a plus 1 to a position in global or shared memory this could raise a race condition:
+
+  ```vhdl
+  globalarray[i] += 1;
+  ```
+
+  Under the hood, the thread will create a local copy of the value, add plus one and then deposit it. It's not instantaneous so you can understand how problematic it can be when multiple threads are tasked to do the same thing. In shared memory there is a function to synchronize threads and we can use it to deal with it. For global memory there are atomic operations.
+
+### Optimization techniques
+
+- **Minimize GPU-CPU memory transfers.** Unless it's some small value at every frame or some 1-time transfer, it's too expensive.
+- **Minimize global memory transfers.** There are 3 types of memory: global memory, shared memory available inside each workgroup and registers or local memory, for each thread. Memory access in shared memory is faster and in registers it's the fastest.
+- **Encourage memory coalescing.** The more randomly accessed memory is, the worst. Encourage patterns where access is somewhat spatially continuous.
+- **Avoid branching inside workgroups.** Conditionals may introduce branching, that is, stopping a thread's operation while the rest of the workgroup is active. It's often unavoidable, but it reduces GPU's occupancy and efficiency. 
+- **Bit-packing.** This can save on memory transfers in return for some computational cost, especially since GPUs only work with 32 bit numbers. Easy to explain with colors i.e. an RGBA quad of uint8s into an uint32, but this can be done with other variables.
 
 # Algorithms
 
