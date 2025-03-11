@@ -1,38 +1,38 @@
 [
-{
-	"title": "GPU-accelerated Rainbow Smoke algorithm",
-	"file": "rainbow-smoke-gpu",
-	"tag": "Projects",
-	"date": "06/03/2025"
-},
-{
-	"title": "Discrete bilinear interpolation",
-	"file": "dbi",
-	"tag": "Other",
-	"date": "24/02/2025"
-},
-{
-	"title": "WebGPU",
-	"file": "webgpu",
-	"tag": "Reference",
-	"date": "19/08/2025"
-},
-{
-	"title": "Internship at the European Space Agency",
-	"file": "eac-internship",
-	"tag": "Projects",
-	"date": "31/12/2023"
-},
-{
-	"title": "Projects during the MSc. in Space Engineering",
-	"file": "uni-projects",
-	"tag": "Projects",
-	"date": "05/03/2025"
-},
-{
-	"title": "Markdown cheat sheet and tools explanation",
-	"file": "md-cheat-sheet",
-	"tag": "Reference",
-	"date": "07/09/2024"
-}
+  {
+    "title": "WebGPU",
+    "file": "webgpu",
+    "tag": "Reference",
+    "date": "11/03/2025"
+  },
+  {
+    "title": "GPU-accelerated Rainbow Smoke algorithm",
+    "file": "rainbow-smoke-gpu",
+    "tag": "Projects",
+    "date": "06/03/2025"
+  },
+  {
+    "title": "Projects during the MSc. in Space Engineering",
+    "file": "uni-projects",
+    "tag": "Projects",
+    "date": "05/03/2025"
+  },
+  {
+    "title": "Discrete bilinear interpolation",
+    "file": "dbi",
+    "tag": "Other",
+    "date": "24/02/2025"
+  },
+  {
+    "title": "Markdown cheat sheet and tools explanation",
+    "file": "md-cheat-sheet",
+    "tag": "Reference",
+    "date": "07/09/2024"
+  },
+  {
+    "title": "Internship at the European Space Agency",
+    "file": "eac-internship",
+    "tag": "Projects",
+    "date": "31/12/2023"
+  }
 ]

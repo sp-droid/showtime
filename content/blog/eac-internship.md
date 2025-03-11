@@ -1,10 +1,18 @@
+*[ML]: Machine learning
+*[EFB]: Electronic field-book
+*[VNIR]: Visible and near-infrared portion of the electromagnetic spectrum
+*[CNN]: Convolutional neural network
+*[PoC]: Proof of concept
+*[ESA]: European Space Agency
+*[YGT]: Young graduate trainee
+
 My ESA internship took place during 2023 at the European Astronaut Centre (Cologne, Germany), as ML and software engineer for the CAVES & Pangaea group. Concretely, I contributed to Pangaea internal development projects under the mentorship of Igor Drozdovsky. Pangaea is a course for the training of astronauts in geology focused on extraterrestrial analog environments, taking them (as of 2023) to 4 locations with different geologic characteristics: Lofoten (Norway), Ries crater (Germany), Bletterbach (Dolomites, Italy) and the island of Lanzarote (Spain). I come from Lanzarote by the way!
 
 <img src="https://www.esa.int/var/esa/storage/images/esa_multimedia/images/2019/01/lunar_setting/19205792-1-eng-GB/Lunar_setting_pillars.jpg" alt="Lanzarote is of geologic interest due to its recent volcanic activity. Source@esa.int" style="zoom:50%;" />
 
 As this is work, I won't share any concrete details.
 
-[toc]
+
 
 ## Mineral Spectra ML Classifier
 

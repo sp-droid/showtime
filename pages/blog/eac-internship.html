@@ -60,38 +60,33 @@ section="blog">
     </div>
 </div></div>
     <div style="flex: 1; display: flex;">
-        <div class="markdown-body sidebarHide" style="flex: 1; min-width: 20px;"><br><div class='TOCpost'><h4>&emsp;&nbsp;Contents</h4><ul><li><a href='#section0'>(Top)</a></li><ul><li><a href='#section1'>Mineral Spectra ML Classifier</a></li><li><a href='#section2'>Data Portal Proof of Concept</a></li><li><a href='#section3'>Human Aspect</a></li></ul>
-</ul></div></div>
+        <div class="markdown-body sidebarHide" style="flex: 1; min-width: 20px;"><br></div>
         <div class="markdown-body" id="HTMLpost"><div id="section0"></div>
 <h6>December 31st, 2023</h6>
 <h1>Internship at the European Space Agency</h1>
 <h5>Reading time: 6 mins</h5>
 <hr>
-<p>My ESA internship took place during 2023 at the European Astronaut Centre (Cologne, Germany), as ML and software engineer for the CAVES &amp; Pangaea group. Concretely, I contributed to Pangaea internal development projects under the mentorship of Igor Drozdovsky. Pangaea is a course for the training of astronauts in geology focused on extraterrestrial analog environments, taking them (as of 2023) to 4 locations with different geologic characteristics: Lofoten (Norway), Ries crater (Germany), Bletterbach (Dolomites, Italy) and the island of Lanzarote (Spain). I come from Lanzarote by the way!</p>
+<p>My <abbr title="European Space Agency">ESA</abbr> internship took place during 2023 at the European Astronaut Centre (Cologne, Germany), as <abbr title="Machine learning">ML</abbr> and software engineer for the CAVES &amp; Pangaea group. Concretely, I contributed to Pangaea internal development projects under the mentorship of Igor Drozdovsky. Pangaea is a course for the training of astronauts in geology focused on extraterrestrial analog environments, taking them (as of 2023) to 4 locations with different geologic characteristics: Lofoten (Norway), Ries crater (Germany), Bletterbach (Dolomites, Italy) and the island of Lanzarote (Spain). I come from Lanzarote by the way!</p>
 <img src="https://www.esa.int/var/esa/storage/images/esa_multimedia/images/2019/01/lunar_setting/19205792-1-eng-GB/Lunar_setting_pillars.jpg" alt="Lanzarote is of geologic interest due to its recent volcanic activity. Source@esa.int" style="zoom:50%;" />
 <p>As this is work, I won't share any concrete details.</p>
-<p><div class='TOCpost'><h4>&emsp;&nbsp;Contents</h4><ul><li><a href='#section0'>(Top)</a></li><ul><li><a href='#section1'>Mineral Spectra ML Classifier</a></li><li><a href='#section2'>Data Portal Proof of Concept</a></li><li><a href='#section3'>Human Aspect</a></li></ul>
-</ul></div></p>
-<div id="section1"></div>
-<h2>Mineral Spectra ML Classifier</h2>
-<p>Among other tasks, Igor manages a fluctuating group of interns that research and develop mineral/element recognition tools for the field trips. I arrived in July and the annual Pangaea tour was going to take place in September, when they would visit Lanzarote. My immediate goal was to design and train an ML classifier that would be executed on a device called EFB when an astronaut picked up a rock and used the handheld VNIR spectrometer on it.</p>
+<h2>Mineral Spectra <abbr title="Machine learning">ML</abbr> Classifier</h2>
+<p>Among other tasks, Igor manages a fluctuating group of interns that research and develop mineral/element recognition tools for the field trips. I arrived in July and the annual Pangaea tour was going to take place in September, when they would visit Lanzarote. My immediate goal was to design and train an <abbr title="Machine learning">ML</abbr> classifier that would be executed on a device called <abbr title="Electronic field-book">EFB</abbr> when an astronaut picked up a rock and used the handheld <abbr title="Visible and near-infrared portion of the electromagnetic spectrum">VNIR</abbr> spectrometer on it.</p>
 <img src="https://m.media-amazon.com/images/I/5157F1MUymL.jpg" alt="VNIR spectrometer's example output. Source@amazon.com" style="zoom: 25%;" />
-<p>Quite a few interns had attacked the same problem before. Models were built and specialized for the equipment at hand (spectrometer quality, spectral bands, measurement type), collected data and geological region of interest. Talking about the specific architecture I ended up going for is off-reach, but the type was a 2D-CNN. After many hours tweaking the architecture,  hyperparameters tuning, data pre-processing (including manually removing outliers for 5000 spectra in about 60 classes...), validation... the result was an adequately sized model that was, in their own words, &quot;the best one to date&quot;!</p>
+<p>Quite a few interns had attacked the same problem before. Models were built and specialized for the equipment at hand (spectrometer quality, spectral bands, measurement type), collected data and geological region of interest. Talking about the specific architecture I ended up going for is off-reach, but the type was a 2D-<abbr title="Convolutional neural network">CNN</abbr>. After many hours tweaking the architecture,  hyperparameters tuning, data pre-processing (including manually removing outliers for 5000 spectra in about 60 classes...), validation... the result was an adequately sized model that was, in their own words, &quot;the best one to date&quot;!</p>
 <img src="../../content/blog/assets/esa-internship-classImbalance.jpg" alt="One of the main challenges: class imbalance. Every column represents #samples per class." style="zoom: 50%;" />
 <p>The following is an extract from the final presentation:</p>
 <ul>
-<li>Runs <strong>fast on the EFB</strong></li>
+<li>Runs <strong>fast on the <abbr title="Electronic field-book">EFB</abbr></strong></li>
 <li><strong>Performs well on the validation set</strong> globally and in most classes</li>
 <li>Supports <strong>many more mineral species</strong> than before</li>
 <li>And <strong>performed well in the real world</strong></li>
 </ul>
 <p>I wouldn't attribute the success to any part alone, though for sure the most painful one was removing outliers. The data was shaped in a way that made very difficult either ignoring them or automatically detecting them, due to their high proportion, high number of classes... So I decided to brute-force it, manually learning how the spectra of a certain class looked, aided by class average / median / percentile plots. This work is very specific for the spectrometer's spectral range so the outliers will need to be re-evaluated once they change it.</p>
-<div id="section2"></div>
 <h2>Data Portal Proof of Concept</h2>
-<p>After the mission in September, I could choose the next topic I would work on for the remaining half of the internship. Of the several I was given, I got curious about the idea of developing a Data Portal PoC for the team:</p>
+<p>After the mission in September, I could choose the next topic I would work on for the remaining half of the internship. Of the several I was given, I got curious about the idea of developing a Data Portal <abbr title="Proof of concept">PoC</abbr> for the team:</p>
 <ul>
-<li>Our data repository lacked spectra on many minerals and elements. This would give geologists outside ESA an easier way to donate their data and help us fill those gaps.</li>
-<li>As per ESA policy, it wasn't possible to share field trip spectra, models and other proprietary information, except data obtained externally. The platform could additionally bridge different data collections.</li>
+<li>Our data repository lacked spectra on many minerals and elements. This would give geologists outside <abbr title="European Space Agency">ESA</abbr> an easier way to donate their data and help us fill those gaps.</li>
+<li>As per <abbr title="European Space Agency">ESA</abbr> policy, it wasn't possible to share field trip spectra, models and other proprietary information, except data obtained externally. The platform could additionally bridge different data collections.</li>
 <li>There wasn't anything similar in capabilities and reach.</li>
 <li>We couldn't share them, but we could offer in-browser usage of our models.</li>
 <li>In-browser model training based on available data</li>
@@ -100,18 +95,17 @@ section="blog">
 <img src="../../content/blog/assets/esa-internship-dataportal.jpg" alt="Pitched idea for a proposed, more advanced section of the portal." style="zoom: 80%;" />
 <p>There were challenges:</p>
 <ul>
-<li>We would need permission for an ESA hosting license.</li>
-<li>There were many issues regarding ESA policy, expectations and different views in the team on how or even if to tackle the problem.</li>
+<li>We would need permission for an <abbr title="European Space Agency">ESA</abbr> hosting license.</li>
+<li>There were many issues regarding <abbr title="European Space Agency">ESA</abbr> policy, expectations and different views in the team on how or even if to tackle the problem.</li>
 <li>The team had setup data and model training separately, and they had never been used together in an automatic way, or designed for a consistent output. Model saving had to be standardized and many functions end points had to be tweaked. Data portal aside, these developments were deemed quite positive for the future consistency and interoperability of everything.</li>
 <li>Time constraint: concept design, preliminary requirements definition, a proof of concept and tying everything up for next interns or future progress, in 3 months.</li>
 </ul>
 <p>In the end, the idea was brought to life and presented with very positive reception. However, the interns profile not focusing on web development coupled with the ephemeral nature of the internships themselves means any meaningful progress on the idea will take at least a year for it to even begin. Time will tell, but certainly I am very satisfied with both ends of my work there.</p>
-<div id="section3"></div>
 <h2>Human Aspect</h2>
 <p>In the personal domain, I grew substantially during my stay in Cologne. More than a year has passed since I left, and I've had time to reflect on this experience. It wasn't always perfect, but it was extraordinary to be there. It's difficult to pinpoint the exact reason, I don't know yet. What I can say though, is that I've been living out of my home since I was 17, in different cities and countries, and only after this experience and some time to process it, I'm ready to face whatever is in front of me. It wasn't me just feeling well; I have very fond memories of my time in high school in Lanzarote, and during the first years of my bachelors in Madrid; it was also feeling the world was smaller. I guess that's how I can describe it now.</p>
-<p>With respect to my most immediate colleagues, they received me well when I first arrived, but with the exception of Verena (YGT), all of them were leaving less than 2 months into my own stay, and the team was fairly small. After this I suddenly became the <em>veteran</em> (😎) and new interns swelled up our ranks. I tried my best to help them throughout, and soon I found them making things better for me in different ways. Each and every one of them were so funny and unique. The atmosphere was really good and I'll probably chase that kind of work relationship forever. All of them were great people, I can attest for Igor being good at finding character and integrity.</p>
+<p>With respect to my most immediate colleagues, they received me well when I first arrived, but with the exception of Verena (<abbr title="Young graduate trainee">YGT</abbr>), all of them were leaving less than 2 months into my own stay, and the team was fairly small. After this I suddenly became the <em>veteran</em> (😎) and new interns swelled up our ranks. I tried my best to help them throughout, and soon I found them making things better for me in different ways. Each and every one of them were so funny and unique. The atmosphere was really good and I'll probably chase that kind of work relationship forever. All of them were great people, I can attest for Igor being good at finding character and integrity.</p>
 <p>There's more to it than this, but it's not right for this post.</p>
-<p>Working for ESA was incredible and I'd love to repeat it. Aside from internships it could be also interesting for the young reader to check post-graduate programs such as the <a href="https://www.esa.int/About_Us/Careers_at_ESA/Graduates_ESA_Graduate_Trainees">EGT (used to be YGT)</a> or the lesser known <a href="https://www.esa.int/About_Us/Careers_at_ESA/Junior_Professional_Programme">JPP</a>. Thank you for reading!</p>
+<p>Working for <abbr title="European Space Agency">ESA</abbr> was incredible and I'd love to repeat it. Aside from internships it could be also interesting for the young reader to check post-graduate programs such as the <a href="https://www.esa.int/About_Us/Careers_at_ESA/Graduates_ESA_Graduate_Trainees">EGT (used to be <abbr title="Young graduate trainee">YGT</abbr>)</a> or the lesser known <a href="https://www.esa.int/About_Us/Careers_at_ESA/Junior_Professional_Programme">JPP</a>. Thank you for reading!</p>
 <img src="https://www.esa.int/var/esa/storage/images/esa_multimedia/images/2022/01/esa_graduate_trainee_programme/23903523-3-eng-GB/ESA_Graduate_Trainee_Programme_article.png" alt="EGT 2025 call. Source@esa.int"  />
 <hr><div class="blogTags"><button class="blogTagSelected" title='Check more posts of the "Projects" category on my blog!'>Projects</button></div><br></div>
         <div style="flex: 1; min-width: 20px;"></div>

@@ -1,3 +1,7 @@
+*[MMH]: Monomethyl hydrazine
+*[NTO]: Nitrogen tetroxide
+*[InSAR]: Interferometric Synthetic Aperture Radar
+
 Here I show the flashy bits of some of the assignments I did during the masters, acknowledging that most of the actual work doesn't make it into a nice graph or animation.
 
 [toc]
@@ -58,7 +62,7 @@ Preliminary design of the **New Horizons** mission to Pluto and the **Juno** mis
 
 ## Space Propulsion [SP]
 
-One-week long workshop for the design of a **pressure-fed liquid propellant rocket motor**. The team and task was considerable, and the time available was very short, but it ended up being one of the most unique projects I've ever done. I used **MATLAB** for the parts I worked on: **thermal analysis**, **basic injector design** and **cooling solutions** (ablative, heat sink, regenerative, liquid film). The design was to be performed for two propellant pairs (one more eco-friendly than the other) and three thrust targets (nominal, half and double thrust). Here are some images for the nominal thrust with the (more) toxic propellant pair of MMH (monomethyl hydrazine) and NTO (nitrogen tetroxide):
+One-week long workshop for the design of a **pressure-fed liquid propellant rocket motor**. The team and task was considerable, and the time available was very short, but it ended up being one of the most unique projects I've ever done. I used **MATLAB** for the parts I worked on: **thermal analysis**, **basic injector design** and **cooling solutions** (ablative, heat sink, regenerative, liquid film). The design was to be performed for two propellant pairs (one more eco-friendly than the other) and three thrust targets (nominal, half and double thrust). Here are some images for the nominal thrust with the (more) toxic propellant pair of MMH and NTO:
 
 <img src="assets/uni-projects-SP1.png" alt="Cross-section of combustion chamber and nozzle parts." style="zoom: 67%;" />
 
@@ -74,7 +78,7 @@ A much smaller assignment consisted in the internal ballistic analysis of solid 
 
 ## Payload Design [PD]
 
-Preliminary **design of an instrument** with the same goals as KaRIn in the SWOT mission. Using **MATLAB** as well, I worked in the **environmental** analysis (specifically **tides**, **atmospheric attenuation** and orbit **perturbations**) , **orbit design** (accounting for **tidal aliasing** and **tidal separability** requirements) and Interferometric Synthetic Aperture Radar (**InSAR**) setup: radar equation and interferometric baseline preliminary design. Very lengthy, well researched and interesting for me.
+Preliminary **design of an instrument** with the same goals as KaRIn in the SWOT mission. Using **MATLAB** as well, I worked in the **environmental** analysis (specifically **tides**, **atmospheric attenuation** and orbit **perturbations**) , **orbit design** (accounting for **tidal aliasing** and **tidal separability** requirements) and **InSAR** setup: radar equation and interferometric baseline preliminary design. Very lengthy, well researched and interesting for me.
 
 <img src="assets/uni-projects-PD1.png" alt="Estimated perturbations for preliminary orbit." style="zoom: 50%;" />
 

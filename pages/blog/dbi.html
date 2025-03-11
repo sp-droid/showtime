@@ -60,17 +60,13 @@ section="blog">
     </div>
 </div></div>
     <div style="flex: 1; display: flex;">
-        <div class="markdown-body sidebarHide" style="flex: 1; min-width: 20px;"><br><div class='TOCpost'><h4>&emsp;&nbsp;Contents</h4><ul><li><a href='#section0'>(Top)</a></li><ul><li><a href='#section1'>Motivation</a></li><li onclick="toggleDetails(event)"><details><summary><a href='#section2'>Discrete bilinear interpolation</a></summary><ul><li><a href='#section3'>The algorithm</a></li></ul></details></li></ul>
-</ul></div></div>
+        <div class="markdown-body sidebarHide" style="flex: 1; min-width: 20px;"><br></div>
         <div class="markdown-body" id="HTMLpost"><div id="section0"></div>
 <h6>February 24th, 2025</h6>
 <h1>Discrete bilinear interpolation</h1>
 <h5>Reading time: 3 mins</h5>
 <hr>
-<p>A description into a pixel sampling algorithm I started using for a long term project of mine.</p>
-<p><div class='TOCpost'><h4>&emsp;&nbsp;Contents</h4><ul><li><a href='#section0'>(Top)</a></li><ul><li><a href='#section1'>Motivation</a></li><li onclick="toggleDetails(event)"><details><summary><a href='#section2'>Discrete bilinear interpolation</a></summary><ul><li><a href='#section3'>The algorithm</a></li></ul></details></li></ul>
-</ul></div></p>
-<div id="section1"></div>
+<p>A description of a pixel sampling algorithm I started using for a long term project of mine.</p>
 <h2>Motivation</h2>
 <p>This long term project involves rendering a map of the world among other challenges. Going at it I quickly found out how even 16K images were not enough when zooming in at otherwise (in other similar projects) reasonable levels, for example:</p>
 <p><img src="../../content/blog/assets/dbi-gibraltarStrait.png" alt="Extract of the Strait of Gibraltar area."></p>
@@ -88,12 +84,10 @@ section="blog">
 <p>Noise works quite well alone, but combining it with bilinear interpolation doesn't:</p>
 <p><img src="../../content/blog/assets/dbi-noiseBilinear.png" alt="Noise with bilinear filter at x64 detail."></p>
 <p>Bilinear interpolation performs well in a regular texture, but not for one with discrete values. For example, instead of terrain let's imagine we have a province map with 4 thousand territories, each one represented by a unique integer. Other instances of similar behaviors could be ownership and terrain type maps, anything that represents discrete values instead of continuous colors. In this case, if we were to use bilinear interpolation and there was a spot surrounded by, let's say, province IDs 200, 1, 1 and 1, the bilinear average could be any float between 200 and 1. Rounding doesn't solve the issue, because the result should be either 1 or 200, not any province with an ID in between. This works only with binary states like sea/land.</p>
-<div id="section2"></div>
 <h2>Discrete bilinear interpolation</h2>
 <p>The following is my approach to tackle the problem, with good results:</p>
 <p><img src="../../content/blog/assets/dbi-dbi.png" alt="DBI (L) and DBI with noise at x64 detail (R)"></p>
-<p>The effect of DBI or a binary clamped bilinear interpolation on high detail is the appearance of diagonals and rounded edges which improve the natural look considerably. A square turns into a circle, a serrated line turns into a clean diagonal. It's too straight though, so we employ noise to arrive to a good final result. It can also be observed how noise with nearest neighbors still retained some of the blocky aspect on large features, but not here.</p>
-<div id="section3"></div>
+<p>The effect of <abbr title="Discrete Bilinear Interpolation">DBI</abbr> or a binary clamped bilinear interpolation on high detail is the appearance of diagonals and rounded edges which improve the natural look considerably. A square turns into a circle, a serrated line turns into a clean diagonal. It's too straight though, so we employ noise to arrive to a good final result. It can also be observed how noise with nearest neighbors still retained some of the blocky aspect on large features, but not here.</p>
 <h3>The algorithm</h3>
 <p>Let's imagine a screen pixel in the original coordinates of the image like in the 2<sup>nd</sup> figure:</p>
 <pre><code class="language-vhdl"><span class="hljs-keyword">procedure</span> DBI

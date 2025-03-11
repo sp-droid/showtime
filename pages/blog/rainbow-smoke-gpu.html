@@ -60,8 +60,7 @@ section="blog">
     </div>
 </div></div>
     <div style="flex: 1; display: flex;">
-        <div class="markdown-body sidebarHide" style="flex: 1; min-width: 20px;"><br><div class='TOCpost'><h4>&emsp;&nbsp;Contents</h4><ul><li><a href='#section0'>(Top)</a></li><ul><li><a href='#section1'>History</a></li><li onclick="toggleDetails(event)"><details><summary><a href='#section2'>The Algorithm</a></summary><ul><li><a href='#section3'>Working up to it</a></li></ul></details></li><li><a href='#section4'>Some results from 4K resolution</a></li></ul>
-</ul></div></div>
+        <div class="markdown-body sidebarHide" style="flex: 1; min-width: 20px;"><br></div>
         <div class="markdown-body" id="HTMLpost"><div id="section0"></div>
 <h6>March 6th, 2025</h6>
 <h1>GPU-accelerated Rainbow Smoke algorithm</h1>
@@ -72,9 +71,6 @@ section="blog">
 <p>An implementation of the Rainbow Smoke algorithm using GPU compute shaders through WebGPU, in JavaScript. You can try it yourself <a href="https://caniuse.com/?search=web%20gpu">if your browser supports WebGPU</a>.</p>
 <p>Example result:</p>
 <p><img src="../../content/blog/assets/rainbow-smoke-main.jpg" alt="512x512 resolution rendering using the average variant with random color order."></p>
-<p><div class='TOCpost'><h4>&emsp;&nbsp;Contents</h4><ul><li><a href='#section0'>(Top)</a></li><ul><li><a href='#section1'>History</a></li><li onclick="toggleDetails(event)"><details><summary><a href='#section2'>The Algorithm</a></summary><ul><li><a href='#section3'>Working up to it</a></li></ul></details></li><li><a href='#section4'>Some results from 4K resolution</a></li></ul>
-</ul></div></p>
-<div id="section1"></div>
 <h2>History</h2>
 <p>Rainbow Smoke belongs to the generative art class of computer algorithms. Its origins lie in this Code Golf Stack Exchange <a href="https://codegolf.stackexchange.com/questions/22144/images-with-all-colors">post</a> from 2014. The Code Golf site hosts many coding challenges. In this case it was a 1-week popularity contest launched by the community with the goal of finding the best approach to a simple problem, in summary:</p>
 <ul>
@@ -87,7 +83,6 @@ section="blog">
 <iframe width="640" height="360" src="https://www.youtube.com/embed/OuvFsB4SLhA" allowfullscreen></iframe>
 <p>Throughout the years people interested on the subject have imagined different ways of building up on it, an example:</p>
 <iframe width="640" height="360" src="https://www.youtube.com/embed/dVQDYne8Bkc" allowfullscreen></iframe>
-<div id="section2"></div>
 <h2>The Algorithm</h2>
 <p>The original implementation was a CPU single-threaded C# code with some performance issues, but enough for the mandatory 256x128 pixel image of the contest. However, to deliver on higher resolutions (and he went up to 4k, which you can see on his website) the code had to be improved on performance and partly made parallelizable. Simple version of it:</p>
 <pre><code class="language-vhdl"><span class="hljs-keyword">procedure</span> RainbowSmoke
@@ -119,22 +114,20 @@ section="blog">
 <li><strong>Initial color array</strong>. As shown by Generative Garden, you could instead sample the colors from other pictures.</li>
 </ul>
 <p>Performance enhancements and iterations later, the algorithm allowed fejescoco to create 4K images, images which are frankly stunning. As said by him and as it can be deduced from looking at the pseudocode, the most expensive operation is the distance calculation part. For example, in a 4K image, even if only 10% of the pixels are active, that still means 1.6M active cells, and then 8 checks per cell for the neighbors, with an additional math operation for each painted one. This is something GPUs are very well built to compute.</p>
-<div id="section3"></div>
 <h3>Working up to it</h3>
 <p>I tried different versions and approaches, finding incremental improvements:</p>
 <ul>
 <li><strong>p5.js</strong> - Single-threaded on the CPU, no optimizations whatsoever.</li>
-<li><strong>V0 (ST CPU argmin)</strong> - From here, everything is coded on JS and WebGPU. On each iteration, the target color is sent to GPU memory, the distance array is brought back through a staging buffer, the CPU does an argmin operation and the index found is again sent. Obviously so many memory transfers are very inefficient, but it was a great learning experience. I had many problems using this approach also due to GPU synchronization issues.</li>
+<li><strong>V0 (<abbr title="Single-threaded">ST</abbr> CPU argmin)</strong> - From here, everything is coded on JS and WebGPU. On each iteration, the target color is sent to GPU memory, the distance array is brought back through a staging buffer, the CPU does an argmin operation and the index found is again sent. Obviously so many memory transfers are very inefficient, but it was a great learning experience. I had many problems using this approach also due to GPU synchronization issues.</li>
 <li><strong>V1 (no CPU transfers)</strong> - Everything is sent to the GPU at the start and each iteration is handled through the different compute shaders, the calls for which are now batched together and several iterations may take place before a draw call. The argmin operation is done now by a single GPU thread, which is still not optimal.</li>
 <li><strong>V2 (parallel reduction)</strong> - Parallel reduction is now used to calculate the minimum of the distance array. There is an issue with ties between equal numbers, where it pushes the growth towards one edge always, so I added a small custom made pseudorandom number to the distance calculation.</li>
-<li><strong>V3 (bit packed colors)</strong> -  I swapped my own PRN generator code for the PCG hash and took out the square root of the L2-norm because it is not necessary, the patterns have improved. Colors are now 4-bit 0-255, packed into a single uint32 instead of 3 f32s and unpacked when needed, which should lower data transfer volumes considerably.</li>
+<li><strong>V3 (bit packed colors)</strong> -  I swapped my own <abbr title="Pseudorandom number">PRN</abbr> generator code for the PCG hash and took out the square root of the L2-norm because it is not necessary, the patterns have improved. Colors are now 4-bit 0-255, packed into a single uint32 instead of 3 f32s and unpacked when needed, which should lower data transfer volumes considerably.</li>
 </ul>
 <p>For posterity, I benchmarked the different procedures, making increasingly larger images using the average variant, random colors and center start, done on a i5-12400+RTX2060 machine. I added the original author's final algorithm as well, extrapolated from a comment at the end of his post:</p>
 <p><code>I can now render huge images in 5-10 hours. I already have some 4Kx4K renders</code></p>
 <p>I then assumed computation time to be scaling quadratically with the resolution, and 5 h for 4096<sup>2</sup> images.</p>
 <div class="flourish-embed flourish-chart" data-src="visualisation/21875906"><noscript><img src="https://public.flourish.studio/visualisation/21875906/thumbnail" width="100%" alt="chart visualization" /></noscript></div>
 <p>The result so far already scales far better and produces similar outputs, two key goals of mine when I started working my way up through both the algorithm and using WebGPU. It has served me also to understand many key optimization and architectural concepts in GPU computing because it's quite different from my experience using CPUs.</p>
-<div id="section4"></div>
 <h2>Some results from 4K resolution</h2>
 <p><img src="../../content/blog/assets/rainbow-smoke-2.jpg" alt="Downsampled 4K, minimum variant, ordered by hue, hue shifted +0.5"></p>
 <p><img src="../../content/blog/assets/rainbow-smoke-3.jpg" alt="Downsampled 4K, minimum variant, ordered by hue, hue shifted -0.5"></p>

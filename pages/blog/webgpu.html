@@ -60,49 +60,48 @@ section="blog">
     </div>
 </div></div>
     <div style="flex: 1; display: flex;">
-        <div class="markdown-body sidebarHide" style="flex: 1; min-width: 20px;"><br><div class='TOCpost'><h4>&emsp;&nbsp;Contents</h4><ul><li><a href='#section0'>(Top)</a></li><li onclick="toggleDetails(event)"><details><summary><a href='#section1'>The standard</a></summary><ul><li onclick="toggleDetails(event)"><details><summary><a href='#section2'> </a></summary><ul><li><a href='#section3'>Implementations as of 2025</a></li></ul></details></li><li onclick="toggleDetails(event)"><details><summary><a href='#section4'>Architecture</a></summary><ul><li><a href='#section5'>Equivalent nomenclature</a></li><li><a href='#section6'>Built-ins</a></li></ul></details></li></ul></details></li><li onclick="toggleDetails(event)"><details><summary><a href='#section7'>Algorithms</a></summary><ul><li onclick="toggleDetails(event)"><details><summary><a href='#section8'>Parallel reduction</a></summary><ul><li><a href='#section9'>Min (& max) variants</a></li><li><a href='#section10'>Argmin (& argmax) variant</a></li></ul></details></li><li><a href='#section11'>PseudoRandom Number generator</a></li></ul></details></li>
+        <div class="markdown-body sidebarHide" style="flex: 1; min-width: 20px;"><br><div class='TOCpost'><h4>&emsp;&nbsp;Contents</h4><ul><li><a href='#section0'>(Top)</a></li><li onclick="toggleDetails(event)"><details><summary><a href='#section1'>The standard</a></summary><ul><li onclick="toggleDetails(event)"><details><summary><a href='#section2'> </a></summary><ul><li><a href='#section3'>Implementations as of 2025</a></li></ul></details></li><li onclick="toggleDetails(event)"><details><summary><a href='#section4'>Useful documentation</a></summary><ul><li><a href='#section5'>Equivalent nomenclature</a></li><li><a href='#section6'>Built-in inputs</a></li><li><a href='#section7'>Benchmarking GPU dispatches</a></li><li><a href='#section8'>Common problems</a></li><li><a href='#section9'>Optimization techniques</a></li></ul></details></li></ul></details></li><li onclick="toggleDetails(event)"><details><summary><a href='#section10'>Algorithms</a></summary><ul><li onclick="toggleDetails(event)"><details><summary><a href='#section11'>Parallel reduction</a></summary><ul><li><a href='#section12'>Min (& max) variants</a></li><li><a href='#section13'>Argmin (& argmax) variant</a></li></ul></details></li><li><a href='#section14'>PseudoRandom Number generator</a></li></ul></details></li>
 </ul></div></div>
         <div class="markdown-body" id="HTMLpost"><div id="section0"></div>
-<h6>August 19th, 2025</h6>
+<h6>March 11th, 2025</h6>
 <h1>WebGPU</h1>
-<h5>Reading time: 6 mins</h5>
+<h5>Reading time: 8 mins</h5>
 <hr>
 <p>I'm writing this article to serve me as a repository for information on WebGPU as I'm learning it. It covers useful links, architecture description and some non-flashy -but still very important- algorithms implemented on it.</p>
-<p>Useful links:</p>
-<ul>
-<li><a href="https://www.w3.org/TR/WGSL/">Official documentation</a></li>
-<li><a href="https://webgpufundamentals.org/webgpu/lessons/webgpu-limits-and-features.html">Adapter/device limits &amp; features</a></li>
-</ul>
-<p><div class='TOCpost'><h4>&emsp;&nbsp;Contents</h4><ul><li><a href='#section0'>(Top)</a></li><li onclick="toggleDetails(event)"><details><summary><a href='#section1'>The standard</a></summary><ul><li onclick="toggleDetails(event)"><details><summary><a href='#section2'> </a></summary><ul><li><a href='#section3'>Implementations as of 2025</a></li></ul></details></li><li onclick="toggleDetails(event)"><details><summary><a href='#section4'>Architecture</a></summary><ul><li><a href='#section5'>Equivalent nomenclature</a></li><li><a href='#section6'>Built-ins</a></li></ul></details></li></ul></details></li><li onclick="toggleDetails(event)"><details><summary><a href='#section7'>Algorithms</a></summary><ul><li onclick="toggleDetails(event)"><details><summary><a href='#section8'>Parallel reduction</a></summary><ul><li><a href='#section9'>Min (& max) variants</a></li><li><a href='#section10'>Argmin (& argmax) variant</a></li></ul></details></li><li><a href='#section11'>PseudoRandom Number generator</a></li></ul></details></li>
+<p><div class='TOCpost'><h4>&emsp;&nbsp;Contents</h4><ul><li><a href='#section0'>(Top)</a></li><li onclick="toggleDetails(event)"><details><summary><a href='#section1'>The standard</a></summary><ul><li onclick="toggleDetails(event)"><details><summary><a href='#section2'> </a></summary><ul><li><a href='#section3'>Implementations as of 2025</a></li></ul></details></li><li onclick="toggleDetails(event)"><details><summary><a href='#section4'>Useful documentation</a></summary><ul><li><a href='#section5'>Equivalent nomenclature</a></li><li><a href='#section6'>Built-in inputs</a></li><li><a href='#section7'>Benchmarking GPU dispatches</a></li><li><a href='#section8'>Common problems</a></li><li><a href='#section9'>Optimization techniques</a></li></ul></details></li></ul></details></li><li onclick="toggleDetails(event)"><details><summary><a href='#section10'>Algorithms</a></summary><ul><li onclick="toggleDetails(event)"><details><summary><a href='#section11'>Parallel reduction</a></summary><ul><li><a href='#section12'>Min (& max) variants</a></li><li><a href='#section13'>Argmin (& argmax) variant</a></li></ul></details></li><li><a href='#section14'>PseudoRandom Number generator</a></li></ul></details></li>
 </ul></div></p>
 <div id="section1"></div>
 <h1>The standard</h1>
-<p>WebGPU is a graphics API standard being developed over the last few years, built as a performant method to bridge graphics programming between different platforms:</p>
+<p>WebGPU is a graphics <abbr title="Application Programming Interface">API</abbr> standard being developed over the last few years, built as a performant method to bridge graphics programming between different platforms:</p>
 <ul>
-<li>Metal, an API for Apple products. I'm mentioning it first because apparently it's the one WebGPU is most similar to.</li>
+<li>Metal, an <abbr title="Application Programming Interface">API</abbr> for Apple products. I'm mentioning it first because apparently it's the one WebGPU is most similar to.</li>
 <li>Vulkan, open source and very low level.</li>
 <li>DirectX, for Microsoft products.</li>
-<li>OpenGL, open source no compute API, it has been showing its age for some time.</li>
+<li>OpenGL, open source no compute <abbr title="Application Programming Interface">API</abbr>, it has been showing its age for some time.</li>
 <li>WebGL, a port of an OpenGL version for the web. However, it didn't really stick and soon suffered from the same issue.</li>
-<li>CUDA, compute API for NVIDIA GPUs</li>
-<li>ROCm, compute API for AMD GPUs</li>
-<li>OpenCL, open source compute API</li>
+<li>CUDA, compute <abbr title="Application Programming Interface">API</abbr> for NVIDIA GPUs</li>
+<li>ROCm, compute <abbr title="Application Programming Interface">API</abbr> for AMD GPUs</li>
+<li>OpenCL, open source compute <abbr title="Application Programming Interface">API</abbr></li>
 </ul>
-<p>As you can see, there were a myriad of solutions, each with its own syntax and shader language, for each operating system, GPU or even for each period of time. What if there was a single top level API that chose which one to use but always exposed the same behavior to the user? And so WebGPU was born from the joint effort between the partners behind those APIs.</p>
+<p>As you can see, there were a myriad of solutions, each with its own syntax and shader language, for each operating system, GPU or even for each period of time. What if there was a single top level <abbr title="Application Programming Interface">API</abbr> that chose which one to use but always exposed the same behavior to the user? And so WebGPU was born from the joint effort between the partners behind those APIs.</p>
 <p>WebGPU's shader language is called WGSL. The syntax is quite similar to Rust, in fact, even though for now highlight.js doesn't officially support WGSL I could reproduce a similar highlight by setting the language to Rust.</p>
 <div id="section2"></div>
 <h3>Implementations as of 2025</h3>
 <p>There are 3 different ways of tapping into the standard:</p>
 <ul>
-<li>For the web* in JS, through the WebGPU JS API</li>
-<li>For native apps in C++, through Dawn, developed by Google.</li>
+<li>For the web* in JS, through the WebGPU JS <abbr title="Application Programming Interface">API</abbr></li>
+<li>For native apps in C/C++, through Dawn, developed by Google.</li>
 <li>For native apps in Rust, through WGPU, developed by Mozilla.</li>
 </ul>
 <p>*: It's also available for native apps through some of the JS runtime environments like Node.js</p>
-<p>If you are a beginner in strongly typed languages, I recommend to build a few small projects through the JS API first, so you don't need to worry about garbage collection. I find it quite easy to get into it in this way. This <a href="https://codelabs.developers.google.com/your-first-webgpu-app">tutorial</a> was especially good.</p>
-<p>So, WebGPU is the GPU API with the biggest backing in history, not so low level, with access to compute shaders, performant and allows its use both for web and native apps, multiplatform in terms of OS but also in terms of the GPU vendor itself... for me it's quite hard to pass on it.</p>
+<p>If you are a beginner in strongly typed languages, I recommend to build a few small projects through the JS <abbr title="Application Programming Interface">API</abbr> first, so you don't need to worry about garbage collection. I find it quite easy to get into it in this way. This <a href="https://codelabs.developers.google.com/your-first-webgpu-app">tutorial</a> was especially good.</p>
+<p>So, WebGPU is the GPU <abbr title="Application Programming Interface">API</abbr> with the biggest backing in history, not so low level, with access to compute shaders, performant and allows its use both for web and native apps, multiplatform in terms of OS but also in terms of the GPU vendor itself... for me it's quite hard to pass on it.</p>
 <div id="section3"></div>
-<h2>Architecture</h2>
+<h2>Useful documentation</h2>
+<ul>
+<li><a href="https://www.w3.org/TR/WGSL/">Official documentation</a></li>
+<li><a href="https://webgpufundamentals.org/webgpu/lessons/webgpu-limits-and-features.html">Adapter/device limits &amp; features</a></li>
+</ul>
 <div id="section4"></div>
 <h3>Equivalent nomenclature</h3>
 <table>
@@ -153,7 +152,7 @@ section="blog">
 </table>
 <p>I personally like using thread, warp, workgroup and dispatch.</p>
 <div id="section5"></div>
-<h3>Built-ins</h3>
+<h3>Built-in inputs</h3>
 <table>
 <thead>
 <tr>
@@ -170,14 +169,14 @@ section="blog">
 <td>vertex</td>
 <td>input</td>
 <td>u32</td>
-<td>Index of the current vertex within the current API-level draw command, independent of draw instancing.<br />For a non-indexed draw, the first vertex has an index equal to the <code>firstVertex</code> argument of the draw, whether provided directly or indirectly. The index is incremented by one for each additional vertex in the draw instance. For an indexed draw, the index is equal to the index buffer entry for the vertex, plus the <code>baseVertex</code> argument of the draw, whether provided directly or indirectly.</td>
+<td>Index of the current vertex within the current <abbr title="Application Programming Interface">API</abbr>-level draw command, independent of draw instancing.<br />For a non-indexed draw, the first vertex has an index equal to the <code>firstVertex</code> argument of the draw, whether provided directly or indirectly. The index is incremented by one for each additional vertex in the draw instance. For an indexed draw, the index is equal to the index buffer entry for the vertex, plus the <code>baseVertex</code> argument of the draw, whether provided directly or indirectly.</td>
 </tr>
 <tr>
 <td><em>instance_index</em></td>
 <td>vertex</td>
 <td>input</td>
 <td>u32</td>
-<td>Instance index of the current vertex within the current API-level draw command.<br />The first instance has an index equal to the <code>firstInstance</code> argument of the draw, whether provided directly or indirectly. The index is incremented by one for each additional instance in the draw.</td>
+<td>Instance index of the current vertex within the current <abbr title="Application Programming Interface">API</abbr>-level draw command.<br />The first instance has an index equal to the <code>firstInstance</code> argument of the draw, whether provided directly or indirectly. The index is incremented by one for each additional instance in the draw.</td>
 </tr>
 <tr>
 <td rowspan=2><em>position</em></td>
@@ -240,7 +239,7 @@ section="blog">
 <td>compute</td>
 <td>input</td>
 <td>vec3u</td>
-<td>The <a href="https://webgpufundamentals.org/webgpu/lessons/webgpu-wgsl.html#dispatch-size">dispatch size</a>, <code>vec&lt;u32&gt;(group_count_x, group_count_y, group_count_z)</code>, of the compute shader <a href="https://www.w3.org/TR/webgpu/#compute-pass-encoder-dispatch">dispatched</a> by the API.</td>
+<td>The <a href="https://webgpufundamentals.org/webgpu/lessons/webgpu-wgsl.html#dispatch-size">dispatch size</a>, <code>vec&lt;u32&gt;(group_count_x, group_count_y, group_count_z)</code>, of the compute shader <a href="https://www.w3.org/TR/webgpu/#compute-pass-encoder-dispatch">dispatched</a> by the <abbr title="Application Programming Interface">API</abbr>.</td>
 </tr>
 <tr>
 <td><em>sample_index</em></td>
@@ -266,17 +265,53 @@ section="blog">
 </tbody>
 </table>
 <div id="section6"></div>
-<h1>Algorithms</h1>
+<h3>Benchmarking GPU dispatches</h3>
+<p>2 types:</p>
+<ul>
+<li>
+<p>Benchmarking the time it takes for the instructions to be dispatched and compute from the perspective of the CPU.</p>
+</li>
+<li>
+<p>Benchmarking the time it takes for the kernel to execute.</p>
+</li>
+</ul>
 <div id="section7"></div>
+<h3>Common problems</h3>
+<ul>
+<li>
+<p><strong>Memory race conditions</strong>. Happens when memory is accessed at the same time by multiple threads. For example, if a thread needs to add a plus 1 to a position in global or shared memory this could raise a race condition:</p>
+<pre><code class="language-vhdl">globalarray[i] += <span class="hljs-number">1</span>;
+</code></pre>
+<p>Under the hood, the thread will create a local copy of the value, add plus one and then deposit it. It's not instantaneous so you can understand how problematic it can be when multiple threads are tasked to do the same thing. In shared memory there is a function to synchronize threads and we can use it to deal with it. For global memory there are atomic operations.</p>
+</li>
+<li>
+<p><strong>Unsigned integer underflows</strong>. When one has to look in the previous position in an array, checking with unsigned integers can cause problems if handled incorrectly:</p>
+<pre><code class="language-rust"><span class="hljs-keyword">if</span> (cellX - <span class="hljs-number">1</span> &gt;= <span class="hljs-number">0</span>) <span class="hljs-comment">// Wrong. If cellX == 0u, cellX - 1 will underflow into the max UINT32, which is &gt; 0</span>
+<span class="hljs-keyword">if</span> (cellX &gt; <span class="hljs-number">0</span>) <span class="hljs-comment">// Correct way.</span>
+</code></pre>
+</li>
+</ul>
+<div id="section8"></div>
+<h3>Optimization techniques</h3>
+<ul>
+<li><strong>Minimize GPU-CPU memory transfers.</strong> Unless it's some small value at every frame or some 1-time transfer, it's too expensive.</li>
+<li><strong>Minimize global memory transfers.</strong> There are 3 types of memory: global memory, shared memory available inside each workgroup and registers or local memory, for each thread. Memory access in shared memory is faster and in registers it's the fastest.</li>
+<li><strong>Encourage memory coalescing.</strong> The more randomly accessed memory is, the worst. Encourage patterns where access is somewhat spatially continuous.</li>
+<li><strong>Avoid branching inside workgroups.</strong> Conditionals may introduce branching, that is, stopping a thread's operation while the rest of the workgroup is active. It's often unavoidable, but it reduces GPU's occupancy and efficiency.</li>
+<li><strong>Bit-packing.</strong> This can save on memory transfers in return for some computational cost, especially since GPUs only work with 32 bit numbers. Easy to explain with colors i.e. an RGBA quad of uint8s into an uint32, but this can be done with other variables.</li>
+</ul>
+<div id="section9"></div>
+<h1>Algorithms</h1>
+<div id="section10"></div>
 <h2>Parallel reduction</h2>
 <p>This is loosely based on NVIDIA's <a href="https://developer.download.nvidia.com/../../content/blog/assets/cuda/files/reduction.pdf">webinar</a> on parallel reduction. As a note, GPUs have changed quite a bit since then, and apparently using atomics on a part of the parallel reduction has become more performant. But I'm gonna omit that for now.</p>
-<div id="section8"></div>
+<div id="section11"></div>
 <h3>Min (&amp; max) variants</h3>
-<div id="section9"></div>
+<div id="section12"></div>
 <h3>Argmin (&amp; argmax) variant</h3>
-<div id="section10"></div>
+<div id="section13"></div>
 <h2>PseudoRandom Number generator</h2>
-<p>PCG hash PRN generator:</p>
+<p>PCG hash <abbr title="Pseudorandom number">PRN</abbr> generator:</p>
 <pre><code class="language-rust"><span class="hljs-keyword">fn</span> <span class="hljs-title function_">randomU32</span>(seed: <span class="hljs-type">u32</span>) <span class="hljs-punctuation">-&gt;</span> <span class="hljs-type">u32</span> { <span class="hljs-comment">// PCG hash random int generator</span>
     <span class="hljs-keyword">let</span> <span class="hljs-variable">state</span> = seed * <span class="hljs-number">747796405</span>u + <span class="hljs-number">2891336453</span>u;
     <span class="hljs-keyword">let</span> <span class="hljs-variable">word</span> = ((state &gt;&gt; ((state &gt;&gt; <span class="hljs-number">28</span>u) + <span class="hljs-number">4</span>u)) ^ state) * <span class="hljs-number">277803737</span>u;

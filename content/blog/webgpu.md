@@ -1,3 +1,6 @@
+*[API]: Application Programming Interface
+*[PRN]: Pseudorandom number
+
 I'm writing this article to serve me as a repository for information on WebGPU as I'm learning it. It covers useful links, architecture description and some non-flashy -but still very important- algorithms implemented on it.
 
 [toc]
@@ -24,7 +27,7 @@ WebGPU's shader language is called WGSL. The syntax is quite similar to Rust, in
 There are 3 different ways of tapping into the standard:
 
 - For the web* in JS, through the WebGPU JS API
-- For native apps in C++, through Dawn, developed by Google.
+- For native apps in C/C++, through Dawn, developed by Google.
 - For native apps in Rust, through WGPU, developed by Mozilla.
 
 *: It's also available for native apps through some of the JS runtime environments like Node.js
@@ -87,6 +90,15 @@ I personally like using thread, warp, workgroup and dispatch.
   ```
 
   Under the hood, the thread will create a local copy of the value, add plus one and then deposit it. It's not instantaneous so you can understand how problematic it can be when multiple threads are tasked to do the same thing. In shared memory there is a function to synchronize threads and we can use it to deal with it. For global memory there are atomic operations.
+
+- **Unsigned integer underflows**. When one has to look in the previous position in an array, checking with unsigned integers can cause problems if handled incorrectly:
+
+  ```rust
+  if (cellX - 1 >= 0) // Wrong. If cellX == 0u, cellX - 1 will underflow into the max UINT32, which is > 0
+  if (cellX > 0) // Correct way.
+  ```
+
+  
 
 ### Optimization techniques
 

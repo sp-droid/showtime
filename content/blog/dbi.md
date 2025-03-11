@@ -1,6 +1,6 @@
-A description into a pixel sampling algorithm I started using for a long term project of mine.
+*[DBI]: Discrete Bilinear Interpolation
 
-[toc]
+A description of a pixel sampling algorithm I started using for a long term project of mine.
 
 ## Motivation
 
@@ -59,4 +59,4 @@ procedure DBI
 end procedure
 ```
 
-The formula is fundamentally the same as in bilinear interpolation, but it can't be done in a few operations if the end color has to be discrete and the inputs are non-continuous. 
+The formula is fundamentally the same as in bilinear interpolation, but it can't be done in a few operations if the end color has to be discrete and the inputs are non-continuous.

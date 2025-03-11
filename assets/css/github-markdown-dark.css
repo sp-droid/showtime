@@ -1183,9 +1183,6 @@ html {
 .markdown-body {
   max-width: 75%;
 }
-#HTMLpost .TOCpost {
-  display: none;
-}
 #HTMLpost {
   flex: 3;
 }
@@ -1195,9 +1192,6 @@ html {
   }
   .markdown-body {
     max-width: 90%;
-  }
-  #HTMLpost .TOCpost {
-    display: block;
   }
   #HTMLpost {
     flex: 9;

@@ -1,3 +1,6 @@
+*[PRN]: Pseudorandom number
+*[ST]: Single-threaded
+
 [**Run Rainbow Smoke**](../../content/JSexperiments/GPUrainbowSmoke/index.html)
 ======
 
@@ -9,7 +12,7 @@ Example result:
 
 ![512x512 resolution rendering using the average variant with random color order.](assets/rainbow-smoke-main.jpg)
 
-[toc]
+
 
 ## History
 

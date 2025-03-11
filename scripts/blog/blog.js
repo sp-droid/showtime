@@ -10,45 +10,54 @@ import markdownitKatex from "@ruanyf/markdown-it-katex";
 import { align as markdownitAlign } from "@mdit/plugin-align";
 import markdownitSup from "markdown-it-sup";
 import markdownitSub from "markdown-it-sub";
+import markdownitAbbr from "markdown-it-abbr";
 import hljs from "highlight.js";
 
 // ################################
 // ######### Global vars ##########
 // ################################
-let blogJSON;
-let template;
 
-// ################################
-// ######## Retrieve json #########
-// ################################
-fs.readFile("../../content/blog.json", "utf8", (err, data) => {
+let blogJSON = JSON.parse(await retrieveFile("../../content/blog.json"));
+const template = await retrieveFile("../../assets/templates/blog/post.html");
+
+// Reorder and rewrite
+blogJSON = blogJSON.sort((a, b) => {
+    let [dayA, monthA, yearA] = a.date.split('/').map(Number);
+    let [dayB, monthB, yearB] = b.date.split('/').map(Number);
+
+    let dateA = Date.parse(`${yearA}-${monthA.toString().padStart(2, '0')}-${dayA.toString().padStart(2, '0')}`);
+    let dateB = Date.parse(`${yearB}-${monthB.toString().padStart(2, '0')}-${dayB.toString().padStart(2, '0')}`);
+
+    return dateB - dateA;
+});
+fs.writeFile("../../content/blog.json", JSON.stringify(blogJSON, null, 2), "utf8", (err) => {
     if (err) {
-        console.error(err);
-        return;
+        console.error("Error writing file:", err);
     }
-    blogJSON = JSON.parse(data);
-    retrieveTemplate();
 });
 
-// ################################
-// ###### Retrieve template #######
-// ################################
-function retrieveTemplate() {
-    fs.readFile("../../assets/templates/blog/post.html", "utf8", (err, data) => {
-        if (err) {
-            console.error(err);
-            return;
-        }
-        template = data;
+for (let i = 0; i < blogJSON.length; i++) {
+    savePost(blogJSON[i]);
+}
 
-        for (let i = 0; i < blogJSON.length; i++) {
-            savePost(blogJSON[i]);
-        }
+// ################################
+// ######## Functions #########
+// ################################
+async function retrieveFile(path) {
+    return new Promise((resolve, reject) => {
+        fs.readFile(path, "utf8", (err, content) => {
+            if (err) {
+                console.error("Error reading file:", err);
+                reject(err);
+            } else {
+                resolve(content);
+            }
+        });
     });
 }
 
-function savePost(data) {
-    fs.readFile(`../../content/blog/${data["file"]}.md`, "utf8", (err, text) => {
+function savePost(blogMD) {
+    fs.readFile(`../../content/blog/${blogMD["file"]}.md`, "utf8", (err, text) => {
         if (err) {
             console.error(err);
             return;
@@ -97,8 +106,8 @@ function savePost(data) {
         }
         text = text.join("\n");
         text = '<div id="section0"></div>\n\n'+
-            `###### ${formatDatePost(data["date"])}\n`+
-            `# ${data["title"]}\n`+
+            `###### ${formatDatePost(blogMD["date"])}\n`+
+            `# ${blogMD["title"]}\n`+
             `##### Reading time: ${calculateReadingTime(text)} mins\n\n---\n`+
             text.replaceAll("assets/", "../../content/blog/assets/");
 
@@ -120,11 +129,12 @@ function savePost(data) {
             .use(markdownitKatex)
             .use(markdownitAlign)
             .use(markdownitSup)
-            .use(markdownitSub);
+            .use(markdownitSub)
+            .use(markdownitAbbr);
         text = md.render(text);
-        text += `<hr><div class="blogTags"><button class="blogTagSelected" title='Check more posts of the "${data["tag"]}" category on my blog!'>${data["tag"]}</button></div><br>`
+        text += `<hr><div class="blogTags"><button class="blogTagSelected" title='Check more posts of the "${blogMD["tag"]}" category on my blog!'>${blogMD["tag"]}</button></div><br>`
         text = template.replace("{{content}}", text);
-        text = text.replace("{{title}}", data["title"]);
+        text = text.replace("{{title}}", blogMD["title"]);
 
         // Multiple row/col table cells
         text = text.replaceAll(">#rowspan=2 ", " rowspan=2>").replaceAll(">#rowspan=3 ", " rowspan=3>").replaceAll(">#rowspan=4 ", " rowspan=4>").replaceAll(">#rowspan=5 ", " rowspan=5>");
@@ -173,7 +183,7 @@ function savePost(data) {
             text = text.replace("[toc]","");
         }
         
-        fs.writeFile(`../../pages/blog/${data["file"]}.html`, text, 'utf8', (err) => {
+        fs.writeFile(`../../pages/blog/${blogMD["file"]}.html`, text, 'utf8', (err) => {
             if (err) {
                 console.error('Error writing to file:', err);
                 return;
