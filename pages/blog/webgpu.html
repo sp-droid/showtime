@@ -60,7 +60,7 @@ section="blog">
     </div>
 </div></div>
     <div style="flex: 1; display: flex;">
-        <div class="markdown-body sidebarHide" style="flex: 1; min-width: 20px;"><br><div class='TOCpost'><h4>&emsp;&nbsp;Contents</h4><ul><li><a href='#section0'>(Top)</a></li><li onclick="toggleDetails(event)"><details><summary><a href='#section1'>The standard</a></summary><ul><li onclick="toggleDetails(event)"><details><summary><a href='#section2'> </a></summary><ul><li><a href='#section3'>Implementations as of 2025</a></li></ul></details></li><li onclick="toggleDetails(event)"><details><summary><a href='#section4'>Useful documentation</a></summary><ul><li><a href='#section5'>Equivalent nomenclature</a></li><li><a href='#section6'>Built-in inputs</a></li><li><a href='#section7'>Benchmarking GPU dispatches</a></li><li><a href='#section8'>Common problems</a></li><li><a href='#section9'>Optimization techniques</a></li></ul></details></li></ul></details></li><li onclick="toggleDetails(event)"><details><summary><a href='#section10'>Algorithms</a></summary><ul><li onclick="toggleDetails(event)"><details><summary><a href='#section11'>Parallel reduction</a></summary><ul><li><a href='#section12'>Min (& max) variants</a></li><li><a href='#section13'>Argmin (& argmax) variant</a></li></ul></details></li><li><a href='#section14'>PseudoRandom Number generator</a></li></ul></details></li>
+        <div class="markdown-body sidebarHide" style="flex: 1; min-width: 20px;"><br><div class='TOCpost'><h4>&emsp;&nbsp;Contents</h4><ul><li><a href='#section0'>(Top)</a></li><li onclick="toggleDetails(event)"><details><summary><a href='#section1'>The standard</a></summary><ul><li onclick="toggleDetails(event)"><details><summary><a href='#section2'>Useful documentation</a></summary><ul><li><a href='#section3'>Built-in inputs</a></li><li><a href='#section4'>Benchmarking GPU dispatches</a></li><li><a href='#section5'>Common problems</a></li><li><a href='#section6'>Optimization techniques</a></li></ul></details></li><li onclick="toggleDetails(event)"><details><summary><a href='#section7'>Algorithms</a></summary><ul><li><a href='#section8'>Parallel reduction</a></li><li><a href='#section9'>PseudoRandom Number generator</a></li></ul></details></li></ul></details></li>
 </ul></div></div>
         <div class="markdown-body" id="HTMLpost"><div id="section0"></div>
 <h6>March 11th, 2025</h6>
@@ -68,42 +68,40 @@ section="blog">
 <h5>Reading time: 8 mins</h5>
 <hr>
 <p>I'm writing this article to serve me as a repository for information on WebGPU as I'm learning it. It covers useful links, architecture description and some non-flashy -but still very important- algorithms implemented on it.</p>
-<p><div class='TOCpost'><h4>&emsp;&nbsp;Contents</h4><ul><li><a href='#section0'>(Top)</a></li><li onclick="toggleDetails(event)"><details><summary><a href='#section1'>The standard</a></summary><ul><li onclick="toggleDetails(event)"><details><summary><a href='#section2'> </a></summary><ul><li><a href='#section3'>Implementations as of 2025</a></li></ul></details></li><li onclick="toggleDetails(event)"><details><summary><a href='#section4'>Useful documentation</a></summary><ul><li><a href='#section5'>Equivalent nomenclature</a></li><li><a href='#section6'>Built-in inputs</a></li><li><a href='#section7'>Benchmarking GPU dispatches</a></li><li><a href='#section8'>Common problems</a></li><li><a href='#section9'>Optimization techniques</a></li></ul></details></li></ul></details></li><li onclick="toggleDetails(event)"><details><summary><a href='#section10'>Algorithms</a></summary><ul><li onclick="toggleDetails(event)"><details><summary><a href='#section11'>Parallel reduction</a></summary><ul><li><a href='#section12'>Min (& max) variants</a></li><li><a href='#section13'>Argmin (& argmax) variant</a></li></ul></details></li><li><a href='#section14'>PseudoRandom Number generator</a></li></ul></details></li>
+<p><div class='TOCpost'><h4>&emsp;&nbsp;Contents</h4><ul><li><a href='#section0'>(Top)</a></li><li onclick="toggleDetails(event)"><details><summary><a href='#section1'>The standard</a></summary><ul><li onclick="toggleDetails(event)"><details><summary><a href='#section2'>Useful documentation</a></summary><ul><li><a href='#section3'>Built-in inputs</a></li><li><a href='#section4'>Benchmarking GPU dispatches</a></li><li><a href='#section5'>Common problems</a></li><li><a href='#section6'>Optimization techniques</a></li></ul></details></li><li onclick="toggleDetails(event)"><details><summary><a href='#section7'>Algorithms</a></summary><ul><li><a href='#section8'>Parallel reduction</a></li><li><a href='#section9'>PseudoRandom Number generator</a></li></ul></details></li></ul></details></li>
 </ul></div></p>
 <div id="section1"></div>
 <h1>The standard</h1>
 <p>WebGPU is a graphics <abbr title="Application Programming Interface">API</abbr> standard being developed over the last few years, built as a performant method to bridge graphics programming between different platforms:</p>
 <ul>
-<li>Metal, an <abbr title="Application Programming Interface">API</abbr> for Apple products. I'm mentioning it first because apparently it's the one WebGPU is most similar to.</li>
-<li>Vulkan, open source and very low level.</li>
-<li>DirectX, for Microsoft products.</li>
-<li>OpenGL, open source no compute <abbr title="Application Programming Interface">API</abbr>, it has been showing its age for some time.</li>
-<li>WebGL, a port of an OpenGL version for the web. However, it didn't really stick and soon suffered from the same issue.</li>
-<li>CUDA, compute <abbr title="Application Programming Interface">API</abbr> for NVIDIA GPUs</li>
-<li>ROCm, compute <abbr title="Application Programming Interface">API</abbr> for AMD GPUs</li>
-<li>OpenCL, open source compute <abbr title="Application Programming Interface">API</abbr></li>
+<li><strong>Metal</strong>, an <abbr title="Application Programming Interface">API</abbr> for Apple products. I'm mentioning it first because apparently it's the one WebGPU is most similar to.</li>
+<li><strong>Vulkan</strong>, open source and very low level.</li>
+<li><strong>DirectX</strong>, for Microsoft products.</li>
+<li><strong>OpenGL</strong>, open source no compute <abbr title="Application Programming Interface">API</abbr>, it has been showing its age for some time.</li>
+<li><strong>WebGL</strong>, a port of an OpenGL version for the web. However, it didn't really stick and soon suffered from the same issue.</li>
+<li><strong>CUDA</strong>, compute <abbr title="Application Programming Interface">API</abbr> for NVIDIA GPUs</li>
+<li><strong>ROCm</strong>, compute <abbr title="Application Programming Interface">API</abbr> for AMD GPUs</li>
+<li><strong>OpenCL</strong>, open source compute <abbr title="Application Programming Interface">API</abbr></li>
 </ul>
 <p>As you can see, there were a myriad of solutions, each with its own syntax and shader language, for each operating system, GPU or even for each period of time. What if there was a single top level <abbr title="Application Programming Interface">API</abbr> that chose which one to use but always exposed the same behavior to the user? And so WebGPU was born from the joint effort between the partners behind those APIs.</p>
 <p>WebGPU's shader language is called WGSL. The syntax is quite similar to Rust, in fact, even though for now highlight.js doesn't officially support WGSL I could reproduce a similar highlight by setting the language to Rust.</p>
-<div id="section2"></div>
-<h3>Implementations as of 2025</h3>
+<h4>Implementations as of 2025</h4>
 <p>There are 3 different ways of tapping into the standard:</p>
 <ul>
-<li>For the web* in JS, through the WebGPU JS <abbr title="Application Programming Interface">API</abbr></li>
-<li>For native apps in C/C++, through Dawn, developed by Google.</li>
-<li>For native apps in Rust, through WGPU, developed by Mozilla.</li>
+<li>For the web* in JS, through the <strong>WebGPU JS</strong> <abbr title="Application Programming Interface">API</abbr></li>
+<li>For native apps in C/C++, through <strong>Dawn</strong>, developed by Google.</li>
+<li>For native apps in Rust, through <strong>WGPU</strong>, developed by Mozilla.</li>
 </ul>
 <p>*: It's also available for native apps through some of the JS runtime environments like Node.js</p>
 <p>If you are a beginner in strongly typed languages, I recommend to build a few small projects through the JS <abbr title="Application Programming Interface">API</abbr> first, so you don't need to worry about garbage collection. I find it quite easy to get into it in this way. This <a href="https://codelabs.developers.google.com/your-first-webgpu-app">tutorial</a> was especially good.</p>
 <p>So, WebGPU is the GPU <abbr title="Application Programming Interface">API</abbr> with the biggest backing in history, not so low level, with access to compute shaders, performant and allows its use both for web and native apps, multiplatform in terms of OS but also in terms of the GPU vendor itself... for me it's quite hard to pass on it.</p>
-<div id="section3"></div>
+<div id="section2"></div>
 <h2>Useful documentation</h2>
 <ul>
 <li><a href="https://www.w3.org/TR/WGSL/">Official documentation</a></li>
 <li><a href="https://webgpufundamentals.org/webgpu/lessons/webgpu-limits-and-features.html">Adapter/device limits &amp; features</a></li>
 </ul>
-<div id="section4"></div>
-<h3>Equivalent nomenclature</h3>
+<h4>Equivalent nomenclature</h4>
 <table>
 <thead>
 <tr>
@@ -151,7 +149,7 @@ section="blog">
 </tbody>
 </table>
 <p>I personally like using thread, warp, workgroup and dispatch.</p>
-<div id="section5"></div>
+<div id="section3"></div>
 <h3>Built-in inputs</h3>
 <table>
 <thead>
@@ -264,7 +262,7 @@ section="blog">
 </tr>
 </tbody>
 </table>
-<div id="section6"></div>
+<div id="section4"></div>
 <h3>Benchmarking GPU dispatches</h3>
 <p>2 types:</p>
 <ul>
@@ -275,7 +273,7 @@ section="blog">
 <p>Benchmarking the time it takes for the kernel to execute.</p>
 </li>
 </ul>
-<div id="section7"></div>
+<div id="section5"></div>
 <h3>Common problems</h3>
 <ul>
 <li>
@@ -291,7 +289,7 @@ section="blog">
 </code></pre>
 </li>
 </ul>
-<div id="section8"></div>
+<div id="section6"></div>
 <h3>Optimization techniques</h3>
 <ul>
 <li><strong>Minimize GPU-CPU memory transfers.</strong> Unless it's some small value at every frame or some 1-time transfer, it's too expensive.</li>
@@ -300,17 +298,15 @@ section="blog">
 <li><strong>Avoid branching inside workgroups.</strong> Conditionals may introduce branching, that is, stopping a thread's operation while the rest of the workgroup is active. It's often unavoidable, but it reduces GPU's occupancy and efficiency.</li>
 <li><strong>Bit-packing.</strong> This can save on memory transfers in return for some computational cost, especially since GPUs only work with 32 bit numbers. Easy to explain with colors i.e. an RGBA quad of uint8s into an uint32, but this can be done with other variables.</li>
 </ul>
-<div id="section9"></div>
-<h1>Algorithms</h1>
-<div id="section10"></div>
-<h2>Parallel reduction</h2>
+<div id="section7"></div>
+<h2>Algorithms</h2>
+<div id="section8"></div>
+<h3>Parallel reduction</h3>
 <p>This is loosely based on NVIDIA's <a href="https://developer.download.nvidia.com/../../content/blog/assets/cuda/files/reduction.pdf">webinar</a> on parallel reduction. As a note, GPUs have changed quite a bit since then, and apparently using atomics on a part of the parallel reduction has become more performant. But I'm gonna omit that for now.</p>
-<div id="section11"></div>
-<h3>Min (&amp; max) variants</h3>
-<div id="section12"></div>
-<h3>Argmin (&amp; argmax) variant</h3>
-<div id="section13"></div>
-<h2>PseudoRandom Number generator</h2>
+<h4>Min (&amp; max) variants</h4>
+<h4>Argmin (&amp; argmax) variant</h4>
+<div id="section9"></div>
+<h3>PseudoRandom Number generator</h3>
 <p>PCG hash <abbr title="Pseudorandom number">PRN</abbr> generator:</p>
 <pre><code class="language-rust"><span class="hljs-keyword">fn</span> <span class="hljs-title function_">randomU32</span>(seed: <span class="hljs-type">u32</span>) <span class="hljs-punctuation">-&gt;</span> <span class="hljs-type">u32</span> { <span class="hljs-comment">// PCG hash random int generator</span>
     <span class="hljs-keyword">let</span> <span class="hljs-variable">state</span> = seed * <span class="hljs-number">747796405</span>u + <span class="hljs-number">2891336453</span>u;
@@ -340,8 +336,8 @@ function toggleDetails(event) {
         details.open = true;
     }
 }
-// Add figure number and caption to all images
 window.onload = function() {   
+    // Add figure number and caption to all images
     const images = document.querySelectorAll("#HTMLpost img");
     let figureNumber = 0;
     images.forEach(img => {
@@ -359,6 +355,10 @@ window.onload = function() {
         caption.style.marginTop = "0.5em";
         img.parentNode.insertBefore(caption, img.nextSibling);        
     });
+
+    // Turn all details open by default in HTMLpost's TOC
+    const details = document.querySelectorAll("#HTMLpost details");
+    details.forEach(detail => detail.open = true);
 };
 </script>
 </body>

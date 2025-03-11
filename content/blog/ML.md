@@ -1,0 +1,1 @@
+vision transformers vs. cnns: scale better after a certain amount of data or if features depend on long-range connections

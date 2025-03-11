@@ -934,8 +934,8 @@ function toggleDetails(event) {
         details.open = true;
     }
 }
-// Add figure number and caption to all images
 window.onload = function() {   
+    // Add figure number and caption to all images
     const images = document.querySelectorAll("#HTMLpost img");
     let figureNumber = 0;
     images.forEach(img => {
@@ -953,6 +953,10 @@ window.onload = function() {
         caption.style.marginTop = "0.5em";
         img.parentNode.insertBefore(caption, img.nextSibling);        
     });
+
+    // Turn all details open by default in HTMLpost's TOC
+    const details = document.querySelectorAll("#HTMLpost details");
+    details.forEach(detail => detail.open = true);
 };
 </script>
 </body>
