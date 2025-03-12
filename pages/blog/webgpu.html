@@ -60,15 +60,15 @@ section="blog">
     </div>
 </div></div>
     <div style="flex: 1; display: flex;">
-        <div class="markdown-body sidebarHide" style="flex: 1; min-width: 20px;"><br><div class='TOCpost'><h4>&emsp;&nbsp;Contents</h4><ul><li><a href='#section0'>(Top)</a></li><li onclick="toggleDetails(event)"><details><summary><a href='#section1'>The standard</a></summary><ul><li onclick="toggleDetails(event)"><details><summary><a href='#section2'>Useful documentation</a></summary><ul><li><a href='#section3'>Built-in inputs</a></li><li><a href='#section4'>Benchmarking GPU dispatches</a></li><li><a href='#section5'>Common problems</a></li><li><a href='#section6'>Optimization techniques</a></li></ul></details></li><li onclick="toggleDetails(event)"><details><summary><a href='#section7'>Algorithms</a></summary><ul><li><a href='#section8'>Parallel reduction</a></li><li><a href='#section9'>PseudoRandom Number generator</a></li></ul></details></li></ul></details></li>
+        <div class="markdown-body sidebarHide" style="flex: 1; min-width: 20px;"><br><div class='TOCpost'><h4>&emsp;&nbsp;Contents</h4><ul><li><a href='#section0'>(Top)</a></li><li onclick="toggleDetails(event)"><details><summary><a href='#section1'>The standard</a></summary><ul><li onclick="toggleDetails(event)"><details><summary><a href='#section2'>Useful documentation</a></summary><ul><li><a href='#section3'>Built-in inputs</a></li><li><a href='#section4'>Copying data back to the CPU</a></li><li><a href='#section5'>Benchmarking GPU functions</a></li><li><a href='#section6'>Common problems</a></li><li><a href='#section7'>Optimization techniques</a></li></ul></details></li><li onclick="toggleDetails(event)"><details><summary><a href='#section8'>Algorithms</a></summary><ul><li><a href='#section9'>Parallel reduction</a></li><li><a href='#section10'>PseudoRandom Number generator</a></li></ul></details></li></ul></details></li>
 </ul></div></div>
         <div class="markdown-body" id="HTMLpost"><div id="section0"></div>
 <h6>March 11th, 2025</h6>
 <h1>WebGPU</h1>
-<h5>Reading time: 8 mins</h5>
+<h5>Reading time: 10 mins</h5>
 <hr>
 <p>I'm writing this article to serve me as a repository for information on WebGPU as I'm learning it. It covers useful links, architecture description and some non-flashy -but still very important- algorithms implemented on it.</p>
-<p><div class='TOCpost'><h4>&emsp;&nbsp;Contents</h4><ul><li><a href='#section0'>(Top)</a></li><li onclick="toggleDetails(event)"><details><summary><a href='#section1'>The standard</a></summary><ul><li onclick="toggleDetails(event)"><details><summary><a href='#section2'>Useful documentation</a></summary><ul><li><a href='#section3'>Built-in inputs</a></li><li><a href='#section4'>Benchmarking GPU dispatches</a></li><li><a href='#section5'>Common problems</a></li><li><a href='#section6'>Optimization techniques</a></li></ul></details></li><li onclick="toggleDetails(event)"><details><summary><a href='#section7'>Algorithms</a></summary><ul><li><a href='#section8'>Parallel reduction</a></li><li><a href='#section9'>PseudoRandom Number generator</a></li></ul></details></li></ul></details></li>
+<p><div class='TOCpost'><h4>&emsp;&nbsp;Contents</h4><ul><li><a href='#section0'>(Top)</a></li><li onclick="toggleDetails(event)"><details><summary><a href='#section1'>The standard</a></summary><ul><li onclick="toggleDetails(event)"><details><summary><a href='#section2'>Useful documentation</a></summary><ul><li><a href='#section3'>Built-in inputs</a></li><li><a href='#section4'>Copying data back to the CPU</a></li><li><a href='#section5'>Benchmarking GPU functions</a></li><li><a href='#section6'>Common problems</a></li><li><a href='#section7'>Optimization techniques</a></li></ul></details></li><li onclick="toggleDetails(event)"><details><summary><a href='#section8'>Algorithms</a></summary><ul><li><a href='#section9'>Parallel reduction</a></li><li><a href='#section10'>PseudoRandom Number generator</a></li></ul></details></li></ul></details></li>
 </ul></div></p>
 <div id="section1"></div>
 <h1>The standard</h1>
@@ -263,33 +263,155 @@ section="blog">
 </tbody>
 </table>
 <div id="section4"></div>
-<h3>Benchmarking GPU dispatches</h3>
-<p>2 types:</p>
+<h3>Copying data back to the CPU</h3>
+<p>We need:</p>
 <ul>
-<li>
-<p>Benchmarking the time it takes for the instructions to be dispatched and compute from the perspective of the CPU.</p>
-</li>
-<li>
-<p>Benchmarking the time it takes for the kernel to execute.</p>
-</li>
+<li>A source, a GPU buffer defined with the flag <code>GPUBufferUsage.COPY_SRC</code></li>
+<li>An intermediate or staging buffer</li>
 </ul>
+<pre><code class="language-js"><span class="hljs-keyword">const</span> stagingBuffer = device.<span class="hljs-title function_">createBuffer</span>({
+    <span class="hljs-attr">size</span>: <span class="hljs-number">4</span>,
+    <span class="hljs-attr">usage</span>: <span class="hljs-title class_">GPUBufferUsage</span>.<span class="hljs-property">COPY_DST</span> | <span class="hljs-title class_">GPUBufferUsage</span>.<span class="hljs-property">MAP_READ</span>
+});
+</code></pre>
+<ul>
+<li>Define copy and synchronize devices, just before submitting the instructions</li>
+</ul>
+<pre><code class="language-js">encoder.<span class="hljs-title function_">copyBufferToBuffer</span>(sourceBuffer, <span class="hljs-number">0</span>, stagingBuffer, <span class="hljs-number">0</span>, <span class="hljs-number">4</span>);
+device.<span class="hljs-property">queue</span>.<span class="hljs-title function_">submit</span>([encoder.<span class="hljs-title function_">finish</span>()]);
+
+<span class="hljs-comment">// Wait for GPU work to finish and map the buffer for CPU access</span>
+<span class="hljs-keyword">await</span> stagingBuffer.<span class="hljs-title function_">mapAsync</span>(<span class="hljs-title class_">GPUMapMode</span>.<span class="hljs-property">READ</span>);
+<span class="hljs-keyword">const</span> data = <span class="hljs-keyword">new</span> <span class="hljs-title class_">Uint32Array</span>(buffer.<span class="hljs-title function_">getMappedRange</span>());
+<span class="hljs-comment">// console.log(data[0]);</span>
+stagingBuffer.<span class="hljs-title function_">unmap</span>();
+</code></pre>
+<p>This is also a (bad) way to benchmark the time it takes for the instructions to be sent and the kernel to be launched. It's not optimal because it depends on CPU/GPU schedules, making it only somewhat reliable when the program is running constantly under a heavy load.</p>
 <div id="section5"></div>
+<h3>Benchmarking GPU functions</h3>
+<p>This is taken from this <a href="https://webgpufundamentals.org/webgpu/lessons/webgpu-timing.html">website</a> I mentioned earlier, and it's a method to benchmark kernel executing time only, so although it may vary it doesn't depend on the CPU schedule and ability to synchronize. I modified the helper class to remove the asserts and convert the output to microseconds. The class:</p>
+<details><summary>TimingHelper class</summary>
+<pre><code class="language-js"><span class="hljs-keyword">class</span> <span class="hljs-title class_">TimingHelper</span> {
+    #canTimestamp;
+    #device;
+    #querySet;
+    #resolveBuffer;
+    #resultBuffer;
+    #resultBuffers = [];
+    <span class="hljs-comment">// state can be &#x27;free&#x27;, &#x27;need resolve&#x27;, &#x27;wait for result&#x27;</span>
+    #state = <span class="hljs-string">&#x27;free&#x27;</span>;
+
+    <span class="hljs-title function_">constructor</span>(<span class="hljs-params">device</span>) {
+    <span class="hljs-variable language_">this</span>.#device = device;
+    <span class="hljs-variable language_">this</span>.#canTimestamp = device.<span class="hljs-property">features</span>.<span class="hljs-title function_">has</span>(<span class="hljs-string">&#x27;timestamp-query&#x27;</span>);
+    <span class="hljs-keyword">if</span> (<span class="hljs-variable language_">this</span>.#canTimestamp) {
+        <span class="hljs-variable language_">this</span>.#querySet = device.<span class="hljs-title function_">createQuerySet</span>({
+        <span class="hljs-attr">type</span>: <span class="hljs-string">&#x27;timestamp&#x27;</span>,
+        <span class="hljs-attr">count</span>: <span class="hljs-number">2</span>,
+        });
+        <span class="hljs-variable language_">this</span>.#resolveBuffer = device.<span class="hljs-title function_">createBuffer</span>({
+        <span class="hljs-attr">size</span>: <span class="hljs-variable language_">this</span>.#querySet.<span class="hljs-property">count</span> * <span class="hljs-number">8</span>,
+        <span class="hljs-attr">usage</span>: <span class="hljs-title class_">GPUBufferUsage</span>.<span class="hljs-property">QUERY_RESOLVE</span> | <span class="hljs-title class_">GPUBufferUsage</span>.<span class="hljs-property">COPY_SRC</span>,
+        });
+    }
+    }
+    
+    #<span class="hljs-title function_">beginTimestampPass</span>(<span class="hljs-params">encoder, fnName, descriptor</span>) {
+    <span class="hljs-keyword">if</span> (<span class="hljs-variable language_">this</span>.#canTimestamp) {
+        <span class="hljs-variable language_">this</span>.#state = <span class="hljs-string">&#x27;need resolve&#x27;</span>;
+    
+        <span class="hljs-keyword">const</span> pass = encoder[fnName]({
+        ...descriptor,
+        ...{
+            <span class="hljs-attr">timestampWrites</span>: {
+            <span class="hljs-attr">querySet</span>: <span class="hljs-variable language_">this</span>.#querySet,
+            <span class="hljs-attr">beginningOfPassWriteIndex</span>: <span class="hljs-number">0</span>,
+            <span class="hljs-attr">endOfPassWriteIndex</span>: <span class="hljs-number">1</span>,
+            },
+        },
+        });
+    
+        <span class="hljs-keyword">const</span> <span class="hljs-title function_">resolve</span> = (<span class="hljs-params"></span>) =&gt; <span class="hljs-variable language_">this</span>.#<span class="hljs-title function_">resolveTiming</span>(encoder);
+        pass.<span class="hljs-property">end</span> = (<span class="hljs-keyword">function</span>(<span class="hljs-params">origFn</span>) {
+        <span class="hljs-keyword">return</span> <span class="hljs-keyword">function</span>(<span class="hljs-params"></span>) {
+            origFn.<span class="hljs-title function_">call</span>(<span class="hljs-variable language_">this</span>);
+            <span class="hljs-title function_">resolve</span>();
+        };
+        })(pass.<span class="hljs-property">end</span>);
+    
+        <span class="hljs-keyword">return</span> pass;
+    } <span class="hljs-keyword">else</span> {
+        <span class="hljs-keyword">return</span> encoder[fnName](descriptor);
+    }
+    }
+    
+    <span class="hljs-title function_">beginRenderPass</span>(<span class="hljs-params">encoder, descriptor = {}</span>) {
+    <span class="hljs-keyword">return</span> <span class="hljs-variable language_">this</span>.#<span class="hljs-title function_">beginTimestampPass</span>(encoder, <span class="hljs-string">&#x27;beginRenderPass&#x27;</span>, descriptor);
+    }
+    
+    <span class="hljs-title function_">beginComputePass</span>(<span class="hljs-params">encoder, descriptor = {}</span>) {
+    <span class="hljs-keyword">return</span> <span class="hljs-variable language_">this</span>.#<span class="hljs-title function_">beginTimestampPass</span>(encoder, <span class="hljs-string">&#x27;beginComputePass&#x27;</span>, descriptor);
+    }
+    
+    #<span class="hljs-title function_">resolveTiming</span>(<span class="hljs-params">encoder</span>) {
+    <span class="hljs-keyword">if</span> (!<span class="hljs-variable language_">this</span>.#canTimestamp) {
+        <span class="hljs-keyword">return</span>;
+    }
+    <span class="hljs-variable language_">this</span>.#state = <span class="hljs-string">&#x27;wait for result&#x27;</span>;
+    
+    <span class="hljs-variable language_">this</span>.#resultBuffer = <span class="hljs-variable language_">this</span>.#resultBuffers.<span class="hljs-title function_">pop</span>() || <span class="hljs-variable language_">this</span>.#device.<span class="hljs-title function_">createBuffer</span>({
+        <span class="hljs-attr">size</span>: <span class="hljs-variable language_">this</span>.#resolveBuffer.<span class="hljs-property">size</span>,
+        <span class="hljs-attr">usage</span>: <span class="hljs-title class_">GPUBufferUsage</span>.<span class="hljs-property">COPY_DST</span> | <span class="hljs-title class_">GPUBufferUsage</span>.<span class="hljs-property">MAP_READ</span>,
+    });
+    
+    encoder.<span class="hljs-title function_">resolveQuerySet</span>(<span class="hljs-variable language_">this</span>.#querySet, <span class="hljs-number">0</span>, <span class="hljs-variable language_">this</span>.#querySet.<span class="hljs-property">count</span>, <span class="hljs-variable language_">this</span>.#resolveBuffer, <span class="hljs-number">0</span>);
+    encoder.<span class="hljs-title function_">copyBufferToBuffer</span>(<span class="hljs-variable language_">this</span>.#resolveBuffer, <span class="hljs-number">0</span>, <span class="hljs-variable language_">this</span>.#resultBuffer, <span class="hljs-number">0</span>, <span class="hljs-variable language_">this</span>.#resultBuffer.<span class="hljs-property">size</span>);
+    }
+    
+    <span class="hljs-keyword">async</span> <span class="hljs-title function_">getResult</span>(<span class="hljs-params"></span>) { <span class="hljs-comment">// Returns result in microseconds</span>
+    <span class="hljs-keyword">if</span> (!<span class="hljs-variable language_">this</span>.#canTimestamp) {
+        <span class="hljs-keyword">return</span> <span class="hljs-number">0</span>;
+    }
+    <span class="hljs-variable language_">this</span>.#state = <span class="hljs-string">&#x27;free&#x27;</span>;
+    
+    <span class="hljs-keyword">const</span> resultBuffer = <span class="hljs-variable language_">this</span>.#resultBuffer;
+    <span class="hljs-keyword">await</span> resultBuffer.<span class="hljs-title function_">mapAsync</span>(<span class="hljs-title class_">GPUMapMode</span>.<span class="hljs-property">READ</span>);
+    <span class="hljs-keyword">const</span> times = <span class="hljs-keyword">new</span> <span class="hljs-title class_">BigInt64Array</span>(resultBuffer.<span class="hljs-title function_">getMappedRange</span>());
+    <span class="hljs-keyword">const</span> duration = <span class="hljs-title class_">Number</span>((times[<span class="hljs-number">1</span>] - times[<span class="hljs-number">0</span>])/<span class="hljs-number">1000n</span>);
+    resultBuffer.<span class="hljs-title function_">unmap</span>();
+    <span class="hljs-variable language_">this</span>.#resultBuffers.<span class="hljs-title function_">push</span>(resultBuffer);
+    <span class="hljs-keyword">return</span> duration;
+    }
+}
+</code></pre>
+</details>
+<p>Get an instance and use it in place of the encoder:</p>
+<pre><code class="language-js"><span class="hljs-keyword">const</span> timingHelper = <span class="hljs-keyword">new</span> <span class="hljs-title class_">TimingHelper</span>(device);
+...
+<span class="hljs-keyword">const</span> encoder = device.<span class="hljs-title function_">createCommandEncoder</span>();
+...
+<span class="hljs-keyword">const</span> computePass = timingHelper.<span class="hljs-title function_">beginComputePass</span>(encoder);
+...
+computePass.<span class="hljs-title function_">end</span>();
+...
+device.<span class="hljs-property">queue</span>.<span class="hljs-title function_">submit</span>([encoder.<span class="hljs-title function_">finish</span>()]);
+<span class="hljs-keyword">const</span> gpuTime = timingHelper.<span class="hljs-title function_">getResult</span>(); <span class="hljs-comment">// Microseconds</span>
+</code></pre>
+<div id="section6"></div>
 <h3>Common problems</h3>
 <ul>
-<li>
-<p><strong>Memory race conditions</strong>. Happens when memory is accessed at the same time by multiple threads. For example, if a thread needs to add a plus 1 to a position in global or shared memory this could raise a race condition:</p>
-<pre><code class="language-vhdl">globalarray[i] += <span class="hljs-number">1</span>;
+<li><strong>Memory race conditions</strong>. Happens when memory is accessed at the same time by multiple threads. For example, if a thread needs to add a plus 1 to a position in global or shared memory this could raise a race condition:</li>
+</ul>
+<pre><code class="language-vhdl">  globalarray[i] += <span class="hljs-number">1</span>;
 </code></pre>
 <p>Under the hood, the thread will create a local copy of the value, add plus one and then deposit it. It's not instantaneous so you can understand how problematic it can be when multiple threads are tasked to do the same thing. In shared memory there is a function to synchronize threads and we can use it to deal with it. For global memory there are atomic operations.</p>
-</li>
-<li>
-<p><strong>Unsigned integer underflows</strong>. When one has to look in the previous position in an array, checking with unsigned integers can cause problems if handled incorrectly:</p>
-<pre><code class="language-rust"><span class="hljs-keyword">if</span> (cellX - <span class="hljs-number">1</span> &gt;= <span class="hljs-number">0</span>) <span class="hljs-comment">// Wrong. If cellX == 0u, cellX - 1 will underflow into the max UINT32, which is &gt; 0</span>
-<span class="hljs-keyword">if</span> (cellX &gt; <span class="hljs-number">0</span>) <span class="hljs-comment">// Correct way.</span>
-</code></pre>
-</li>
+<ul>
+<li><strong>Unsigned integer underflows</strong>. When one has to look in the previous position in an array, checking with unsigned integers can cause problems if handled incorrectly:</li>
 </ul>
-<div id="section6"></div>
+<pre><code class="language-rust">  <span class="hljs-keyword">if</span> (cellX - <span class="hljs-number">1</span> &gt;= <span class="hljs-number">0</span>) <span class="hljs-comment">// Wrong. If cellX == 0u, cellX - 1 will underflow into the max UINT32, which is &gt; 0</span>
+  <span class="hljs-keyword">if</span> (cellX &gt; <span class="hljs-number">0</span>) <span class="hljs-comment">// Correct way.</span>
+</code></pre>
+<div id="section7"></div>
 <h3>Optimization techniques</h3>
 <ul>
 <li><strong>Minimize GPU-CPU memory transfers.</strong> Unless it's some small value at every frame or some 1-time transfer, it's too expensive.</li>
@@ -298,14 +420,14 @@ section="blog">
 <li><strong>Avoid branching inside workgroups.</strong> Conditionals may introduce branching, that is, stopping a thread's operation while the rest of the workgroup is active. It's often unavoidable, but it reduces GPU's occupancy and efficiency.</li>
 <li><strong>Bit-packing.</strong> This can save on memory transfers in return for some computational cost, especially since GPUs only work with 32 bit numbers. Easy to explain with colors i.e. an RGBA quad of uint8s into an uint32, but this can be done with other variables.</li>
 </ul>
-<div id="section7"></div>
-<h2>Algorithms</h2>
 <div id="section8"></div>
+<h2>Algorithms</h2>
+<div id="section9"></div>
 <h3>Parallel reduction</h3>
 <p>This is loosely based on NVIDIA's <a href="https://developer.download.nvidia.com/../../content/blog/assets/cuda/files/reduction.pdf">webinar</a> on parallel reduction. As a note, GPUs have changed quite a bit since then, and apparently using atomics on a part of the parallel reduction has become more performant. But I'm gonna omit that for now.</p>
 <h4>Min (&amp; max) variants</h4>
 <h4>Argmin (&amp; argmax) variant</h4>
-<div id="section9"></div>
+<div id="section10"></div>
 <h3>PseudoRandom Number generator</h3>
 <p>PCG hash <abbr title="Pseudorandom number">PRN</abbr> generator:</p>
 <pre><code class="language-rust"><span class="hljs-keyword">fn</span> <span class="hljs-title function_">randomU32</span>(seed: <span class="hljs-type">u32</span>) <span class="hljs-punctuation">-&gt;</span> <span class="hljs-type">u32</span> { <span class="hljs-comment">// PCG hash random int generator</span>
@@ -357,7 +479,7 @@ window.onload = function() {
     });
 
     // Turn all details open by default in HTMLpost's TOC
-    const details = document.querySelectorAll("#HTMLpost details");
+    const details = document.querySelectorAll("#HTMLpost .TOCpost details");
     details.forEach(detail => detail.open = true);
 };
 </script>

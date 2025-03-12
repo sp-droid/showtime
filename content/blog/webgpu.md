@@ -71,32 +71,172 @@ I personally like using thread, warp, workgroup and dispatch.
 | #rowspan=2 *sample_mask* | fragment  | input  | u32   | Sample coverage mask for the current fragment. It contains a bitmask indicating which samples in this fragment are covered by the primitive being rendered.<br/>See [WebGPU § 23.3.11 Sample Masking](https://www.w3.org/TR/webgpu/#sample-masking). |
 | #remove                  | fragment  | output | u32   | Sample coverage mask control for the current fragment. The last value written to this variable becomes the [shader-output mask](https://gpuweb.github.io/gpuweb/#shader-output-mask). Zero bits in the written value will cause corresponding samples in the color attachments to be discarded.<br/>See [WebGPU § 23.3.11 Sample Masking](https://www.w3.org/TR/webgpu/#sample-masking). |
 
-### Benchmarking GPU dispatches
+### Copying data back to the CPU
 
-2 types:
+We need:
 
-- Benchmarking the time it takes for the instructions to be dispatched and compute from the perspective of the CPU. 
+- A source, a GPU buffer defined with the flag `GPUBufferUsage.COPY_SRC`
+- An intermediate or staging buffer
+
+```js
+const stagingBuffer = device.createBuffer({
+    size: 4,
+    usage: GPUBufferUsage.COPY_DST | GPUBufferUsage.MAP_READ
+});
+```
+
+- Define copy and synchronize devices, just before submitting the instructions
+
+```js
+encoder.copyBufferToBuffer(sourceBuffer, 0, stagingBuffer, 0, 4);
+device.queue.submit([encoder.finish()]);
+
+// Wait for GPU work to finish and map the buffer for CPU access
+await stagingBuffer.mapAsync(GPUMapMode.READ);
+const data = new Uint32Array(buffer.getMappedRange());
+// console.log(data[0]);
+stagingBuffer.unmap();
+```
+
+This is also a (bad) way to benchmark the time it takes for the instructions to be sent and the kernel to be launched. It's not optimal because it depends on CPU/GPU schedules, making it only somewhat reliable when the program is running constantly under a heavy load. 
+
+### Benchmarking GPU functions
+
+This is taken from this [website](https://webgpufundamentals.org/webgpu/lessons/webgpu-timing.html) I mentioned earlier, and it's a method to benchmark kernel executing time only, so although it may vary it doesn't depend on the CPU schedule and ability to synchronize. I modified the helper class to remove the asserts and convert the output to microseconds. The class:
+
+<details><summary>TimingHelper class</summary>
+
+
+```js
+class TimingHelper {
+    #canTimestamp;
+    #device;
+    #querySet;
+    #resolveBuffer;
+    #resultBuffer;
+    #resultBuffers = [];
+    // state can be 'free', 'need resolve', 'wait for result'
+    #state = 'free';
+
+    constructor(device) {
+    this.#device = device;
+    this.#canTimestamp = device.features.has('timestamp-query');
+    if (this.#canTimestamp) {
+        this.#querySet = device.createQuerySet({
+        type: 'timestamp',
+        count: 2,
+        });
+        this.#resolveBuffer = device.createBuffer({
+        size: this.#querySet.count * 8,
+        usage: GPUBufferUsage.QUERY_RESOLVE | GPUBufferUsage.COPY_SRC,
+        });
+    }
+    }
+    
+    #beginTimestampPass(encoder, fnName, descriptor) {
+    if (this.#canTimestamp) {
+        this.#state = 'need resolve';
+    
+        const pass = encoder[fnName]({
+        ...descriptor,
+        ...{
+            timestampWrites: {
+            querySet: this.#querySet,
+            beginningOfPassWriteIndex: 0,
+            endOfPassWriteIndex: 1,
+            },
+        },
+        });
+    
+        const resolve = () => this.#resolveTiming(encoder);
+        pass.end = (function(origFn) {
+        return function() {
+            origFn.call(this);
+            resolve();
+        };
+        })(pass.end);
+    
+        return pass;
+    } else {
+        return encoder[fnName](descriptor);
+    }
+    }
+    
+    beginRenderPass(encoder, descriptor = {}) {
+    return this.#beginTimestampPass(encoder, 'beginRenderPass', descriptor);
+    }
+    
+    beginComputePass(encoder, descriptor = {}) {
+    return this.#beginTimestampPass(encoder, 'beginComputePass', descriptor);
+    }
+    
+    #resolveTiming(encoder) {
+    if (!this.#canTimestamp) {
+        return;
+    }
+    this.#state = 'wait for result';
+    
+    this.#resultBuffer = this.#resultBuffers.pop() || this.#device.createBuffer({
+        size: this.#resolveBuffer.size,
+        usage: GPUBufferUsage.COPY_DST | GPUBufferUsage.MAP_READ,
+    });
+    
+    encoder.resolveQuerySet(this.#querySet, 0, this.#querySet.count, this.#resolveBuffer, 0);
+    encoder.copyBufferToBuffer(this.#resolveBuffer, 0, this.#resultBuffer, 0, this.#resultBuffer.size);
+    }
+    
+    async getResult() { // Returns result in microseconds
+    if (!this.#canTimestamp) {
+        return 0;
+    }
+    this.#state = 'free';
+    
+    const resultBuffer = this.#resultBuffer;
+    await resultBuffer.mapAsync(GPUMapMode.READ);
+    const times = new BigInt64Array(resultBuffer.getMappedRange());
+    const duration = Number((times[1] - times[0])/1000n);
+    resultBuffer.unmap();
+    this.#resultBuffers.push(resultBuffer);
+    return duration;
+    }
+}
+```
+
+</details>
+
+Get an instance and use it in place of the encoder:
+```js
+const timingHelper = new TimingHelper(device);
+...
+const encoder = device.createCommandEncoder();
+...
+const computePass = timingHelper.beginComputePass(encoder);
+...
+computePass.end();
+...
+device.queue.submit([encoder.finish()]);
+const gpuTime = timingHelper.getResult(); // Microseconds
+```
 
 
 
-- Benchmarking the time it takes for the kernel to execute. 
 
 ### Common problems
 
 - **Memory race conditions**. Happens when memory is accessed at the same time by multiple threads. For example, if a thread needs to add a plus 1 to a position in global or shared memory this could raise a race condition:
 
-  ```vhdl
+```vhdl
   globalarray[i] += 1;
-  ```
+```
 
   Under the hood, the thread will create a local copy of the value, add plus one and then deposit it. It's not instantaneous so you can understand how problematic it can be when multiple threads are tasked to do the same thing. In shared memory there is a function to synchronize threads and we can use it to deal with it. For global memory there are atomic operations.
 
 - **Unsigned integer underflows**. When one has to look in the previous position in an array, checking with unsigned integers can cause problems if handled incorrectly:
 
-  ```rust
+```rust
   if (cellX - 1 >= 0) // Wrong. If cellX == 0u, cellX - 1 will underflow into the max UINT32, which is > 0
   if (cellX > 0) // Correct way.
-  ```
+```
 
   
 
