@@ -84,7 +84,7 @@ For posterity, I benchmarked the different procedures, making increasingly large
 
 `I can now render huge images in 5-10 hours. I already have some 4Kx4K renders`
 
-I then assumed computation time to be scaling quadratically with the resolution, and 5 h for 4096^2^ images.
+I then assumed computation time to be scaling quadratically with the resolution, and **5 h** for 4096^2^ images. Extrapolating my results to 4K, it should take **0.53 h**.
 
 <div class="flourish-embed flourish-chart" data-src="visualisation/21875906"><noscript><img src="https://public.flourish.studio/visualisation/21875906/thumbnail" width="100%" alt="chart visualization" /></noscript></div>
 
