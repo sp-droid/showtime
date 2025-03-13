@@ -1,3 +1,4 @@
+*[FMA]: Fused multiply-add
 *[PRN]: Pseudorandom number
 *[ST]: Single-threaded
 
@@ -77,6 +78,7 @@ I tried different versions and approaches, finding incremental improvements:
 - **V1 (no CPU transfers)** - Everything is sent to the GPU at the start and each iteration is handled through the different compute shaders, the calls for which are now batched together and several iterations may take place before a draw call. The argmin operation is done now by a single GPU thread, which is still not optimal.
 - **V2 (parallel reduction)** - Parallel reduction is now used to calculate the minimum of the distance array. There is an issue with ties between equal numbers, where it pushes the growth towards one edge always, so I added a small custom made pseudorandom number to the distance calculation.
 - **V3 (bit packed colors)** -  I swapped my own PRN generator code for the PCG hash and took out the square root of the L2-norm because it is not necessary, the patterns have improved. Colors are now 4-bit 0-255, packed into a single uint32 instead of 3 f32s and unpacked when needed, which should lower data transfer volumes considerably.
+- **V4 (FMA + divisors)** - Using FMA and precomputed divisors as multipliers wherever possible.
 
 For posterity, I benchmarked the different procedures, making increasingly larger images using the average variant, random colors and center start, done on a i5-12400+RTX2060 machine. I added the original author's final algorithm as well, extrapolated from a comment at the end of his post:
 

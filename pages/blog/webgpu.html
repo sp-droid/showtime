@@ -416,9 +416,12 @@ device.<span class="hljs-property">queue</span>.<span class="hljs-title function
 <ul>
 <li><strong>Minimize GPU-CPU memory transfers.</strong> Unless it's some small value at every frame or some 1-time transfer, it's too expensive.</li>
 <li><strong>Minimize global memory transfers.</strong> There are 3 types of memory: global memory, shared memory available inside each workgroup and registers or local memory, for each thread. Memory access in shared memory is faster and in registers it's the fastest.</li>
+<li><strong>Use bind groups smartly.</strong> They affect the way things are cached in GPU memory, therefore you want to group similar purpose buffers with each other. I.e. buffers that are copied frequently into the CPU (each frame) vs. buffers that are uploaded just once.</li>
 <li><strong>Encourage memory coalescing.</strong> The more randomly accessed memory is, the worst. Encourage patterns where access is somewhat spatially continuous.</li>
 <li><strong>Avoid branching inside workgroups.</strong> Conditionals may introduce branching, that is, stopping a thread's operation while the rest of the workgroup is active. It's often unavoidable, but it reduces GPU's occupancy and efficiency.</li>
 <li><strong>Bit-packing.</strong> This can save on memory transfers in return for some computational cost, especially since GPUs only work with 32 bit numbers. Easy to explain with colors i.e. an RGBA quad of uint8s into an uint32, but this can be done with other variables.</li>
+<li><strong>Use <abbr title="Fused multiply-add">FMA</abbr> (a,b,c) in place of floating point a*b+c.</strong> More precise and takes 1 instruction instead of two.</li>
+<li><strong>Precompute divisors.</strong> Since divisions are more expensive than multiplication, precompute as divisors as constants like <code>INV_255: f32 = 1./255.</code></li>
 </ul>
 <div id="section8"></div>
 <h2>Algorithms</h2>

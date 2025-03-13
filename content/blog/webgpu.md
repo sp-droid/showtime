@@ -1,4 +1,5 @@
 *[API]: Application Programming Interface
+*[FMA]: Fused multiply-add
 *[PRN]: Pseudorandom number
 
 I'm writing this article to serve me as a repository for information on WebGPU as I'm learning it. It covers useful links, architecture description and some non-flashy -but still very important- algorithms implemented on it.
@@ -244,9 +245,12 @@ const gpuTime = timingHelper.getResult(); // Microseconds
 
 - **Minimize GPU-CPU memory transfers.** Unless it's some small value at every frame or some 1-time transfer, it's too expensive.
 - **Minimize global memory transfers.** There are 3 types of memory: global memory, shared memory available inside each workgroup and registers or local memory, for each thread. Memory access in shared memory is faster and in registers it's the fastest.
+- **Use bind groups smartly.** They affect the way things are cached in GPU memory, therefore you want to group similar purpose buffers with each other. I.e. buffers that are copied frequently into the CPU (each frame) vs. buffers that are uploaded just once.
 - **Encourage memory coalescing.** The more randomly accessed memory is, the worst. Encourage patterns where access is somewhat spatially continuous.
 - **Avoid branching inside workgroups.** Conditionals may introduce branching, that is, stopping a thread's operation while the rest of the workgroup is active. It's often unavoidable, but it reduces GPU's occupancy and efficiency. 
 - **Bit-packing.** This can save on memory transfers in return for some computational cost, especially since GPUs only work with 32 bit numbers. Easy to explain with colors i.e. an RGBA quad of uint8s into an uint32, but this can be done with other variables.
+- **Use FMA (a,b,c) in place of floating point a*b+c.** More precise and takes 1 instruction instead of two.
+- **Precompute divisors.** Since divisions are more expensive than multiplication, precompute as divisors as constants like `INV_255: f32 = 1./255.`
 
 ## Algorithms
 
