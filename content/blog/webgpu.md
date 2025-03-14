@@ -324,9 +324,9 @@ fn sumReduce0(
 
 Once copied into shared memory, each thread loops in powers of two and checks if its own ID is a multiple of twice of that. So in the first iteration s=1 and only evenly numbered threads work, in the 2^nd^ one s=2 and only threads 0, 4, 8 work, then 0, 8, 16, then 0, 16, 32... and so on. Each thread copies the value in memory i+1, i+2, i+4, etc. The process continues until the sum is collected at 0. This is much faster the single-threaded alternatives for any decently sized array. But it has problems:
 
-- Each workgroup processes 1 data point per thread, so the first kernel will launch `ceil(data.length/WORKGROUP_SIZE)`. There is a max number of dispatches per kernel, so after a certain size you will have to change that option if possible, increase workgroup size... Apart from this, if the computation is light, the optimal number of points each thread should be handling is > 1.
-- The modulo operator % is expensive.
-- Highly divergent warps. On first iteration, the threads that work are 0, 2, 4... Threads come bunched up in groups called warps, and we should aim for them to have the most similar execution paths. If warps were of size 4 and our workgroup is size 8, it's considerably better if the threads that work are 0-2-3-4 instead of 
+- Each workgroup processes **1 data point per thread**, so the first kernel will launch `ceil(data.length/WORKGROUP_SIZE)`. There is a max number of dispatches per kernel, so after a certain size you will have to change that option if possible, increase workgroup size... Apart from this, if the computation is light, the optimal number of points each thread should be handling is > 1.
+- The modulo **operator % is expensive**.
+- Highly **divergent warps**. On first iteration, the threads that work are 0, 2, 4... Threads come bunched up in groups called warps, and we should aim for them to have the most similar execution paths. If warps were of size 4 and our workgroup is size 8, it's considerably better if the threads that work are 0-1-2-3 instead of 0-2-4-6
 
 Let's change the inner loop:
 
@@ -340,7 +340,9 @@ Let's change the inner loop:
 ...
 ```
 
-Now we built the index directly, removing the costly % operator. 
+Now we built the index directly, removing the costly % operator and indexing (in the first iteration) with the first half of threads, so removing the divergence. This however introduced a new issue:
+
+- **Shared memory bank conflicts**. 
 
 
 
