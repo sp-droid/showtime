@@ -247,7 +247,8 @@ GPU scheduling:
 
 - **Minimize GPU-CPU memory transfers.** Unless it's some small value at every frame or some 1-time transfer, it's too expensive.
 - **Use bind groups smartly.** They affect the way things are cached in GPU memory, therefore you want to group similar purpose buffers with each other. I.e. buffers that are copied frequently into the CPU (each frame) vs. buffers that are uploaded just once.
-- **Batch dispatches**. Multiple compute shaders in the same pass and batching render and compute passes together before submitting to the queue once.
+- **Batch dispatches.** Multiple compute shaders in the same pass and batching render and compute passes together before submitting to the queue once.
+- **Consider warp size.** It's recommended to choose workgroup sizes that are multiple of the warp size, which in the case of NVIDIA GPUs it's 32.
 
 GPU instructions:
 
@@ -264,7 +265,84 @@ I think these become second-hand as you learn WebGPU and deal with its challenge
 
 ### Parallel reduction
 
-This is loosely based on NVIDIA's [webinar](https://developer.download.nvidia.com/assets/cuda/files/reduction.pdf) on parallel reduction. As a note, GPUs have changed quite a bit since then, and apparently using atomics on a part of the parallel reduction has become more performant. But I'm gonna omit that for now.
+This is loosely based on NVIDIA's [webinar](https://developer.download.nvidia.com/assets/cuda/files/reduction.pdf) on parallel reduction. As a note, GPUs have changed quite a bit since then, and apparently there are slightly better methods now, but I'll stick to the basics. The task is to sum the integers in an array. I've also included these single-threaded CPU & GPU versions for comparison:
+
+```js
+// CPU ST
+const sum = numberArray.reduce((accumulator, currentValue) => accumulator + currentValue, 0);
+```
+
+For the rest of the functions I measured the time using the method mentioned earlier in the benchmarking subsection (so I'm not counting kernel launch delay and data transfers):
+
+```rust
+// GPU ST
+@compute @workgroup_size(1)
+fn sumST() {
+    let nNumbers = size;
+
+    var sum = 0u;
+    for (var i = 0u; i < nNumbers; i++) {
+        sum += inputGlobal[i];
+    }
+    outputGlobal[0] = sum;
+}
+```
+
+Now let's do a parallel reduction. The method basically consists in treating the workgroup as a tree where data is summed up from the leaves (all threads) to the root (thread 0) in parallel. In the first few methods described here, each thread 0 of every workgroup deposits its sum on a smaller auxiliary array, which means multiple kernel launches are necessary if `data.length < WORKGROUP_SIZE`. 
+
+![Parallel reduction scheme.]()
+
+Parallel reduction relies on shared memory by first having each thread copying in parallel from global memory, which greatly speeds up things afterwards as access to shared memory are very fast. To ensure race-conditions don't happen, we also have to raise workgroup-level synchronization barriers.
+
+```rust
+// V0 - interleaved addressing
+var<workgroup> sdata: array<u32, WORKGROUP_SIZE>;
+@compute @workgroup_size(WORKGROUP_SIZE)
+fn sumReduce0(
+    @builtin(global_invocation_id) global_invocation_id: vec3u,
+    @builtin(local_invocation_id) local_invocation_id: vec3u,
+    @builtin(workgroup_id) workgroup_id: vec3u
+) {
+    let globalID = global_invocation_id.x;
+    let localID = local_invocation_id.x;
+    let workgroupID = workgroup_id.x;
+
+    sdata[localID] = inputGlobal[globalID];
+    workgroupBarrier();
+
+    for (var s = 1u; s < WORKGROUP_SIZE; s *= 2) {
+        if (localID % (2 * s) == 0) {
+            sdata[localID] += sdata[localID + s];
+        }
+        workgroupBarrier();
+    }
+    if (localID == 0) {
+        outputGlobal[workgroupID] = sdata[0];
+    }
+}
+```
+
+Once copied into shared memory, each thread loops in powers of two and checks if its own ID is a multiple of twice of that. So in the first iteration s=1 and only evenly numbered threads work, in the 2^nd^ one s=2 and only threads 0, 4, 8 work, then 0, 8, 16, then 0, 16, 32... and so on. Each thread copies the value in memory i+1, i+2, i+4, etc. The process continues until the sum is collected at 0. This is much faster the single-threaded alternatives for any decently sized array. But it has problems:
+
+- Each workgroup processes 1 data point per thread, so the first kernel will launch `ceil(data.length/WORKGROUP_SIZE)`. There is a max number of dispatches per kernel, so after a certain size you will have to change that option if possible, increase workgroup size... Apart from this, if the computation is light, the optimal number of points each thread should be handling is > 1.
+- The modulo operator % is expensive.
+- Highly divergent warps. On first iteration, the threads that work are 0, 2, 4... Threads come bunched up in groups called warps, and we should aim for them to have the most similar execution paths. If warps were of size 4 and our workgroup is size 8, it's considerably better if the threads that work are 0-2-3-4 instead of 
+
+Let's change the inner loop:
+
+```rust
+// V1 - Interleaved addressing with strided index
+...
+		let index = 2*s*localID;
+		if (index < WORKGROUP_SIZE) {
+         	sdata[index] += sdata[index + s];
+ 		}
+...
+```
+
+Now we built the index directly, removing the costly % operator. 
+
+
 
 #### Min (& max) variants
 
