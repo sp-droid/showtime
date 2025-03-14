@@ -1,5 +1,16 @@
 [
 {
+	"link": "../content/JSexperiments/GPUdla/index.html",
+	"bg": "DLA",
+	"gif": true,
+	"type": "Personal",
+	"tools": ["JavaScript","WebGPU"],
+	"header": "GPU Diffusion Limited Aggregation",
+	"desc": "WebGPU implementation of the DLA algorithm.",
+	"date": "14/03/2025",
+	"importance": "Low"
+},
+{
 	"link": "../pages/blog/rainbow-smoke-gpu.html",
 	"bg": "rainbowSmoke",
 	"gif": true,
