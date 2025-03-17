@@ -239,7 +239,7 @@ const gpuTime = timingHelper.getResult(); // Microseconds
   if (cellX > 0) // Correct way.
 ```
 
-  
+- **Shared bank memory conflicts.** Available shared memory is divided into 32 bit banks. A conflict arises when two threads in the same warp attempt to access the same bank simultaneously, for which access is then serialized, slowing things down the more threads get in queue. An exception is when all threads in a warp attempt to do so; there is no conflict because data is broadcasted.
 
 ### Optimization techniques
 
@@ -252,7 +252,13 @@ GPU scheduling:
 
 GPU instructions:
 
-- **Minimize global memory transfers.** There are 3 types of memory: global memory, shared memory available inside each workgroup and registers or local memory, for each thread. Memory access in shared memory is faster and in registers it's the fastest.
+- **Optimize memory transfers.** Data transfers in a GPU are often more expensive than the computation done in each thread, it's therefore fundamental to manage it adequately. According to CUDA (not saying WebGPU exposes all of these) there are a number of different types of memory: 
+  - **Global memory**. The largest, but also the slowest, can be accessed by all threads. Optimized for linear access.
+  - **Shared memory**. Small, fast, accessed by threads within a workgroup. Subject to bank memory conflicts, without them it can be just as fast as registers. Try these do not happen.
+  - **Registers**. Small, fastest, access is restricted per thread. When registers are not enough, the thread will pull from ***local memory***, which resides cached in global memory and can be up to 150x slower.
+  - **Constant memory**. Cached read-only living in global memory. Can be faster than global memory if the access pattern is predictable and roughly one address per workgroup or warp. It's small, listed at 64 kB for some architectures.
+  - **Texture memory**. Cached read-only living in global memory. Optimized for small 2D data clusters, with special texture samplers that provide free bilinear filtering and other features.
+
 - **Encourage memory coalescing.** The more randomly accessed memory is, the worst. Encourage patterns where access is somewhat spatially continuous.
 - **Avoid branching inside workgroups.** Conditionals may introduce branching, that is, stopping a thread's operation while the rest of the workgroup is active. It's often unavoidable, but it reduces GPU's occupancy and efficiency. 
 - **Bit-packing.** This can save on memory transfers in return for some computational cost, especially since GPUs only work with 32 bit numbers. Easy to explain with colors i.e. an RGBA quad of uint8s into an uint32, but this can be done with other variables.
@@ -275,6 +281,7 @@ const sum = numberArray.reduce((accumulator, currentValue) => accumulator + curr
 For the rest of the functions I measured the time using the method mentioned earlier in the benchmarking subsection (so I'm not counting kernel launch delay and data transfers):
 
 ```rust
+// Number of workgroups = 1
 // GPU ST
 @compute @workgroup_size(1)
 fn sumST() {
@@ -290,11 +297,12 @@ fn sumST() {
 
 Now let's do a parallel reduction. The method basically consists in treating the workgroup as a tree where data is summed up from the leaves (all threads) to the root (thread 0) in parallel. In the first few methods described here, each thread 0 of every workgroup deposits its sum on a smaller auxiliary array, which means multiple kernel launches are necessary if `data.length < WORKGROUP_SIZE`. 
 
-![Parallel reduction scheme.]()
+![Parallel reduction scheme (V0). @Source@NVIDIA](https://miro.medium.com/v2/resize:fit:1100/format:webp/1*Y1wOMUBsnJt9dV9iHUYhyQ.png)
 
 Parallel reduction relies on shared memory by first having each thread copying in parallel from global memory, which greatly speeds up things afterwards as access to shared memory are very fast. To ensure race-conditions don't happen, we also have to raise workgroup-level synchronization barriers.
 
 ```rust
+// Number of workgroups = ceil(data.length / WORKGROUP_SIZE)
 // V0 - interleaved addressing
 var<workgroup> sdata: array<u32, WORKGROUP_SIZE>;
 @compute @workgroup_size(WORKGROUP_SIZE)
@@ -324,11 +332,14 @@ fn sumReduce0(
 
 Once copied into shared memory, each thread loops in powers of two and checks if its own ID is a multiple of twice of that. So in the first iteration s=1 and only evenly numbered threads work, in the 2^nd^ one s=2 and only threads 0, 4, 8 work, then 0, 8, 16, then 0, 16, 32... and so on. Each thread copies the value in memory i+1, i+2, i+4, etc. The process continues until the sum is collected at 0. This is much faster the single-threaded alternatives for any decently sized array. But it has problems:
 
-- Each workgroup processes **1 data point per thread**, so the first kernel will launch `ceil(data.length/WORKGROUP_SIZE)`. There is a max number of dispatches per kernel, so after a certain size you will have to change that option if possible, increase workgroup size... Apart from this, if the computation is light, the optimal number of points each thread should be handling is > 1.
+- Each workgroup processes **1 data point per thread**, so the first kernel will launch `ceil(data.length/WORKGROUP_SIZE)`. There is a max number of dispatches per kernel, so after a certain size you will have to change that option if possible, increase workgroup size... Apart from this, if the computation is light, the optimal number of points each thread should be handling is > 1. Half of the threads also do not nothing after retrieving the data from global memory.
 - The modulo **operator % is expensive**.
 - Highly **divergent warps**. On first iteration, the threads that work are 0, 2, 4... Threads come bunched up in groups called warps, and we should aim for them to have the most similar execution paths. If warps were of size 4 and our workgroup is size 8, it's considerably better if the threads that work are 0-1-2-3 instead of 0-2-4-6
+- **Sparse memory accesses**. The average distance between memory accesses in each iteration is roughly the same, we are not taking advantage of locality.
 
-Let's change the inner loop:
+Let's change the inner loop in V2:
+
+![V1. Source@NVIDIA](https://raw.githubusercontent.com/mateuszbuda/GPUExample/master/reduce2.png)
 
 ```rust
 // V1 - Interleaved addressing with strided index
@@ -340,15 +351,121 @@ Let's change the inner loop:
 ...
 ```
 
-Now we built the index directly, removing the costly % operator and indexing (in the first iteration) with the first half of threads, so removing the divergence. This however introduced a new issue:
+Now we built the index directly, removing the costly % operator and indexing (in the first iteration) with the first half of threads, so removing the divergence. This however introduced new issues:
 
-- **Shared memory bank conflicts**. 
+- **Shared memory bank conflicts**. As explained in the common problems subsection, these conflicts arise when multiple threads of the same warp access the same memory bank, forcing serialization and slowing things down. Let's imagine a case such as the one in the images shown, 16 data points, 8 threads per warp and 8 memory banks. In the first iteration:
+  - V0: Threads of two warps (0, 2, 4, 6 and 8, 10, 12, 14) access the 8 memory banks, no conflict.
+  - V1: Threads of a single warp (0, 1, 2, 3, 4, 5, 6, 7) access the same banks, but for example now bank 0 and 1 are accessed by threads 0 and 4, which belong to the same warp and produces serialization.
+
+- **Cache issues**. In V0, threads always summed up the same location in memory plus a different one. This facilitated caching, but now only thread 0 does it.
+
+Version 3, sequential addressing:
+
+![V2. Source@NVIDIA](https://miro.medium.com/v2/resize:fit:1100/format:webp/1*Slpu0FWHir7RIMMcAqN1xg.png)
+
+```rust
+// V2 - Sequential addressing
+...
+for (var s = WORKGROUP_SIZE/2; s > 0; s >>= 1) {
+    if (localID < s) {
+        sdata[localID] += sdata[localID + s];
+    }
+    workgroupBarrier();
+}
+...
+```
+
+Notice how both issues are fixed. With respect to the cache, thread i is always summing up whatever is on bank i plus something else. Regarding the memory conflicts, in the first iteration bank i is accessed twice by the same thread, and from there on there are no further problems.
+
+This also fixed the sparse access pattern by utilizing a coalesced access approach, so there's left only one issue left, doing more work per thread. V3 deals with this to some extent, loading *two* values instead. Consequently, the number of workgroups need to be halved.
+
+``` rust
+// Number of workgroups = ceil(data.length / WORKGROUP_SIZE / 2)
+// V3 - First add during load
+...
+let globalID = workgroupID * WORKGROUP_SIZE*2 + localID;
+sdata[localID] = inputGlobal[globalID] + inputGlobal[globalID + WORKGROUP_SIZE];
+...
+```
+
+Workgroup sizes should be chosen (to help with performance) on multiples of 32 and equal or larger than 64 threads, due to the size of warps. This means we can unroll our loop, saving on instructions. As opposed to the original webinar where Mark doesn't add if checks for thread IDs < 32 because of SIMD operations, we are going to have to keep them because WebGPU as far as I'm aware doesn't expose volatile variables yet. It's a reserved keyword and may be implemented in the future but I imagine it's an issue if the feature isn't present across every GPU architecture. V4 only unrolled < 32 so let's skip it:
+
+```rust
+// V4/5 - Completely unrolled loop
+...
+if (WORKGROUP_SIZE >= 2048) { if (localID < 1024) { sdata[localID] += sdata[localID + 1024]; } workgroupBarrier();}
+if (WORKGROUP_SIZE >= 1024) { if (localID < 512) { sdata[localID] += sdata[localID + 512]; } workgroupBarrier();}
+if (WORKGROUP_SIZE >= 512) { if (localID < 256) { sdata[localID] += sdata[localID + 256]; } workgroupBarrier();}
+if (WORKGROUP_SIZE >= 256) { if (localID < 128) { sdata[localID] += sdata[localID + 128]; } workgroupBarrier();}
+if (WORKGROUP_SIZE >= 128) { if (localID < 64) { sdata[localID] += sdata[localID + 64]; } workgroupBarrier();}
+if (localID < 32) { sdata[localID] += sdata[localID + 32]; } workgroupBarrier();
+if (localID < 16) { sdata[localID] += sdata[localID + 16]; } workgroupBarrier();
+if (localID < 8) { sdata[localID] += sdata[localID + 8]; } workgroupBarrier();
+if (localID < 4) { sdata[localID] += sdata[localID + 4]; } workgroupBarrier();
+if (localID < 2) { sdata[localID] += sdata[localID + 2]; } workgroupBarrier();
+if (localID < 1) { sdata[localID] += sdata[localID + 1]; } workgroupBarrier();
+...
+```
+
+Mark then analyzes algorithm complexity and cites Brent's theorem that says each thread should sum o(logN) elements, due to the intrinsic cost of combining parallel and sequential processing. He goes even further, explaining there are other motives to increase elements per thread:
+
+- Less kernel launch overhead because of fewer less levels needed.
+- Gains due to latency hiding because of heavier work per thread.
+
+I've also thought of a few:
+
+- Less writes into auxiliary global memory arrays in between kernels, and these are smaller too.
+- If using somewhat expensive atomic operations to achieve the result in one kernel, the more work a thread does, the fewer atomic operations are needed.
+
+Let's briefly explain the concept of *latency-hiding*. Memory load and instruction latency are the most common latencies, and for GPUs they usually are in that order of importance too. Threads typically stall while waiting for these, and the GPU microprocessor switches between them to achieve much higher throughputs. This is the reason many threads should be ran so those latencies play a smaller role. However, the reason why higher work per thread improves this still escapes my understanding.
+
+```rust
+// Number of workgroups = ceil(data.length / WORKGROUP_SIZE / COARSE_FACTOR)
+// V6.1 - Multiple elements per thread
+...
+let globalID = workgroupID * WORKGROUP_SIZE*2 + localID;
+sdata[localID] = inputGlobal[globalID] + inputGlobal[globalID + WORKGROUP_SIZE];
+var globalID = workgroupID * WORKGROUP_SIZE * COARSE_FACTOR + localID;
+
+var sum = 0u;
+for (var tile = 0u; tile < COARSE_FACTOR; tile++) {
+    if (globalID < size) {
+        sum +=  inputGlobal[globalID];
+    }
+    globalID += WORKGROUP_SIZE;
+}
+sdata[localID] = sum;
+...
+```
+
+V6 is different than what Mark wrote because at first I did not understand its kernel launch and accessing pattern. I decided to leave it in because it's easier to understand, albeit I'm sure not as efficient. **Work in progress after this**
+
+```rust
+// Number of workgroups = 
+// V6.2 - Multiple elements per thread
+```
+
+#### Min, max, argmin and argmax variants
+
+I'm leaving also some other useful computations using parallel reduction (only the parts that change):
+
+```rust
+// Minimum
+...
+var minValue = MAX_UINT32;
+...
+	if (globalID < size) {
+    	let value = inputGlobal[globalID];
+        if (value < minValue) {
+            minValue = value;
+        }
+	}
+...
+// The operation done in each part of the unrolled loop, with id1 and id2 the first and second elements
+
+```
 
 
-
-#### Min (& max) variants
-
-#### Argmin (& argmax) variant
 
 
 
