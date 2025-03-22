@@ -65,7 +65,7 @@ section="blog">
         <div class="markdown-body" id="HTMLpost"><div id="section0"></div>
 <h6>March 13th, 2025</h6>
 <h1>WebGPU</h1>
-<h5>Reading time: 18 mins</h5>
+<h5>Reading time: 19 mins</h5>
 <hr>
 <p>I'm writing this article to serve me as a repository for information on WebGPU as I'm learning it. It covers useful links, architecture description and some non-flashy -but still very important- algorithms implemented on it.</p>
 <p><div class='TOCpost'><h4>&emsp;&nbsp;Contents</h4><ul><li><a href='#section0'>(Top)</a></li><li onclick="toggleDetails(event)"><details><summary><a href='#section1'>The standard</a></summary><ul><li onclick="toggleDetails(event)"><details><summary><a href='#section2'>Useful documentation</a></summary><ul><li><a href='#section3'>Built-in inputs</a></li><li><a href='#section4'>Copying data back to the CPU</a></li><li><a href='#section5'>Benchmarking GPU functions</a></li><li><a href='#section6'>Common problems</a></li><li><a href='#section7'>Optimization techniques</a></li></ul></details></li><li onclick="toggleDetails(event)"><details><summary><a href='#section8'>Algorithms</a></summary><ul><li><a href='#section9'>Parallel reduction</a></li><li><a href='#section10'>PseudoRandom Number generator</a></li></ul></details></li></ul></details></li>
@@ -156,7 +156,7 @@ section="blog">
 <tr>
 <th><strong>Builtin Name</strong></th>
 <th><strong>Stage</strong></th>
-<th>ID</th>
+<th>Direction</th>
 <th>Type</th>
 <th>Description</th>
 </tr>
@@ -175,6 +175,13 @@ section="blog">
 <td>input</td>
 <td>u32</td>
 <td>Instance index of the current vertex within the current <abbr title="Application Programming Interface">API</abbr>-level draw command.<br />The first instance has an index equal to the <code>firstInstance</code> argument of the draw, whether provided directly or indirectly. The index is incremented by one for each additional instance in the draw.</td>
+</tr>
+<tr>
+<td><em>clip_distances</em></td>
+<td>vertex</td>
+<td>output</td>
+<td>array&lt;f32,N&gt;(N&lt;=8)</td>
+<td><a href="https://www.w3.org/TR/WGSL/#extension-clip_distances">Extension needed</a></td>
 </tr>
 <tr>
 <td rowspan=2><em>position</em></td>
@@ -238,6 +245,20 @@ section="blog">
 <td>input</td>
 <td>vec3u</td>
 <td>The <a href="https://webgpufundamentals.org/webgpu/lessons/webgpu-wgsl.html#dispatch-size">dispatch size</a>, <code>vec&lt;u32&gt;(group_count_x, group_count_y, group_count_z)</code>, of the compute shader <a href="https://www.w3.org/TR/webgpu/#compute-pass-encoder-dispatch">dispatched</a> by the <abbr title="Application Programming Interface">API</abbr>.</td>
+</tr>
+<tr>
+<td><em>subgroup_invocation_id</em></td>
+<td>comp + frag</td>
+<td>input</td>
+<td>u32</td>
+<td><a href="https://www.w3.org/TR/WGSL/#extension-subgroups">Extension needed</a></td>
+</tr>
+<tr>
+<td><em>subgroup_size</em></td>
+<td>comp + frag</td>
+<td>input</td>
+<td>u32</td>
+<td><a href="https://www.w3.org/TR/WGSL/#extension-subgroups">Extension needed</a></td>
 </tr>
 <tr>
 <td><em>sample_index</em></td>

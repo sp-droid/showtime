@@ -1,6 +1,12 @@
 [
   {
-    "title": "GPU-accelerated Rainbow Smoke algorithm",
+    "title": "GPU-accelerated DLA",
+    "file": "diffusion-limited-aggregation",
+    "tag": "Projects",
+    "date": "17/03/2025"
+  },
+  {
+    "title": "GPU-accelerated Rainbow Smoke",
     "file": "rainbow-smoke-gpu",
     "tag": "Projects",
     "date": "13/03/2025"

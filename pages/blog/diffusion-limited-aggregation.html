@@ -1,0 +1,144 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta name="darkreader-lock">
+    <link rel="stylesheet" href="../../assets/libraries/bootstrap5.0.2/bootstrap.min.css">
+    <link rel="stylesheet" href="../../assets/libraries/fontawesome6.5.1/css/all.min.css">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/highlight.js@9.12.0/styles/atom-one-dark.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.11.1/katex.min.css">
+    <script src="https://public.flourish.studio/resources/embed.js"></script>
+    
+    <link rel="stylesheet" href="../../assets/css/style.css">
+    <link rel="stylesheet" href="../../assets/css/github-markdown-dark.css">
+    <script src="../../assets/js/common.js"></script>
+    <title>GPU-accelerated DLA</title>
+	
+	<link rel="apple-touch-icon" sizes="180x180" href="../../assets/img/favicon/apple-touch-icon.png">
+<link rel="icon" type="image/png" sizes="32x32" href="../../assets/img/favicon/favicon-32x32.png">
+<link rel="icon" type="image/png" sizes="16x16" href="../../assets/img/favicon/favicon-16x16.png">
+<link rel="manifest" href="../../assets/img/favicon/site.webmanifest">
+<link rel="mask-icon" href="../../assets/img/favicon/safari-pinned-tab.svg" color="#5bbad5">
+<link rel="shortcut icon" href="../../assets/img/favicon/favicon.ico">
+<meta name="msapplication-TileColor" content="#941739">
+<meta name="msapplication-config" content="../../assets/img/favicon/browserconfig.xml">
+<meta name="theme-color" content="#ffffff">
+</head>
+
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-5RWJF4E3GR"></script>
+<script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag(){dataLayer.push(arguments);}
+    gtag('js', new Date());
+
+    gtag('config', 'G-5RWJF4E3GR');
+</script>
+
+<body>
+<div id="HTMLdata"
+section="blog">
+</div>
+<div style="display: flex; flex-direction: column; height: 100vh; width: 100vw; overflow-x: hidden; background-color: rgb(35, 39, 50);">
+	<div id="HTMLtopbar" style="flex: 0;"><div class="row" style="display: flex;" id="linksTopbar">
+    <div style="flex: 6; display: flex; align-items: center; background-color: rgb(14, 60, 76); color: white; height: 100%;">
+        &emsp;<a href="../../pages/about.html" style="text-decoration: none; color: white;" title="Who am I?">Arbelo Cabrera, Pablo</a>
+        &emsp;<a class="linkPopUp" href="https://www.youtube.com/@pactomars"><i class="fa-brands fa-youtube fa-lg" title="YouTube channel" style="color: rgb(255, 129, 129)"></i></a>
+        &emsp;<a class="linkPopUp" href="https://www.flickr.com/photos/200282744@N03/albums" title="flickr albums"><img height="45em" src="../../assets/img/icons/flickr.svg" alt="flickr official logo."></a>
+        &emsp;<a class="linkPopUp" href="https://www.linkedin.com/in/pablo-arbelo-cabrera-051a951a2"><i class="fa-brands fa-linkedin-in fa-lg" title="LinkedIn profile" style="color: rgb(90, 176, 247)"></i></a>
+        &emsp;<a class="linkPopUp" href="https://github.com/sp-droid"><i class="fa-brands fa-github fa-lg" title="GitHub profile" style="color: rgb(230, 237, 243)"></i></a>
+    </div>
+    <div style="flex: 1; display: flex; align-items: center; justify-content: center; background-color: rgb(76, 57, 2); height: 100%;">
+        <a class="linkPopUp" title="For work or other topics" href="https://docs.google.com/forms/d/1pK5hPSywf1resOSLIUOESFpqQn6cnRa2YjkRF7d77D8" style="font-weight: 500; color: rgb(222, 237, 240)">Contact</a>
+    </div>
+</div>
+<div class="row" id="navTopbar" style="background: linear-gradient(to right, rgb(48, 40, 2), rgb(35, 38, 39))">
+    <div class="col d-flex align-items-center justify-content-center" style="line-height: 20px; height: 100%;">
+        <!-- <a id="indexMenuButton" href="../../pages/index.html" title="Homepage where recent or current projects/entries/news are showcased">Home</a> -->
+        <a id="projectsMenuButton" href="../../pages/projects.html" title="Projects of different kinds are highlighted, sometimes as a video, as a JS browser-app or as an entire webpage">Projects</a>
+        <a id="recipesMenuButton" href="../../pages/recipes.html" title="Some of my recipes since I like cooking quite a bit">Recipes</a>
+        <a id="blogMenuButton" href="../../pages/blog.html" title="Devlogs and personal notes">Blog</a>
+        <a id="aboutMenuButton" href="../../pages/about.html" title="Brief page about myself for anyone interested">About me</a>
+    </div>
+</div></div>
+    <div style="flex: 1; display: flex;">
+        <div class="markdown-body sidebarHide" style="flex: 1; min-width: 20px;"><br></div>
+        <div class="markdown-body" id="HTMLpost"><div id="section0"></div>
+<h6>March 17th, 2025</h6>
+<h1>GPU-accelerated DLA</h1>
+<h5>Reading time: 2 mins</h5>
+<hr>
+<h1><a href="../../content/JSexperiments/GPUdla/index.html"><strong>Run DLA</strong></a></h1>
+<hr>
+<p>An implementation of the Diffusion-Limited Aggregation algorithm using GPU compute shaders through WebGPU, in JavaScript. You can try it yourself <a href="https://caniuse.com/?search=web%20gpu">if your browser supports WebGPU</a>.</p>
+<p>Example result:</p>
+<p><img src="../../content/blog/assets/diffusion-limited-aggregation.png" alt="1000 horizontal cells and 10 seeds."></p>
+<p>The core idea is to place seeds on a space and spawn walkers that move randomly until colliding with one of them, freezing in place.  Main variants include those subdividing the space in a grid and those with a particle system.</p>
+<p>I found a particular example that for every iteration it spawned a walker, moved it randomly for a maximum number of steps and froze it if it collided. Each frozen particle has a single parent and when a collision event occurs, it updates the hit count for the collided particle and all its ancestors up until the seeds. The hit count is what's used for coloring the image.</p>
+<h2>Adapted algorithm</h2>
+<p>I decided to go for the previously mentioned algorithm because grid based DLA is easier to scale up in parallel. I changed the walkers part though, because it would cause severe thread branching as some particles would hit right away but others take much longer, with these ones dictating the pace. Instead I activate and move cells on every iteration, recording how many movements it did since inception. If a collision happens but the number of moves is below a threshold, it's deemed non valid, filtering out particles that randomly spawned too close to the frozen set. After the simulation goes on for a while I check if the number of frozen particles doesn't change in X number of iterations, and if so the threshold is halved. Smaller and smaller branches grow, eventually filling the picture completely.</p>
+<pre><code class="language-vhdl"><span class="hljs-comment">-- Algorithm concept</span>
+<span class="hljs-keyword">procedure</span> DiffusionLimitedAggregation
+    Place seed/s <span class="hljs-keyword">on</span> X*Y <span class="hljs-keyword">array</span>
+    
+    <span class="hljs-keyword">while</span> threshold &gt; <span class="hljs-number">0</span>
+    	<span class="hljs-keyword">for</span> every cell
+            <span class="hljs-keyword">if</span> inactive
+            	small chance <span class="hljs-keyword">to</span> turn active
+            <span class="hljs-keyword">else</span> <span class="hljs-keyword">if</span> active
+            	<span class="hljs-keyword">if</span> neighbor <span class="hljs-keyword">is</span> frozen
+                    <span class="hljs-keyword">if</span> totalMoves &lt; threshold
+                        die
+                    <span class="hljs-keyword">else</span>
+                        freeze
+                        increase frozen cell count
+                    <span class="hljs-keyword">end</span>
+                <span class="hljs-keyword">end</span>
+            	move <span class="hljs-keyword">and</span> increase totalMoves       	
+            <span class="hljs-keyword">end</span>
+        <span class="hljs-keyword">end</span>
+    <span class="hljs-keyword">end</span>
+<span class="hljs-keyword">end</span> <span class="hljs-keyword">procedure</span>
+</code></pre>
+<hr><div class="blogTags"><button class="blogTagSelected" title='Check more posts of the "Projects" category on my blog!'>Projects</button></div><br></div>
+        <div style="flex: 1; min-width: 20px;"></div>
+    </div>
+</div>
+<script>
+// Table of contents fix for correct opening and closing of detail-summary blocks
+function toggleDetails(event) {
+    if (event.offsetX < 0) {
+        event.stopPropagation();
+        const details = event.currentTarget.firstChild;
+        details.open = !details.open;
+    } else if (event.offsetY < 30) {
+        event.stopPropagation();
+        const details = event.currentTarget.firstChild;
+        details.open = true;
+    }
+}
+window.onload = function() {   
+    // Add figure number and caption to all images
+    const images = document.querySelectorAll("#HTMLpost img");
+    let figureNumber = 0;
+    images.forEach(img => {
+        if (img.alt === "INLINE") { return; }
+
+        figureNumber++;
+
+        img.style.display = "block";
+        img.style.margin = "auto";
+
+        const caption = document.createElement("p");
+        caption.textContent = `Figure ${figureNumber}. ${img.alt}`;
+        caption.style.textAlign = "center";
+        caption.style.fontSize = "0.9em"
+        caption.style.marginTop = "0.5em";
+        img.parentNode.insertBefore(caption, img.nextSibling);        
+    });
+
+    // Turn all details open by default in HTMLpost's TOC
+    const details = document.querySelectorAll("#HTMLpost .TOCpost details");
+    details.forEach(detail => detail.open = true);
+};
+</script>
+</body>
+</html>
