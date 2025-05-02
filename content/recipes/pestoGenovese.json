@@ -7,8 +7,8 @@
     "flags": {
         "difficulty": "Very easy",
         "cuisine": "Italian",
-        "prepTime": "10'",
-        "totalTime": "10'",
+        "prepTime": "15'",
+        "totalTime": "15'",
         "lactoseFree": false,
         "glutenFree": false,
         "vegetarian": true,
@@ -23,7 +23,8 @@
 			"1 clove of garlic",
             "15 g pine nuts",
             "30 g high quality olive oil",
-			"Salt (2 g)"
+			"Salt (2.5 g)",
+			"Lemon juice (5 g, optional. Slows down oxidation of the pesto)"
         ],
 		"Pasta": [
 			"330 g pasta",
@@ -37,13 +38,13 @@
     ],
     "instructions": [
         "Grind ingredients together until it forms a green paste and save in an airtight container, starting with the basil.",
-		"It's alright to use a hand blender too. For the result to be perfect however, grind everything except the oil and garlic at high speed, very finely. Once it's done, repeat with the garlic and oil.",
+		"It's alright to use a hand blender too, just make sure it's ground finely, focusing on the basil.",
 		"",
 		"Boil the pasta, dry out and mix with the pesto."
     ],
     "variants": [
         "Substitute the pine nuts for pistachios or walnuts.",
-		"Add lemon juice and/or lemon zest. A small quantity acidifies pesto just enough to make it last much longer. A larger quantity is noticiable, perhaps nicer in summer."
+		"Add lemon juice (also lemon zest). A small quantity acidifies pesto just enough to make it last much longer. A larger quantity is noticiable, perhaps nicer in summer."
     ],
     "tips": {
         "culinary": [

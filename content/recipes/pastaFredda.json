@@ -1,0 +1,44 @@
+{
+    "name": "Pasta fredda",
+    "category": "Main courses",
+    "description": "/'Cold pasta'/ ",
+    "origin": "No information",
+    "portions": 1,
+    "flags": {
+        "difficulty": "Easy",
+        "cuisine": "Italian",
+        "prepTime": "15'",
+        "totalTime": "15'",
+        "lactoseFree": false,
+        "glutenFree": false,
+        "vegetarian": true,
+        "vegan": false,
+		"finished": true
+    },
+    "ingredients": {
+        "": [
+            "<a class='recipeLink' href='pestoGenovese.html'>Pesto</a> (50 g)",
+			"(50 g) feta cheese (or other solid but crumbly cheeses)",
+			"(125 g) cherry tomatoes, candied or roasted"
+        ],
+		"Pasta": [
+			"120 g pasta",
+			"Salt"
+		]
+    },
+    "utensils": [
+    ],
+    "instructions": [
+        "Mix everything and serve cold.",
+		"For the candied cherry tomatoes toss them with some salt, pepper and olive oil, (optional, oregano, sugar) roasting in the oven at 150ºC for 90'."
+    ],
+    "variants": [
+        "Black olives",
+		"Drizzle with vinegar",
+		"Soaked (in water, to remove raw taste) red onion"
+    ],
+    "tips": {
+        "culinary": [],
+        "serving": []
+    }
+}
