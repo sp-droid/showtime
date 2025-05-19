@@ -25,13 +25,12 @@
         ]
     },
     "utensils": [
-        "Pan",
-		"Hand mixer"
+        "Pan"
     ],
     "instructions": [
-        "- Beat the egg on a pot, add the salt and butter, on a very low heat until it melts.",
-		"- Pour in the milk, turn the heat off and whisk strongly while slowly adding the flour to avoid lumps.",
-		"- Grease the pan and some part of the batter when hot. Rotate it until the batter stops moving.",
+        "- Beat well the egg with the salt. Add melted butter, milk, combine.",
+		"- Mix in the flour. A hand mixer can be used but be careful not to aerate the mixture.",
+		"- Grease the pan and pour batter in the center. Rotate it to fill the edges until the batter stops moving.",
 		"- When the first side is ready, it should let you flip it without any extra tool. Cook for a bit and it's ready."
     ],
     "variants": [
@@ -40,7 +39,6 @@
     ],
     "tips": {
         "culinary": [
-			"The stove must be very low at the beginning or the egg will coagulate, but even if it does, beat it a lot to destroy the chunks and it will be fine.",
 			"It lasts up to 48 h in the fridge."
         ],
         "serving": [
