@@ -8,7 +8,7 @@
         "difficulty": "Medium",
         "cuisine": "Italian",
         "prepTime": "1h",
-        "totalTime": "6h",
+        "totalTime": "5h",
         "lactoseFree": false,
         "glutenFree": false,
         "vegetarian": false,
@@ -17,7 +17,7 @@
     },
     "ingredients": {
         "Ragù": [
-            "Tomato passata (around 240g, good quality like Mutti)",
+            "Tomato passata (big bottle, 700g. Alternatives: use 350g passata, half can or 200g of canned peeled tomatoes and 50g of tomato paste. Cook the paste with the soffrito if so.)",
 			"Vegetable stock (keep reading)",
 			"2 carrots",
 			"1 stalk of celery",
@@ -55,23 +55,23 @@
 		"- With the olive oil melt the panceta until brown. Set aside but keep the oils in the pot.",
 		"- Cook the finely chopped onion until transparent.",
 		"- Add the rest of the elements of the soffritto (celery and carrots) finely diced.",
-		"- When brown (the longer, the sweeter, but be careful not to burn it), add the meat with the pepper and nutmeg, splitting it finely with a wooden spoon until brown.",
-		"- Pour in the wine, when it fully evaporates add the mashed tomatoes, a pinch of salt and the stock. Bring to a simmer.",
+		"- This recipe is tomato heavy, and depending on the season and quality they will add too much acidity. A trick is to, instead of adding sugar, when the soffrito is starting to brown you add half the tomato passata now and cook it well until it starts to caramelize. The oil will sort of separate, you will know when it's ready. Do not burn as always though.",
+		"- Add the meat with the pepper and nutmeg, splitting it finely with a wooden spoon until it changes color.",
+		"- Pour in the wine, when it fully evaporates add the rest of the tomato sauce, a pinch of salt and the stock. Bring to a low simmer.",
 		"# The long cooking process",
-		"- The first 2-3 hours we will leave it uncovered, checking for water every now and then. There must be enough to cover at all times.",
-		"- Now without adding more water, leave it uncovered until it reaches a slightly thick consistency. Add the milk, check and correct for salt.",
-		"- Leave it almost fully covered until the total cooking time since you added the meat adds up to 4-6 hours."
+		"- Cook covered for 3 hours, no stirring, very low heat.",
+		"- Add the milk, check and correct for salt. Cook it uncovered until it reduces to a thick but not dry consistency (about 1 more hour)."
     ],
     "variants": [
         
     ],
     "tips": {
         "culinary": [
-			"Making sure the soffritto is well cooked and the wine is completely reduced is very important to ensure the dish stays on the sweet and not too acidic side. It's also not too bad to correct with a tsp of sugar if mistakes are made.",
-			"Add olive oil if the residual fat from the meat is not enough. When allowed to cool the meat releases much more fat, which you can also use."
+			"Making sure the soffritto is well cooked and the wine is completely reduced is very important to ensure the dish stays on the sweet and not too acidic side.",
+			"Add olive oil if the residual fat from the meat is not enough. When allowed to cool the meat releases much more fat, which you can also use.",
+			"Call your family to clean the pot with some bread. It's tasty and it makes cleaning 20 times easier."
         ],
         "serving": [
-			
 		]
     }
 }
