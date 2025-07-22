@@ -42,10 +42,11 @@ document.addEventListener('DOMContentLoaded', () => {
     // temp
     setupForm.elements["players-per-team"].value = 2;
     setupForm.elements["rounds"].value = 4;
-    setupForm.elements["participants"].value = Array.from({ length: 48 }, (_, i) => `Player${i + 1}`).join('\n');
+    setupForm.elements["participants"].value = `Spencer, Rafael, Wayne, Trystan, Jovan, Susan, Charlie, Regan, Samaria, Yulisa, Bella, Jadah, Alyssia, Braeden, Savana, Auston, Nolan, Alfonso, Keelan, Erik, Bayley, Deonte, Janeth, Tyquan, Erich, Corrina, Trevin, Mayra, Cameryn, Maximus, Peter, Janie, Max, Kerry, Serena, Cristal, Ramon, Humberto, Corey, Ivan, Jaden, Phoenix, Montana, Karley, Destini, Tamia, Skyla, Avery`.split(', ').join('\n');
 
     // STAGE 2
     const gamesTableBody = document.querySelector('#games-table tbody');
+    const highlightedPlayerSpan = document.getElementById('highlighted-player');
 
     // STAGE 3
     const winnersTableBody = document.querySelector('#results-table tbody');
@@ -97,10 +98,12 @@ document.addEventListener('DOMContentLoaded', () => {
 
     // STAGE 2
     function populateGamesTable() {
-        round = 0;
+        const colors = ['#FF6666', '#66FF66', '#6666FF', '#FFFF66', '#66FFFF', '#FF66FF'];
         gamesTableBody.innerHTML = ''; // Clear previous rows
 
         for (let round = 0; round < N_ROUNDS; round++) {
+            const roundColor = colors[round % colors.length];
+
             for (let gameId = 0; gameId < NgamesPerRound; gameId++) {
                 const completeGameId = round * NgamesPerRound + gameId;
                 const team1Players = gameDraft[round].slice(gameId * N_PLAYERS_PER_TEAM * 2, (gameId + 0.5) * N_PLAYERS_PER_TEAM * 2);
@@ -110,16 +113,17 @@ document.addEventListener('DOMContentLoaded', () => {
 
                 let score;
                 if (team1Score === null) {
-                    score = `<span class="introduceResult" style="color: rgb(0, 0, 238);"  onclick="window.introduceResult(${round}, ${gameId})">Pending</span>`;
+                    score = `<span class="introduceResult" style="color: rgb(0, 0, 238);" onclick="window.introduceResult(${round}, ${gameId})">Pending</span>`;
                 } else {
                     score = `<span class="introduceResult" style="color: rgb(0, 120, 150);" onclick="window.introduceResult(${round}, ${gameId})">${team1Score} - ${team2Score}</span>`;
                 }
 
                 const row = document.createElement('tr');
+                row.style.backgroundColor = roundColor; // Apply round color
 
                 row.innerHTML = `
                     <td>${completeGameId + 1}</td>
-                    <td>${round+1   }</td>
+                    <td>${round + 1}</td>
                     <td>${team1Players.map(playerId => participants[playerId].Name).join(', ')}</td>
                     <td>${team2Players.map(playerId => participants[playerId].Name).join(', ')}</td>
                     <td>${score}</td>
@@ -128,6 +132,7 @@ document.addEventListener('DOMContentLoaded', () => {
                 gamesTableBody.appendChild(row);
             }
         }
+        addPlayerClickHighlight();
     }
 
     window.introduceResult = function(round, gameId) {
@@ -198,6 +203,58 @@ document.addEventListener('DOMContentLoaded', () => {
                 if (score !== null) { participants[playerId]["scores"].push(score); }
             }
         }
+    }
+
+    function addPlayerClickHighlight() {
+        const rows = document.querySelectorAll('#games-table tbody tr');
+
+        rows.forEach(row => {
+            const team1Cell = row.children[2];
+            const team2Cell = row.children[3];
+
+            [team1Cell, team2Cell].forEach(cell => {
+                const players = cell.textContent.split(', ');
+                cell.innerHTML = ''; // Clear the cell content
+
+                players.forEach((player, index) => {
+                    const span = document.createElement('span');
+                    span.textContent = player;
+                    span.style.cursor = 'pointer';
+                    span.addEventListener('click', () => {
+                        removeHighlight();
+                        highlightGames(player);
+                    });
+                    cell.appendChild(span);
+
+                    if (index < players.length - 1) {
+                        cell.appendChild(document.createTextNode(', '));
+                    }
+                });
+            });
+        });
+    }
+
+    function highlightGames(playerName) {
+        highlightedPlayerSpan.textContent = playerName;
+        const rows = document.querySelectorAll('#games-table tbody tr');
+        rows.forEach(row => {
+            const team1Players = row.children[2].querySelectorAll('span');
+            const team2Players = row.children[3].querySelectorAll('span');
+
+            const team1Names = Array.from(team1Players).map(span => span.textContent);
+            const team2Names = Array.from(team2Players).map(span => span.textContent);
+
+            if (team1Names.includes(playerName) || team2Names.includes(playerName)) {
+                row.style.fontWeight = 'bold';
+            }
+        });
+    }
+
+    function removeHighlight() {
+        const rows = document.querySelectorAll('#games-table tbody tr');
+        rows.forEach(row => {
+            row.style.fontWeight = '';
+        });
     }
 
     // STAGE 3
