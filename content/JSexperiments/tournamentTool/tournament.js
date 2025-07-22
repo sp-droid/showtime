@@ -48,6 +48,8 @@ document.addEventListener('DOMContentLoaded', () => {
     const analysisGamesTotal = document.getElementById('analysis-gamesTotal');
     const analysisProbSameTeam = document.getElementById('analysis-probSameTeam');
     const analysisProbSameGame = document.getElementById('analysis-probSameGame');
+    const analysisMinRoundsGame = document.getElementById('analysis-minRoundsGame');
+    const analysisMinRoundsTeam = document.getElementById('analysis-minRoundsTeam');
 
     // temp
     setupForm.elements["players-per-team"].value = 2;
@@ -93,6 +95,9 @@ document.addEventListener('DOMContentLoaded', () => {
         }
         analysisProbSameTeam.textContent = (100-100*probPlayer).toFixed(2);
         analysisProbSameGame.textContent = (100-100*probTeam).toFixed(2);
+        analysisMinRoundsGame.textContent = Math.ceil((Nplayers-1) / (N_PLAYERS_PER_TEAM*2-1));
+        if (N_PLAYERS_PER_TEAM === 1) { analysisMinRoundsTeam.textContent = "infinite"; }
+        else { analysisMinRoundsTeam.textContent = Math.ceil((Nplayers-1) / (N_PLAYERS_PER_TEAM-1)); }
 
         gameDraft = Array.from({ length: N_ROUNDS }, (_, i) => generateRoundRandom(i));
         gameScores = Array.from({ length: N_ROUNDS }, () => Array(NteamsPerRound).fill(null));
