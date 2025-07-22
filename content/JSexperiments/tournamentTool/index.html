@@ -22,7 +22,11 @@
         <!-- Stage 1: Input Participant Details -->
         <section id="stage-1" style="display: block;">
             <h2>Stage 1: Setup Tournament</h2>
-            <hr>
+            <hr><br>
+            <form id="tournament-name-form">
+                <label for="tournament-name">Tournament Name:</label>
+                <input type="text" id="tournament-name" name="tournament-name" placeholder="Tournament tool">
+            </form><br>
             <form id="setup-form">
                 <label for="tournament-format">Tournament type:</label>
                 <select id="tournament-format" name="tournament-format">
@@ -63,11 +67,10 @@
                 <br>
                 <label for="participants">Participant Names (1 for each row):</label>
                 <br>
-                <textarea id="participants" name="participants" rows="4" cols="50" required placeholder="Enter participant names..."></textarea>
+                <textarea id="participants" name="participants" rows="8" cols="50" required placeholder="Enter participant names..."></textarea>
             </form>
             <h3>Draft analysis</h3>
-            <ul style="text-shadow: 1px 1px 5px rgba(255, 255, 255, 1); /* Soft white text shadow */
-    font-weight: 600;">
+            <ul style="text-shadow: 1px 1px 5px rgba(255, 255, 255, 1); font-weight: 600;">
                 <li>Number of players (+left out each round): <div><span id="analysis-total">-</span> (+<span id="analysis-leftout">-</span>)</div></li>
                 <li>Games per round / total: <div><span id="analysis-gamesPerRound">-</span> / <span id="analysis-gamesTotal">-</span></div></li>
                 <li>Probability of sharing teams with the same player at least twice: <div><span id="analysis-probSameTeam">-</span> %</div></li>

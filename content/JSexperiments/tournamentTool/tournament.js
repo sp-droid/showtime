@@ -22,6 +22,16 @@ document.addEventListener('DOMContentLoaded', () => {
     stageButtons.stage3.addEventListener('click', () => showStage('stage3'));
 
     // STAGE 1
+    const tournamentNameInput = document.getElementById('tournament-name');
+    const pageTitle = document.querySelector('title');
+    const displayedTitle = document.querySelector('header h1');
+
+    tournamentNameInput.addEventListener('input', () => {
+        const newName = tournamentNameInput.value || 'Tournament tool';
+        pageTitle.textContent = newName;
+        displayedTitle.textContent = newName;
+    });
+    
     // Listen for changes in the setup form
     const setupForm = document.getElementById('setup-form');
     let N_PLAYERS_PER_TEAM;
