@@ -281,8 +281,6 @@ This is loosely based on NVIDIA's [webinar](https://developer.download.nvidia.co
 const sum = numberArray.reduce((accumulator, currentValue) => accumulator + currentValue, 0);
 ```
 
-For the rest of the functions I measured the time using the method mentioned earlier in the benchmarking subsection (so I'm not counting kernel launch delay and data transfers):
-
 ```rust
 // Number of workgroups = 1
 // GPU ST
@@ -298,7 +296,7 @@ fn sumST() {
 }
 ```
 
-Now let's do a parallel reduction. The method basically consists in treating the workgroup as a tree where data is summed up from the leaves (all threads) to the root (thread 0) in parallel. In the first few methods described here, each thread 0 of every workgroup deposits its sum on a smaller auxiliary array, which means multiple kernel launches are necessary if `data.length < WORKGROUP_SIZE`. 
+For the rest of the functions I measured the time using the method mentioned earlier in the benchmarking subsection (so I'm not counting kernel launch delay and data transfers). Now let's do a parallel reduction. The method basically consists in treating the workgroup as a tree where data is summed up from the leaves (all threads) to the root (thread 0) in parallel. In the first few methods described here, each thread 0 of every workgroup deposits its sum on a smaller auxiliary array, which means multiple kernel launches are necessary if `data.length < WORKGROUP_SIZE`. **V1 - Interleaved addressing:**
 
 ![Parallel reduction scheme (V0). @Source@NVIDIA](https://miro.medium.com/v2/resize:fit:1100/format:webp/1*Y1wOMUBsnJt9dV9iHUYhyQ.png)
 
@@ -306,7 +304,7 @@ Parallel reduction relies on shared memory by first having each thread copying i
 
 ```rust
 // Number of workgroups = ceil(data.length / WORKGROUP_SIZE)
-// V0 - interleaved addressing
+// V1 - Interleaved addressing
 var<workgroup> sdata: array<u32, WORKGROUP_SIZE>;
 @compute @workgroup_size(WORKGROUP_SIZE)
 fn sumReduce0(
@@ -340,12 +338,12 @@ Once copied into shared memory, each thread loops in powers of two and checks if
 - Highly **divergent warps**. On first iteration, the threads that work are 0, 2, 4... Threads come bunched up in groups called warps, and we should aim for them to have the most similar execution paths. If warps were of size 4 and our workgroup is size 8, it's considerably better if the threads that work are 0-1-2-3 instead of 0-2-4-6
 - **Sparse memory accesses**. The average distance between memory accesses in each iteration is roughly the same, we are not taking advantage of locality.
 
-Let's change the inner loop in V2:
+Let's change the inner loop, **V2 - Interleaved addressing with stridden index**:
 
 ![V1. Source@NVIDIA](https://raw.githubusercontent.com/mateuszbuda/GPUExample/master/reduce2.png)
 
 ```rust
-// V1 - Interleaved addressing with strided index
+// V2 - Interleaved addressing with stridden index
 ...
 		let index = 2*s*localID;
 		if (index < WORKGROUP_SIZE) {
@@ -362,12 +360,12 @@ Now we built the index directly, removing the costly % operator and indexing (in
 
 - **Cache issues**. In V0, threads always summed up the same location in memory plus a different one. This facilitated caching, but now only thread 0 does it.
 
-Version 3, sequential addressing:
+**V3 - Sequential addressing**:
 
 ![V2. Source@NVIDIA](https://miro.medium.com/v2/resize:fit:1100/format:webp/1*Slpu0FWHir7RIMMcAqN1xg.png)
 
 ```rust
-// V2 - Sequential addressing
+// V3 - Sequential addressing
 ...
 for (var s = WORKGROUP_SIZE/2; s > 0; s >>= 1) {
     if (localID < s) {
@@ -380,21 +378,21 @@ for (var s = WORKGROUP_SIZE/2; s > 0; s >>= 1) {
 
 Notice how both issues are fixed. With respect to the cache, thread i is always summing up whatever is on bank i plus something else. Regarding the memory conflicts, in the first iteration bank i is accessed twice by the same thread, and from there on there are no further problems.
 
-This also fixed the sparse access pattern by utilizing a coalesced access approach, so there's left only one issue left, doing more work per thread. V3 deals with this to some extent, loading *two* values instead. Consequently, the number of workgroups need to be halved.
+This also fixed the sparse access pattern by utilizing a coalesced access approach, so there's left only one issue left, doing more work per thread. V4 deals with this to some extent, loading *two* values instead. Consequently, the number of workgroups need to be halved. **V4 - First add during load:**
 
 ``` rust
 // Number of workgroups = ceil(data.length / WORKGROUP_SIZE / 2)
-// V3 - First add during load
+// V4 - First add during load
 ...
 let globalID = workgroupID * WORKGROUP_SIZE*2 + localID;
 sdata[localID] = inputGlobal[globalID] + inputGlobal[globalID + WORKGROUP_SIZE];
 ...
 ```
 
-Workgroup sizes should be chosen (to help with performance) on multiples of 32 and equal or larger than 64 threads, due to the size of warps. This means we can unroll our loop, saving on instructions. As opposed to the original webinar where Mark doesn't add if checks for thread IDs < 32 because of SIMD operations, we are going to have to keep them because WebGPU as far as I'm aware doesn't expose volatile variables yet. It's a reserved keyword and may be implemented in the future but I imagine it's an issue if the feature isn't present across every GPU architecture. V4 only unrolled < 32 so let's skip it:
+Workgroup sizes should be chosen (to help with performance) on multiples of 32 and equal or larger than 64 threads (the code assumes this), due to the size of warps. This means we can unroll our loop, saving on instructions. In NVIDIA's example, V4 only unrolled up to 32 so skip to **V6 - Unrolled loop**:
 
 ```rust
-// V4/5 - Completely unrolled loop
+// V6 - Unrolled loop
 ...
 if (WORKGROUP_SIZE >= 2048) { if (localID < 1024) { sdata[localID] += sdata[localID + 1024]; } workgroupBarrier();}
 if (WORKGROUP_SIZE >= 1024) { if (localID < 512) { sdata[localID] += sdata[localID + 512]; } workgroupBarrier();}
@@ -410,9 +408,11 @@ if (localID < 1) { sdata[localID] += sdata[localID + 1]; } workgroupBarrier();
 ...
 ```
 
-Mark then analyzes algorithm complexity and cites Brent's theorem that says each thread should sum o(logN) elements, due to the intrinsic cost of combining parallel and sequential processing. He goes even further, explaining there are other motives to increase elements per thread:
+Notice we skipped the previous example. In V5 Mark unrolls it only for the first 32 threads (which belong to the same warp), and then performs a SIMD add operation between them, not requiring any barriers or shared memory. This is faster but in WebGPU SIMD operations are a relatively new feature (late 2024) and need a few extra steps, so it's left for the final parts of this guide.
 
-- Less kernel launch overhead because of fewer less levels needed.
+He then analyzes algorithm complexity and cites Brent's theorem that says each thread should sum $o(logN)$ elements, due to the intrinsic cost of combining parallel and sequential processing. He goes even further, explaining there are other motives to increase elements per thread:
+
+- Less kernel launch overhead because of fewer levels needed.
 - Gains due to latency hiding because of heavier work per thread.
 
 I've also thought of a few:
@@ -420,11 +420,11 @@ I've also thought of a few:
 - Less writes into auxiliary global memory arrays in between kernels, and these are smaller too.
 - If using somewhat expensive atomic operations to achieve the result in one kernel, the more work a thread does, the fewer atomic operations are needed.
 
-Let's briefly explain the concept of *latency-hiding*. Memory load and instruction latency are the most common latencies, and for GPUs they usually are in that order of importance too. Threads typically stall while waiting for these, and the GPU microprocessor switches between them to achieve much higher throughputs. This is the reason many threads should be ran so those latencies play a smaller role. However, the reason why higher work per thread improves this still escapes my understanding.
+Let's briefly explain the concept of *latency-hiding*. Memory load and instruction latency are the most common latencies, and for GPUs they usually are in that order of importance too. Threads typically stall while waiting for these, and the GPU microprocessor switches between them to achieve much higher throughputs. This is the reason many threads should be ran so those latencies play a smaller role. On the other hand increasing the load per thread can make the stall period small in comparison, and there is a balance to be found between thread load and count. **V7.1 - Multiple elements per thread:**
 
 ```rust
 // Number of workgroups = ceil(data.length / WORKGROUP_SIZE / COARSE_FACTOR)
-// V6.1 - Multiple elements per thread
+// V7.1 - Multiple elements per thread
 ...
 let globalID = workgroupID * WORKGROUP_SIZE*2 + localID;
 sdata[localID] = inputGlobal[globalID] + inputGlobal[globalID + WORKGROUP_SIZE];
@@ -441,12 +441,91 @@ sdata[localID] = sum;
 ...
 ```
 
-V6 is different than what Mark wrote because at first I did not understand its kernel launch and accessing pattern. I decided to leave it in because it's easier to understand, albeit I'm sure not as efficient. **Work in progress after this**
+V7.1 is different than what Mark wrote because at first I did not understand its kernel launch and accessing pattern. I decided to leave it in because it's easier to understand, albeit I'm sure not as efficient. This coarse factor increases the number of elements each thread processes. NVIDIA's webinar ends here, but we keep going. Next in line is making use of atomic operations, to make the reduction in 1 single kernel launch instead of many for large arrays.   **V8 - Single pass reduction with atomics:**
 
 ```rust
-// Number of workgroups = 
-// V6.2 - Multiple elements per thread
+// V8 - Single pass reduction with atomics
+...
+if (localID == 0) {
+    atomicAdd(&outputGlobalAtomic, sdata[0]);
+}
+...
 ```
+
+This makes the kernel launch cleaner for us and faster in some cases. There is also another way of achieving a single-pass via two-step reduction, but the kernel practically doubles, it still needs a temporary vector, a variable to store how many workgroups are left... and in my tests it was not the fastest either so I'm going to skip it. Next in line is the use of the subgroups (warps) extension to get that SIMD level parallelism. I'll be posting the entire function this time as they are the ones I'm going to be using. **V9 - Single pass reduction with atomics through subgroups:**
+
+```rust
+@compute @workgroup_size(WORKGROUP_SIZE) // V9 - Single pass reduction with atomics through subgroups
+fn sumReduce9(
+    @builtin(local_invocation_id) local_invocation_id: vec3u,
+    @builtin(workgroup_id) workgroup_id: vec3u
+) {
+    let localID = local_invocation_id.x;
+    let workgroupID = workgroup_id.x;
+    var globalID = workgroupID * WORKGROUP_SIZE * COARSE_FACTOR + localID;
+
+    var sum = 0u;
+    for (var tile = 0u; tile < COARSE_FACTOR; tile++) {
+        if (globalID < size) {
+            sum +=  inputGlobal[globalID];
+        }
+        
+        globalID += WORKGROUP_SIZE;
+    }
+
+    let subgroupSum = subgroupAdd(sum);
+    if (subgroupElect()) {
+        atomicAdd(&outputGlobalAtomic, subgroupSum);
+    }
+}
+```
+
+Extremely simple. Instead of proper parallel reduction, each warp is commanded to sum up values and choose 1 thread each to upload the value to an atomic variable. The downside is, many atomic operations, but in my tests it's sometimes the fastest even for large arrays. Now a combination of the two, **V10 - Single pass reduction with atomics, hybrid:** 
+
+```rust
+@compute @workgroup_size(WORKGROUP_SIZE) // V10 - Single pass reduction with atomics, hybrid (shared memory and subgroups)
+fn sumReduce10(
+    @builtin(local_invocation_id) local_invocation_id: vec3u,
+    @builtin(workgroup_id) workgroup_id: vec3u,
+    @builtin(subgroup_size) subgroup_size: u32
+) {
+    let localID = local_invocation_id.x;
+    let workgroupID = workgroup_id.x;
+    var globalID = workgroupID * WORKGROUP_SIZE * COARSE_FACTOR + localID;
+
+    var sum = 0u;
+    for (var tile = 0u; tile < COARSE_FACTOR; tile++) {
+        if (globalID < size) {
+            sum +=  inputGlobal[globalID];
+        }
+        
+        globalID += WORKGROUP_SIZE;
+    }
+    sdata[localID] = sum;
+    workgroupBarrier();
+
+    // Shared memory reduction
+    for (var s = WORKGROUP_SIZE/2; s >= subgroup_size; s >>= 1) {
+        if (localID < s) {
+            sdata[localID] += sdata[localID + s];
+        }
+        workgroupBarrier();
+    }
+
+    // Subgroup SIMD operation
+    let subgroupSum = subgroupAdd(sdata[localID]);
+
+    if (localID == 0) {
+        atomicAdd(&outputGlobalAtomic, subgroupSum);
+    }
+}
+```
+
+So, a mixture of some of the approaches described previously: a parallel reduction in shared memory with sequential addressing, the use of coarse factors to increase individual thread load, atomic operations to allow for single passes and finally a warp SIMD operation. As a final point, these functions were benchmarked and averaged 3x50 times, 4096x4096 array, workgroup size 1024, coarse factor 32 on a NVIDIA RTX 2060 12GB. Results for the CPU-ST (~86 ms on i5-12400) and GPU-naive (~670 ms) versions weren't included in the graph as they were too slow in comparison.
+
+<div class="flourish-embed flourish-chart" data-src="visualisation/24553198"><noscript><img src="https://public.flourish.studio/visualisation/24553198/thumbnail" width="100%" alt="chart visualization" /></noscript></div>
+
+
 
 #### Min, max, argmin and argmax variants
 
@@ -488,3 +567,4 @@ fn randomF32(seed: u32) -> f32 { // PCG hash random float generator
 }
 ```
 
+This is a simple PCG hash-based pseudo-random number generator. It can be used to generate random integers or floats based on a seed value. The `randomU32` function generates a random unsigned 32-bit integer, while the `randomF32` function generates a random float in the range [0, 1).

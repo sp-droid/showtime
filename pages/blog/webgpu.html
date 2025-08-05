@@ -65,7 +65,7 @@ section="blog">
         <div class="markdown-body" id="HTMLpost"><div id="section0"></div>
 <h6>March 13th, 2025</h6>
 <h1>WebGPU</h1>
-<h5>Reading time: 19 mins</h5>
+<h5>Reading time: 21 mins</h5>
 <hr>
 <p>I'm writing this article to serve me as a repository for information on WebGPU as I'm learning it. It covers useful links, architecture description and some non-flashy -but still very important- algorithms implemented on it.</p>
 <p><div class='TOCpost'><h4>&emsp;&nbsp;Contents</h4><ul><li><a href='#section0'>(Top)</a></li><li onclick="toggleDetails(event)"><details><summary><a href='#section1'>The standard</a></summary><ul><li onclick="toggleDetails(event)"><details><summary><a href='#section2'>Useful documentation</a></summary><ul><li><a href='#section3'>Built-in inputs</a></li><li><a href='#section4'>Copying data back to the CPU</a></li><li><a href='#section5'>Benchmarking GPU functions</a></li><li><a href='#section6'>Common problems</a></li><li><a href='#section7'>Optimization techniques</a></li></ul></details></li><li onclick="toggleDetails(event)"><details><summary><a href='#section8'>Algorithms</a></summary><ul><li><a href='#section9'>Parallel reduction</a></li><li><a href='#section10'>PseudoRandom Number generator</a></li></ul></details></li></ul></details></li>
@@ -481,7 +481,6 @@ device.<span class="hljs-property">queue</span>.<span class="hljs-title function
 <pre><code class="language-js"><span class="hljs-comment">// CPU ST</span>
 <span class="hljs-keyword">const</span> sum = numberArray.<span class="hljs-title function_">reduce</span>(<span class="hljs-function">(<span class="hljs-params">accumulator, currentValue</span>) =&gt;</span> accumulator + currentValue, <span class="hljs-number">0</span>);
 </code></pre>
-<p>For the rest of the functions I measured the time using the method mentioned earlier in the benchmarking subsection (so I'm not counting kernel launch delay and data transfers):</p>
 <pre><code class="language-rust"><span class="hljs-comment">// Number of workgroups = 1</span>
 <span class="hljs-comment">// GPU ST</span>
 @compute @<span class="hljs-title function_ invoke__">workgroup_size</span>(<span class="hljs-number">1</span>)
@@ -495,11 +494,11 @@ device.<span class="hljs-property">queue</span>.<span class="hljs-title function
     outputGlobal[<span class="hljs-number">0</span>] = sum;
 }
 </code></pre>
-<p>Now let's do a parallel reduction. The method basically consists in treating the workgroup as a tree where data is summed up from the leaves (all threads) to the root (thread 0) in parallel. In the first few methods described here, each thread 0 of every workgroup deposits its sum on a smaller auxiliary array, which means multiple kernel launches are necessary if <code>data.length &lt; WORKGROUP_SIZE</code>.</p>
+<p>For the rest of the functions I measured the time using the method mentioned earlier in the benchmarking subsection (so I'm not counting kernel launch delay and data transfers). Now let's do a parallel reduction. The method basically consists in treating the workgroup as a tree where data is summed up from the leaves (all threads) to the root (thread 0) in parallel. In the first few methods described here, each thread 0 of every workgroup deposits its sum on a smaller auxiliary array, which means multiple kernel launches are necessary if <code>data.length &lt; WORKGROUP_SIZE</code>. <strong>V1 - Interleaved addressing:</strong></p>
 <p><img src="https://miro.medium.com/v2/resize:fit:1100/format:webp/1*Y1wOMUBsnJt9dV9iHUYhyQ.png" alt="Parallel reduction scheme (V0). @Source@NVIDIA"></p>
 <p>Parallel reduction relies on shared memory by first having each thread copying in parallel from global memory, which greatly speeds up things afterwards as access to shared memory are very fast. To ensure race-conditions don't happen, we also have to raise workgroup-level synchronization barriers.</p>
 <pre><code class="language-rust"><span class="hljs-comment">// Number of workgroups = ceil(data.length / WORKGROUP_SIZE)</span>
-<span class="hljs-comment">// V0 - interleaved addressing</span>
+<span class="hljs-comment">// V1 - Interleaved addressing</span>
 var&lt;workgroup&gt; sdata: array&lt;<span class="hljs-type">u32</span>, WORKGROUP_SIZE&gt;;
 @compute @<span class="hljs-title function_ invoke__">workgroup_size</span>(WORKGROUP_SIZE)
 <span class="hljs-keyword">fn</span> <span class="hljs-title function_">sumReduce0</span>(
@@ -532,9 +531,9 @@ var&lt;workgroup&gt; sdata: array&lt;<span class="hljs-type">u32</span>, WORKGRO
 <li>Highly <strong>divergent warps</strong>. On first iteration, the threads that work are 0, 2, 4... Threads come bunched up in groups called warps, and we should aim for them to have the most similar execution paths. If warps were of size 4 and our workgroup is size 8, it's considerably better if the threads that work are 0-1-2-3 instead of 0-2-4-6</li>
 <li><strong>Sparse memory accesses</strong>. The average distance between memory accesses in each iteration is roughly the same, we are not taking advantage of locality.</li>
 </ul>
-<p>Let's change the inner loop in V2:</p>
+<p>Let's change the inner loop, <strong>V2 - Interleaved addressing with stridden index</strong>:</p>
 <p><img src="https://raw.githubusercontent.com/mateuszbuda/GPUExample/master/reduce2.png" alt="V1. Source@NVIDIA"></p>
-<pre><code class="language-rust"><span class="hljs-comment">// V1 - Interleaved addressing with strided index</span>
+<pre><code class="language-rust"><span class="hljs-comment">// V2 - Interleaved addressing with stridden index</span>
 ...
 		<span class="hljs-keyword">let</span> <span class="hljs-variable">index</span> = <span class="hljs-number">2</span>*s*localID;
 		<span class="hljs-keyword">if</span> (index &lt; WORKGROUP_SIZE) {
@@ -555,9 +554,9 @@ var&lt;workgroup&gt; sdata: array&lt;<span class="hljs-type">u32</span>, WORKGRO
 <p><strong>Cache issues</strong>. In V0, threads always summed up the same location in memory plus a different one. This facilitated caching, but now only thread 0 does it.</p>
 </li>
 </ul>
-<p>Version 3, sequential addressing:</p>
+<p><strong>V3 - Sequential addressing</strong>:</p>
 <p><img src="https://miro.medium.com/v2/resize:fit:1100/format:webp/1*Slpu0FWHir7RIMMcAqN1xg.png" alt="V2. Source@NVIDIA"></p>
-<pre><code class="language-rust"><span class="hljs-comment">// V2 - Sequential addressing</span>
+<pre><code class="language-rust"><span class="hljs-comment">// V3 - Sequential addressing</span>
 ...
 <span class="hljs-keyword">for</span> (var s = WORKGROUP_SIZE/<span class="hljs-number">2</span>; s &gt; <span class="hljs-number">0</span>; s &gt;&gt;= <span class="hljs-number">1</span>) {
     <span class="hljs-keyword">if</span> (localID &lt; s) {
@@ -568,16 +567,16 @@ var&lt;workgroup&gt; sdata: array&lt;<span class="hljs-type">u32</span>, WORKGRO
 ...
 </code></pre>
 <p>Notice how both issues are fixed. With respect to the cache, thread i is always summing up whatever is on bank i plus something else. Regarding the memory conflicts, in the first iteration bank i is accessed twice by the same thread, and from there on there are no further problems.</p>
-<p>This also fixed the sparse access pattern by utilizing a coalesced access approach, so there's left only one issue left, doing more work per thread. V3 deals with this to some extent, loading <em>two</em> values instead. Consequently, the number of workgroups need to be halved.</p>
+<p>This also fixed the sparse access pattern by utilizing a coalesced access approach, so there's left only one issue left, doing more work per thread. V4 deals with this to some extent, loading <em>two</em> values instead. Consequently, the number of workgroups need to be halved. <strong>V4 - First add during load:</strong></p>
 <pre><code class="language-rust"><span class="hljs-comment">// Number of workgroups = ceil(data.length / WORKGROUP_SIZE / 2)</span>
-<span class="hljs-comment">// V3 - First add during load</span>
+<span class="hljs-comment">// V4 - First add during load</span>
 ...
 <span class="hljs-keyword">let</span> <span class="hljs-variable">globalID</span> = workgroupID * WORKGROUP_SIZE*<span class="hljs-number">2</span> + localID;
 sdata[localID] = inputGlobal[globalID] + inputGlobal[globalID + WORKGROUP_SIZE];
 ...
 </code></pre>
-<p>Workgroup sizes should be chosen (to help with performance) on multiples of 32 and equal or larger than 64 threads, due to the size of warps. This means we can unroll our loop, saving on instructions. As opposed to the original webinar where Mark doesn't add if checks for thread IDs &lt; 32 because of SIMD operations, we are going to have to keep them because WebGPU as far as I'm aware doesn't expose volatile variables yet. It's a reserved keyword and may be implemented in the future but I imagine it's an issue if the feature isn't present across every GPU architecture. V4 only unrolled &lt; 32 so let's skip it:</p>
-<pre><code class="language-rust"><span class="hljs-comment">// V4/5 - Completely unrolled loop</span>
+<p>Workgroup sizes should be chosen (to help with performance) on multiples of 32 and equal or larger than 64 threads (the code assumes this), due to the size of warps. This means we can unroll our loop, saving on instructions. In NVIDIA's example, V4 only unrolled up to 32 so skip to <strong>V6 - Unrolled loop</strong>:</p>
+<pre><code class="language-rust"><span class="hljs-comment">// V6 - Unrolled loop</span>
 ...
 <span class="hljs-keyword">if</span> (WORKGROUP_SIZE &gt;= <span class="hljs-number">2048</span>) { <span class="hljs-keyword">if</span> (localID &lt; <span class="hljs-number">1024</span>) { sdata[localID] += sdata[localID + <span class="hljs-number">1024</span>]; } <span class="hljs-title function_ invoke__">workgroupBarrier</span>();}
 <span class="hljs-keyword">if</span> (WORKGROUP_SIZE &gt;= <span class="hljs-number">1024</span>) { <span class="hljs-keyword">if</span> (localID &lt; <span class="hljs-number">512</span>) { sdata[localID] += sdata[localID + <span class="hljs-number">512</span>]; } <span class="hljs-title function_ invoke__">workgroupBarrier</span>();}
@@ -592,9 +591,10 @@ sdata[localID] = inputGlobal[globalID] + inputGlobal[globalID + WORKGROUP_SIZE];
 <span class="hljs-keyword">if</span> (localID &lt; <span class="hljs-number">1</span>) { sdata[localID] += sdata[localID + <span class="hljs-number">1</span>]; } <span class="hljs-title function_ invoke__">workgroupBarrier</span>();
 ...
 </code></pre>
-<p>Mark then analyzes algorithm complexity and cites Brent's theorem that says each thread should sum o(logN) elements, due to the intrinsic cost of combining parallel and sequential processing. He goes even further, explaining there are other motives to increase elements per thread:</p>
+<p>Notice we skipped the previous example. In V5 Mark unrolls it only for the first 32 threads (which belong to the same warp), and then performs a SIMD add operation between them, not requiring any barriers or shared memory. This is faster but in WebGPU SIMD operations are a relatively new feature (late 2024) and need a few extra steps, so it's left for the final parts of this guide.</p>
+<p>He then analyzes algorithm complexity and cites Brent's theorem that says each thread should sum <span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>o</mi><mo stretchy="false">(</mo><mi>l</mi><mi>o</mi><mi>g</mi><mi>N</mi><mo stretchy="false">)</mo></mrow><annotation encoding="application/x-tex">o(logN)</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:1em;vertical-align:-0.25em;"></span><span class="mord mathnormal">o</span><span class="mopen">(</span><span class="mord mathnormal" style="margin-right:0.01968em;">l</span><span class="mord mathnormal">o</span><span class="mord mathnormal" style="margin-right:0.03588em;">g</span><span class="mord mathnormal" style="margin-right:0.10903em;">N</span><span class="mclose">)</span></span></span></span> elements, due to the intrinsic cost of combining parallel and sequential processing. He goes even further, explaining there are other motives to increase elements per thread:</p>
 <ul>
-<li>Less kernel launch overhead because of fewer less levels needed.</li>
+<li>Less kernel launch overhead because of fewer levels needed.</li>
 <li>Gains due to latency hiding because of heavier work per thread.</li>
 </ul>
 <p>I've also thought of a few:</p>
@@ -602,9 +602,9 @@ sdata[localID] = inputGlobal[globalID] + inputGlobal[globalID + WORKGROUP_SIZE];
 <li>Less writes into auxiliary global memory arrays in between kernels, and these are smaller too.</li>
 <li>If using somewhat expensive atomic operations to achieve the result in one kernel, the more work a thread does, the fewer atomic operations are needed.</li>
 </ul>
-<p>Let's briefly explain the concept of <em>latency-hiding</em>. Memory load and instruction latency are the most common latencies, and for GPUs they usually are in that order of importance too. Threads typically stall while waiting for these, and the GPU microprocessor switches between them to achieve much higher throughputs. This is the reason many threads should be ran so those latencies play a smaller role. However, the reason why higher work per thread improves this still escapes my understanding.</p>
+<p>Let's briefly explain the concept of <em>latency-hiding</em>. Memory load and instruction latency are the most common latencies, and for GPUs they usually are in that order of importance too. Threads typically stall while waiting for these, and the GPU microprocessor switches between them to achieve much higher throughputs. This is the reason many threads should be ran so those latencies play a smaller role. On the other hand increasing the load per thread can make the stall period small in comparison, and there is a balance to be found between thread load and count. <strong>V7.1 - Multiple elements per thread:</strong></p>
 <pre><code class="language-rust"><span class="hljs-comment">// Number of workgroups = ceil(data.length / WORKGROUP_SIZE / COARSE_FACTOR)</span>
-<span class="hljs-comment">// V6.1 - Multiple elements per thread</span>
+<span class="hljs-comment">// V7.1 - Multiple elements per thread</span>
 ...
 <span class="hljs-keyword">let</span> <span class="hljs-variable">globalID</span> = workgroupID * WORKGROUP_SIZE*<span class="hljs-number">2</span> + localID;
 sdata[localID] = inputGlobal[globalID] + inputGlobal[globalID + WORKGROUP_SIZE];
@@ -620,10 +620,79 @@ var sum = <span class="hljs-number">0</span>u;
 sdata[localID] = sum;
 ...
 </code></pre>
-<p>V6 is different than what Mark wrote because at first I did not understand its kernel launch and accessing pattern. I decided to leave it in because it's easier to understand, albeit I'm sure not as efficient. <strong>Work in progress after this</strong></p>
-<pre><code class="language-rust"><span class="hljs-comment">// Number of workgroups = </span>
-<span class="hljs-comment">// V6.2 - Multiple elements per thread</span>
+<p>V7.1 is different than what Mark wrote because at first I did not understand its kernel launch and accessing pattern. I decided to leave it in because it's easier to understand, albeit I'm sure not as efficient. This coarse factor increases the number of elements each thread processes. NVIDIA's webinar ends here, but we keep going. Next in line is making use of atomic operations, to make the reduction in 1 single kernel launch instead of many for large arrays.   <strong>V8 - Single pass reduction with atomics:</strong></p>
+<pre><code class="language-rust"><span class="hljs-comment">// V8 - Single pass reduction with atomics</span>
+...
+<span class="hljs-keyword">if</span> (localID == <span class="hljs-number">0</span>) {
+    <span class="hljs-title function_ invoke__">atomicAdd</span>(&amp;outputGlobalAtomic, sdata[<span class="hljs-number">0</span>]);
+}
+...
 </code></pre>
+<p>This makes the kernel launch cleaner for us and faster in some cases. There is also another way of achieving a single-pass via two-step reduction, but the kernel practically doubles, it still needs a temporary vector, a variable to store how many workgroups are left... and in my tests it was not the fastest either so I'm going to skip it. Next in line is the use of the subgroups (warps) extension to get that SIMD level parallelism. I'll be posting the entire function this time as they are the ones I'm going to be using. <strong>V9 - Single pass reduction with atomics through subgroups:</strong></p>
+<pre><code class="language-rust">@compute @<span class="hljs-title function_ invoke__">workgroup_size</span>(WORKGROUP_SIZE) <span class="hljs-comment">// V9 - Single pass reduction with atomics through subgroups</span>
+<span class="hljs-keyword">fn</span> <span class="hljs-title function_">sumReduce9</span>(
+    @<span class="hljs-title function_ invoke__">builtin</span>(local_invocation_id) local_invocation_id: vec3u,
+    @<span class="hljs-title function_ invoke__">builtin</span>(workgroup_id) workgroup_id: vec3u
+) {
+    <span class="hljs-keyword">let</span> <span class="hljs-variable">localID</span> = local_invocation_id.x;
+    <span class="hljs-keyword">let</span> <span class="hljs-variable">workgroupID</span> = workgroup_id.x;
+    var globalID = workgroupID * WORKGROUP_SIZE * COARSE_FACTOR + localID;
+
+    var sum = <span class="hljs-number">0</span>u;
+    <span class="hljs-keyword">for</span> (var tile = <span class="hljs-number">0</span>u; tile &lt; COARSE_FACTOR; tile++) {
+        <span class="hljs-keyword">if</span> (globalID &lt; size) {
+            sum +=  inputGlobal[globalID];
+        }
+        
+        globalID += WORKGROUP_SIZE;
+    }
+
+    <span class="hljs-keyword">let</span> <span class="hljs-variable">subgroupSum</span> = <span class="hljs-title function_ invoke__">subgroupAdd</span>(sum);
+    <span class="hljs-keyword">if</span> (<span class="hljs-title function_ invoke__">subgroupElect</span>()) {
+        <span class="hljs-title function_ invoke__">atomicAdd</span>(&amp;outputGlobalAtomic, subgroupSum);
+    }
+}
+</code></pre>
+<p>Extremely simple. Instead of proper parallel reduction, each warp is commanded to sum up values and choose 1 thread each to upload the value to an atomic variable. The downside is, many atomic operations, but in my tests it's sometimes the fastest even for large arrays. Now a combination of the two, <strong>V10 - Single pass reduction with atomics, hybrid:</strong></p>
+<pre><code class="language-rust">@compute @<span class="hljs-title function_ invoke__">workgroup_size</span>(WORKGROUP_SIZE) <span class="hljs-comment">// V10 - Single pass reduction with atomics, hybrid (shared memory and subgroups)</span>
+<span class="hljs-keyword">fn</span> <span class="hljs-title function_">sumReduce10</span>(
+    @<span class="hljs-title function_ invoke__">builtin</span>(local_invocation_id) local_invocation_id: vec3u,
+    @<span class="hljs-title function_ invoke__">builtin</span>(workgroup_id) workgroup_id: vec3u,
+    @<span class="hljs-title function_ invoke__">builtin</span>(subgroup_size) subgroup_size: <span class="hljs-type">u32</span>
+) {
+    <span class="hljs-keyword">let</span> <span class="hljs-variable">localID</span> = local_invocation_id.x;
+    <span class="hljs-keyword">let</span> <span class="hljs-variable">workgroupID</span> = workgroup_id.x;
+    var globalID = workgroupID * WORKGROUP_SIZE * COARSE_FACTOR + localID;
+
+    var sum = <span class="hljs-number">0</span>u;
+    <span class="hljs-keyword">for</span> (var tile = <span class="hljs-number">0</span>u; tile &lt; COARSE_FACTOR; tile++) {
+        <span class="hljs-keyword">if</span> (globalID &lt; size) {
+            sum +=  inputGlobal[globalID];
+        }
+        
+        globalID += WORKGROUP_SIZE;
+    }
+    sdata[localID] = sum;
+    <span class="hljs-title function_ invoke__">workgroupBarrier</span>();
+
+    <span class="hljs-comment">// Shared memory reduction</span>
+    <span class="hljs-keyword">for</span> (var s = WORKGROUP_SIZE/<span class="hljs-number">2</span>; s &gt;= subgroup_size; s &gt;&gt;= <span class="hljs-number">1</span>) {
+        <span class="hljs-keyword">if</span> (localID &lt; s) {
+            sdata[localID] += sdata[localID + s];
+        }
+        <span class="hljs-title function_ invoke__">workgroupBarrier</span>();
+    }
+
+    <span class="hljs-comment">// Subgroup SIMD operation</span>
+    <span class="hljs-keyword">let</span> <span class="hljs-variable">subgroupSum</span> = <span class="hljs-title function_ invoke__">subgroupAdd</span>(sdata[localID]);
+
+    <span class="hljs-keyword">if</span> (localID == <span class="hljs-number">0</span>) {
+        <span class="hljs-title function_ invoke__">atomicAdd</span>(&amp;outputGlobalAtomic, subgroupSum);
+    }
+}
+</code></pre>
+<p>So, a mixture of some of the approaches described previously: a parallel reduction in shared memory with sequential addressing, the use of coarse factors to increase individual thread load, atomic operations to allow for single passes and finally a warp SIMD operation. As a final point, these functions were benchmarked and averaged 3x50 times, 4096x4096 array, workgroup size 1024, coarse factor 32 on a NVIDIA RTX 2060 12GB. Results for the CPU-ST (~86 ms on i5-12400) and GPU-naive (~670 ms) versions weren't included in the graph as they were too slow in comparison.</p>
+<div class="flourish-embed flourish-chart" data-src="visualisation/24553198"><noscript><img src="https://public.flourish.studio/visualisation/24553198/thumbnail" width="100%" alt="chart visualization" /></noscript></div>
 <h4>Min, max, argmin and argmax variants</h4>
 <p>I'm leaving also some other useful computations using parallel reduction (only the parts that change):</p>
 <pre><code class="language-rust"><span class="hljs-comment">// Minimum</span>
@@ -654,6 +723,7 @@ var minValue = MAX_UINT32;
     <span class="hljs-keyword">return</span> <span class="hljs-title function_ invoke__">f32</span>(<span class="hljs-title function_ invoke__">randomU32</span>(seed))/<span class="hljs-title function_ invoke__">f32</span>(MAX_UINT32);
 }
 </code></pre>
+<p>This is a simple PCG hash-based pseudo-random number generator. It can be used to generate random integers or floats based on a seed value. The <code>randomU32</code> function generates a random unsigned 32-bit integer, while the <code>randomF32</code> function generates a random float in the range [0, 1).</p>
 <hr><div class="blogTags"><button class="blogTagSelected" title='Check more posts of the "Reference" category on my blog!'>Reference</button></div><br></div>
         <div style="flex: 1; min-width: 20px;"></div>
     </div>
