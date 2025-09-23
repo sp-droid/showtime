@@ -60,8 +60,104 @@ document.addEventListener('DOMContentLoaded', () => {
     const gamesTableBody = document.querySelector('#games-table tbody');
     const highlightedPlayerSpan = document.getElementById('highlighted-player');
 
+    // Add Download CSV button before games table
+    const gamesTable = document.getElementById('games-table');
+    if (gamesTable) {
+        const downloadBtn = document.createElement('button');
+        downloadBtn.id = 'download-csv';
+        downloadBtn.textContent = 'Download copy';
+        downloadBtn.style.backgroundColor = '#4CAF50';
+        downloadBtn.style.color = 'white';
+        downloadBtn.style.border = 'none';
+        downloadBtn.style.padding = '10px 20px';
+        downloadBtn.style.borderRadius = '5px';
+        downloadBtn.style.cursor = 'pointer';
+        downloadBtn.style.marginBottom = '10px';
+        gamesTable.parentNode.insertBefore(downloadBtn, gamesTable);
+
+        downloadBtn.addEventListener('click', () => {
+            let csv = [];
+            // Get headers
+            const thead = gamesTable.querySelector('thead');
+            if (thead) {
+                const headers = Array.from(thead.querySelectorAll('th')).map(th => '"' + th.textContent.trim() + '"');
+                csv.push(headers.join(';'));
+            }
+            // Get rows
+            const rows = gamesTable.querySelectorAll('tbody tr');
+            rows.forEach(row => {
+                const cols = Array.from(row.children).map((td, idx, arr) => {
+                    let text = td.textContent.trim();
+                    // If this is the last column (score), prefix with a single quote to prevent Excel date conversion
+                    if (idx === arr.length - 1) {
+                        text = "'" + text;
+                    }
+                    return '"' + text + '"';
+                });
+                csv.push(cols.join(';'));
+            });
+            // Download
+            const csvContent = csv.join('\r\n');
+            const blob = new Blob([csvContent], { type: 'text/csv' });
+            const url = URL.createObjectURL(blob);
+            const a = document.createElement('a');
+            a.href = url;
+            a.download = 'games_table.csv';
+            document.body.appendChild(a);
+            a.click();
+            document.body.removeChild(a);
+            URL.revokeObjectURL(url);
+        });
+    }
+
     // STAGE 3
     const winnersTableBody = document.querySelector('#results-table tbody');
+
+    // Add Download CSV button before results table
+    const resultsTable = document.getElementById('results-table');
+    if (resultsTable) {
+        const downloadBtnResults = document.createElement('button');
+        downloadBtnResults.id = 'download-csv-results';
+        downloadBtnResults.textContent = 'Download copy';
+        downloadBtnResults.style.backgroundColor = '#4CAF50';
+        downloadBtnResults.style.color = 'white';
+        downloadBtnResults.style.border = 'none';
+        downloadBtnResults.style.padding = '10px 20px';
+        downloadBtnResults.style.borderRadius = '5px';
+        downloadBtnResults.style.cursor = 'pointer';
+        downloadBtnResults.style.marginBottom = '10px';
+        resultsTable.parentNode.insertBefore(downloadBtnResults, resultsTable);
+
+        downloadBtnResults.addEventListener('click', () => {
+            let csv = [];
+            // Get headers
+            const thead = resultsTable.querySelector('thead');
+            if (thead) {
+                const headers = Array.from(thead.querySelectorAll('th')).map(th => '"' + th.textContent.trim() + '"');
+                csv.push(headers.join(';'));
+            }
+            // Get rows
+            const rows = resultsTable.querySelectorAll('tbody tr');
+            rows.forEach(row => {
+                const cols = Array.from(row.children).map((td, idx, arr) => {
+                    let text = td.textContent.trim();
+                    return '"' + text + '"';
+                });
+                csv.push(cols.join(';'));
+            });
+            // Download
+            const csvContent = csv.join('\r\n');
+            const blob = new Blob([csvContent], { type: 'text/csv' });
+            const url = URL.createObjectURL(blob);
+            const a = document.createElement('a');
+            a.href = url;
+            a.download = 'results_table.csv';
+            document.body.appendChild(a);
+            a.click();
+            document.body.removeChild(a);
+            URL.revokeObjectURL(url);
+        });
+    }
 
     // INITIALIZE
     showStage('stage1');
