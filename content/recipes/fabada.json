@@ -1,0 +1,48 @@
+{
+    "name": "Fabada asturiana",
+    "category": "Main courses",
+    "description": "/'Asturian beans'/ ",
+    "origin": "1500-1600 Asturias, Spain",
+    "portions": 2,
+    "flags": {
+        "difficulty": "Easy",
+        "cuisine": "Spanish",
+        "prepTime": "30'",
+        "totalTime": "11h",
+        "lactoseFree": true,
+        "glutenFree": true,
+        "vegetarian": false,
+        "vegan": false,
+		"finished": true
+    },
+    "ingredients": {
+        "": [
+			"80 g pancetta (1 tocino)",
+			"80 g morcilla asturiana (1 small)",
+			"80 g chorizo asturiano (1 small)",
+			"250 g dry beans (fabas)",
+			"12 g olive oil (1 tbsp)",
+			"0.5 onion (or 1 small)",
+			"1 clove of garlic (1 small)",
+			"Sweet paprika (1 tsp)",
+			"A few strands of saffron",
+			"Salt"
+		]
+    },
+    "utensils": [
+		"Kitchen pot"
+	],
+    "instructions": [
+		"- Cover the beans and saffron in water the night before. They absorb a lot of water, do make sure they have extra.",
+		"- The day after, put the peeled onion, clove of garlic and beans covered with water (use the one from the night before). Bring to a boil.",
+		"- Now we add a splash of cold water to stop the boiling, and boil again. we do this twice more. It's called 'scaring' the beans.",
+		"- Add everything else except the salt and cook on low-medium heat for 2-3 hours. After this time correct for salt."
+    ],
+    "variants": [
+		"The fully traditional recipe is the compango (tocino, morcilla, chorizo), water, salt and beans. But it varies from home to home, and as the dish travelled it gained a few additions. In my opinion they don't detract from the original flavour, as long as we add them in little quantities."
+	],
+    "tips": {
+        "culinary": [],
+        "serving": []
+    }
+}

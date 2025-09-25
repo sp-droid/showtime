@@ -8,7 +8,7 @@ I'm writing this article to serve me as a repository for information on WebGPU a
 
 # The standard
 
-WebGPU is a graphics API standard being developed over the last few years, built as a performant method to bridge graphics programming between different platforms:
+WebGPU is a modern graphics and compute API standard developed over the last few years, built as a performant method to bridge graphics programming between different platforms:
 
 - **Metal**, an API for Apple products. I'm mentioning it first because apparently it's the one WebGPU is most similar to.
 - **Vulkan**, open source and very low level.
@@ -37,12 +37,55 @@ If you are a beginner in strongly typed languages, I recommend to build a few sm
 
 So, WebGPU is the GPU API with the biggest backing in history, not so low level, with access to compute shaders, performant and allows its use both for web and native apps, multiplatform in terms of OS but also in terms of the GPU vendor itself... for me it's quite hard to pass on it.
 
+## Components
+
+The execution flow goes as follows:
+
+1. Request adapter and device
+2. Create buffers, shaders and pipeline
+3. Define bind groups
+4. Start recording instructions through the command encoder
+5. Perform render & compute passes
+6. End pass and submit commands to the GPU
+
+The **adapter** represents a physical GPU or a software callback (SwiftShader), whereas the **device** is the connection to it, allowing the creation of resources such as buffers, textures and pipelines.
+
+The **encoder** records to-be scheduled GPU work, with the **render pass** encoder recording draw calls and the **compute pass** one doing compute shader work instead.
+
+There are several types of GPU buffers:
+
+- **Vertex**. Stores vertex position and values. These have an additional property that defines the number of bytes between consecutive vertices, the array stride.
+- **Index**. Stores the order to render the vertices, their indices.
+- **Uniform**. Small, read-only buffers accessible by shaders.
+- **Storage**. Larger, read-write buffers for compute or complex data.
+
+Buffer layout is defined by their attribute, stored in the buffer:
+
+- **Format**. E.g. float32x3 for a vec3.
+- **Offset**. Byte position of the attribute itself.
+- **Location**. Binding index of the buffer used in the shader.
+
+Bind groups are collections of GPU resources:
+
+- **Bind group layouts** describe what resources will a bind group contain.
+- **Bind group** is the actual object containing those, with the binding of each resource exposed in the affected WGSL shaders.
+
+Shaders are the programs that end up running on the CPU, written in WGSL. There are 3 types:
+
+- **Vertex** shaders. Run per vertex, outputs positions in clip space.
+- **Fragment** shaders. Run per pixel/fragment, outputs the colors seen on the screen.
+- **Compute** shaders. General purpose computation without fixed inputs/outputs.
+
+Apart from the components, it's useful to know WebGPU uses clip space coordinates where the center is the origin of a double-unit square.
+
+
+
 ## Useful documentation
 
 - [Official documentation](https://www.w3.org/TR/WGSL/)
 - [Adapter/device limits & features](https://webgpufundamentals.org/webgpu/lessons/webgpu-limits-and-features.html)
 
-#### Equivalent nomenclature
+### Equivalent nomenclature
 
 | Concept                             | WebGPU (& Vulkan)    | NVIDIA     | AMD            | Intel            | Apple       |
 | ----------------------------------- | -------------------- | ---------- | -------------- | ---------------- | ----------- |

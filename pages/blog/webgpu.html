@@ -60,19 +60,19 @@ section="blog">
     </div>
 </div></div>
     <div style="flex: 1; display: flex;">
-        <div class="markdown-body sidebarHide" style="flex: 1; min-width: 20px;"><br><div class='TOCpost'><h4>&emsp;&nbsp;Contents</h4><ul><li><a href='#section0'>(Top)</a></li><li onclick="toggleDetails(event)"><details><summary><a href='#section1'>The standard</a></summary><ul><li onclick="toggleDetails(event)"><details><summary><a href='#section2'>Useful documentation</a></summary><ul><li><a href='#section3'>Built-in inputs</a></li><li><a href='#section4'>Copying data back to the CPU</a></li><li><a href='#section5'>Benchmarking GPU functions</a></li><li><a href='#section6'>Common problems</a></li><li><a href='#section7'>Optimization techniques</a></li></ul></details></li><li onclick="toggleDetails(event)"><details><summary><a href='#section8'>Algorithms</a></summary><ul><li><a href='#section9'>Parallel reduction</a></li><li><a href='#section10'>PseudoRandom Number generator</a></li></ul></details></li></ul></details></li>
+        <div class="markdown-body sidebarHide" style="flex: 1; min-width: 20px;"><br><div class='TOCpost'><h4>&emsp;&nbsp;Contents</h4><ul><li><a href='#section0'>(Top)</a></li><li onclick="toggleDetails(event)"><details><summary><a href='#section1'>The standard</a></summary><ul><li><a href='#section2'>Components</a></li><li onclick="toggleDetails(event)"><details><summary><a href='#section3'>Useful documentation</a></summary><ul><li><a href='#section4'>Equivalent nomenclature</a></li><li><a href='#section5'>Built-in inputs</a></li><li><a href='#section6'>Copying data back to the CPU</a></li><li><a href='#section7'>Benchmarking GPU functions</a></li><li><a href='#section8'>Common problems</a></li><li><a href='#section9'>Optimization techniques</a></li></ul></details></li><li onclick="toggleDetails(event)"><details><summary><a href='#section10'>Algorithms</a></summary><ul><li><a href='#section11'>Parallel reduction</a></li><li><a href='#section12'>PseudoRandom Number generator</a></li></ul></details></li></ul></details></li>
 </ul></div></div>
         <div class="markdown-body" id="HTMLpost"><div id="section0"></div>
 <h6>March 13th, 2025</h6>
 <h1>WebGPU</h1>
-<h5>Reading time: 21 mins</h5>
+<h5>Reading time: 23 mins</h5>
 <hr>
 <p>I'm writing this article to serve me as a repository for information on WebGPU as I'm learning it. It covers useful links, architecture description and some non-flashy -but still very important- algorithms implemented on it.</p>
-<p><div class='TOCpost'><h4>&emsp;&nbsp;Contents</h4><ul><li><a href='#section0'>(Top)</a></li><li onclick="toggleDetails(event)"><details><summary><a href='#section1'>The standard</a></summary><ul><li onclick="toggleDetails(event)"><details><summary><a href='#section2'>Useful documentation</a></summary><ul><li><a href='#section3'>Built-in inputs</a></li><li><a href='#section4'>Copying data back to the CPU</a></li><li><a href='#section5'>Benchmarking GPU functions</a></li><li><a href='#section6'>Common problems</a></li><li><a href='#section7'>Optimization techniques</a></li></ul></details></li><li onclick="toggleDetails(event)"><details><summary><a href='#section8'>Algorithms</a></summary><ul><li><a href='#section9'>Parallel reduction</a></li><li><a href='#section10'>PseudoRandom Number generator</a></li></ul></details></li></ul></details></li>
+<p><div class='TOCpost'><h4>&emsp;&nbsp;Contents</h4><ul><li><a href='#section0'>(Top)</a></li><li onclick="toggleDetails(event)"><details><summary><a href='#section1'>The standard</a></summary><ul><li><a href='#section2'>Components</a></li><li onclick="toggleDetails(event)"><details><summary><a href='#section3'>Useful documentation</a></summary><ul><li><a href='#section4'>Equivalent nomenclature</a></li><li><a href='#section5'>Built-in inputs</a></li><li><a href='#section6'>Copying data back to the CPU</a></li><li><a href='#section7'>Benchmarking GPU functions</a></li><li><a href='#section8'>Common problems</a></li><li><a href='#section9'>Optimization techniques</a></li></ul></details></li><li onclick="toggleDetails(event)"><details><summary><a href='#section10'>Algorithms</a></summary><ul><li><a href='#section11'>Parallel reduction</a></li><li><a href='#section12'>PseudoRandom Number generator</a></li></ul></details></li></ul></details></li>
 </ul></div></p>
 <div id="section1"></div>
 <h1>The standard</h1>
-<p>WebGPU is a graphics <abbr title="Application Programming Interface">API</abbr> standard being developed over the last few years, built as a performant method to bridge graphics programming between different platforms:</p>
+<p>WebGPU is a modern graphics and compute <abbr title="Application Programming Interface">API</abbr> standard developed over the last few years, built as a performant method to bridge graphics programming between different platforms:</p>
 <ul>
 <li><strong>Metal</strong>, an <abbr title="Application Programming Interface">API</abbr> for Apple products. I'm mentioning it first because apparently it's the one WebGPU is most similar to.</li>
 <li><strong>Vulkan</strong>, open source and very low level.</li>
@@ -96,12 +96,51 @@ section="blog">
 <p>If you are a beginner in strongly typed languages, I recommend to build a few small projects through the JS <abbr title="Application Programming Interface">API</abbr> first, so you don't need to worry about garbage collection. I find it quite easy to get into it in this way. This <a href="https://codelabs.developers.google.com/your-first-webgpu-app">tutorial</a> was especially good.</p>
 <p>So, WebGPU is the GPU <abbr title="Application Programming Interface">API</abbr> with the biggest backing in history, not so low level, with access to compute shaders, performant and allows its use both for web and native apps, multiplatform in terms of OS but also in terms of the GPU vendor itself... for me it's quite hard to pass on it.</p>
 <div id="section2"></div>
+<h2>Components</h2>
+<p>The execution flow goes as follows:</p>
+<ol>
+<li>Request adapter and device</li>
+<li>Create buffers, shaders and pipeline</li>
+<li>Define bind groups</li>
+<li>Start recording instructions through the command encoder</li>
+<li>Perform render &amp; compute passes</li>
+<li>End pass and submit commands to the GPU</li>
+</ol>
+<p>The <strong>adapter</strong> represents a physical GPU or a software callback (SwiftShader), whereas the <strong>device</strong> is the connection to it, allowing the creation of resources such as buffers, textures and pipelines.</p>
+<p>The <strong>encoder</strong> records to-be scheduled GPU work, with the <strong>render pass</strong> encoder recording draw calls and the <strong>compute pass</strong> one doing compute shader work instead.</p>
+<p>There are several types of GPU buffers:</p>
+<ul>
+<li><strong>Vertex</strong>. Stores vertex position and values. These have an additional property that defines the number of bytes between consecutive vertices, the array stride.</li>
+<li><strong>Index</strong>. Stores the order to render the vertices, their indices.</li>
+<li><strong>Uniform</strong>. Small, read-only buffers accessible by shaders.</li>
+<li><strong>Storage</strong>. Larger, read-write buffers for compute or complex data.</li>
+</ul>
+<p>Buffer layout is defined by their attribute, stored in the buffer:</p>
+<ul>
+<li><strong>Format</strong>. E.g. float32x3 for a vec3.</li>
+<li><strong>Offset</strong>. Byte position of the attribute itself.</li>
+<li><strong>Location</strong>. Binding index of the buffer used in the shader.</li>
+</ul>
+<p>Bind groups are collections of GPU resources:</p>
+<ul>
+<li><strong>Bind group layouts</strong> describe what resources will a bind group contain.</li>
+<li><strong>Bind group</strong> is the actual object containing those, with the binding of each resource exposed in the affected WGSL shaders.</li>
+</ul>
+<p>Shaders are the programs that end up running on the CPU, written in WGSL. There are 3 types:</p>
+<ul>
+<li><strong>Vertex</strong> shaders. Run per vertex, outputs positions in clip space.</li>
+<li><strong>Fragment</strong> shaders. Run per pixel/fragment, outputs the colors seen on the screen.</li>
+<li><strong>Compute</strong> shaders. General purpose computation without fixed inputs/outputs.</li>
+</ul>
+<p>Apart from the components, it's useful to know WebGPU uses clip space coordinates where the center is the origin of a double-unit square.</p>
+<div id="section3"></div>
 <h2>Useful documentation</h2>
 <ul>
 <li><a href="https://www.w3.org/TR/WGSL/">Official documentation</a></li>
 <li><a href="https://webgpufundamentals.org/webgpu/lessons/webgpu-limits-and-features.html">Adapter/device limits &amp; features</a></li>
 </ul>
-<h4>Equivalent nomenclature</h4>
+<div id="section4"></div>
+<h3>Equivalent nomenclature</h3>
 <table>
 <thead>
 <tr>
@@ -149,7 +188,7 @@ section="blog">
 </tbody>
 </table>
 <p>I personally like using thread, warp, workgroup and dispatch.</p>
-<div id="section3"></div>
+<div id="section5"></div>
 <h3>Built-in inputs</h3>
 <table>
 <thead>
@@ -283,7 +322,7 @@ section="blog">
 </tr>
 </tbody>
 </table>
-<div id="section4"></div>
+<div id="section6"></div>
 <h3>Copying data back to the CPU</h3>
 <p>We need:</p>
 <ul>
@@ -308,7 +347,7 @@ device.<span class="hljs-property">queue</span>.<span class="hljs-title function
 stagingBuffer.<span class="hljs-title function_">unmap</span>();
 </code></pre>
 <p>This is also a (bad) way to benchmark the time it takes for the instructions to be sent and the kernel to be launched. It's not optimal because it depends on CPU/GPU schedules, making it only somewhat reliable when the program is running constantly under a heavy load.</p>
-<div id="section5"></div>
+<div id="section7"></div>
 <h3>Benchmarking GPU functions</h3>
 <p>This is taken from this <a href="https://webgpufundamentals.org/webgpu/lessons/webgpu-timing.html">website</a> I mentioned earlier, and it's a method to benchmark kernel executing time only, so although it may vary it doesn't depend on the CPU schedule and ability to synchronize. I modified the helper class to remove the asserts and convert the output to microseconds. The class:</p>
 <details><summary>TimingHelper class</summary>
@@ -418,7 +457,7 @@ computePass.<span class="hljs-title function_">end</span>();
 device.<span class="hljs-property">queue</span>.<span class="hljs-title function_">submit</span>([encoder.<span class="hljs-title function_">finish</span>()]);
 <span class="hljs-keyword">const</span> gpuTime = timingHelper.<span class="hljs-title function_">getResult</span>(); <span class="hljs-comment">// Microseconds</span>
 </code></pre>
-<div id="section6"></div>
+<div id="section8"></div>
 <h3>Common problems</h3>
 <ul>
 <li><strong>Memory race conditions</strong>. Happens when memory is accessed at the same time by multiple threads. For example, if a thread needs to add a plus 1 to a position in global or shared memory this could raise a race condition:</li>
@@ -435,7 +474,7 @@ device.<span class="hljs-property">queue</span>.<span class="hljs-title function
 <ul>
 <li><strong>Shared bank memory conflicts.</strong> Available shared memory is divided into 32 bit banks. A conflict arises when two threads in the same warp attempt to access the same bank simultaneously, for which access is then serialized, slowing things down the more threads get in queue. An exception is when all threads in a warp attempt to do so; there is no conflict because data is broadcasted.</li>
 </ul>
-<div id="section7"></div>
+<div id="section9"></div>
 <h3>Optimization techniques</h3>
 <p>GPU scheduling:</p>
 <ul>
@@ -473,9 +512,9 @@ device.<span class="hljs-property">queue</span>.<span class="hljs-title function
 </li>
 </ul>
 <p>I think these become second-hand as you learn WebGPU and deal with its challenges.</p>
-<div id="section8"></div>
+<div id="section10"></div>
 <h2>Algorithms</h2>
-<div id="section9"></div>
+<div id="section11"></div>
 <h3>Parallel reduction</h3>
 <p>This is loosely based on NVIDIA's <a href="https://developer.download.nvidia.com/../../content/blog/assets/cuda/files/reduction.pdf">webinar</a> on parallel reduction. As a note, GPUs have changed quite a bit since then, and apparently there are slightly better methods now, but I'll stick to the basics. The task is to sum the integers in an array. I've also included these single-threaded CPU &amp; GPU versions for comparison:</p>
 <pre><code class="language-js"><span class="hljs-comment">// CPU ST</span>
@@ -709,7 +748,7 @@ var minValue = MAX_UINT32;
 <span class="hljs-comment">// The operation done in each part of the unrolled loop, with id1 and id2 the first and second elements</span>
 
 </code></pre>
-<div id="section10"></div>
+<div id="section12"></div>
 <h3>PseudoRandom Number generator</h3>
 <p>PCG hash <abbr title="Pseudorandom number">PRN</abbr> generator:</p>
 <pre><code class="language-rust"><span class="hljs-keyword">fn</span> <span class="hljs-title function_">randomU32</span>(seed: <span class="hljs-type">u32</span>) <span class="hljs-punctuation">-&gt;</span> <span class="hljs-type">u32</span> { <span class="hljs-comment">// PCG hash random int generator</span>
