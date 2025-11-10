@@ -19,10 +19,10 @@
         "": [
             "<a class='recipeLink' href='pestoGenovese.html'>Pesto</a> (50 g)",
 			"(50 g) feta cheese (or other solid but crumbly cheeses)",
-			"(125 g) cherry tomatoes, candied or roasted"
+			"(125 g) cherry tomatoes, fresh, candied or roasted. In halves."
         ],
 		"Pasta": [
-			"120 g pasta",
+			"80-120 g pasta",
 			"Salt"
 		]
     },
@@ -35,10 +35,15 @@
     "variants": [
         "Black olives",
 		"Drizzle with vinegar",
-		"Soaked (in water, to remove raw taste) red onion"
+		"Soaked (in water, to remove raw taste) red onion, or green",
+		"Fresh herbs like basil, ruccula (rocket), green onions...",
+		"Substitute feta for non-crumbly cheeses like mozzarella."
     ],
     "tips": {
-        "culinary": [],
+        "culinary": [
+			"If preparing the pasta for later, add half the pesto now, half later. Do it the night before to allow it to cool. Add a tsp of mayonnaise or oil to prevent drying.",
+			"Italians say pasta starts dying the moment you drain it. You have to put in the sauce quickly."
+		],
         "serving": []
     }
 }
