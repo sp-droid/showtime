@@ -18,6 +18,8 @@ sitemap = '''<?xml version="1.0" encoding="UTF-8"?>
 '''
 
 for file in tqdm(list(pathlib.Path("pages/").rglob("*.html"))):
+    if file.stem == "literature_review" or file.stem == "progress_log" or file.stem == "technical_notes":
+        continue # Remove this when it's ok to publish the thesis
     sitemap += f'\n<url><loc>https://pabloarbelo.com/{str(file).replace("\\","/")}</loc></url>'
 
 with open("content/projects.json", "r", encoding="utf-8") as file:

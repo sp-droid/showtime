@@ -29,15 +29,16 @@
         ]
     },
     "utensils": [
-		"Kitchen pot"
+		"Kitchen pot",
+		"Hand blender"
     ],
     "instructions": [
         "- Heat until boiling the chicken, 1.5L water and some salt.",
 		"- Add the tomatoes and onions, cut in half, the carrots and the garlic. Don't remove the skin of the tomatoes.",
 		"- Once it's boiling, lower to medium heat, add the oil, paprika and count 45 min.",
-		"- Cut carrots in slices, chicken in small pieces, get the juice and remove the onion and tomatoes. Press it to extract the juice and throw it away.",
-		"- Correct for salt, take to a boil, measure the noodles to cover the low part of a bowl and add them, cooking for whatever the package says minus 1 minute.",
-		"- Take off the heat and rest for 5 minutes."
+		"- Cut carrots in slices, chicken in small pieces, throw out the onion pressing it for the juice and peel the tomatoes. Take 1 piece of carrot, the tomatoes, 2 or 3 pieces of garlic and some juice, all into a blender.",
+		"- Correct for salt, take to a boil, measure the noodles to cover the low part of a bowl and add them, cooking for whatever the package says.",
+		"- When time finishes, add the finely blended juice."
     ],
     "variants": [
 		"You can put a sliced quarter of a bell pepper.",
@@ -45,8 +46,8 @@
 	],
     "tips": {
         "culinary": [
-			"After the 45 minutes I like to put a few carrot slices and garlic cloves in the blender along with the tomatoes.",
-			"This is one of those recipes for which it's traditional to use colorant. Beware of what you are using however, many food colorants aren't healthy."
+			"At least in Spain we tend to use the orange artificial colorant a lot, made from tartrazine (E-102). It's not healthy. In this recipe we replaced it with the piece of carrot and tomatoes blended at the end, plus some optional saffron.",
+			"Don't add the blended juice before turning off the heat because the trapped air will make foam, worsening the look."
 		],
         "serving": []
     }

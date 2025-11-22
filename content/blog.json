@@ -1,5 +1,23 @@
 [
   {
+    "title": "MSc thesis progress log",
+    "file": "progress_log",
+    "tag": "WIP",
+    "date": "21/11/2025"
+  },
+  {
+    "title": "MSc thesis literature summary",
+    "file": "literature_review",
+    "tag": "WIP",
+    "date": "21/11/2025"
+  },
+  {
+    "title": "MSc thesis technical notes",
+    "file": "technical_notes",
+    "tag": "WIP",
+    "date": "21/11/2025"
+  },
+  {
     "title": "GPU-accelerated DLA",
     "file": "diffusion-limited-aggregation",
     "tag": "Projects",

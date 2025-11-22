@@ -22,7 +22,7 @@ document.addEventListener("DOMContentLoaded", function() {
         })
         .then(data => {
             if (wip) {
-                blogJSON = data;
+                blogJSON = data.filter(entry => entry.tag === "WIP");
             } else {
                 blogJSON = data.filter(entry => entry.tag !== "WIP")
             }
