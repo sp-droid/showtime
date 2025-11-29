@@ -3,7 +3,6 @@ from pathlib import Path
 
 from tqdm import tqdm
 import pandas as pd
-import json
 
 def categoryIcon(category):
     if category == "Appetizers": icon = None
@@ -22,6 +21,14 @@ with open("assets/data/recipes/specialFoods.json", "r") as file: specialFoods = 
 with open("assets/data/recipes/dietaryReferenceIntakes.json", "r") as file: DRI = json.load(file)
 # Load nutrient name conversion table
 with open("assets/data/recipes/nutrientNames.json", "r") as file: nutrientNames = json.load(file)
+
+# Shared layout snippets
+with open("assets/templates/topbar.html", 'r', encoding='utf-8') as file:
+    HTMLtopbar = file.read()
+with open("assets/templates/favicon.html", 'r', encoding='utf-8') as file:
+    favicon = file.read()
+with open("assets/templates/googleAnalytics.html", 'r', encoding='utf-8') as file:
+    googleAnalytics = file.read()
 
 def getNutrition(string, nutrition):
     ingredient = string.lower().split("(")[0]
@@ -185,6 +192,15 @@ for recipePath in pbar:
                 </div>"""
     content = content.replace("{{tips}}", tips)
 
+    # Inject shared layout fragments (same as complete.py)
+    # Root folder for individual recipes is two levels up
+    # from pages/recipes/*.html -> site root.
+    rootFolder = "../../"
+    content = content.replace("{{HTMLtopbar}}", HTMLtopbar)
+    content = content.replace("{{favicon}}", favicon)
+    content = content.replace("{{googleAnalytics}}", googleAnalytics)
+    content = content.replace("{{rootFolder}}", rootFolder)
+
     # Only regenerate the per-recipe HTML page when the
     # underlying JSON file changed size since last run.
     if should_process_recipe(recipePath, recipe_cache):
@@ -212,6 +228,16 @@ for recipePath in pbar:
 with open("assets/templates/recipes.html", "r", encoding="utf-8") as file:
     content = file.read()
 content = content.replace("{{recipeRows}}", recipeRows)
+
+# Inject shared layout fragments for the recipes index.
+# recipes.html lives directly under pages/, so its
+# rootFolder is "./" relative to site root.
+rootFolder_index = "../"
+content = content.replace("{{HTMLtopbar}}", HTMLtopbar)
+content = content.replace("{{favicon}}", favicon)
+content = content.replace("{{googleAnalytics}}", googleAnalytics)
+content = content.replace("{{rootFolder}}", rootFolder_index)
+
 with open(f"pages/recipes.html", "w", encoding="utf-8") as file:
     file.write(content)
 

@@ -29,7 +29,11 @@ shutil.copy("assets/templates/about.html", "pages/about.html")
 shutil.copy("assets/templates/projects.html", "pages/projects.html")
 shutil.copy("assets/templates/blog.html", "pages/blog.html")
 
-for file in tqdm(list(pathlib.Path("pages/").rglob("*.html"))):
+for file in tqdm([
+    pathlib.Path("pages/about.html"),
+    pathlib.Path("pages/projects.html"),
+    pathlib.Path("pages/blog.html"),
+]):
     depth = len(file.parents) - 1
     rootFolder = "../" * depth
 

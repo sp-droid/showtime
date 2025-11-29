@@ -29,6 +29,9 @@ try {
     blogCache = {};
 }
 const template = await retrieveFile("../../assets/templates/blog/post.html");
+const topbar = await retrieveFile("../../assets/templates/topbar.html");
+const favicon = await retrieveFile("../../assets/templates/favicon.html");
+const googleAnalytics = await retrieveFile("../../assets/templates/googleAnalytics.html");
 
 // Reorder and rewrite
 blogJSON = blogJSON.sort((a, b) => {
@@ -204,6 +207,16 @@ function savePost(blogMD) {
         text += `<hr><div class="blogTags"><button class="blogTagSelected" title='Check more posts of the "${blogMD["tag"]}" category on my blog!'>${blogMD["tag"]}</button></div><br>`
         text = template.replace("{{content}}", text);
         text = text.replace("{{title}}", blogMD["title"]);
+
+        // Inject shared layout fragments (same placeholders
+        // as used by complete.py). Individual blog posts
+        // live under pages/blog/, so rootFolder is ../.. to
+        // reach the site root.
+        const rootFolder = "../..";
+        text = text.replaceAll("{{HTMLtopbar}}", topbar);
+        text = text.replaceAll("{{favicon}}", favicon);
+        text = text.replaceAll("{{googleAnalytics}}", googleAnalytics);
+        text = text.replaceAll("{{rootFolder}}", rootFolder);
 
         // Multiple row/col table cells
         text = text.replaceAll(">#rowspan=2 ", " rowspan=2>").replaceAll(">#rowspan=3 ", " rowspan=3>").replaceAll(">#rowspan=4 ", " rowspan=4>").replaceAll(">#rowspan=5 ", " rowspan=5>");
