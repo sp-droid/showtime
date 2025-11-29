@@ -1,0 +1,42 @@
+{
+  "progress_log": {
+    "mdSize": 5326,
+    "meta": "{\"title\":\"MSc thesis progress log\",\"file\":\"progress_log\",\"tag\":\"WIP\",\"date\":\"21/11/2025\"}"
+  },
+  "literature_review": {
+    "mdSize": 15571,
+    "meta": "{\"title\":\"MSc thesis literature summary\",\"file\":\"literature_review\",\"tag\":\"WIP\",\"date\":\"21/11/2025\"}"
+  },
+  "technical_notes": {
+    "mdSize": 4585,
+    "meta": "{\"title\":\"MSc thesis technical notes\",\"file\":\"technical_notes\",\"tag\":\"WIP\",\"date\":\"21/11/2025\"}"
+  },
+  "diffusion-limited-aggregation": {
+    "mdSize": 2483,
+    "meta": "{\"title\":\"GPU-accelerated DLA\",\"file\":\"diffusion-limited-aggregation\",\"tag\":\"Projects\",\"date\":\"17/03/2025\"}"
+  },
+  "rainbow-smoke-gpu": {
+    "mdSize": 7240,
+    "meta": "{\"title\":\"GPU-accelerated Rainbow Smoke\",\"file\":\"rainbow-smoke-gpu\",\"tag\":\"Projects\",\"date\":\"13/03/2025\"}"
+  },
+  "webgpu": {
+    "mdSize": 36442,
+    "meta": "{\"title\":\"WebGPU\",\"file\":\"webgpu\",\"tag\":\"Reference\",\"date\":\"13/03/2025\"}"
+  },
+  "uni-projects": {
+    "mdSize": 6168,
+    "meta": "{\"title\":\"Projects during the MSc. in Space Engineering\",\"file\":\"uni-projects\",\"tag\":\"Projects\",\"date\":\"05/03/2025\"}"
+  },
+  "dbi": {
+    "mdSize": 4041,
+    "meta": "{\"title\":\"Discrete bilinear interpolation\",\"file\":\"dbi\",\"tag\":\"Other\",\"date\":\"24/02/2025\"}"
+  },
+  "md-cheat-sheet": {
+    "mdSize": 20388,
+    "meta": "{\"title\":\"Markdown cheat sheet and tools explanation\",\"file\":\"md-cheat-sheet\",\"tag\":\"Reference\",\"date\":\"07/09/2024\"}"
+  },
+  "eac-internship": {
+    "mdSize": 7713,
+    "meta": "{\"title\":\"Internship at the European Space Agency\",\"file\":\"eac-internship\",\"tag\":\"Projects\",\"date\":\"31/12/2023\"}"
+  }
+}

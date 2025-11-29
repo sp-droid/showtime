@@ -3,6 +3,7 @@ from pathlib import Path
 
 from tqdm import tqdm
 import pandas as pd
+import json
 
 def categoryIcon(category):
     if category == "Appetizers": icon = None
@@ -53,6 +54,34 @@ with open(f"assets/templates/recipes/recipe.html", "r") as file:
 # List existing recipes
 recipes = list(Path("content/recipes").glob("*"))
 
+# Lightweight cache so we can avoid re-processing recipe
+# JSON files whose size hasn't changed since the last run.
+cache_path = Path("scripts/cache-recipes.json")
+recipe_cache = {}
+if cache_path.exists():
+    try:
+        with cache_path.open('r', encoding='utf-8') as f:
+            recipe_cache = json.load(f)
+    except Exception:
+        recipe_cache = {}
+
+
+def should_process_recipe(path: Path, cache: dict) -> bool:
+    """Return True if the recipe JSON should be processed based on size cache."""
+    try:
+        size = path.stat().st_size
+    except FileNotFoundError:
+        # New or missing file: must process.
+        return True
+
+    key = str(path)
+    prev = cache.get(key)
+    if prev is not None and prev.get("size") == size:
+        return False
+
+    cache[key] = {"size": size}
+    return True
+
 # Load each file, edit the template accordingly and save as a new html
 recipeRows = ""
 pbar = tqdm(recipes)
@@ -60,7 +89,7 @@ for recipePath in pbar:
     pbar.set_postfix_str(f"Current recipe: {recipePath.stem}")
 
     with open(recipePath, "r", encoding="utf-8") as file:
-        recipe = json.load(file)    
+        recipe = json.load(file)
     content = template
 
     content = content.replace("{{baseName}}", recipePath.stem)
@@ -156,8 +185,11 @@ for recipePath in pbar:
                 </div>"""
     content = content.replace("{{tips}}", tips)
 
-    with open(f"pages/recipes/{recipePath.stem}.html", "w", encoding="utf-8") as file:
-        file.write(content)
+    # Only regenerate the per-recipe HTML page when the
+    # underlying JSON file changed size since last run.
+    if should_process_recipe(recipePath, recipe_cache):
+        with open(f"pages/recipes/{recipePath.stem}.html", "w", encoding="utf-8") as file:
+            file.write(content)
 
     recipeRows += "<tr>"
     recipeRows += f'<td>{recipe["name"]}</td>'
@@ -182,3 +214,11 @@ with open("assets/templates/recipes.html", "r", encoding="utf-8") as file:
 content = content.replace("{{recipeRows}}", recipeRows)
 with open(f"pages/recipes.html", "w", encoding="utf-8") as file:
     file.write(content)
+
+# Persist updated recipe cache at the end
+try:
+    cache_path.parent.mkdir(parents=True, exist_ok=True)
+    with cache_path.open('w', encoding='utf-8') as f:
+        json.dump(recipe_cache, f, indent=2)
+except Exception:
+    pass

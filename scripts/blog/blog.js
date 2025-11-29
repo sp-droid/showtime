@@ -18,6 +18,16 @@ import hljs from "highlight.js";
 // ################################
 
 let blogJSON = JSON.parse(await retrieveFile("../../content/blog.json"));
+// Lightweight cache of last-seen sizes so we can skip
+// regenerating posts whose inputs haven't changed.
+// Keep this alongside the script instead of under content/.
+const cachePath = "./blog-cache.json";
+let blogCache = {};
+try {
+    blogCache = JSON.parse(await retrieveFile(cachePath));
+} catch (e) {
+    blogCache = {};
+}
 const template = await retrieveFile("../../assets/templates/blog/post.html");
 
 // Reorder and rewrite
@@ -35,9 +45,28 @@ fs.writeFile("../../content/blog.json", JSON.stringify(blogJSON, null, 2), "utf8
         console.error("Error writing file:", err);
     }
 });
+{
+    let skipped = 0;
+    let processed = 0;
+    const total = blogJSON.length;
 
-for (let i = 0; i < blogJSON.length; i++) {
-    savePost(blogJSON[i]);
+    for (let i = 0; i < blogJSON.length; i++) {
+        const result = await processPostIfChanged(blogJSON[i]);
+        if (result === "processed") {
+            processed++;
+        } else if (result === "skipped") {
+            skipped++;
+        }
+    }
+
+    // Persist updated cache after processing all posts
+    fs.writeFile(cachePath, JSON.stringify(blogCache, null, 2), "utf8", (err) => {
+        if (err) {
+            console.error("Error writing cache file:", err);
+        }
+    });
+
+    console.log(`Finished blog generation (${total} posts): skipped ${skipped}, processed ${processed}.`);
 }
 
 // ################################
@@ -54,6 +83,46 @@ async function retrieveFile(path) {
             }
         });
     });
+}
+
+// Only call savePost if the MD file or its blog.json
+// entry has changed. Uses stat size of the MD and a
+// stable JSON of the entry stored in a small cache.
+async function processPostIfChanged(blogMD) {
+    const mdPath = `../../content/blog/${blogMD["file"]}.md`;
+
+    // Get current MD file size (fast, no file read).
+    let mdSize = 0;
+    try {
+        const stats = await new Promise((resolve, reject) => {
+            fs.stat(mdPath, (err, s) => (err ? reject(err) : resolve(s)));
+        });
+        mdSize = stats.size;
+    } catch (e) {
+        // If we can't stat the file, let savePost handle it.
+        savePost(blogMD);
+        return "processed";
+    }
+
+    const stableJson = JSON.stringify({
+        title: blogMD.title,
+        file: blogMD.file,
+        tag: blogMD.tag,
+        date: blogMD.date,
+    });
+
+    const key = blogMD.file;
+    const prev = blogCache[key];
+
+    if (prev && prev.mdSize === mdSize && prev.meta === stableJson) {
+        // No change detected in MD size or blog.json entry.
+        return "skipped";
+    }
+
+    // Update cache and regenerate.
+    blogCache[key] = { mdSize: mdSize, meta: stableJson };
+    savePost(blogMD);
+    return "processed";
 }
 
 function savePost(blogMD) {

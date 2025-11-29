@@ -1,0 +1,131 @@
+{
+  "content\\recipes\\albondigas.json": {
+    "size": 3155
+  },
+  "content\\recipes\\amaretti.json": {
+    "size": 1701
+  },
+  "content\\recipes\\arrozConLeche.json": {
+    "size": 1848
+  },
+  "content\\recipes\\bizcochoYogur.json": {
+    "size": 2066
+  },
+  "content\\recipes\\brownies.json": {
+    "size": 2759
+  },
+  "content\\recipes\\butter.json": {
+    "size": 2109
+  },
+  "content\\recipes\\butterChicken.json": {
+    "size": 3360
+  },
+  "content\\recipes\\carbonara.json": {
+    "size": 1998
+  },
+  "content\\recipes\\cheesecakeVasca.json": {
+    "size": 2166
+  },
+  "content\\recipes\\chickenSoup.json": {
+    "size": 2100
+  },
+  "content\\recipes\\cremaCalabacin.json": {
+    "size": 1414
+  },
+  "content\\recipes\\crepes.json": {
+    "size": 1652
+  },
+  "content\\recipes\\englishCurry.json": {
+    "size": 2085
+  },
+  "content\\recipes\\estofado.json": {
+    "size": 2827
+  },
+  "content\\recipes\\fabada.json": {
+    "size": 1795
+  },
+  "content\\recipes\\garbanzada.json": {
+    "size": 2935
+  },
+  "content\\recipes\\gazpacho.json": {
+    "size": 1550
+  },
+  "content\\recipes\\gofioEscaldado.json": {
+    "size": 682
+  },
+  "content\\recipes\\honeyFritters.json": {
+    "size": 694
+  },
+  "content\\recipes\\jam.json": {
+    "size": 2614
+  },
+  "content\\recipes\\mangolassi.json": {
+    "size": 1550
+  },
+  "content\\recipes\\mimos.json": {
+    "size": 1129
+  },
+  "content\\recipes\\mokacoffee.json": {
+    "size": 1843
+  },
+  "content\\recipes\\ovaSpongiaExLacte.json": {
+    "size": 682
+  },
+  "content\\recipes\\ovenChickenWings.json": {
+    "size": 1458
+  },
+  "content\\recipes\\pannaCotta.json": {
+    "size": 1164
+  },
+  "content\\recipes\\pastaFredda.json": {
+    "size": 1476
+  },
+  "content\\recipes\\pellaGofio.json": {
+    "size": 1209
+  },
+  "content\\recipes\\pestoGenovese.json": {
+    "size": 2609
+  },
+  "content\\recipes\\pizza.json": {
+    "size": 3586
+  },
+  "content\\recipes\\polloCerveza.json": {
+    "size": 1658
+  },
+  "content\\recipes\\potajeCanario.json": {
+    "size": 677
+  },
+  "content\\recipes\\pucheroCanario.json": {
+    "size": 3186
+  },
+  "content\\recipes\\pumpkinCarrotSoup.json": {
+    "size": 1846
+  },
+  "content\\recipes\\raguBolognese.json": {
+    "size": 3522
+  },
+  "content\\recipes\\shortbreadCookies.json": {
+    "size": 1140
+  },
+  "content\\recipes\\sopaLentejas.json": {
+    "size": 1452
+  },
+  "content\\recipes\\sopaPuchero.json": {
+    "size": 1316
+  },
+  "content\\recipes\\tartaletas.json": {
+    "size": 3200
+  },
+  "content\\recipes\\tiramisu.json": {
+    "size": 2931
+  },
+  "content\\recipes\\tomatoPasta.json": {
+    "size": 3252
+  },
+  "content\\recipes\\torrijas.json": {
+    "size": 1913
+  },
+  "content\\recipes\\truchas.json": {
+    "size": 679
+  }
+}
