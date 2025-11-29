@@ -1,32 +1,59 @@
 {
     "name": "Brownies",
-    "category": "Main courses",
-    "description": "/'Canarian chickpeas'/ ",
-    "origin": "-, Canary Islands.",
-    "portions": 30,
+    "category": "Desserts",
+    "description": "Rich, fudgy brownies with a crackly top and optional chocolate bits.",
+    "origin": "1900s Boston, United States.",
+    "portions": 6,
     "flags": {
         "difficulty": "Easy",
-        "cuisine": "Byzantine",
+        "cuisine": "American",
         "prepTime": "20'",
-        "totalTime": "Idem",
-        "lactoseFree": true,
+        "totalTime": "50'",
+        "lactoseFree": false,
         "glutenFree": false,
         "vegetarian": true,
-        "vegan": true,
-		"finished": false
+        "vegan": false,
+        "finished": true
     },
     "ingredients": {
         "": [
-            ""
+            "55 g butter (if unsalted, add 1 g salt)",
+            "3 g vegetable oil",
+            "22 g dutch-process cocoa powder",
+            "28 g dark chocolate (60%)",
+            "1 tsp brewed coffee",
+            "1/3 tsp vanilla extract",
+            "90 g white sugar (optionally substitute a third with brown sugar)",
+            "1 egg",
+            "30 g flour (all-purpose works well)",
+            "22 g dark chocolate (60%, chopped up with a knife in medium chunks)",
+            "Milk powder (optional, 5 g)"
         ]
     },
-    "utensils": [],
+    "utensils": [
+        "Kitchen pot",
+        "Hand mixer",
+        "Oven"
+    ],
     "instructions": [
-        ""
+        "- Brown the butter in a saucepan over low heat, stirring until solids brown, then remove from heat.",
+        "- Immediately add the cocoa powder and chocolate to bloom and combine.",
+        "- Use a hand mixer to whip the egg and sugar together, adding sugar gradually. Mix well for a fudgy, crackly texture.",
+        "- Combine the chocolate mixture with the egg-sugar mixture, then add optional salt, vanilla, and coffee.",
+        "- Fold in the flour gently to avoid overmixing.",
+        "- Once at room temperature (or chilled), fold in the chocolate bits, ensuring they are cold to prevent premature melting.",
+        "- Pour batter on a pan lined with parchment paper, spread evenly. If your pan is too big you can also push the batter to one side so the brownies come out bigger. It's so thick it allows you this liberty.",
+        "- Bake in a preheated oven at 175ºC for 25–35 minutes depending on thickness (3 cm / 1.2 in ≈ 25 min, thicker = more time). Test doneness by poking with a fork; it should come out slightly dark, not completely clean."
     ],
     "variants": [],
     "tips": {
-        "culinary": [],
-        "serving": []
+        "culinary": [
+            "Using chocolate bits straight from the fridge helps them stay intact in the batter.",
+            "Avoid overmixing after adding flour to keep the brownie fudgy."
+        ],
+        "serving": [
+            "I like them warmed up but feel free to try both experiences.",
+            "Serve with a scoop of vanilla ice cream or a dusting of powdered sugar."
+        ]
     }
 }
