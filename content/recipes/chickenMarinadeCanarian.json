@@ -1,0 +1,51 @@
+{
+    "name": "Canarian Chicken Marinade",
+    "category": "Main courses",
+    "description": "Simple, aromatic Canarian-style marinade for chicken.",
+    "origin": "-",
+    "portions": 3,
+    "flags": {
+        "difficulty": "Very easy",
+        "cuisine": "Canarian",
+        "prepTime": "20'",
+        "totalTime": "Idem",
+        "lactoseFree": true,
+        "glutenFree": true,
+        "vegetarian": false,
+        "vegan": false,
+        "finished": true
+    },
+    "ingredients": {
+        "": [
+            "500 g chicken breast",
+            "1 tsp sweet paprika",
+            "1/3 tsp cumin",
+            "3/4 tsp salt",
+            "1 tsp dried parsley (or finely chopped fresh parsley)",
+            "5 pressed garlic cloves",
+            "Some black pepper",
+            "1 tsp wine vinegar",
+            "36 g olive oil (≈ 3 tbsp)"
+        ]
+    },
+    "utensils": [
+        "Pan"
+    ],
+    "instructions": [
+        "- Mix all the spices together first.",
+        "- Add the olive oil and combine well to form the marinade.",
+        "- Coat the chicken thoroughly with the mixture.",
+        "- You can cook immediately, but ideally let it marinate for at least 2 hours.",
+        "- Fry the chicken in a shallow pan; no extra oil is needed."
+    ],
+    "variants": [],
+    "tips": {
+        "culinary": [
+            "Fresh parsley adds a brighter flavor if available.",
+            "For deeper flavor, marinate longer. It also makes it last longer."
+        ],
+        "serving": [
+            "Serve with papas arrugadas, rice, a simple salad..."
+        ]
+    }
+}

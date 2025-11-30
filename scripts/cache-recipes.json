@@ -48,7 +48,7 @@
     "size": 2935
   },
   "content\\recipes\\gazpacho.json": {
-    "size": 1550
+    "size": 1534
   },
   "content\\recipes\\gofioEscaldado.json": {
     "size": 682
@@ -96,7 +96,7 @@
     "size": 677
   },
   "content\\recipes\\pucheroCanario.json": {
-    "size": 3186
+    "size": 3192
   },
   "content\\recipes\\pumpkinCarrotSoup.json": {
     "size": 1846
@@ -127,5 +127,14 @@
   },
   "content\\recipes\\truchas.json": {
     "size": 679
+  },
+  "content\\recipes\\chickenMarinadeCanarian.json": {
+    "size": 1636
+  },
+  "content\\recipes\\costillasPapasPina.json": {
+    "size": 1546
+  },
+  "content\\recipes\\mojoCilantro.json": {
+    "size": 1533
   }
 }

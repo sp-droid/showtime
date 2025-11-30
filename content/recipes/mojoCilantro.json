@@ -1,0 +1,46 @@
+{
+    "name": "Mojo Verde (Cilantro)",
+    "category": "Main courses",
+    "description": "Traditional Canarian green mojo made with cilantro.",
+    "origin": "-",
+    "portions": 6,
+    "flags": {
+        "difficulty": "Easy",
+        "cuisine": "Canarian",
+        "prepTime": "10'",
+        "totalTime": "40'",
+        "lactoseFree": true,
+        "glutenFree": true,
+        "vegetarian": true,
+        "vegan": true,
+        "finished": true
+    },
+    "ingredients": {
+        "": [
+            "30 g cilantro (leaves and stems, also called coriander)",
+            "60 g olive oil",
+            "20 g wine vinegar",
+            "About 1 tsp salt (5 g)",
+            "1/5 tsp cumin powder",
+            "1 garlic clove",
+            "Chili pepper (1, small)"
+        ]
+    },
+    "utensils": [
+        "Mortar"
+    ],
+    "instructions": [
+        "- Place all dry ingredients (cilantro, salt, cumin, garlic, chili if using) in a mortar and grind until a paste forms.",
+        "- Add the olive oil and vinegar, mixing until fully combined.",
+        "- If using a blender instead: blend 2/3 of the chopped cilantro with half of the oil, mash the remaining 1/3 with a wooden spoon, and combine everything.",
+        "- Let the mojo rest for 30 minutes before serving."
+    ],
+    "variants": [],
+    "tips": {
+        "culinary": [],
+        "serving": [
+            "Served often with papas arrugadas alongside mojo rojo.",
+            "Keeps well in the fridge."
+        ]
+    }
+}
