@@ -1,0 +1,49 @@
+{
+    "name": "Churros de pescado",
+    "category": "Main courses",
+    "description": "",
+    "origin": "-",
+    "portions": 3,
+    "flags": {
+        "difficulty": "Easy",
+        "cuisine": "Canarian",
+        "prepTime": "25'",
+        "totalTime": "1h",
+        "lactoseFree": false,
+        "glutenFree": false,
+        "vegetarian": false,
+        "vegan": false,
+		"finished": true
+    },
+    "ingredients": {
+        "": [
+            "150 g flour",
+			"160 g red beer (colorant substitute)",
+			"30 g milk",
+			"1 egg yolk (if you decide to double the recipe, it's alright to use the whole egg instead)",
+			"3 cloves of garlic",
+			"350 g merluza (hake in English. Found in the freezer section. You can use 300 or 400 too. Without fishbones it's better.",
+			"Few strands of saffron (colorant substitute)",
+			"Tip of a tsp of turmeric (colorant substitute)",
+			"3/4 tsp salt (4 g. If you taste one and it's bland for you just sprinkle some salt on both sides)",
+			"Parsley (optional)",
+			"Olive oil"
+        ]
+    },
+    "utensils": [
+		"Pan"
+    ],
+    "instructions": [
+		"- Mix well 50 g of beer with everything except the fish and flour (pre-soaked saffron is better).",
+		"- Add the rest of the flour and beer, combine and soak the fish in it (previously cut into strips)",
+		"- Leave at least half an hour and fry on a shallow pan on medium-high heat."
+    ],
+    "variants": [],
+    "tips": {
+        "culinary": [
+			"To fry on a shallow pan, sear the pieces and then fry for longer on each side until golden.",
+			"To improve the colour an artificial colorant popular in Spain called tartrazine is used. However I don't think it's healthy, so I've used ingredients that may not be commonly used but help us reach the desired colour naturally."
+		],
+        "serving": []
+    }
+}

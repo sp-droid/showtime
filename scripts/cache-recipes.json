@@ -90,7 +90,7 @@
     "size": 3586
   },
   "content\\recipes\\polloCerveza.json": {
-    "size": 1658
+    "size": 1655
   },
   "content\\recipes\\potajeCanario.json": {
     "size": 677
@@ -136,5 +136,8 @@
   },
   "content\\recipes\\mojoCilantro.json": {
     "size": 1533
+  },
+  "content\\recipes\\churrosPescado.json": {
+    "size": 1850
   }
 }
