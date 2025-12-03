@@ -73,30 +73,57 @@ if cache_path.exists():
         recipe_cache = {}
 
 
-def should_process_recipe(path: Path, cache: dict) -> bool:
-    """Return True if the recipe JSON should be processed based on size cache."""
+def should_skip_recipe(path: Path, cache: dict) -> bool:
+    """Return True if the recipe JSON should be skipped based on size cache."""
     try:
         size = path.stat().st_size
     except FileNotFoundError:
         # New or missing file: must process.
-        return True
+        return False
 
     key = str(path)
     prev = cache.get(key)
     if prev is not None and prev.get("size") == size:
-        return False
+        return True
 
     cache[key] = {"size": size}
-    return True
+    return False
 
 # Load each file, edit the template accordingly and save as a new html
 recipeRows = ""
 pbar = tqdm(recipes)
+skipped = 0
 for recipePath in pbar:
-    pbar.set_postfix_str(f"Current recipe: {recipePath.stem}")
+    pbar.set_postfix_str(f"Current recipe: {recipePath.stem}, skipped: {skipped}")
 
     with open(recipePath, "r", encoding="utf-8") as file:
         recipe = json.load(file)
+
+    recipeRows += "<tr>"
+    recipeRows += f'<td>{recipe["name"]}</td>'
+    recipeRows += f'<td>{recipe["category"]}</td>'
+    recipeRows += f'<td>{recipe["flags"]["cuisine"]}</td>'
+    recipeRows += f'<td>{int(recipe["flags"]["finished"])}</td>'
+    if recipe["flags"]["totalTime"] == "Idem": recipeRows += f'<td>{recipe["flags"]["prepTime"]}</td>'
+    else: recipeRows += f'<td>{recipe["flags"]["totalTime"]}</td>'
+    recipeRows += f'<td>{recipe["flags"]["difficulty"]}</td>'
+    recipeRows += f'<td>{recipePath.stem}</td>'
+    recipeRows += f'<td>{recipe["origin"]}</td>'
+    recipeRows += f'<td>{recipe["description"]}</td>'
+    recipeRows += f'<td>{recipe["flags"]["prepTime"]}</td>'
+    recipeRows += f'<td>{recipe["flags"]["lactoseFree"]}</td>'
+    recipeRows += f'<td>{recipe["flags"]["glutenFree"]}</td>'
+    recipeRows += f'<td>{recipe["flags"]["vegetarian"]}</td>'
+    recipeRows += f'<td>{recipe["flags"]["vegan"]}</td>'
+    recipeRows += "</tr>"
+
+    # Only regenerate the per-recipe HTML page when the
+    # underlying JSON file changed size since last run.
+    if should_skip_recipe(recipePath, recipe_cache): 
+        skipped += 1
+        pbar.set_postfix_str(f"Current recipe: {recipePath.stem}, skipped: {skipped}")
+        continue
+
     content = template
 
     content = content.replace("{{baseName}}", recipePath.stem)
@@ -201,29 +228,8 @@ for recipePath in pbar:
     content = content.replace("{{googleAnalytics}}", googleAnalytics)
     content = content.replace("{{rootFolder}}", rootFolder)
 
-    # Only regenerate the per-recipe HTML page when the
-    # underlying JSON file changed size since last run.
-    if should_process_recipe(recipePath, recipe_cache):
-        with open(f"pages/recipes/{recipePath.stem}.html", "w", encoding="utf-8") as file:
-            file.write(content)
-
-    recipeRows += "<tr>"
-    recipeRows += f'<td>{recipe["name"]}</td>'
-    recipeRows += f'<td>{recipe["category"]}</td>'
-    recipeRows += f'<td>{recipe["flags"]["cuisine"]}</td>'
-    recipeRows += f'<td>{int(recipe["flags"]["finished"])}</td>'
-    if recipe["flags"]["totalTime"] == "Idem": recipeRows += f'<td>{recipe["flags"]["prepTime"]}</td>'
-    else: recipeRows += f'<td>{recipe["flags"]["totalTime"]}</td>'
-    recipeRows += f'<td>{recipe["flags"]["difficulty"]}</td>'
-    recipeRows += f'<td>{recipePath.stem}</td>'
-    recipeRows += f'<td>{recipe["origin"]}</td>'
-    recipeRows += f'<td>{recipe["description"]}</td>'
-    recipeRows += f'<td>{recipe["flags"]["prepTime"]}</td>'
-    recipeRows += f'<td>{recipe["flags"]["lactoseFree"]}</td>'
-    recipeRows += f'<td>{recipe["flags"]["glutenFree"]}</td>'
-    recipeRows += f'<td>{recipe["flags"]["vegetarian"]}</td>'
-    recipeRows += f'<td>{recipe["flags"]["vegan"]}</td>'
-    recipeRows += "</tr>"
+    with open(f"pages/recipes/{recipePath.stem}.html", "w", encoding="utf-8") as file:
+        file.write(content)
 
 with open("assets/templates/recipes.html", "r", encoding="utf-8") as file:
     content = file.read()
