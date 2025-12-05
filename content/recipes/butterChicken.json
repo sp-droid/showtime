@@ -17,7 +17,7 @@
     },
     "ingredients": {
         "First short marinade": [
-            "500 g chicken breast in cubes (should be thighs. I think it's okay to use breast though)",
+            "600 g chicken breast cut in thin cubes (should be thighs. I think it's okay to use breast though)",
 			"Salt"
         ],
 		"Second marinade": [
@@ -40,7 +40,7 @@
 			"8 tomatoes (or 260 g passata. Read culinary tip #2)",
 			"2 tsp ginger garlic paste",
 			"Green chili (1, deseeded, slit or chopped)",
-			"Raw cashews (28)",
+			"Raw cashews (28 of them. Roasted cashews are also fine.)",
 			"1 tsp Kashmiri red chili powder",
 			"1 tsp garam masala",
 			"0.3 tsp cumin powder",
@@ -54,6 +54,7 @@
     },
     "utensils": [
 		"Kitchen pot",
+		"Hand blender",
 		"Oven"
 	],
     "instructions": [
@@ -63,23 +64,24 @@
 		"# Second marinade",
 		"- Prepare and mix the spices.",
 		"- Spread it on the chicken and leave it covered for at least 8 h.",
+		"- Leave the cashews in a bit of boiling water, to soften up.",
 		"# Grilling the chicken",
 		"You can either do this in a pan or in the oven. I use the oven. After pre-heating, set at 220ºC (convection) for 21'.",
-		"Prepare the next spice mix and leave the cashews on some boiling water",
-		"# Making the sauce",
-		"- On the same pot, open a spot on the center and add the ingredients listed, previously mixed, except the tomato and cashews.",
-		"- After 1-2', before the spices burn, add some water with the passata / blended tomatoes / tomatoes boiled and crushed separately.",
-		"- Blend the cashew liquid finely, pour it in.",
+		"# Spice paste",
+		"- While it's in the oven, in a (preferably high) pot, cook the tomato passata with the ghee. When it dries it will start caramelizing, which is nice to counteract its own acidity.",
+		"- Meanwhile prepare the sauce spice mix and finely blend the cashews. Add the spice when the tomato is dry.",
+		"- Keep stirring around. It will be ready when it clumps up together, not sticking to the pot.",
 		"# Finishing",
-		"- After left out for some time, you should be able to see traces of fat on top. Add heavy cream and reduce for 2-3'.",
-		"- Throw in the fine leaves. Doing so before is also possible but they will turn black."
+		"- Take the chicken out of the oven and, in the same oven pot, combine everything: the paste, chicken and cashew cream, with about 400 mL of water.",
+		"- After simmering for some time, you should be able to see traces of fat on top. Add heavy cream and reduce for 2-3'.",
+		"- Turn off the heat and throw in the fine leaves. If you do it while hot they will turn black."
     ],
     "variants": [],
     "tips": {
         "culinary": [
+			"Be strict with the oven time and avoid burning the tomato/spices.",
 			"Some people add onions. But the whole point of butter chicken is having a silky smooth sauce. Onions will mess with it.",
-			"To counteract tomato acidity, instead of adding sugar or onions, you can slowly add to the sauce sodium bicarbonate. Mix it and taste it after every time.",
-			"If you are not used to hot spicy food, reduce the amount of Kashmiri chili powder."
+			"If you are not used to hot spicy food, substitute 2/3rds of the Kashmiri chili powder with sweet paprika."
 		],
         "serving": [
 			"Served with naan bread, rice..."
