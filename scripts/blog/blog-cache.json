@@ -13,11 +13,11 @@
   },
   "diffusion-limited-aggregation": {
     "mdSize": 2483,
-    "meta": "{\"title\":\"GPU-accelerated DLA\",\"file\":\"diffusion-limited-aggregation\",\"tag\":\"Projects\",\"date\":\"17/03/2025\"}"
+    "meta": "{\"title\":\"(GPU) DLA - Diffused Limited Aggregation\",\"file\":\"diffusion-limited-aggregation\",\"tag\":\"Algorithms\",\"date\":\"17/03/2025\"}"
   },
   "rainbow-smoke-gpu": {
     "mdSize": 7240,
-    "meta": "{\"title\":\"GPU-accelerated Rainbow Smoke\",\"file\":\"rainbow-smoke-gpu\",\"tag\":\"Projects\",\"date\":\"13/03/2025\"}"
+    "meta": "{\"title\":\"(GPU) Rainbow Smoke algorithm\",\"file\":\"rainbow-smoke-gpu\",\"tag\":\"Algorithms\",\"date\":\"13/03/2025\"}"
   },
   "webgpu": {
     "mdSize": 36442,
@@ -29,7 +29,7 @@
   },
   "dbi": {
     "mdSize": 4041,
-    "meta": "{\"title\":\"Discrete bilinear interpolation\",\"file\":\"dbi\",\"tag\":\"Other\",\"date\":\"24/02/2025\"}"
+    "meta": "{\"title\":\"DBI - Discrete Bilinear Interpolation\",\"file\":\"dbi\",\"tag\":\"Algorithms\",\"date\":\"24/02/2025\"}"
   },
   "md-cheat-sheet": {
     "mdSize": 20388,
@@ -37,6 +37,10 @@
   },
   "eac-internship": {
     "mdSize": 7713,
-    "meta": "{\"title\":\"Internship at the European Space Agency\",\"file\":\"eac-internship\",\"tag\":\"Projects\",\"date\":\"31/12/2023\"}"
+    "meta": "{\"title\":\"Internship at the European Space Agency\",\"file\":\"eac-internship\",\"tag\":\"Personal\",\"date\":\"31/12/2023\"}"
+  },
+  "badminton": {
+    "mdSize": 12743,
+    "meta": "{\"title\":\"My badminton journey (so far!)\",\"file\":\"badminton\",\"tag\":\"Personal\",\"date\":\"21/11/2025\"}"
   }
 }

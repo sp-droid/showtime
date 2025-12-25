@@ -1,5 +1,11 @@
 [
   {
+    "title": "My badminton journey (so far!)",
+    "file": "badminton",
+    "tag": "Personal",
+    "date": "21/11/2025"
+  },
+  {
     "title": "MSc thesis progress log",
     "file": "progress_log",
     "tag": "WIP",
@@ -18,15 +24,15 @@
     "date": "21/11/2025"
   },
   {
-    "title": "GPU-accelerated DLA",
+    "title": "(GPU) DLA - Diffused Limited Aggregation",
     "file": "diffusion-limited-aggregation",
-    "tag": "Projects",
+    "tag": "Algorithms",
     "date": "17/03/2025"
   },
   {
-    "title": "GPU-accelerated Rainbow Smoke",
+    "title": "(GPU) Rainbow Smoke algorithm",
     "file": "rainbow-smoke-gpu",
-    "tag": "Projects",
+    "tag": "Algorithms",
     "date": "13/03/2025"
   },
   {
@@ -42,9 +48,9 @@
     "date": "05/03/2025"
   },
   {
-    "title": "Discrete bilinear interpolation",
+    "title": "DBI - Discrete Bilinear Interpolation",
     "file": "dbi",
-    "tag": "Other",
+    "tag": "Algorithms",
     "date": "24/02/2025"
   },
   {
@@ -56,7 +62,7 @@
   {
     "title": "Internship at the European Space Agency",
     "file": "eac-internship",
-    "tag": "Projects",
+    "tag": "Personal",
     "date": "31/12/2023"
   }
 ]
