@@ -1,5 +1,3 @@
-# Fragmentation characterisation in highly elliptical orbits - Literature review
-
 Objectives:
 
 - Fragmentation event
@@ -13,124 +11,121 @@ Legend:
 
 [toc]
 
-## A. General
 
-*, **A1**. [Colombo C, Alessi EM, Landgraf M. End-of life disposal of spacecraft in Highly Elliptical Orbits by means of luni-solar perturbations and Moon resonances. Earth. 2013;3(2):2-.](literature/proposal papers/End-of life disposal of spacecraft in Highly Elliptical Orbits by means of luni-solar perturbations and Moon resonances.pdf)
 
-- **HEO orbits are important for communications, spending most of the time at high altitudes above the radiation belts for stable observation and communications. They have a considerable risk of severe collisions and fragmentation events.**
-- **Disposal strategies for HEO, a controlled reentry or parking in Lunar Weak Capture Orbits (WCO) both can be aided by the third body perturbations and small adjustments in the orbit.**
-- **3rd body perturbation takes a central role in long-term HEOt evolution**
+# Propagator
 
-**A2**. [Gleghorn G, Asay J, Atkinson D, Flury W, Johnson N, Kessler D, Knowles S, Rex D, Toda S, Veniaminov S. Orbital debris: A technical assessment. 1995 Jan 1.](https://nap.nationalacademies.org/catalog/4765/orbital-debris-a-technical-assessment)
+## Formulation
 
-- Definition of High Earth Orbit as any orbit with a mean altitude greater than 2000 km, and Highly Elliptical Orbit as any orbit with an eccentricity greater than 0.5. 
+Ely, Todd. “Mean Element Propagations Using Numerical Averaging.” *Journal of the Astronautical Sciences* 61 (September 2014): 275–304. https://doi.org/10.1007/s40295-014-0020-2.
 
-From the definition of eccentricity and semi-major axis we can compute a minimum apogee height considering a minimum perigee height at the Von Karman line (100 km):
-$$
-\begin{array}{c}
-e = \frac{r_a-r_p}{2a}\,;\,a = \frac{1}{2}(r_a+r_p) \rightarrow r_a = \frac{1+e}{1-e}r_p \\[6pt]
-h_a(e=0.5,h_p=100\,km) \approx \text{6600 km}
-\end{array}
-$$
-**In this document HEOs are defined as elliptical orbits with eccentricity higher than 0.5 and apogees over 6600 km.**
+- Similar to semi-analytical techniques but using numerical averaging, for long term.
 
-- **HEOs may cross highly congested regions, making the risk of collision uncertain even though the time of residence is low.**
-- **HEOs object velocities vary very strongly, resulting in wide distributions of fragment size and energy in the case of a collision.**
+## Solver
 
-## B. Break-up model
-
-** **B1**. [Escobar V, Carlos J. Continuum approach for the modelling of debris population and launch traffic in Low Earth Orbit.](literature/starting papers/Velerda J, 2022, Continuum approach for the modelling of debris population and launch traffic in Low Earth Orbit.pdf)
-
-- Thesis on developing a continuum model for debris in LEO. 
-- COMMENTS: For now the intent is to start with individual fragments but in case a continuum solution is explored this is a strong reference. The appendix also contains the implementation of NASA's break-up model.
-
-** **B2**. [Johnson NL, Krisko PH, Liou JC, Anz-Meador PD. NASA's new breakup model of EVOLVE 4.0. Advances in Space Research. 2001 Jan 1;28(9):1377-84.](literature/starting papers/Johnson2001_NASABreakupModel.pdf)
-
-- NASA's new break-up model article. Comparison with the old model.
-- COMMENTS: Good read for literature review and understanding of break-up events. For implementation use **B3** as support.
-
-** **B3**. [NASA. Orbital Debris Quarterly News. Volume 15, Issue 4.](literature/starting papers/ProperImplNASABM.pdf)
-
-- On page 4-5 there is a clarification on the implementation of NASA's break-up model.
-
-- COMMENTS: Use this one for implementation with **B2**.
-
-## C. Perturbation modelling
-
-**C1**. [Montenbruck O, Gill E, Lutze FH. Satellite orbits: models, methods, and applications. Appl. Mech. Rev.. 2002 Mar 1;55(2):B27-8.](literature/books/Satellite Orbits_ Models, Methods and Applications.pdf)
-
-- Perturbations, Earth's geopotential, 3^rd^ body, drag, SRP... and precision modelling ones like tides, Earth radiation pressure and relativistic effects.
-- COMMENTS: Good back-up read for perturbations. Also short comment comparing efficiency across different types of propagators, talking about how **including the computation cost of perturbations shifts the optimal solver towards higher order schemes**.
-
-**C2**. [Vallado, David. Fundamentals of Astrodynamics and Applications, 2010 ESA seminar](https://trajectory.estec.esa.int/Astro/4rth-astro-workshop-presentations/ICATT-2010-Tutorial-ASTRODYNAMICS.pdf)
-
-- **Perturbation forces sensitivity analysis (2BP, EGM, drag, SRP, 3rd body, solid tides, ocean tides) including HEO**
-- [Article on mathworks based on Vallado's work](https://it.mathworks.com/help/aeroblks/high-precision-orbit-propagation-of-the-international-space-station.html#HighPrecisionOrbitPropagationISSExample-13)
-
-**C3**. [Pak, Dennis C, "Linearized Equations for J2 Perturbed Motion Relative to an Elliptical Orbit" (2005).  Master's Thesis, San Jose State University.](https://scholarworks.sjsu.edu/cgi/viewcontent.cgi?article=3727&context=etd_theses)
-
-- **Cartesian form of J2**.
-
-## D. Solver
-
-**D1**. [Atallah AM, Woollands RM, Elgohary TA, Junkins JL. Accuracy and efficiency comparison of six numerical integrators for propagating perturbed orbits. The Journal of the Astronautical Sciences. 2020 Jun;67(2):511-38.](https://mae.ucf.edu/TAE/wp-content/uploads/2019/05/Atallah2019_Article_AccuracyAndEfficiencyCompariso.pdf)
-
-- Benchmark of different numerical integrators, including for the HEO case, though only aimed at short term comparisons.
-- COMMENTS: Adaptive **Picard-Chebyshev outperforms** algorithms included in the comparison.
-
-**D2**. [Runge-Kutta method](https://math.okstate.edu/people/yqwang/teaching/math4513_fall11/Notes/rungekutta.pdf)
-
-- **Implementation of RK4**
-
-**D3**. [ode45, ode23, ode113, ode15s, ode23s, ode23t, ode23tb](https://www3.diism.unisi.it/~paoletti/teaching/ModGestSistAmb/download/ODE_Manual)
-
-- Comparison of different solvers and their preferred case with respect to problem stiffness. **The algorithms ode45 and ode113 are good for our non-stiff problem. ode45 is one step, ode113 is multistep, better for long propagations with expensive evaluation functions.**
-
-**D4**. [Parallel Störmer–Cowell methods for high-precision orbit computations]()
+Van Der Houwen, P.J., E. Messina, and J.J.B. De Swart. “Parallel Störmer–Cowell Methods for High-Precision Orbit Computations.” *Applied Numerical Mathematics* 31, no. 3 (1999): 353–74. https://doi.org/10.1016/S0168-9274(98)00135-4.
 
 - **Many orbital mechanics problems are non-stiff, initial value problems.**
 
-## E. GPU-Parallelisation of the orbit propagator
+“Rungekutta.Pdf.” n.d. Accessed December 25, 2025. https://math.okstate.edu/people/yqwang/teaching/math4513_fall11/Notes/rungekutta.pdf.
 
-**E1.** [Masat A, Colombo C, Boutonnet A. GPU-based high-precision orbital propagation of large sets of initial conditions through Picard–Chebyshev augmentation. Acta Astronautica. 2023 Mar 1;204:239-52.]()
+- Runge-Kutta method
 
-- TO-READ
+### Benchmarks
 
- **E2**. [Möckel M, Bennett J, Stoll E, Zhang K. High performance orbital propagation using a generic software architecture. InProceedings of the Advanced Maui Optical and Space Surveillance Technologies Conference, Maui, HI, USA 2016 Sep 20 (pp. 20-23).](https://amostech.com/TechnicalPapers/2016/SSA-Algorithms/Moeckel.pdf)
+Atallah, Ahmed M., Robyn M. Woollands, Tarek A. Elgohary, and John L. Junkins. “Accuracy and Efficiency Comparison of Six Numerical Integrators for Propagating Perturbed Orbits.” *The Journal of the Astronautical Sciences* 67, no. 2 (2020): 511–38. https://doi.org/10.1007/s40295-019-00167-2.
 
-- Short summary on the problem specifically for the orbital debris case with thousands of fragments
-- COMMENTS: Nice to read overall, includes tips on the general implementation on GPUs.
+- Benchmark of different numerical integrators, though only aimed at short term comparisons. Adaptive **Picard-Chebyshev outperforms** algorithms included in the comparison.
 
-## G. Validation
+“RefBookV2.Book.” n.d. Accessed December 25, 2025. https://www3.diism.unisi.it/~paoletti/teaching/ModGestSistAmb/download/ODE_Manual.
 
-*,** **G1**. [Colombo C. Planetary orbital dynamics (PlanODyn) suite for long term propagation in perturbed environment. In6th International Conference on Astrodynamics Tools and Techniques (ICATT) 2016 Mar 14 (pp. 14-17).](literature/proposal papers/Planetary orbital dynamics (PlanODyn) suite for long term propagation in perturbed environment.pdf)
+- Comparison of different solvers and their preferred case with respect to problem stiffness. **The algorithms ode45 and ode113 are good for our non-stiff problem. ode45 is one step, ode113 is multistep, better for long propagations with expensive evaluation functions.**
 
-- PlanODyn
+### Picard-Chebyshev
 
-**G2**. [Conway DJ, Hughes SP. The general mission analysis tool (GMAT): Current features and adding custom functionality. InInternational Conference on Astrodynamics Tools and Techniques (ICATT) 2010 May 3 (No. LEGNEW-OLDGSFC-GSFC-LN-1107).](https://ntrs.nasa.gov/citations/20180000083)
+Picard-Chebyshev is great for extracting computing power properly out of GPUs, due to its parallel nature, in comparison to most solvers for orbit propagation that are sequential. **However**, if the goal is still multi-object (in the hundreds, thousands), it stops being crucial because we can simply run each thread independently on simple sequential solvers, for each object. It's worse for collision detection too. Unless the goal changes or becomes in the future to propagate a single orbit very accurately very fast, it's not the best solution.
 
-- GMAT
+Koblick, Darin, Mark Poole, and Praveen Shankar. “Parallel High-Precision Orbit Propagation Using the Modified Picard-Chebyshev Method.” *Volume 1: Advances in Aerospace Technology*, American Society of Mechanical Engineers, November 9, 2012, 587–605. https://doi.org/10.1115/IMECE2012-87878.
 
-**Validation of propagation models**
+- Thesis on the use of the modified parallel PC method on a CPU. **Explanation and implementations of both the vectorised, and the parallel modified PC method, Gauss-Jackson 8th order fixed step solver and the Dormand & Prince 8(7) DOPRI87 solver. Mentions to Adams-Bashford-Moulton multi-step solver found in MATLAB as ode113, and DOPRI45 available as ode45. Limited convergence for the PC method** 
 
-- Identify objects in [CelesTrak](https://celestrak.org/)
-- Get TLEs for a non propulsive range in [Space-Track](https://www.space-track.org/), spanning a long time
-- Propagate between the TLEs to match the required sampling frequency, using in-house tools or [NASA Horizons](https://ssd.jpl.nasa.gov/horizons/app.html#/)
-- ~~Assume the observational error and propagation between TLEs to be negligible with respect to unavoidable errors from uncertain sources such as Sun flux for SRP and atmospheric density for the drag~~
-- Compare models with the ~~**ground truth**~~, **a 2BP baseline**, **good semi-analytical suite like PlanODyn**, **GMAT**
+Rubio, Carlos, Adrián Delgado, Adrián García-Gutiérrez, and Alberto Escapa. “Waveform Relaxation Method for Parallel Orbital Propagation.” *Acta Astronautica* 229 (April 2025): 672–83. https://doi.org/10.1016/j.actaastro.2025.01.057.
 
-Chosen objects
+- Method to increase the convergence interval in PC
 
-- TESS, identified with [NORAD43435](https://celestrak.org/satcat/table-satcat.php?NAME=tess&PAYLOAD=1&MAX=500), known area-to-mass ratio, in HEO
-- LightSail2, identified with [NORAD44420](https://celestrak.org/satcat/table-satcat.php?NAME=lightsail&PAYLOAD=1&MAX=500), with a well known and very high area-to-mass ratio to stress the SRP and drag models
 
-**Uncertainty problem. There probably are better ways to find historic data from which we can validate our model.**
+
+## GPU specific
+
+Masat, Alessandro, Camilla Colombo, and Arnaud Boutonnet. “GPU-Based High-Precision Orbital Propagation of Large Sets of Initial Conditions through Picard-Chebyshev Augmentation.” *Acta Astronautica* 204 (March 2023): 239–52. https://doi.org/10.1016/j.actaastro.2022.12.037.
+
+- Highly parallel Picard–Chebyshev orbital propagator that augments the integrator to propagate *many initial conditions at once* with high accuracy, significantly improving throughput versus multi-core CPU approaches.
+
+Moeckel, Marek. “High-Performance Propagation of Large Object Populations in Earth Orbits.” 2015.
+
+- Thesis: Long term analytical (averaged elements) propagator for GPU. Extensive guidelines for extracting performance from the GPU for these kind of problems.
+- His short conference paper adjoined to the thesis later: Short summary on the problem specifically for the orbital debris case with thousands of fragments, includes tips on the general implementation on GPUs.
+
+
+
+# Other
+
+## Break-up model
+
+Johnson, N. L., P. H. Krisko, J. -C. Liou, and P. D. Anz-Meador. “NASA’s New Breakup Model of Evolve 4.0.” *Advances in Space Research* 28, no. 9 (2001): 1377–84. https://doi.org/10.1016/S0273-1177(01)00423-9.
+
+- NASA's new break-up model article. Comparison with the old model.
+
+Velerda Escobar, Juan Carlos. *Continuum Approach for the Modelling of Debris Population and Launch Traffic in Low Earth Orbit*. April 28, 2022. https://www.politesi.polimi.it/handle/10589/187251.
+
+- His implementation of the model has 1 change on the reference mass for non-catastrophic collisions and a fixed value in the distributions at the appendix.
+
+Schuhmacher, Jonas. *Efficient Implementation and Evaluation of the NASA Breakup Model in Modern C++*. September 15, 2021.
+
+- Compares freely available C++, Fortran and Python implementations of NASA's break-up model, and eventually offers a validated version without errors. I used their C++ implementation for ESA for the bridge function and to double check everything.
+
+
+
+## Perturbation modelling
+
+Montenbruck, O, E Gill, and Fh Lutze. “*Satellite Orbits: Models, Methods, and Applications*.” *Applied Mechanics Reviews* 55, no. 2 (2002): B27–28. https://doi.org/10.1115/1.1451162.
+
+- Perturbations, Earth's geopotential, 3^rd^ body, drag, SRP... and precision modelling ones like tides, Earth radiation pressure and relativistic effects.
+- Short comment comparing efficiency across different types of propagators, talking about how including **the computation cost of perturbations shifts the optimal solver towards higher order schemes**.
+
+Vallado, David A. *Fundamentals of Astrodynamics and Applications*. In *Fundamentals of Astrodynamics and Applications/ by David A. Vallado with Technical Contributions by Wayne D. McClain. 2nd Ed. El Segundo*. 2001. https://ui.adsabs.harvard.edu/abs/2001fada.book.....V.
+
+- **Perturbation forces sensitivity analysis (2BP, EGM, drag, SRP, 3rd body, solid tides, ocean tides) including HEO**
+
+Pak, Dennis C. “Linearized Equations for J2 Perturbed Motion Relative to an Elliptical Orbit.” Master of Science, San Jose State University, 2005. https://doi.org/10.31979/etd.67m8-bsmg.
+
+- **Cartesian form of J2**.
+
+Curtis, Howard D. *Orbital Mechanics for Engineering Students*. 1. ed., Reprinted. Elsevier Aerospace Engineering Series. Elsevier Butterworth Heinemann, 2008.
+
+
+
+## Validation
+
+Colombo, Camilla. *PLANETARY ORBITAL DYNAMICS (PLANODYN) SUITE FOR LONG TERM PROPAGATION IN PERTURBED ENVIRONMENT*. January 1, 2016.
+
+- **PlanODyn**
+
+Conway, Darrel J., and Steven P. Hughes. “The General Mission Analysis Tool (GMAT): Current Features And Adding Custom Functionality.” Paper presented at European Space Agency, Cologne, Germany. May 3, 2010. https://ntrs.nasa.gov/citations/20180000083.
+
+- **GMAT**
+
+Vallado, David A. *Fundamentals of Astrodynamics and Applications*. In *Fundamentals of Astrodynamics and Applications/ by David A. Vallado with Technical Contributions by Wayne D. McClain. 2nd Ed. El Segundo*. 2001. https://ui.adsabs.harvard.edu/abs/2001fada.book.....V.
+
+- **Precision Orbit Ephemerides (POE)**. POE’s are available for a few satellites such as TOPEX, LAGEOS, ETALON 1 and 2, GPS, TDRSS, and a few others. You should contact the appropriate organization to determine their availability. For instance, the Center for Space Research at the University of Texas at Austin produces POE’s for TOPEX. See Appendix D for additional information
+
+
 
 ---
 
 
 
-## 0. Uncategorised
+# Recommended but unused
 
 *, **2**. [Colombo C, Alessi EM, van der Weg W, Soldini S, Letizia F, Vetrisano M, Vasile M, Rossi A, Landgraf M. End-of-life disposal concepts for Libration Point Orbit and Highly Elliptical Orbit missions. Acta Astronautica. 2015 May 1;110:298-312.](literature/proposal papers/End-of-life disposal concepts for Libration Point Orbit and Highly Elliptical Orbit missions.pdf)
 
@@ -152,11 +147,6 @@ Chosen objects
 *, **7**. [Giudici L, Colombo C. Keplerian map theory for high-fidelity prediction of the third-body perturbative effect. InINTERNATIONAL ASTRONAUTICAL CONGRESS: IAC PROCEEDINGS 2021 (pp. 1-10).](literature/proposal papers/Keplerian map theory for high-fidelity prediction of the third-body perturbative effect.pdf)
 
 - Keplerian map theory, computationally more efficient technique than classical N-body simulation, here it was applied to an interplanetary trajectory though.
-
-** **8**. [Moschetta M. Semi-analytical propagator for analysis of fragmentation events in the geosynchronous orbital region with analytically expanded perturbations.](literature/starting papers/2024_12_Moschetta_Thesis_01.pdf)
-
-- Thesis on debris propagation from geosynchronous orbits with a semi-analytical propagator, representing the SRP as anti-gravity to better see its effect, using GMAT as validation 
-- Very complete, thesis from the department so obviously tailored to the style wanted already. Useful to look at.
 
 ** **9**. [Ashenberg J. Formulas for the phase characteristics in the problem of low-earth-orbital debris. Journal of Spacecraft and Rockets. 1994 Nov;31(6):1044-9.](literature/starting papers/Ashenberg.pdf)
 
@@ -194,7 +184,35 @@ Chosen objects
 - Continuum model and semi-analytical evolution of fragment cloud, for faster results.
 - COMMENTS: Strong reference for analytical and continuum based solutions but probably not what we are looking for.
 
-** **16**. [Letizia F, Colombo C, Lewis HG. Analytical model for the propagation of small-debris-object clouds after fragmentations. Journal of Guidance, Control, and Dynamics. 2015 Aug;38(8):1478-91.](literature/starting papers/Letizia_2014_AnalyticalModelSmall.pdf)
+## HEO
 
-- Analytical modelling of the fragment cloud spread
-- COMMENTS: Similar, if not continuation of the work in **A15**.
+*, **A1**. [Colombo C, Alessi EM, Landgraf M. End-of life disposal of spacecraft in Highly Elliptical Orbits by means of luni-solar perturbations and Moon resonances. Earth. 2013;3(2):2-.](literature/proposal papers/End-of life disposal of spacecraft in Highly Elliptical Orbits by means of luni-solar perturbations and Moon resonances.pdf)
+
+- **HEO orbits are important for communications, spending most of the time at high altitudes above the radiation belts for stable observation and communications. They have a considerable risk of severe collisions and fragmentation events.**
+- **Disposal strategies for HEO, a controlled reentry or parking in Lunar Weak Capture Orbits (WCO) both can be aided by the third body perturbations and small adjustments in the orbit.**
+- **3rd body perturbation takes a central role in long-term HEO evolution**
+
+**A2**. [Gleghorn G, Asay J, Atkinson D, Flury W, Johnson N, Kessler D, Knowles S, Rex D, Toda S, Veniaminov S. Orbital debris: A technical assessment. 1995 Jan 1.](https://nap.nationalacademies.org/catalog/4765/orbital-debris-a-technical-assessment)
+
+- Definition of High Earth Orbit as any orbit with a mean altitude greater than 2000 km, and Highly Elliptical Orbit as any orbit with an eccentricity greater than 0.5. 
+
+From the definition of eccentricity and semi-major axis we can compute a minimum apogee height considering a minimum perigee height at the Von Karman line (100 km):
+$$
+\begin{array}{c}
+e = \frac{r_a-r_p}{2a}\,;\,a = \frac{1}{2}(r_a+r_p) \rightarrow r_a = \frac{1+e}{1-e}r_p \\[6pt]
+h_a(e=0.5,h_p=100\,km) \approx \text{13000 km}
+\end{array}
+$$
+**In this document HEOs are defined as elliptical orbits with eccentricity higher than 0.5 and apogee heights of  over 13000 km.**
+
+- **HEOs may cross highly congested regions, making the risk of collision uncertain even though the time of residence is low.**
+- **HEOs object velocities vary very strongly, resulting in wide distributions of fragment size and energy in the case of a collision.**
+
+** **A3**. [Moschetta M. Semi-analytical propagator for analysis of fragmentation events in the geosynchronous orbital region with analytically expanded perturbations.](literature/starting papers/2024_12_Moschetta_Thesis_01.pdf)
+
+- Thesis on debris propagation from geosynchronous orbits with a semi-analytical propagator, representing the SRP as anti-gravity to better see its effect, using GMAT as validation 
+- Very complete, thesis from the department so obviously tailored to the style wanted already. Useful to look at.
+
+** **A4**. [Letizia F, Colombo C, Lewis HG. Analytical model for the propagation of small-debris-object clouds after fragmentations. Journal of Guidance, Control, and Dynamics. 2015 Aug;38(8):1478-91.](literature/starting papers/Letizia_2014_AnalyticalModelSmall.pdf)
+
+- Analytical modelling of the fragment cloud evolution. Good reference for this different approach

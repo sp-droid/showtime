@@ -212,7 +212,7 @@ function savePost(blogMD) {
         // as used by complete.py). Individual blog posts
         // live under pages/blog/, so rootFolder is ../.. to
         // reach the site root.
-        const rootFolder = "../..";
+        const rootFolder = "../../";
         text = text.replaceAll("{{HTMLtopbar}}", topbar);
         text = text.replaceAll("{{favicon}}", favicon);
         text = text.replaceAll("{{googleAnalytics}}", googleAnalytics);

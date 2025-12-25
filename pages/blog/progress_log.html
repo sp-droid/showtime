@@ -60,28 +60,137 @@ section="blog">
     </div>
 </div></div>
     <div style="flex: 1; display: flex;">
-        <div class="markdown-body sidebarHide" style="flex: 1; min-width: 20px; max-width: 12%;"><br><div class='TOCpost'><h4>&emsp;&nbsp;Contents</h4><ul><li><a href='#section0'>(Top)</a></li><ul><li onclick="toggleDetails(event)"><details><summary><a href='#section1'>Literature review phase</a></summary><ul><li><a href='#section2'>22/11</a></li><li><a href='#section3'>21/11</a></li><li><a href='#section4'>19/11</a></li><li><a href='#section5'>16/11</a></li><li><a href='#section6'>15/11</a></li><li><a href='#section7'>14/11</a></li><li><a href='#section8'>13/11</a></li><li><a href='#section9'>31/10</a></li><li><a href='#section10'>17/10</a></li><li><a href='#section11'>28/09</a></li><li><a href='#section12'>25/09 </a></li></ul></details></li><li onclick="toggleDetails(event)"><details><summary><a href='#section13'>KOMs</a></summary><ul><li><a href='#section14'>23/09</a></li><li><a href='#section15'>19/09</a></li></ul></details></li></ul>
+        <div class="markdown-body sidebarHide" style="flex: 1; min-width: 20px; max-width: 12%;"><br><div class='TOCpost'><h4>&emsp;&nbsp;Contents</h4><ul><li><a href='#section0'>(Top)</a></li><li onclick="toggleDetails(event)"><details><summary><a href='#section1'>Progress</a></summary><ul><li onclick="toggleDetails(event)"><details><summary><a href='#section2'>Q4 2025</a></summary><ul><li><a href='#section3'>December</a></li><li><a href='#section4'>November</a></li><li><a href='#section5'>October</a></li><li><a href='#section6'>September</a></li></ul></details></li></ul></details></li><li><a href='#section7'>Meetings</a></li>
 </ul></div></div>
         <div class="markdown-body" id="HTMLpost"><div id="section0"></div>
 <h6>November 21st, 2025</h6>
 <h1>MSc thesis progress log</h1>
-<h5>Reading time: 4 mins</h5>
+<h5>Reading time: 5 mins</h5>
 <hr>
-<h1>Fragmentation characterisation in highly elliptical orbits - Progress log</h1>
-<p><div class='TOCpost'><h4>&emsp;&nbsp;Contents</h4><ul><li><a href='#section0'>(Top)</a></li><ul><li onclick="toggleDetails(event)"><details><summary><a href='#section1'>Literature review phase</a></summary><ul><li><a href='#section2'>22/11</a></li><li><a href='#section3'>21/11</a></li><li><a href='#section4'>19/11</a></li><li><a href='#section5'>16/11</a></li><li><a href='#section6'>15/11</a></li><li><a href='#section7'>14/11</a></li><li><a href='#section8'>13/11</a></li><li><a href='#section9'>31/10</a></li><li><a href='#section10'>17/10</a></li><li><a href='#section11'>28/09</a></li><li><a href='#section12'>25/09 </a></li></ul></details></li><li onclick="toggleDetails(event)"><details><summary><a href='#section13'>KOMs</a></summary><ul><li><a href='#section14'>23/09</a></li><li><a href='#section15'>19/09</a></li></ul></details></li></ul>
+<p>Short notes:</p>
+<ul>
+<li>fix fastplotlib on laptop, for some reason it does not work there</li>
+<li>No need to implement but for sure seems interesting. A simple case of mean element propagation <a href="https://github.com/rodrigo-moliveira/orbidet/tree/master">here</a> and <a href="https://www.researchgate.net/publication/269574489_Mean_Element_Propagations_Using_Numerical_Averaging">here</a></li>
+<li>I do not think it necessary to implement a semi-analytical model. I will want to use PlanODyn to compare the validation cases</li>
+<li><strong>Adaptive Picard-Chebyshev. This I do want to do implement.</strong></li>
+<li>No need to add all the perturbations, something simple works for now.</li>
+<li>try GMAT</li>
+<li>verlet integration symplectic</li>
+</ul>
+<p>Comments professor meeting</p>
+<p>litterature of GPU propagation</p>
+<p>focus on ephenerides kernel</p>
+<p>sharecube algorithm method for collision</p>
+<p><div class='TOCpost'><h4>&emsp;&nbsp;Contents</h4><ul><li><a href='#section0'>(Top)</a></li><li onclick="toggleDetails(event)"><details><summary><a href='#section1'>Progress</a></summary><ul><li onclick="toggleDetails(event)"><details><summary><a href='#section2'>Q4 2025</a></summary><ul><li><a href='#section3'>December</a></li><li><a href='#section4'>November</a></li><li><a href='#section5'>October</a></li><li><a href='#section6'>September</a></li></ul></details></li></ul></details></li><li><a href='#section7'>Meetings</a></li>
 </ul></div></p>
 <div id="section1"></div>
-<h2>Literature review phase</h2>
+<h1>Progress</h1>
 <div id="section2"></div>
-<h3>22/11</h3>
-<ul>
-<li>Reorganised thesis documents into 3 (log, literature and technical)</li>
-<li>Fixed mathematical equations syntax errors for rendering online</li>
-</ul>
+<h2>Q4 2025</h2>
 <div id="section3"></div>
-<h3>21/11</h3>
+<h3>December</h3>
+<ul>
+<li>Literature review</li>
+<li>Types of OM problems, types of solvers</li>
+<li>Nasa Standard Break-up Model implementation and validation</li>
+<li>Documented, improved and collected several functions into a library</li>
+</ul>
+<div id="section4"></div>
+<h3>November</h3>
+<ul>
+<li>
+<p>Reorganised thesis documents into 3 (log, literature and technical)</p>
+</li>
+<li>
+<p>Fixed mathematical equations syntax errors for rendering online</p>
+</li>
+<li>
+<p>RK4 with Richardson extrapolation</p>
+</li>
+<li>
+<p>Adaptive step-sizing</p>
+</li>
+<li>
+<p>Utility functions car2kep, kep2car, analytical propagator for elliptical orbits</p>
+</li>
+<li>
+<p>RK4 with a J2 perturbation</p>
+</li>
+<li>
+<p>RK4 with Numba JIT, +115x speed up (native python is very slow)</p>
+</li>
+<li>
+<p>Runge-Kutta 4 in python for the 2BP</p>
+</li>
+<li>
+<p>Literature review</p>
+</li>
+</ul>
+<div id="section5"></div>
+<h3>October</h3>
+<ul>
+<li>Literature review</li>
+</ul>
+<div id="section6"></div>
+<h3>September</h3>
+<ul>
+<li>
+<p>Completed test with webgpu-py. I'm pretty happy that the API looks so similar in python as in JS, much easier even. No additional packages needed when working with the environment built for using fastplotlib.</p>
+</li>
+<li>
+<p>Literature review</p>
+</li>
+<li>
+<p>Completed test with fastplotlib. Satisfactory. It is much faster than any alternative at doing scatter plots on many points, especially on animations, looks flexible, environment needed is simple...</p>
+</li>
+<li>
+<p>Created log document</p>
+</li>
+<li>
+<p>Received some suggested articles, instruction document, presentation template</p>
+</li>
+<li>
+<p>Further organised the folder</p>
+</li>
+</ul>
+<p>Some talk of using GPU. I have experience in them through both (NVIDIA GPUs only) the python numba-cuda framework and the (platform agnostic) <a href="https://pabloarbelo.com/pages/blog/webgpu.html">WebGPU</a> API with JS bindings. However JS is a terrible language for the topic, but if I want for whatever I make to work with any computer (Apple - Metal, AMD - Rocm, NVIDIA - CUDA, Intel) I'd love to use WebGPU under the hood, in a somewhat high level way because I'm only interested in the compute shaders -&gt; Bindings in Python, through <a href="https://github.com/pygfx/wgpu-py">webgpu-py</a> ?</p>
+<p>Some plots are likely to contain many elements, and a couple of animations would possibly make sense down the line. Python's matplotlib is rather slow and when looking up webgpu-py I discovered <a href="https://fastplotlib.org/_gallery/line_collection/line_stack_3d.html">fastplotlib</a>, which would allow for fast 3D visualisations of the fragment cloud even for millions of points.</p>
+<ul>
+<li>
+<p>Received access to the shared OneDrive folder and a teams chat</p>
+</li>
+<li>
+<p>Organised the folder slightly according to what we had to do</p>
+</li>
+<li>
+<p>Added suggested literature in the proposal slide</p>
+</li>
+</ul>
+<div id="section7"></div>
+<h1>Meetings</h1>
 <blockquote>
-<h4>📝 Meeting 21/11</h4>
+<h4>📝 Meeting notes 23/12</h4>
+<p><strong>Title:</strong> PM
+<strong>Attendees:</strong> Prof. Camilla, Francesca and Elisa
+<strong>Duration:</strong> 45'</p>
+<ul>
+<li>Mind map of work planned, literature analysis, implemented NSBM</li>
+<li>My literature analysis wasn't thorough enough. The professor proposed to narrow the focus of the thesis towards an efficient many-object GPU working propagator, away from the initial conditions of long term analysis of fragment clouds in HEO. GPU was for me an off-shoot of the work I could focus on once everything else was in place but it seems better to make it a central part.</li>
+<li>Will receive access to the GitLab in the coming days</li>
+</ul>
+</blockquote>
+<blockquote>
+<h4>📝 Meeting notes 18/12</h4>
+<p><strong>Title:</strong> PM
+<strong>Attendees:</strong> Francesca and Elisa
+<strong>Duration:</strong> 15'</p>
+<ul>
+<li>Work done, summary of presentation</li>
+<li>Tips on meeting with prof. Colombo</li>
+</ul>
+</blockquote>
+<blockquote>
+<h4>📝 Meeting notes 21/11</h4>
 <p><strong>Title:</strong> PM
 <strong>Attendees:</strong> Francesca and Elisa
 <strong>Duration:</strong> 40'</p>
@@ -90,34 +199,6 @@ section="blog">
 <li>Tips on meeting with prof. Colombo</li>
 </ul>
 </blockquote>
-<div id="section4"></div>
-<h3>19/11</h3>
-<ul>
-<li>RK4 with Richardson extrapolation</li>
-<li>Adaptive step-sizing</li>
-</ul>
-<div id="section5"></div>
-<h3>16/11</h3>
-<ul>
-<li>Utility functions car2kep, kep2car, analytical propagator for elliptical orbits</li>
-</ul>
-<div id="section6"></div>
-<h3>15/11</h3>
-<ul>
-<li>RK4 with a J2 perturbation</li>
-</ul>
-<div id="section7"></div>
-<h3>14/11</h3>
-<ul>
-<li>RK4 with Numba JIT, +115x speed up (native python is very slow)</li>
-</ul>
-<div id="section8"></div>
-<h3>13/11</h3>
-<ul>
-<li>Runge-Kutta 4 in python for the 2BP</li>
-</ul>
-<div id="section9"></div>
-<h3>31/10</h3>
 <blockquote>
 <h4>📝 Meeting notes 31/10</h4>
 <p><strong>Title:</strong> PM
@@ -127,13 +208,8 @@ section="blog">
 <li>Literature review progress</li>
 </ul>
 </blockquote>
-<div id="section10"></div>
-<h3>17/10</h3>
-<ul>
-<li>Literature review</li>
-</ul>
 <blockquote>
-<h4>📝 Meeting 17/10</h4>
+<h4>📝 Meeting notes 17/10</h4>
 <p><strong>Title:</strong> PM
 <strong>Attendees:</strong> Francesca and Elisa
 <strong>Duration:</strong> 25'</p>
@@ -143,25 +219,8 @@ section="blog">
 <li>Mind map for the literature review conclusion. Aided by block diagram. Motivation, past work advantages+disadvantages...</li>
 </ul>
 </blockquote>
-<div id="section11"></div>
-<h3>28/09</h3>
-<ul>
-<li><strong>Completed</strong> test with webgpu-py. I'm pretty happy that the API looks so similar in python as in JS, much easier even. No additional packages needed when working with the environment built for using fastplotlib.</li>
-<li>Literature review</li>
-</ul>
-<div id="section12"></div>
-<h3>25/09</h3>
-<ul>
-<li>Added &quot;Satellite Orbits Models, Methods and Applications&quot; to literature, it's the same book prof. Colombo recommended to me back in OM. May be useful to model many perturbations near Earth.</li>
-<li><strong>Completed</strong> test with fastplotlib. Satisfactory. It is much faster than any alternative at doing scatter plots on many points, especially on animations, looks flexible, environment needed is simple...</li>
-<li>Created log document</li>
-</ul>
-<div id="section13"></div>
-<h2>KOMs</h2>
-<div id="section14"></div>
-<h3>23/09</h3>
 <blockquote>
-<h4>📝 Meeting 23/09</h4>
+<h4>📝 Meeting notes 23/09</h4>
 <p><strong>Title:</strong> Technical KOM
 <strong>Attendees:</strong> Francesca and Elisa
 <strong>Duration:</strong> 45'</p>
@@ -180,17 +239,8 @@ section="blog">
 <li>Initial articles for review</li>
 </ul>
 </blockquote>
-<ul>
-<li><strong>Meeting set</strong> for Monday 13th October, ahead of the post-literature review bigger one</li>
-<li><strong>Received</strong> some suggested articles, instruction document, presentation template</li>
-<li>Further organised the folder</li>
-</ul>
-<p>Some talk of using GPU. I have experience in them through both (NVIDIA GPUs only) the python numba-cuda framework and the (platform agnostic) <a href="https://pabloarbelo.com/pages/blog/webgpu.html">WebGPU</a> API with JS bindings. However JS is a terrible language for the topic, but if I want for whatever I make to work with any computer (Apple - Metal, AMD - Rocm, NVIDIA - CUDA, Intel) I'd love to use WebGPU under the hood, in a somewhat high level way because I'm only interested in the compute shaders -&gt; Bindings in Python, through <a href="https://github.com/pygfx/wgpu-py">webgpu-py</a> ? -&gt; <strong>schedule</strong> test on webgpu-py, using a compute shader to calculate something in parallel</p>
-<p>Some plots are likely to contain many elements, and a couple of animations would possibly make sense down the line. Python's matplotlib is rather slow and when looking up webgpu-py I discovered <a href="https://fastplotlib.org/_gallery/line_collection/line_stack_3d.html">fastplotlib</a>, which would allow for fast 3D visualisations of the fragment cloud even for millions of points.  -&gt;  <strong>schedule</strong> test on fastplotlib, speed, environment needed, difficulty to install, difficulty to use, 3D controls...</p>
-<div id="section15"></div>
-<h3>19/09</h3>
 <blockquote>
-<h4>📝 Meeting 19/09</h4>
+<h4>📝 Meeting notes 19/09</h4>
 <p><strong>Title:</strong> KOM
 <strong>Attendees:</strong> Other students, some COMPASS team members
 <strong>Duration:</strong> 15'</p>
@@ -205,12 +255,6 @@ Periodic longer one including relatore, as structured detailed progress update</
 <p>Images with source, employ British English. -&gt; Switch Typora to UK spellcheck</p>
 <p>Mentioned MATLAB but I'd rather work with Python, depends on previous work.</p>
 </blockquote>
-<ul>
-<li><strong>Meeting set</strong> for next Tuesday, technical KOM</li>
-<li><strong>Received</strong> access to the shared OneDrive folder and a teams chat</li>
-<li>Organised the folder slightly according to what we had to do</li>
-<li>Added suggested literature in the proposal slide</li>
-</ul>
 <hr><div class="blogTags"><button class="blogTagSelected" title='Check more posts of the "WIP" category on my blog!'>WIP</button></div><br></div>
         <div style="flex: 1; min-width: 20px;"></div>
     </div>

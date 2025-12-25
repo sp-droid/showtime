@@ -1,14 +1,14 @@
 {
   "progress_log": {
-    "mdSize": 5326,
+    "mdSize": 6503,
     "meta": "{\"title\":\"MSc thesis progress log\",\"file\":\"progress_log\",\"tag\":\"WIP\",\"date\":\"21/11/2025\"}"
   },
   "literature_review": {
-    "mdSize": 15571,
+    "mdSize": 16640,
     "meta": "{\"title\":\"MSc thesis literature summary\",\"file\":\"literature_review\",\"tag\":\"WIP\",\"date\":\"21/11/2025\"}"
   },
   "technical_notes": {
-    "mdSize": 4585,
+    "mdSize": 12719,
     "meta": "{\"title\":\"MSc thesis technical notes\",\"file\":\"technical_notes\",\"tag\":\"WIP\",\"date\":\"21/11/2025\"}"
   },
   "diffusion-limited-aggregation": {

@@ -60,14 +60,13 @@ section="blog">
     </div>
 </div></div>
     <div style="flex: 1; display: flex;">
-        <div class="markdown-body sidebarHide" style="flex: 1; min-width: 20px; max-width: 12%;"><br><div class='TOCpost'><h4>&emsp;&nbsp;Contents</h4><ul><li><a href='#section0'>(Top)</a></li><ul><li><a href='#section1'>A. General</a></li><li><a href='#section2'>B. Break-up model</a></li><li><a href='#section3'>C. Perturbation modelling</a></li><li><a href='#section4'>D. Solver</a></li><li><a href='#section5'>E. GPU-Parallelisation of the orbit propagator</a></li><li><a href='#section6'>G. Validation</a></li><li><a href='#section7'>0. Uncategorised</a></li></ul>
+        <div class="markdown-body sidebarHide" style="flex: 1; min-width: 30px; max-width: 12%;"><br><div class='TOCpost'><h4>&emsp;&nbsp;Contents</h4><ul><li><a href='#section0'>(Top)</a></li><li onclick="toggleDetails(event)"><details><summary><a href='#section1'>Propagator</a></summary><ul><li><a href='#section2'>Formulation</a></li><li onclick="toggleDetails(event)"><details><summary><a href='#section3'>Solver</a></summary><ul><li><a href='#section4'>Benchmarks</a></li><li><a href='#section5'>Picard-Chebyshev</a></li></ul></details></li><li><a href='#section6'>GPU specific</a></li></ul></details></li><li onclick="toggleDetails(event)"><details><summary><a href='#section7'>Other</a></summary><ul><li><a href='#section8'>Break-up model</a></li><li><a href='#section9'>Perturbation modelling</a></li><li><a href='#section10'>Validation</a></li></ul></details></li><li onclick="toggleDetails(event)"><details><summary><a href='#section11'>Recommended but unused</a></summary><ul><li><a href='#section12'>HEO</a></li></ul></details></li>
 </ul></div></div>
         <div class="markdown-body" id="HTMLpost"><div id="section0"></div>
 <h6>November 21st, 2025</h6>
 <h1>MSc thesis literature summary</h1>
-<h5>Reading time: 9 mins</h5>
+<h5>Reading time: 10 mins</h5>
 <hr>
-<h1>Fragmentation characterisation in highly elliptical orbits - Literature review</h1>
 <p>Objectives:</p>
 <ul>
 <li>Fragmentation event</li>
@@ -79,125 +78,107 @@ section="blog">
 <li>*= Proposal article</li>
 <li>**= Recommended article</li>
 </ul>
-<p><div class='TOCpost'><h4>&emsp;&nbsp;Contents</h4><ul><li><a href='#section0'>(Top)</a></li><ul><li><a href='#section1'>A. General</a></li><li><a href='#section2'>B. Break-up model</a></li><li><a href='#section3'>C. Perturbation modelling</a></li><li><a href='#section4'>D. Solver</a></li><li><a href='#section5'>E. GPU-Parallelisation of the orbit propagator</a></li><li><a href='#section6'>G. Validation</a></li><li><a href='#section7'>0. Uncategorised</a></li></ul>
+<p><div class='TOCpost'><h4>&emsp;&nbsp;Contents</h4><ul><li><a href='#section0'>(Top)</a></li><li onclick="toggleDetails(event)"><details><summary><a href='#section1'>Propagator</a></summary><ul><li><a href='#section2'>Formulation</a></li><li onclick="toggleDetails(event)"><details><summary><a href='#section3'>Solver</a></summary><ul><li><a href='#section4'>Benchmarks</a></li><li><a href='#section5'>Picard-Chebyshev</a></li></ul></details></li><li><a href='#section6'>GPU specific</a></li></ul></details></li><li onclick="toggleDetails(event)"><details><summary><a href='#section7'>Other</a></summary><ul><li><a href='#section8'>Break-up model</a></li><li><a href='#section9'>Perturbation modelling</a></li><li><a href='#section10'>Validation</a></li></ul></details></li><li onclick="toggleDetails(event)"><details><summary><a href='#section11'>Recommended but unused</a></summary><ul><li><a href='#section12'>HEO</a></li></ul></details></li>
 </ul></div></p>
 <div id="section1"></div>
-<h2>A. General</h2>
-<p>*, <strong>A1</strong>. [Colombo C, Alessi EM, Landgraf M. End-of life disposal of spacecraft in Highly Elliptical Orbits by means of luni-solar perturbations and Moon resonances. Earth. 2013;3(2):2-.](literature/proposal papers/End-of life disposal of spacecraft in Highly Elliptical Orbits by means of luni-solar perturbations and Moon resonances.pdf)</p>
-<ul>
-<li><strong>HEO orbits are important for communications, spending most of the time at high altitudes above the radiation belts for stable observation and communications. They have a considerable risk of severe collisions and fragmentation events.</strong></li>
-<li><strong>Disposal strategies for HEO, a controlled reentry or parking in Lunar Weak Capture Orbits (WCO) both can be aided by the third body perturbations and small adjustments in the orbit.</strong></li>
-<li><strong>3rd body perturbation takes a central role in long-term HEOt evolution</strong></li>
-</ul>
-<p><strong>A2</strong>. <a href="https://nap.nationalacademies.org/catalog/4765/orbital-debris-a-technical-assessment">Gleghorn G, Asay J, Atkinson D, Flury W, Johnson N, Kessler D, Knowles S, Rex D, Toda S, Veniaminov S. Orbital debris: A technical assessment. 1995 Jan 1.</a></p>
-<ul>
-<li>Definition of High Earth Orbit as any orbit with a mean altitude greater than 2000 km, and Highly Elliptical Orbit as any orbit with an eccentricity greater than 0.5.</li>
-</ul>
-<p>From the definition of eccentricity and semi-major axis we can compute a minimum apogee height considering a minimum perigee height at the Von Karman line (100 km):</p>
-<p class='katex-block'><span class="katex-display"><span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML" display="block"><semantics><mtable rowspacing="0.16em" columnalign="center" columnspacing="1em"><mtr><mtd><mstyle scriptlevel="0" displaystyle="false"><mrow><mi>e</mi><mo>=</mo><mfrac><mrow><msub><mi>r</mi><mi>a</mi></msub><mo>−</mo><msub><mi>r</mi><mi>p</mi></msub></mrow><mrow><mn>2</mn><mi>a</mi></mrow></mfrac><mtext> </mtext><mo separator="true">;</mo><mtext> </mtext><mi>a</mi><mo>=</mo><mfrac><mn>1</mn><mn>2</mn></mfrac><mo stretchy="false">(</mo><msub><mi>r</mi><mi>a</mi></msub><mo>+</mo><msub><mi>r</mi><mi>p</mi></msub><mo stretchy="false">)</mo><mo>→</mo><msub><mi>r</mi><mi>a</mi></msub><mo>=</mo><mfrac><mrow><mn>1</mn><mo>+</mo><mi>e</mi></mrow><mrow><mn>1</mn><mo>−</mo><mi>e</mi></mrow></mfrac><msub><mi>r</mi><mi>p</mi></msub></mrow></mstyle></mtd></mtr><mtr><mtd><mstyle scriptlevel="0" displaystyle="false"><mrow><msub><mi>h</mi><mi>a</mi></msub><mo stretchy="false">(</mo><mi>e</mi><mo>=</mo><mn>0.5</mn><mo separator="true">,</mo><msub><mi>h</mi><mi>p</mi></msub><mo>=</mo><mn>100</mn><mtext> </mtext><mi>k</mi><mi>m</mi><mo stretchy="false">)</mo><mo>≈</mo><mtext>6600 km</mtext></mrow></mstyle></mtd></mtr></mtable><annotation encoding="application/x-tex">\begin{array}{c}
-e = \frac{r_a-r_p}{2a}\,;\,a = \frac{1}{2}(r_a+r_p) \rightarrow r_a = \frac{1+e}{1-e}r_p \\[6pt]
-h_a(e=0.5,h_p=100\,km) \approx \text{6600 km}
-\end{array}
-</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:3.0757em;vertical-align:-1.2878em;"></span><span class="mord"><span class="mtable"><span class="arraycolsep" style="width:0.5em;"></span><span class="col-align-c"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:1.7878em;"><span style="top:-3.8722em;"><span class="pstrut" style="height:3em;"></span><span class="mord"><span class="mord mathnormal">e</span><span class="mspace" style="margin-right:0.2778em;"></span><span class="mrel">=</span><span class="mspace" style="margin-right:0.2778em;"></span><span class="mord"><span class="mopen nulldelimiter"></span><span class="mfrac"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.9157em;"><span style="top:-2.655em;"><span class="pstrut" style="height:3em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight"><span class="mord mtight">2</span><span class="mord mathnormal mtight">a</span></span></span></span><span style="top:-3.23em;"><span class="pstrut" style="height:3em;"></span><span class="frac-line" style="border-bottom-width:0.04em;"></span></span><span style="top:-3.5073em;"><span class="pstrut" style="height:3em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight"><span class="mord mtight"><span class="mord mathnormal mtight" style="margin-right:0.02778em;">r</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.1645em;"><span style="top:-2.357em;margin-left:-0.0278em;margin-right:0.0714em;"><span class="pstrut" style="height:2.5em;"></span><span class="sizing reset-size3 size1 mtight"><span class="mord mathnormal mtight">a</span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.143em;"><span></span></span></span></span></span></span><span class="mbin mtight">−</span><span class="mord mtight"><span class="mord mathnormal mtight" style="margin-right:0.02778em;">r</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.1645em;"><span style="top:-2.357em;margin-left:-0.0278em;margin-right:0.0714em;"><span class="pstrut" style="height:2.5em;"></span><span class="sizing reset-size3 size1 mtight"><span class="mord mathnormal mtight">p</span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.2819em;"><span></span></span></span></span></span></span></span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.345em;"><span></span></span></span></span></span><span class="mclose nulldelimiter"></span></span><span class="mspace" style="margin-right:0.1667em;"></span><span class="mpunct">;</span><span class="mspace" style="margin-right:0.1667em;"></span><span class="mspace" style="margin-right:0.1667em;"></span><span class="mord mathnormal">a</span><span class="mspace" style="margin-right:0.2778em;"></span><span class="mrel">=</span><span class="mspace" style="margin-right:0.2778em;"></span><span class="mord"><span class="mopen nulldelimiter"></span><span class="mfrac"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.8451em;"><span style="top:-2.655em;"><span class="pstrut" style="height:3em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight"><span class="mord mtight">2</span></span></span></span><span style="top:-3.23em;"><span class="pstrut" style="height:3em;"></span><span class="frac-line" style="border-bottom-width:0.04em;"></span></span><span style="top:-3.394em;"><span class="pstrut" style="height:3em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight"><span class="mord mtight">1</span></span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.345em;"><span></span></span></span></span></span><span class="mclose nulldelimiter"></span></span><span class="mopen">(</span><span class="mord"><span class="mord mathnormal" style="margin-right:0.02778em;">r</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.1514em;"><span style="top:-2.55em;margin-left:-0.0278em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mathnormal mtight">a</span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.15em;"><span></span></span></span></span></span></span><span class="mspace" style="margin-right:0.2222em;"></span><span class="mbin">+</span><span class="mspace" style="margin-right:0.2222em;"></span><span class="mord"><span class="mord mathnormal" style="margin-right:0.02778em;">r</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.1514em;"><span style="top:-2.55em;margin-left:-0.0278em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mathnormal mtight">p</span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.2861em;"><span></span></span></span></span></span></span><span class="mclose">)</span><span class="mspace" style="margin-right:0.2778em;"></span><span class="mrel">→</span><span class="mspace" style="margin-right:0.2778em;"></span><span class="mord"><span class="mord mathnormal" style="margin-right:0.02778em;">r</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.1514em;"><span style="top:-2.55em;margin-left:-0.0278em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mathnormal mtight">a</span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.15em;"><span></span></span></span></span></span></span><span class="mspace" style="margin-right:0.2778em;"></span><span class="mrel">=</span><span class="mspace" style="margin-right:0.2778em;"></span><span class="mord"><span class="mopen nulldelimiter"></span><span class="mfrac"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.8451em;"><span style="top:-2.655em;"><span class="pstrut" style="height:3em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight"><span class="mord mtight">1</span><span class="mbin mtight">−</span><span class="mord mathnormal mtight">e</span></span></span></span><span style="top:-3.23em;"><span class="pstrut" style="height:3em;"></span><span class="frac-line" style="border-bottom-width:0.04em;"></span></span><span style="top:-3.394em;"><span class="pstrut" style="height:3em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight"><span class="mord mtight">1</span><span class="mbin mtight">+</span><span class="mord mathnormal mtight">e</span></span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.4033em;"><span></span></span></span></span></span><span class="mclose nulldelimiter"></span></span><span class="mord"><span class="mord mathnormal" style="margin-right:0.02778em;">r</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.1514em;"><span style="top:-2.55em;margin-left:-0.0278em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mathnormal mtight">p</span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.2861em;"><span></span></span></span></span></span></span></span></span><span style="top:-2.0722em;"><span class="pstrut" style="height:3em;"></span><span class="mord"><span class="mord"><span class="mord mathnormal">h</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.1514em;"><span style="top:-2.55em;margin-left:0em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mathnormal mtight">a</span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.15em;"><span></span></span></span></span></span></span><span class="mopen">(</span><span class="mord mathnormal">e</span><span class="mspace" style="margin-right:0.2778em;"></span><span class="mrel">=</span><span class="mspace" style="margin-right:0.2778em;"></span><span class="mord">0.5</span><span class="mpunct">,</span><span class="mspace" style="margin-right:0.1667em;"></span><span class="mord"><span class="mord mathnormal">h</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.1514em;"><span style="top:-2.55em;margin-left:0em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mathnormal mtight">p</span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.2861em;"><span></span></span></span></span></span></span><span class="mspace" style="margin-right:0.2778em;"></span><span class="mrel">=</span><span class="mspace" style="margin-right:0.2778em;"></span><span class="mord">100</span><span class="mspace" style="margin-right:0.1667em;"></span><span class="mord mathnormal">km</span><span class="mclose">)</span><span class="mspace" style="margin-right:0.2778em;"></span><span class="mrel">≈</span><span class="mspace" style="margin-right:0.2778em;"></span><span class="mord text"><span class="mord">6600 km</span></span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:1.2878em;"><span></span></span></span></span></span><span class="arraycolsep" style="width:0.5em;"></span></span></span></span></span></span></span></p>
-<p><strong>In this document HEOs are defined as elliptical orbits with eccentricity higher than 0.5 and apogees over 6600 km.</strong></p>
-<ul>
-<li><strong>HEOs may cross highly congested regions, making the risk of collision uncertain even though the time of residence is low.</strong></li>
-<li><strong>HEOs object velocities vary very strongly, resulting in wide distributions of fragment size and energy in the case of a collision.</strong></li>
-</ul>
+<h1>Propagator</h1>
 <div id="section2"></div>
-<h2>B. Break-up model</h2>
-<p>** <strong>B1</strong>. [Escobar V, Carlos J. Continuum approach for the modelling of debris population and launch traffic in Low Earth Orbit.](literature/starting papers/Velerda J, 2022, Continuum approach for the modelling of debris population and launch traffic in Low Earth Orbit.pdf)</p>
+<h2>Formulation</h2>
+<p>Ely, Todd. “Mean Element Propagations Using Numerical Averaging.” <em>Journal of the Astronautical Sciences</em> 61 (September 2014): 275–304. https://doi.org/10.1007/s40295-014-0020-2.</p>
 <ul>
-<li>Thesis on developing a continuum model for debris in LEO.</li>
-<li>COMMENTS: For now the intent is to start with individual fragments but in case a continuum solution is explored this is a strong reference. The appendix also contains the implementation of NASA's break-up model.</li>
-</ul>
-<p>** <strong>B2</strong>. [Johnson NL, Krisko PH, Liou JC, Anz-Meador PD. NASA's new breakup model of EVOLVE 4.0. Advances in Space Research. 2001 Jan 1;28(9):1377-84.](literature/starting papers/Johnson2001_NASABreakupModel.pdf)</p>
-<ul>
-<li>NASA's new break-up model article. Comparison with the old model.</li>
-<li>COMMENTS: Good read for literature review and understanding of break-up events. For implementation use <strong>B3</strong> as support.</li>
-</ul>
-<p>** <strong>B3</strong>. [NASA. Orbital Debris Quarterly News. Volume 15, Issue 4.](literature/starting papers/ProperImplNASABM.pdf)</p>
-<ul>
-<li>
-<p>On page 4-5 there is a clarification on the implementation of NASA's break-up model.</p>
-</li>
-<li>
-<p>COMMENTS: Use this one for implementation with <strong>B2</strong>.</p>
-</li>
+<li>Similar to semi-analytical techniques but using numerical averaging, for long term.</li>
 </ul>
 <div id="section3"></div>
-<h2>C. Perturbation modelling</h2>
-<p><strong>C1</strong>. [Montenbruck O, Gill E, Lutze FH. Satellite orbits: models, methods, and applications. Appl. Mech. Rev.. 2002 Mar 1;55(2):B27-8.](literature/books/Satellite Orbits_ Models, Methods and Applications.pdf)</p>
-<ul>
-<li>Perturbations, Earth's geopotential, 3<sup>rd</sup> body, drag, SRP... and precision modelling ones like tides, Earth radiation pressure and relativistic effects.</li>
-<li>COMMENTS: Good back-up read for perturbations. Also short comment comparing efficiency across different types of propagators, talking about how <strong>including the computation cost of perturbations shifts the optimal solver towards higher order schemes</strong>.</li>
-</ul>
-<p><strong>C2</strong>. <a href="https://trajectory.estec.esa.int/Astro/4rth-astro-workshop-presentations/ICATT-2010-Tutorial-ASTRODYNAMICS.pdf">Vallado, David. Fundamentals of Astrodynamics and Applications, 2010 ESA seminar</a></p>
-<ul>
-<li><strong>Perturbation forces sensitivity analysis (2BP, EGM, drag, SRP, 3rd body, solid tides, ocean tides) including HEO</strong></li>
-<li><a href="https://it.mathworks.com/help/aeroblks/high-precision-orbit-propagation-of-the-international-space-station.html#HighPrecisionOrbitPropagationISSExample-13">Article on mathworks based on Vallado's work</a></li>
-</ul>
-<p><strong>C3</strong>. <a href="https://scholarworks.sjsu.edu/cgi/viewcontent.cgi?article=3727&amp;context=etd_theses">Pak, Dennis C, &quot;Linearized Equations for J2 Perturbed Motion Relative to an Elliptical Orbit&quot; (2005).  Master's Thesis, San Jose State University.</a></p>
-<ul>
-<li><strong>Cartesian form of J2</strong>.</li>
-</ul>
-<div id="section4"></div>
-<h2>D. Solver</h2>
-<p><strong>D1</strong>. <a href="https://mae.ucf.edu/TAE/wp-content/uploads/2019/05/Atallah2019_Article_AccuracyAndEfficiencyCompariso.pdf">Atallah AM, Woollands RM, Elgohary TA, Junkins JL. Accuracy and efficiency comparison of six numerical integrators for propagating perturbed orbits. The Journal of the Astronautical Sciences. 2020 Jun;67(2):511-38.</a></p>
-<ul>
-<li>Benchmark of different numerical integrators, including for the HEO case, though only aimed at short term comparisons.</li>
-<li>COMMENTS: Adaptive <strong>Picard-Chebyshev outperforms</strong> algorithms included in the comparison.</li>
-</ul>
-<p><strong>D2</strong>. <a href="https://math.okstate.edu/people/yqwang/teaching/math4513_fall11/Notes/rungekutta.pdf">Runge-Kutta method</a></p>
-<ul>
-<li><strong>Implementation of RK4</strong></li>
-</ul>
-<p><strong>D3</strong>. <a href="https://www3.diism.unisi.it/~paoletti/teaching/ModGestSistAmb/download/ODE_Manual">ode45, ode23, ode113, ode15s, ode23s, ode23t, ode23tb</a></p>
-<ul>
-<li>Comparison of different solvers and their preferred case with respect to problem stiffness. <strong>The algorithms ode45 and ode113 are good for our non-stiff problem. ode45 is one step, ode113 is multistep, better for long propagations with expensive evaluation functions.</strong></li>
-</ul>
-<p><strong>D4</strong>. <a href="">Parallel Störmer–Cowell methods for high-precision orbit computations</a></p>
+<h2>Solver</h2>
+<p>Van Der Houwen, P.J., E. Messina, and J.J.B. De Swart. “Parallel Störmer–Cowell Methods for High-Precision Orbit Computations.” <em>Applied Numerical Mathematics</em> 31, no. 3 (1999): 353–74. https://doi.org/10.1016/S0168-9274(98)00135-4.</p>
 <ul>
 <li><strong>Many orbital mechanics problems are non-stiff, initial value problems.</strong></li>
 </ul>
-<div id="section5"></div>
-<h2>E. GPU-Parallelisation of the orbit propagator</h2>
-<p><strong>E1.</strong> <a href="">Masat A, Colombo C, Boutonnet A. GPU-based high-precision orbital propagation of large sets of initial conditions through Picard–Chebyshev augmentation. Acta Astronautica. 2023 Mar 1;204:239-52.</a></p>
+<p>“Rungekutta.Pdf.” n.d. Accessed December 25, 2025. https://math.okstate.edu/people/yqwang/teaching/math4513_fall11/Notes/rungekutta.pdf.</p>
 <ul>
-<li>TO-READ</li>
+<li>Runge-Kutta method</li>
 </ul>
-<p><strong>E2</strong>. <a href="https://amostech.com/TechnicalPapers/2016/SSA-Algorithms/Moeckel.pdf">Möckel M, Bennett J, Stoll E, Zhang K. High performance orbital propagation using a generic software architecture. InProceedings of the Advanced Maui Optical and Space Surveillance Technologies Conference, Maui, HI, USA 2016 Sep 20 (pp. 20-23).</a></p>
+<div id="section4"></div>
+<h3>Benchmarks</h3>
+<p>Atallah, Ahmed M., Robyn M. Woollands, Tarek A. Elgohary, and John L. Junkins. “Accuracy and Efficiency Comparison of Six Numerical Integrators for Propagating Perturbed Orbits.” <em>The Journal of the Astronautical Sciences</em> 67, no. 2 (2020): 511–38. https://doi.org/10.1007/s40295-019-00167-2.</p>
 <ul>
-<li>Short summary on the problem specifically for the orbital debris case with thousands of fragments</li>
-<li>COMMENTS: Nice to read overall, includes tips on the general implementation on GPUs.</li>
+<li>Benchmark of different numerical integrators, though only aimed at short term comparisons. Adaptive <strong>Picard-Chebyshev outperforms</strong> algorithms included in the comparison.</li>
+</ul>
+<p>“RefBookV2.Book.” n.d. Accessed December 25, 2025. https://www3.diism.unisi.it/~paoletti/teaching/ModGestSistAmb/download/ODE_Manual.</p>
+<ul>
+<li>Comparison of different solvers and their preferred case with respect to problem stiffness. <strong>The algorithms ode45 and ode113 are good for our non-stiff problem. ode45 is one step, ode113 is multistep, better for long propagations with expensive evaluation functions.</strong></li>
+</ul>
+<div id="section5"></div>
+<h3>Picard-Chebyshev</h3>
+<p>Picard-Chebyshev is great for extracting computing power properly out of GPUs, due to its parallel nature, in comparison to most solvers for orbit propagation that are sequential. <strong>However</strong>, if the goal is still multi-object (in the hundreds, thousands), it stops being crucial because we can simply run each thread independently on simple sequential solvers, for each object. It's worse for collision detection too. Unless the goal changes or becomes in the future to propagate a single orbit very accurately very fast, it's not the best solution.</p>
+<p>Koblick, Darin, Mark Poole, and Praveen Shankar. “Parallel High-Precision Orbit Propagation Using the Modified Picard-Chebyshev Method.” <em>Volume 1: Advances in Aerospace Technology</em>, American Society of Mechanical Engineers, November 9, 2012, 587–605. https://doi.org/10.1115/IMECE2012-87878.</p>
+<ul>
+<li>Thesis on the use of the modified parallel PC method on a CPU. <strong>Explanation and implementations of both the vectorised, and the parallel modified PC method, Gauss-Jackson 8th order fixed step solver and the Dormand &amp; Prince 8(7) DOPRI87 solver. Mentions to Adams-Bashford-Moulton multi-step solver found in MATLAB as ode113, and DOPRI45 available as ode45. Limited convergence for the PC method</strong></li>
+</ul>
+<p>Rubio, Carlos, Adrián Delgado, Adrián García-Gutiérrez, and Alberto Escapa. “Waveform Relaxation Method for Parallel Orbital Propagation.” <em>Acta Astronautica</em> 229 (April 2025): 672–83. https://doi.org/10.1016/j.actaastro.2025.01.057.</p>
+<ul>
+<li>Method to increase the convergence interval in PC</li>
 </ul>
 <div id="section6"></div>
-<h2>G. Validation</h2>
-<p><em>,</em>* <strong>G1</strong>. [Colombo C. Planetary orbital dynamics (PlanODyn) suite for long term propagation in perturbed environment. In6th International Conference on Astrodynamics Tools and Techniques (ICATT) 2016 Mar 14 (pp. 14-17).](literature/proposal papers/Planetary orbital dynamics (PlanODyn) suite for long term propagation in perturbed environment.pdf)</p>
+<h2>GPU specific</h2>
+<p>Masat, Alessandro, Camilla Colombo, and Arnaud Boutonnet. “GPU-Based High-Precision Orbital Propagation of Large Sets of Initial Conditions through Picard-Chebyshev Augmentation.” <em>Acta Astronautica</em> 204 (March 2023): 239–52. https://doi.org/10.1016/j.actaastro.2022.12.037.</p>
 <ul>
-<li>PlanODyn</li>
+<li>Highly parallel Picard–Chebyshev orbital propagator that augments the integrator to propagate <em>many initial conditions at once</em> with high accuracy, significantly improving throughput versus multi-core CPU approaches.</li>
 </ul>
-<p><strong>G2</strong>. <a href="https://ntrs.nasa.gov/citations/20180000083">Conway DJ, Hughes SP. The general mission analysis tool (GMAT): Current features and adding custom functionality. InInternational Conference on Astrodynamics Tools and Techniques (ICATT) 2010 May 3 (No. LEGNEW-OLDGSFC-GSFC-LN-1107).</a></p>
+<p>Moeckel, Marek. “High-Performance Propagation of Large Object Populations in Earth Orbits.” 2015.</p>
 <ul>
-<li>GMAT</li>
+<li>Thesis: Long term analytical (averaged elements) propagator for GPU. Extensive guidelines for extracting performance from the GPU for these kind of problems.</li>
+<li>His short conference paper adjoined to the thesis later: Short summary on the problem specifically for the orbital debris case with thousands of fragments, includes tips on the general implementation on GPUs.</li>
 </ul>
-<p><strong>Validation of propagation models</strong></p>
-<ul>
-<li>Identify objects in <a href="https://celestrak.org/">CelesTrak</a></li>
-<li>Get TLEs for a non propulsive range in <a href="https://www.space-track.org/">Space-Track</a>, spanning a long time</li>
-<li>Propagate between the TLEs to match the required sampling frequency, using in-house tools or <a href="https://ssd.jpl.nasa.gov/horizons/app.html#/">NASA Horizons</a></li>
-<li><s>Assume the observational error and propagation between TLEs to be negligible with respect to unavoidable errors from uncertain sources such as Sun flux for SRP and atmospheric density for the drag</s></li>
-<li>Compare models with the <s><strong>ground truth</strong></s>, <strong>a 2BP baseline</strong>, <strong>good semi-analytical suite like PlanODyn</strong>, <strong>GMAT</strong></li>
-</ul>
-<p>Chosen objects</p>
-<ul>
-<li>TESS, identified with <a href="https://celestrak.org/satcat/table-satcat.php?NAME=tess&amp;PAYLOAD=1&amp;MAX=500">NORAD43435</a>, known area-to-mass ratio, in HEO</li>
-<li>LightSail2, identified with <a href="https://celestrak.org/satcat/table-satcat.php?NAME=lightsail&amp;PAYLOAD=1&amp;MAX=500">NORAD44420</a>, with a well known and very high area-to-mass ratio to stress the SRP and drag models</li>
-</ul>
-<p><strong>Uncertainty problem. There probably are better ways to find historic data from which we can validate our model.</strong></p>
-<hr>
 <div id="section7"></div>
-<h2>0. Uncategorised</h2>
+<h1>Other</h1>
+<div id="section8"></div>
+<h2>Break-up model</h2>
+<p>Johnson, N. L., P. H. Krisko, J. -C. Liou, and P. D. Anz-Meador. “NASA’s New Breakup Model of Evolve 4.0.” <em>Advances in Space Research</em> 28, no. 9 (2001): 1377–84. https://doi.org/10.1016/S0273-1177(01)00423-9.</p>
+<ul>
+<li>NASA's new break-up model article. Comparison with the old model.</li>
+</ul>
+<p>Velerda Escobar, Juan Carlos. <em>Continuum Approach for the Modelling of Debris Population and Launch Traffic in Low Earth Orbit</em>. April 28, 2022. https://www.politesi.polimi.it/handle/10589/187251.</p>
+<ul>
+<li>His implementation of the model has 1 change on the reference mass for non-catastrophic collisions and a fixed value in the distributions at the appendix.</li>
+</ul>
+<p>Schuhmacher, Jonas. <em>Efficient Implementation and Evaluation of the NASA Breakup Model in Modern C++</em>. September 15, 2021.</p>
+<ul>
+<li>Compares freely available C++, Fortran and Python implementations of NASA's break-up model, and eventually offers a validated version without errors. I used their C++ implementation for ESA for the bridge function and to double check everything.</li>
+</ul>
+<div id="section9"></div>
+<h2>Perturbation modelling</h2>
+<p>Montenbruck, O, E Gill, and Fh Lutze. “<em>Satellite Orbits: Models, Methods, and Applications</em>.” <em>Applied Mechanics Reviews</em> 55, no. 2 (2002): B27–28. https://doi.org/10.1115/1.1451162.</p>
+<ul>
+<li>Perturbations, Earth's geopotential, 3<sup>rd</sup> body, drag, SRP... and precision modelling ones like tides, Earth radiation pressure and relativistic effects.</li>
+<li>Short comment comparing efficiency across different types of propagators, talking about how including <strong>the computation cost of perturbations shifts the optimal solver towards higher order schemes</strong>.</li>
+</ul>
+<p>Vallado, David A. <em>Fundamentals of Astrodynamics and Applications</em>. In <em>Fundamentals of Astrodynamics and Applications/ by David A. Vallado with Technical Contributions by Wayne D. McClain. 2nd Ed. El Segundo</em>. 2001. https://ui.adsabs.harvard.edu/abs/2001fada.book.....V.</p>
+<ul>
+<li><strong>Perturbation forces sensitivity analysis (2BP, EGM, drag, SRP, 3rd body, solid tides, ocean tides) including HEO</strong></li>
+</ul>
+<p>Pak, Dennis C. “Linearized Equations for J2 Perturbed Motion Relative to an Elliptical Orbit.” Master of Science, San Jose State University, 2005. https://doi.org/10.31979/etd.67m8-bsmg.</p>
+<ul>
+<li><strong>Cartesian form of J2</strong>.</li>
+</ul>
+<p>Curtis, Howard D. <em>Orbital Mechanics for Engineering Students</em>. 1. ed., Reprinted. Elsevier Aerospace Engineering Series. Elsevier Butterworth Heinemann, 2008.</p>
+<div id="section10"></div>
+<h2>Validation</h2>
+<p>Colombo, Camilla. <em>PLANETARY ORBITAL DYNAMICS (PLANODYN) SUITE FOR LONG TERM PROPAGATION IN PERTURBED ENVIRONMENT</em>. January 1, 2016.</p>
+<ul>
+<li><strong>PlanODyn</strong></li>
+</ul>
+<p>Conway, Darrel J., and Steven P. Hughes. “The General Mission Analysis Tool (GMAT): Current Features And Adding Custom Functionality.” Paper presented at European Space Agency, Cologne, Germany. May 3, 2010. https://ntrs.nasa.gov/citations/20180000083.</p>
+<ul>
+<li><strong>GMAT</strong></li>
+</ul>
+<p>Vallado, David A. <em>Fundamentals of Astrodynamics and Applications</em>. In <em>Fundamentals of Astrodynamics and Applications/ by David A. Vallado with Technical Contributions by Wayne D. McClain. 2nd Ed. El Segundo</em>. 2001. https://ui.adsabs.harvard.edu/abs/2001fada.book.....V.</p>
+<ul>
+<li><strong>Precision Orbit Ephemerides (POE)</strong>. POE’s are available for a few satellites such as TOPEX, LAGEOS, ETALON 1 and 2, GPS, TDRSS, and a few others. You should contact the appropriate organization to determine their availability. For instance, the Center for Space Research at the University of Texas at Austin produces POE’s for TOPEX. See Appendix D for additional information</li>
+</ul>
+<hr>
+<div id="section11"></div>
+<h1>Recommended but unused</h1>
 <p>*, <strong>2</strong>. [Colombo C, Alessi EM, van der Weg W, Soldini S, Letizia F, Vetrisano M, Vasile M, Rossi A, Landgraf M. End-of-life disposal concepts for Libration Point Orbit and Highly Elliptical Orbit missions. Acta Astronautica. 2015 May 1;110:298-312.](literature/proposal papers/End-of-life disposal concepts for Libration Point Orbit and Highly Elliptical Orbit missions.pdf)</p>
 <ul>
 <li>Focused on the analysis of possible disposal strategies for HEO but also Libration Point Orbits (LPO). Disposal strategies are not in the scope of the thesis.</li>
@@ -218,11 +199,6 @@ h_a(e=0.5,h_p=100\,km) \approx \text{6600 km}
 <p>*, <strong>7</strong>. [Giudici L, Colombo C. Keplerian map theory for high-fidelity prediction of the third-body perturbative effect. InINTERNATIONAL ASTRONAUTICAL CONGRESS: IAC PROCEEDINGS 2021 (pp. 1-10).](literature/proposal papers/Keplerian map theory for high-fidelity prediction of the third-body perturbative effect.pdf)</p>
 <ul>
 <li>Keplerian map theory, computationally more efficient technique than classical N-body simulation, here it was applied to an interplanetary trajectory though.</li>
-</ul>
-<p>** <strong>8</strong>. [Moschetta M. Semi-analytical propagator for analysis of fragmentation events in the geosynchronous orbital region with analytically expanded perturbations.](literature/starting papers/2024_12_Moschetta_Thesis_01.pdf)</p>
-<ul>
-<li>Thesis on debris propagation from geosynchronous orbits with a semi-analytical propagator, representing the SRP as anti-gravity to better see its effect, using GMAT as validation</li>
-<li>Very complete, thesis from the department so obviously tailored to the style wanted already. Useful to look at.</li>
 </ul>
 <p>** <strong>9</strong>. [Ashenberg J. Formulas for the phase characteristics in the problem of low-earth-orbital debris. Journal of Spacecraft and Rockets. 1994 Nov;31(6):1044-9.](literature/starting papers/Ashenberg.pdf)</p>
 <ul>
@@ -263,10 +239,37 @@ h_a(e=0.5,h_p=100\,km) \approx \text{6600 km}
 <li>Continuum model and semi-analytical evolution of fragment cloud, for faster results.</li>
 <li>COMMENTS: Strong reference for analytical and continuum based solutions but probably not what we are looking for.</li>
 </ul>
-<p>** <strong>16</strong>. [Letizia F, Colombo C, Lewis HG. Analytical model for the propagation of small-debris-object clouds after fragmentations. Journal of Guidance, Control, and Dynamics. 2015 Aug;38(8):1478-91.](literature/starting papers/Letizia_2014_AnalyticalModelSmall.pdf)</p>
+<div id="section12"></div>
+<h2>HEO</h2>
+<p>*, <strong>A1</strong>. [Colombo C, Alessi EM, Landgraf M. End-of life disposal of spacecraft in Highly Elliptical Orbits by means of luni-solar perturbations and Moon resonances. Earth. 2013;3(2):2-.](literature/proposal papers/End-of life disposal of spacecraft in Highly Elliptical Orbits by means of luni-solar perturbations and Moon resonances.pdf)</p>
 <ul>
-<li>Analytical modelling of the fragment cloud spread</li>
-<li>COMMENTS: Similar, if not continuation of the work in <strong>A15</strong>.</li>
+<li><strong>HEO orbits are important for communications, spending most of the time at high altitudes above the radiation belts for stable observation and communications. They have a considerable risk of severe collisions and fragmentation events.</strong></li>
+<li><strong>Disposal strategies for HEO, a controlled reentry or parking in Lunar Weak Capture Orbits (WCO) both can be aided by the third body perturbations and small adjustments in the orbit.</strong></li>
+<li><strong>3rd body perturbation takes a central role in long-term HEO evolution</strong></li>
+</ul>
+<p><strong>A2</strong>. <a href="https://nap.nationalacademies.org/catalog/4765/orbital-debris-a-technical-assessment">Gleghorn G, Asay J, Atkinson D, Flury W, Johnson N, Kessler D, Knowles S, Rex D, Toda S, Veniaminov S. Orbital debris: A technical assessment. 1995 Jan 1.</a></p>
+<ul>
+<li>Definition of High Earth Orbit as any orbit with a mean altitude greater than 2000 km, and Highly Elliptical Orbit as any orbit with an eccentricity greater than 0.5.</li>
+</ul>
+<p>From the definition of eccentricity and semi-major axis we can compute a minimum apogee height considering a minimum perigee height at the Von Karman line (100 km):</p>
+<p class='katex-block'><span class="katex-display"><span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML" display="block"><semantics><mtable rowspacing="0.16em" columnalign="center" columnspacing="1em"><mtr><mtd><mstyle scriptlevel="0" displaystyle="false"><mrow><mi>e</mi><mo>=</mo><mfrac><mrow><msub><mi>r</mi><mi>a</mi></msub><mo>−</mo><msub><mi>r</mi><mi>p</mi></msub></mrow><mrow><mn>2</mn><mi>a</mi></mrow></mfrac><mtext> </mtext><mo separator="true">;</mo><mtext> </mtext><mi>a</mi><mo>=</mo><mfrac><mn>1</mn><mn>2</mn></mfrac><mo stretchy="false">(</mo><msub><mi>r</mi><mi>a</mi></msub><mo>+</mo><msub><mi>r</mi><mi>p</mi></msub><mo stretchy="false">)</mo><mo>→</mo><msub><mi>r</mi><mi>a</mi></msub><mo>=</mo><mfrac><mrow><mn>1</mn><mo>+</mo><mi>e</mi></mrow><mrow><mn>1</mn><mo>−</mo><mi>e</mi></mrow></mfrac><msub><mi>r</mi><mi>p</mi></msub></mrow></mstyle></mtd></mtr><mtr><mtd><mstyle scriptlevel="0" displaystyle="false"><mrow><msub><mi>h</mi><mi>a</mi></msub><mo stretchy="false">(</mo><mi>e</mi><mo>=</mo><mn>0.5</mn><mo separator="true">,</mo><msub><mi>h</mi><mi>p</mi></msub><mo>=</mo><mn>100</mn><mtext> </mtext><mi>k</mi><mi>m</mi><mo stretchy="false">)</mo><mo>≈</mo><mtext>13000 km</mtext></mrow></mstyle></mtd></mtr></mtable><annotation encoding="application/x-tex">\begin{array}{c}
+e = \frac{r_a-r_p}{2a}\,;\,a = \frac{1}{2}(r_a+r_p) \rightarrow r_a = \frac{1+e}{1-e}r_p \\[6pt]
+h_a(e=0.5,h_p=100\,km) \approx \text{13000 km}
+\end{array}
+</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:3.0757em;vertical-align:-1.2878em;"></span><span class="mord"><span class="mtable"><span class="arraycolsep" style="width:0.5em;"></span><span class="col-align-c"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:1.7878em;"><span style="top:-3.8722em;"><span class="pstrut" style="height:3em;"></span><span class="mord"><span class="mord mathnormal">e</span><span class="mspace" style="margin-right:0.2778em;"></span><span class="mrel">=</span><span class="mspace" style="margin-right:0.2778em;"></span><span class="mord"><span class="mopen nulldelimiter"></span><span class="mfrac"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.9157em;"><span style="top:-2.655em;"><span class="pstrut" style="height:3em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight"><span class="mord mtight">2</span><span class="mord mathnormal mtight">a</span></span></span></span><span style="top:-3.23em;"><span class="pstrut" style="height:3em;"></span><span class="frac-line" style="border-bottom-width:0.04em;"></span></span><span style="top:-3.5073em;"><span class="pstrut" style="height:3em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight"><span class="mord mtight"><span class="mord mathnormal mtight" style="margin-right:0.02778em;">r</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.1645em;"><span style="top:-2.357em;margin-left:-0.0278em;margin-right:0.0714em;"><span class="pstrut" style="height:2.5em;"></span><span class="sizing reset-size3 size1 mtight"><span class="mord mathnormal mtight">a</span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.143em;"><span></span></span></span></span></span></span><span class="mbin mtight">−</span><span class="mord mtight"><span class="mord mathnormal mtight" style="margin-right:0.02778em;">r</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.1645em;"><span style="top:-2.357em;margin-left:-0.0278em;margin-right:0.0714em;"><span class="pstrut" style="height:2.5em;"></span><span class="sizing reset-size3 size1 mtight"><span class="mord mathnormal mtight">p</span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.2819em;"><span></span></span></span></span></span></span></span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.345em;"><span></span></span></span></span></span><span class="mclose nulldelimiter"></span></span><span class="mspace" style="margin-right:0.1667em;"></span><span class="mpunct">;</span><span class="mspace" style="margin-right:0.1667em;"></span><span class="mspace" style="margin-right:0.1667em;"></span><span class="mord mathnormal">a</span><span class="mspace" style="margin-right:0.2778em;"></span><span class="mrel">=</span><span class="mspace" style="margin-right:0.2778em;"></span><span class="mord"><span class="mopen nulldelimiter"></span><span class="mfrac"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.8451em;"><span style="top:-2.655em;"><span class="pstrut" style="height:3em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight"><span class="mord mtight">2</span></span></span></span><span style="top:-3.23em;"><span class="pstrut" style="height:3em;"></span><span class="frac-line" style="border-bottom-width:0.04em;"></span></span><span style="top:-3.394em;"><span class="pstrut" style="height:3em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight"><span class="mord mtight">1</span></span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.345em;"><span></span></span></span></span></span><span class="mclose nulldelimiter"></span></span><span class="mopen">(</span><span class="mord"><span class="mord mathnormal" style="margin-right:0.02778em;">r</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.1514em;"><span style="top:-2.55em;margin-left:-0.0278em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mathnormal mtight">a</span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.15em;"><span></span></span></span></span></span></span><span class="mspace" style="margin-right:0.2222em;"></span><span class="mbin">+</span><span class="mspace" style="margin-right:0.2222em;"></span><span class="mord"><span class="mord mathnormal" style="margin-right:0.02778em;">r</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.1514em;"><span style="top:-2.55em;margin-left:-0.0278em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mathnormal mtight">p</span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.2861em;"><span></span></span></span></span></span></span><span class="mclose">)</span><span class="mspace" style="margin-right:0.2778em;"></span><span class="mrel">→</span><span class="mspace" style="margin-right:0.2778em;"></span><span class="mord"><span class="mord mathnormal" style="margin-right:0.02778em;">r</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.1514em;"><span style="top:-2.55em;margin-left:-0.0278em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mathnormal mtight">a</span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.15em;"><span></span></span></span></span></span></span><span class="mspace" style="margin-right:0.2778em;"></span><span class="mrel">=</span><span class="mspace" style="margin-right:0.2778em;"></span><span class="mord"><span class="mopen nulldelimiter"></span><span class="mfrac"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.8451em;"><span style="top:-2.655em;"><span class="pstrut" style="height:3em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight"><span class="mord mtight">1</span><span class="mbin mtight">−</span><span class="mord mathnormal mtight">e</span></span></span></span><span style="top:-3.23em;"><span class="pstrut" style="height:3em;"></span><span class="frac-line" style="border-bottom-width:0.04em;"></span></span><span style="top:-3.394em;"><span class="pstrut" style="height:3em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight"><span class="mord mtight">1</span><span class="mbin mtight">+</span><span class="mord mathnormal mtight">e</span></span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.4033em;"><span></span></span></span></span></span><span class="mclose nulldelimiter"></span></span><span class="mord"><span class="mord mathnormal" style="margin-right:0.02778em;">r</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.1514em;"><span style="top:-2.55em;margin-left:-0.0278em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mathnormal mtight">p</span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.2861em;"><span></span></span></span></span></span></span></span></span><span style="top:-2.0722em;"><span class="pstrut" style="height:3em;"></span><span class="mord"><span class="mord"><span class="mord mathnormal">h</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.1514em;"><span style="top:-2.55em;margin-left:0em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mathnormal mtight">a</span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.15em;"><span></span></span></span></span></span></span><span class="mopen">(</span><span class="mord mathnormal">e</span><span class="mspace" style="margin-right:0.2778em;"></span><span class="mrel">=</span><span class="mspace" style="margin-right:0.2778em;"></span><span class="mord">0.5</span><span class="mpunct">,</span><span class="mspace" style="margin-right:0.1667em;"></span><span class="mord"><span class="mord mathnormal">h</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.1514em;"><span style="top:-2.55em;margin-left:0em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mathnormal mtight">p</span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.2861em;"><span></span></span></span></span></span></span><span class="mspace" style="margin-right:0.2778em;"></span><span class="mrel">=</span><span class="mspace" style="margin-right:0.2778em;"></span><span class="mord">100</span><span class="mspace" style="margin-right:0.1667em;"></span><span class="mord mathnormal">km</span><span class="mclose">)</span><span class="mspace" style="margin-right:0.2778em;"></span><span class="mrel">≈</span><span class="mspace" style="margin-right:0.2778em;"></span><span class="mord text"><span class="mord">13000 km</span></span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:1.2878em;"><span></span></span></span></span></span><span class="arraycolsep" style="width:0.5em;"></span></span></span></span></span></span></span></p>
+<p><strong>In this document HEOs are defined as elliptical orbits with eccentricity higher than 0.5 and apogee heights of  over 13000 km.</strong></p>
+<ul>
+<li><strong>HEOs may cross highly congested regions, making the risk of collision uncertain even though the time of residence is low.</strong></li>
+<li><strong>HEOs object velocities vary very strongly, resulting in wide distributions of fragment size and energy in the case of a collision.</strong></li>
+</ul>
+<p>** <strong>A3</strong>. [Moschetta M. Semi-analytical propagator for analysis of fragmentation events in the geosynchronous orbital region with analytically expanded perturbations.](literature/starting papers/2024_12_Moschetta_Thesis_01.pdf)</p>
+<ul>
+<li>Thesis on debris propagation from geosynchronous orbits with a semi-analytical propagator, representing the SRP as anti-gravity to better see its effect, using GMAT as validation</li>
+<li>Very complete, thesis from the department so obviously tailored to the style wanted already. Useful to look at.</li>
+</ul>
+<p>** <strong>A4</strong>. [Letizia F, Colombo C, Lewis HG. Analytical model for the propagation of small-debris-object clouds after fragmentations. Journal of Guidance, Control, and Dynamics. 2015 Aug;38(8):1478-91.](literature/starting papers/Letizia_2014_AnalyticalModelSmall.pdf)</p>
+<ul>
+<li>Analytical modelling of the fragment cloud evolution. Good reference for this different approach</li>
 </ul>
 <hr><div class="blogTags"><button class="blogTagSelected" title='Check more posts of the "WIP" category on my blog!'>WIP</button></div><br></div>
         <div style="flex: 1; min-width: 20px;"></div>
