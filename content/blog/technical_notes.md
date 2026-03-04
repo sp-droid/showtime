@@ -1,4 +1,8 @@
+*[NASA]: National Aeronautics and Space Administration
+
 [toc]
+
+
 
 # Fragmentation
 
@@ -241,9 +245,23 @@ Generally non-stiff (time-scale continuity), except in extreme elliptical orbits
 
 If I want to implement the solver on a GPU I need to understand well, and be able to implement it on a CPU first.
 
+### Euler methods
+
+##### Forward-Euler
+
+$$
+\begin{array}{c}
+a_{t+1} = f(r_t, v_t) \\
+v_{t+1} = v_t+a_{t+1}\Delta t \\
+r_{t+1} = r_t+v_t\Delta t
+\end{array}
+$$
+
+
+
 ### Runge-Kutta methods
 
-##### 1. Runge-Kutta 4
+##### Runge-Kutta 4
 
 $$
 \begin{array}{c}
@@ -258,23 +276,13 @@ k_4 = f\left(t+h, y+hk_3\right)
 \end{array}
 $$
 
-
-
-##### 2. RK4 in Numba JIT
+##### RK4 in Numba JIT
 
 Considerable speed up, around x10^2^. The code is compiled on first iteration through Numba's JIT compiler, speeding things up significantly. To make it work fast, vectorised operations, function calls and others were exchanged for simpler operations compatible with the framework.
 
 
 
-##### 3. Including a perturbation (J2)
-J2 term equation in cartesian coordinates.
-$$
-\bar{a}_{J2} = 1.5J_2\mu\frac{R_\oplus^2}{|r|^5}\left[(5\frac{r_z^2}{|r|^2}-1)(r_x\hat{i}+r_y\hat{j})+5\frac{r_z^2}{|r|^2}-3)r_z\hat{k}\right]
-$$
-
-
-
-##### 4. Adaptive RK4 through Richardson extrapolation and step doubling
+##### Adaptive RK4 through Richardson extrapolation and step doubling
 
 For the purpose of increasing the order of a solution and calculating the error, there is one technique called **Richardson extrapolation** which involves calculating two approximations to the same time with different step sizes (if using **step doubling** one single step with h and a double step using h/2).
 $$
@@ -308,14 +316,218 @@ $$
 
 
 
+# Orbital Mechanics concepts
+
+## Constants used
+
+$\mu$: Standard gravitational parameter of a celestial body
+
+$J_2$: Perturbation constant
 
 
-## Miscellanous
 
-### Test with WGPU
+## Relevant coordinate systems
 
-It's a python library for WebGPU bindings, allowing me to tap into GPU capabilities without being vendor specific with a modern API. Successful in both computers, similar nomenclature as in WebGPU's JS bindings.
+(ECI) Earth-Centered Inertial frame
+$$
+\text{ECI}
+\begin{cases}
+	\text{Origin} :& \text{Earth's center}\\ 
+	\hat{\imath} :& \text{Vernal equinox (intersection between Earth equatorial and ecliptic planes)} \\
+	\hat{\jmath} :& \hat{\imath}\times\hat{k} \\
+	\hat{k} :& \text{Earth's North Pole}
+\end{cases}
+$$
+(ECEF) Earth-Centered, Earth-Fixed frame
+$$
+\text{ECEF}
+\begin{cases}
+	\text{Origin} :& \text{Earth's center}\\ 
+	\hat{\imath} :& \text{Intersection between the prime meridian and the equatorial plane} \\
+	\hat{\jmath} :& \hat{\imath}\times\hat{k} \\
+	\hat{k} :& \text{Earth's North Pole}
+\end{cases}
+$$
+Perifocal frame
+$$
+\text{PF}
+\begin{cases}
+	\text{Origin} :& \text{Earth}\\ 
+	\hat{\imath} :& \vec{r}_{\text{Earth to periapsis}} \\
+	\hat{\jmath} :& \hat{\imath}\times\hat{k} \\
+	\hat{k} :& \vec{h}
+\end{cases}
+$$
+LVLH / RSW frame
+$$
+\text{LVLH / RSW}
+\begin{cases}
+	\text{Origin} :& \text{Spacecraft}\\ 
+	\hat{\imath} :& \vec{r}_{\text{Earth to spacecraft}} \\
+	\hat{\jmath} :& \vec{v} \\
+	\hat{k} :& \vec{h}
+\end{cases}
+$$
 
-### Test with fastplotlib
+
+## Restricted 2-body problem for elliptical solutions
+
+Restricted simply implies $m_2 << m_1$, as in the case of a satellite orbiting around a celestial body like the Earth. Equation of motion:
+$$
+\ddot{\vec{r}} = -\mu\frac{\vec{r}}{r^3}
+$$
+The apsides refer to the farthest (apoapsis) and nearest (periapsis) points to the focus in an orbit. Some related relationships:
+$$
+a = \frac{1}{2}\left(r_a+r_p\right)\text{ ; }r_a = a(1+e)\text{ ; }r_p = a(1-e)\text{ ; }e = \frac{r_a-r_p}{r_a+r_p}
+$$
+Orbital period $T$ and mean motion $n$:
+$$
+T = \frac{2\pi}{n} = 2\pi\sqrt{\frac{a^3}{\mu}}
+$$
+Angular momentum:
+$$
+\vec{h} = \vec{r} \times \vec{v}
+$$
+Semi-latus rectum:
+$$
+p = a(1-e^2) = \frac{h^2}{\mu}
+$$
+Orbital radiovector:
+$$
+r = \frac{p}{1+e\cos{\theta}}
+$$
+Specific orbital energy:
+$$
+\epsilon = -\frac{\mu}{2a} = \frac{v^2}{2}-\frac{\mu}{r}
+\begin{cases}
+	\text{Elliptical} & \epsilon<0 \\
+	\text{Parabolic} & \epsilon=0 \\
+	\text{Hyperbolic} & \epsilon>0
+\end{cases}
+$$
+Orbital velocity and escape velocity:
+$$
+v^2 = \mu\left(\frac{2}{r}-\frac{1}{a}\right)\text{ ; }v_{esc}^2 = \mu\frac{2}{r}
+$$
+
+
+Inclination, angle between the orbital and equatorial planes:
+$$
+\cos{i} = \hat{h}_z\text{ ; }i \in[0,180^\circ] 
+\begin{cases}
+	\text{Equatorial} & i=0, 180^\circ \\
+	\text{Prograde} & 0\le i<90^\circ \\
+	\text{Polar} & i=90^\circ \\ 
+	\text{Retrograde} & 90^\circ<i\le180^\circ
+\end{cases}
+$$
+The nodes refer to the two intersection points between the equatorial plane and the orbit. Ascending node is the one where the orbit crosses the plane south to north, and vice versa for the descending node. The line of nodes goes through them, defined as the intersection between the orbital and equatorial planes. For equatorial orbits we assume it to point in the direction of the vernal equinox.
+$$
+\hat{N} = [0,0,1]_T \times \hat{h} = [-\hat{h}_y, \hat{h}_x, 0]\text{ ; If equatorial: }\hat{N} = [1,0,0]_T
+$$
+
+Eccentricity:
+$$
+\vec{e} = \frac{1}{\mu}(\vec{v}\times\vec{h})-\hat{r}=\left(\frac{v^2}{\mu}-\frac{1}{r}\right)\vec{r}-\frac{\vec{r}\cdot\vec{v}}{\mu}\vec{v} \text{ ; }e\in[0,\infin)
+\begin{cases}
+	\text{Circular} & e=0 \\
+	\text{Elliptical} & 0\le e<1 \\
+	\text{Parabolic} & e=1 \\ 
+	\text{Hyperbolic} & e>1
+\end{cases}
+$$
+Line of apsides $\hat{e}$, defined as the one through the focus, periapsis and apoapsis. In circular orbits it is not well defined, so we assume it to be $\hat{N}$:
+$$
+\text{If circular: } \hat{e} = \hat{N}
+$$
+The argument of periapsis is the angle from the ascending node to the periapsis. For circular orbits we set it to 0, for equatorial non-circular orbits we return the longitude of periapsis instead, which is simply the angle from the vernal equinox to the perigee:
+$$
+\omega\in[0,360^\circ]\text{ ; }\tan\omega = 
+\begin{cases}
+	0 & \text{Circular} \\
+	\frac{\hat{e}_y}{\hat{e}_x} & \text{Equatorial non-circular} \\
+	\frac{(\hat{N}\times\hat{e})\cdot\hat{h}}{\hat{N}\cdot\hat{e}} & \text{Other cases}
+\end{cases}
+$$
+True anomaly:
+$$
+\cos\theta = \hat{e}\cdot\hat{r}\text{ ; }\theta\in[0,360^\circ)
+$$
+Right Ascension of the Ascending Node (RAAN) measures the angle from the vernal equinox and the right ascending node. It is undefined in equatorial orbits, but the problem is already solved since $\hat{N} = [1,0,0]_T$:
+$$
+\tan\Omega = \frac{\hat{N}_y}{\hat{N}_x}\text{ ; If equatorial: } \Omega = 0\text{ ; }\Omega\in[0,360^\circ)
+$$
+Eccentric anomaly (ellipses):
+$$
+\tan\frac{\theta}{2} = \sqrt{\frac{1+e}{1-e}}\tan{\frac{E}{2}}
+$$
+Kepler's equation and mean anomaly:
+$$
+n(t_1-t_0) = M = [E-e\sin E]^{t_1}_{t_0}
+$$
+
+Perifocal frame radiovector:
+$$
+\vec{r}_{PF} = r(\cos\theta, \sin\theta, 0)
+$$
+Perifocal frame velocity vector:
+$$
+\vec{v}_{PF} = \sqrt\frac{\mu}{p}(-\sin\theta, e+\cos\theta, 0)
+$$
+
+
+
+## Perturbations in ECI
+
+- Earth geopotential deviation
+- Drag
+- Radiation pressure
+- Third body
+
+### Earth gravity model
+
+Earth's mass is not concentrated in a point. However, according to Newton's shell theorem, regardless of the body's radius, a spherically symmetric object attracts all external objects as if its mass were concentrated at its centre. Nevertheless we must still account for Earth's spherical imperfections, which are fortunately small enough to be treated as perturbations. Next, a series of models to represent this phenomenon:
+
+##### Spherical harmonic expansion
+
+Since gravity is conservative, it can be written in terms of the geopotential:
+$$
+\vec{a}_{EGM} = -\Delta U
+$$
+The general solution is the spherical harmonic expansion, function of the distance to the Earth's centre, the elevation angle and azimuth angle:
+$$
+U(r,\theta,\phi) = \frac{\mu}{r}\left(1+\sum^\infin_{n=1}\left(\frac{a}{r}\right)^n\sum^n_{m=0}Y_{n,m}\sin\theta\left(C_{n,m}\cos(m\varphi)+S_{n,m}\sin(m\varphi)\right)\right)
+$$
+$Y$ are the associated normalised Legendre polynomials ($P$ are the unnormalised ones):
+$$
+Y_{n,m} = \sqrt{\frac{(2-\delta_{0m})(2n+1)(n-m)!}{(n+m)!}}P_{n,m}\text{ ; }\delta_{0m} =
+\begin{cases}
+	1 & m=0 \\
+	0 & m\neq 0
+\end{cases}
+$$
+The coefficients are:
+
+- Zonal or J terms ($m=0$) - Depend only on the latitude
+- Non-zonal terms ($m\neq0$)
+  - Tesseral ($m < n$) - Dependence on both
+  - Sectorial ($m = n$) - Longitude dependence
+
+<img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQJ9ipssv7OhZSujAjFKCtl6Qnv_L-3IeyLBw&s" alt="From left to right: some tesseral, sectorial and zonal effects. Source: essd.copernicus.org" style="zoom:130%;" />
+
+There are several EGM models. 
+
+##### J$_2$
+
+The first zonal term is responsible for most of the perturbation, and some models take only the first few terms as a result. It comes from the equatorial bulge of the Earth, given that the equatorial radius is approximately 21 km longer than the polar one. All spinning planets have it to some degree.
+$$
+\vec{a}_{J_{2,0}} = 1.5J_2\mu\frac{R_\oplus^2}{|r|^5}\left[(5\frac{r_z^2}{|r|^2}-1)(r_x\hat{i}+r_y\hat{j})+5\frac{r_z^2}{|r|^2}-3)r_z\hat{k}\right]
+$$
+
+
+
+# Miscellanous
+
+## Test with fastplotlib
 
 It's a python library for plotting (like matplotlib) that uses WGPU for rendering plots faster. It's nice to have because we are going to need WGPU anyway, and makes 3D scatter plots with many points a breeze. Successful in my main computer, but still solving an issue on the laptop.

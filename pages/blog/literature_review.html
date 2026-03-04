@@ -60,35 +60,19 @@ section="blog">
     </div>
 </div></div>
     <div style="flex: 1; display: flex;">
-        <div class="markdown-body sidebarHide" style="flex: 1; min-width: 22px; max-width: 16%; margin-right: 6px;"><br><div class='TOCpost'><h4>&emsp;&nbsp;Contents</h4><ul><li><a href='#section0'>(Top)</a></li><li onclick="toggleDetails(event)"><details><summary><a href='#section1'>Propagator</a></summary><ul><li><a href='#section2'>Formulation</a></li><li onclick="toggleDetails(event)"><details><summary><a href='#section3'>Solver</a></summary><ul><li><a href='#section4'>Benchmarks</a></li><li><a href='#section5'>Picard-Chebyshev</a></li></ul></details></li><li><a href='#section6'>GPU specific</a></li></ul></details></li><li onclick="toggleDetails(event)"><details><summary><a href='#section7'>Other</a></summary><ul><li><a href='#section8'>Break-up model</a></li><li><a href='#section9'>Perturbation modelling</a></li><li><a href='#section10'>Validation</a></li></ul></details></li><li onclick="toggleDetails(event)"><details><summary><a href='#section11'>Recommended but unused</a></summary><ul><li><a href='#section12'>HEO</a></li></ul></details></li>
+        <div class="markdown-body sidebarHide" style="flex: 1; min-width: 22px; max-width: 16%; margin-right: 6px;"><br><div class='TOCpost'><h4>&emsp;&nbsp;Contents</h4><ul><li><a href='#section0'>(Top)</a></li><li onclick="toggleDetails(event)"><details><summary><a href='#section1'>Propagator</a></summary><ul><li onclick="toggleDetails(event)"><details><summary><a href='#section2'>Solver</a></summary><ul><li><a href='#section3'>Benchmarks</a></li><li><a href='#section4'>Picard-Chebyshev</a></li><li><a href='#section5'>GPU specific</a></li></ul></details></li></ul></details></li><li><a href='#section6'>GPU programming</a></li><li onclick="toggleDetails(event)"><details><summary><a href='#section7'>Other</a></summary><ul><li><a href='#section8'>Break-up model</a></li><li><a href='#section9'>Perturbation modelling</a></li><li><a href='#section10'>Validation</a></li></ul></details></li><li onclick="toggleDetails(event)"><details><summary><a href='#section11'>Recommended but unused</a></summary><ul><li><a href='#section12'>HEO</a></li></ul></details></li>
 </ul></div></div>
         <div class="markdown-body" id="HTMLpost"><div id="section0"></div>
 <h6>November 21st, 2025</h6>
 <h1>MSc thesis literature summary</h1>
 <h5>Reading time: 10 mins</h5>
 <hr>
-<p>Objectives:</p>
-<ul>
-<li>Fragmentation event</li>
-<li>Fragment cloud orbital dynamics</li>
-</ul>
-<p>Legend:</p>
-<ul>
-<li>First letter = category</li>
-<li>*= Proposal article</li>
-<li>**= Recommended article</li>
-</ul>
-<p><div class='TOCpost'><h4>&emsp;&nbsp;Contents</h4><ul><li><a href='#section0'>(Top)</a></li><li onclick="toggleDetails(event)"><details><summary><a href='#section1'>Propagator</a></summary><ul><li><a href='#section2'>Formulation</a></li><li onclick="toggleDetails(event)"><details><summary><a href='#section3'>Solver</a></summary><ul><li><a href='#section4'>Benchmarks</a></li><li><a href='#section5'>Picard-Chebyshev</a></li></ul></details></li><li><a href='#section6'>GPU specific</a></li></ul></details></li><li onclick="toggleDetails(event)"><details><summary><a href='#section7'>Other</a></summary><ul><li><a href='#section8'>Break-up model</a></li><li><a href='#section9'>Perturbation modelling</a></li><li><a href='#section10'>Validation</a></li></ul></details></li><li onclick="toggleDetails(event)"><details><summary><a href='#section11'>Recommended but unused</a></summary><ul><li><a href='#section12'>HEO</a></li></ul></details></li>
+<p><img src="../../content/blog/assets/mind_map.drawio.svg" alt="Thesis mind map"></p>
+<p><div class='TOCpost'><h4>&emsp;&nbsp;Contents</h4><ul><li><a href='#section0'>(Top)</a></li><li onclick="toggleDetails(event)"><details><summary><a href='#section1'>Propagator</a></summary><ul><li onclick="toggleDetails(event)"><details><summary><a href='#section2'>Solver</a></summary><ul><li><a href='#section3'>Benchmarks</a></li><li><a href='#section4'>Picard-Chebyshev</a></li><li><a href='#section5'>GPU specific</a></li></ul></details></li></ul></details></li><li><a href='#section6'>GPU programming</a></li><li onclick="toggleDetails(event)"><details><summary><a href='#section7'>Other</a></summary><ul><li><a href='#section8'>Break-up model</a></li><li><a href='#section9'>Perturbation modelling</a></li><li><a href='#section10'>Validation</a></li></ul></details></li><li onclick="toggleDetails(event)"><details><summary><a href='#section11'>Recommended but unused</a></summary><ul><li><a href='#section12'>HEO</a></li></ul></details></li>
 </ul></div></p>
 <div id="section1"></div>
 <h1>Propagator</h1>
 <div id="section2"></div>
-<h2>Formulation</h2>
-<p>Ely, Todd. “Mean Element Propagations Using Numerical Averaging.” <em>Journal of the Astronautical Sciences</em> 61 (September 2014): 275–304. https://doi.org/10.1007/s40295-014-0020-2.</p>
-<ul>
-<li>Similar to semi-analytical techniques but using numerical averaging, for long term.</li>
-</ul>
-<div id="section3"></div>
 <h2>Solver</h2>
 <p>Van Der Houwen, P.J., E. Messina, and J.J.B. De Swart. “Parallel Störmer–Cowell Methods for High-Precision Orbit Computations.” <em>Applied Numerical Mathematics</em> 31, no. 3 (1999): 353–74. https://doi.org/10.1016/S0168-9274(98)00135-4.</p>
 <ul>
@@ -98,7 +82,7 @@ section="blog">
 <ul>
 <li>Runge-Kutta method</li>
 </ul>
-<div id="section4"></div>
+<div id="section3"></div>
 <h3>Benchmarks</h3>
 <p>Atallah, Ahmed M., Robyn M. Woollands, Tarek A. Elgohary, and John L. Junkins. “Accuracy and Efficiency Comparison of Six Numerical Integrators for Propagating Perturbed Orbits.” <em>The Journal of the Astronautical Sciences</em> 67, no. 2 (2020): 511–38. https://doi.org/10.1007/s40295-019-00167-2.</p>
 <ul>
@@ -108,7 +92,7 @@ section="blog">
 <ul>
 <li>Comparison of different solvers and their preferred case with respect to problem stiffness. <strong>The algorithms ode45 and ode113 are good for our non-stiff problem. ode45 is one step, ode113 is multistep, better for long propagations with expensive evaluation functions.</strong></li>
 </ul>
-<div id="section5"></div>
+<div id="section4"></div>
 <h3>Picard-Chebyshev</h3>
 <p>Picard-Chebyshev is great for extracting computing power properly out of GPUs, due to its parallel nature, in comparison to most solvers for orbit propagation that are sequential. <strong>However</strong>, if the goal is still multi-object (in the hundreds, thousands), it stops being crucial because we can simply run each thread independently on simple sequential solvers, for each object. It's worse for collision detection too. Unless the goal changes or becomes in the future to propagate a single orbit very accurately very fast, it's not the best solution.</p>
 <p>Koblick, Darin, Mark Poole, and Praveen Shankar. “Parallel High-Precision Orbit Propagation Using the Modified Picard-Chebyshev Method.” <em>Volume 1: Advances in Aerospace Technology</em>, American Society of Mechanical Engineers, November 9, 2012, 587–605. https://doi.org/10.1115/IMECE2012-87878.</p>
@@ -119,8 +103,8 @@ section="blog">
 <ul>
 <li>Method to increase the convergence interval in PC</li>
 </ul>
-<div id="section6"></div>
-<h2>GPU specific</h2>
+<div id="section5"></div>
+<h3>GPU specific</h3>
 <p>Masat, Alessandro, Camilla Colombo, and Arnaud Boutonnet. “GPU-Based High-Precision Orbital Propagation of Large Sets of Initial Conditions through Picard-Chebyshev Augmentation.” <em>Acta Astronautica</em> 204 (March 2023): 239–52. https://doi.org/10.1016/j.actaastro.2022.12.037.</p>
 <ul>
 <li>Highly parallel Picard–Chebyshev orbital propagator that augments the integrator to propagate <em>many initial conditions at once</em> with high accuracy, significantly improving throughput versus multi-core CPU approaches.</li>
@@ -129,6 +113,13 @@ section="blog">
 <ul>
 <li>Thesis: Long term analytical (averaged elements) propagator for GPU. Extensive guidelines for extracting performance from the GPU for these kind of problems.</li>
 <li>His short conference paper adjoined to the thesis later: Short summary on the problem specifically for the orbital debris case with thousands of fragments, includes tips on the general implementation on GPUs.</li>
+</ul>
+<div id="section6"></div>
+<h1>GPU programming</h1>
+<p>Oden, Lena. “Lessons Learned from Comparing C-CUDA and Python-Numba for GPU-Computing.” <em>2020 28th Euromicro International Conference on Parallel, Distributed and Network-Based Processing (PDP)</em>, March 2020, 216–23. https://doi.org/10.1109/PDP50117.2020.00041.</p>
+<ul>
+<li>Numba CUDA is compared against C-CUDA. Numba uses NVVM JIT compiled Python-written kernels for NVIDIA GPUs which, despite the bad reputation of Python, show comparable performance to C-CUDA at least for the GPU part. There is always some slow overhead from Python's interpreter -there is a price for simplification- but the effect on total computation time depends on how little we can rely on the CPU side to solve a task. Numba CUDA can be employed in multi-GPU applications.</li>
+<li>There are some improvements that should be taken into account: defined thread ids as unsigned integers instead of signed, manually assign single precision types when needed (otherwise automatic type inference can result in problems for single precision applications)</li>
 </ul>
 <div id="section7"></div>
 <h1>Other</h1>

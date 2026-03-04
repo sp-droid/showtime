@@ -1,7 +1,7 @@
 {
-    "name": "Chicken Makhani",
+    "name": "Chicken Tikka Masala",
     "category": "Main courses",
-    "description": "/'Butter chicken'/",
+    "description": "/''/",
     "origin": "",
     "portions": 4,
     "flags": {
@@ -22,29 +22,34 @@
         ],
 		"Second marinade": [
 			"0.5-1 tsp Kashmiri red chili powder (don't substitute it entirely with paprika, the flavor is completely different)",
-			"0.3 tsp salt",
+			"0.5 tsp salt",
 			"1 tbsp lemon juice",
 			"120 g greek yogurt",
-			"2 tsp ginger garlic paste (substitute with half ginger half garlic)",
+			"1 tsp ginger garlic paste (substitute with half ginger half garlic)",
 			"0.3 tsp turmeric",
 			"1 tsp garam masala",
-			"0.3 tsp cumin powder",
+			"0.5 tsp cumin powder",
 			"1 tsp coriander powder",
 			"12 g olive oil (1 tbsp)"
 		],
-		"Sauce": [
-			"2 tbsp ghee (unholy substitute it with half oil half butter, 24 g)",
+		"Onion": [
+			"1 large onion finely diced",
 			"1 tsp salt",
+			"2 tbsp olive oil"
+		],
+		"Sauce": [
+			"1 tbsp olive oil",
 			"Cinnamon stick (1)",
 			"Green cardamoms (3)",
 			"Cloves (3)",
-			"360 g passata (or 5 tomatoes mashed and strained, assuming 1 kg yields 600 g of passata)",
-			"2 tsp ginger garlic paste",
+			"4 crushed tomatoes (or 300 g passata, assuming 1 kg yields 600 g of passata. Tomatoes are better, to differentiate it from Chicken Makhani that needs to be smooth)",
+			"1 tsp ginger garlic paste",
 			"Green chili (1, deseeded, slit or chopped)",
 			"Cashews (28 of them. Roasted cashews are also fine.)",
 			"0.5-1 tsp Kashmiri red chili powder",
-			"1 tsp garam masala",
-			"0.3 tsp cumin powder",
+			"2 tsp garam masala",
+			"2 tsp sugar",
+			"1 tsp cumin powder",
 			"1 tsp coriander powder"
 		],
 		"Finishing": [
@@ -68,8 +73,10 @@
 		"- Leave the cashews in a bit of boiling water, to soften up.",
 		"# Grilling the chicken",
 		"You can either do this in a pan or in the oven. I use the oven. After pre-heating, set at 220ºC (convection) for 21-22'.",
+		"# Onion",
+		"- On a small pan cook the onion with 2 tbsp of oil and the salt, on medium heat and regular movement",
 		"# Spice paste",
-		"- While it's in the oven, in a (preferably high) pot, cook the tomato passata with the ghee. When it dries it will start caramelizing, which is nice to counteract its own acidity.",
+		"- While it's in the oven, in a (preferably high) pot, cook the crushed tomato with the other 1 tbsp of oil. When it dries it will start caramelizing, which is nice to counteract its own acidity.",
 		"- Meanwhile prepare the sauce spice mix and finely blend the cashews. Add the spice when the tomato is dry.",
 		"- Keep stirring around. It will be ready when it clumps up together, not sticking to the pot.",
 		"# Finishing",

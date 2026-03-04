@@ -1,25 +1,10 @@
-Objectives:
-
-- Fragmentation event
-- Fragment cloud orbital dynamics
-
-Legend:
-
-- First letter = category
-- *= Proposal article
-- **= Recommended article
+![Thesis mind map](assets/mind_map.drawio.svg)
 
 [toc]
 
 
 
 # Propagator
-
-## Formulation
-
-Ely, Todd. “Mean Element Propagations Using Numerical Averaging.” *Journal of the Astronautical Sciences* 61 (September 2014): 275–304. https://doi.org/10.1007/s40295-014-0020-2.
-
-- Similar to semi-analytical techniques but using numerical averaging, for long term.
 
 ## Solver
 
@@ -53,9 +38,7 @@ Rubio, Carlos, Adrián Delgado, Adrián García-Gutiérrez, and Alberto Escapa. 
 
 - Method to increase the convergence interval in PC
 
-
-
-## GPU specific
+### GPU specific
 
 Masat, Alessandro, Camilla Colombo, and Arnaud Boutonnet. “GPU-Based High-Precision Orbital Propagation of Large Sets of Initial Conditions through Picard-Chebyshev Augmentation.” *Acta Astronautica* 204 (March 2023): 239–52. https://doi.org/10.1016/j.actaastro.2022.12.037.
 
@@ -66,7 +49,12 @@ Moeckel, Marek. “High-Performance Propagation of Large Object Populations in E
 - Thesis: Long term analytical (averaged elements) propagator for GPU. Extensive guidelines for extracting performance from the GPU for these kind of problems.
 - His short conference paper adjoined to the thesis later: Short summary on the problem specifically for the orbital debris case with thousands of fragments, includes tips on the general implementation on GPUs.
 
+# GPU programming
 
+Oden, Lena. “Lessons Learned from Comparing C-CUDA and Python-Numba for GPU-Computing.” *2020 28th Euromicro International Conference on Parallel, Distributed and Network-Based Processing (PDP)*, March 2020, 216–23. https://doi.org/10.1109/PDP50117.2020.00041.
+
+- Numba CUDA is compared against C-CUDA. Numba uses NVVM JIT compiled Python-written kernels for NVIDIA GPUs which, despite the bad reputation of Python, show comparable performance to C-CUDA at least for the GPU part. There is always some slow overhead from Python's interpreter -there is a price for simplification- but the effect on total computation time depends on how little we can rely on the CPU side to solve a task. Numba CUDA can be employed in multi-GPU applications.
+- There are some improvements that should be taken into account: defined thread ids as unsigned integers instead of signed, manually assign single precision types when needed (otherwise automatic type inference can result in problems for single precision applications)
 
 # Other
 

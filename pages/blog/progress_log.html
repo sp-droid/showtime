@@ -69,11 +69,6 @@ section="blog">
 <hr>
 <p>Short notes:</p>
 <ul>
-<li>fix fastplotlib on laptop, for some reason it does not work there</li>
-<li>No need to implement but for sure seems interesting. A simple case of mean element propagation <a href="https://github.com/rodrigo-moliveira/orbidet/tree/master">here</a> and <a href="https://www.researchgate.net/publication/269574489_Mean_Element_Propagations_Using_Numerical_Averaging">here</a></li>
-<li>I do not think it necessary to implement a semi-analytical model. I will want to use PlanODyn to compare the validation cases</li>
-<li><strong>Adaptive Picard-Chebyshev. This I do want to do implement.</strong></li>
-<li>No need to add all the perturbations, something simple works for now.</li>
 <li>try GMAT</li>
 <li>verlet integration symplectic</li>
 </ul>
@@ -92,8 +87,10 @@ section="blog">
 <ul>
 <li>Literature review</li>
 <li>Types of OM problems, types of solvers</li>
-<li>Nasa Standard Break-up Model implementation and validation</li>
+<li>NASA Standard Break-up Model implementation and validation</li>
 <li>Documented, improved and collected several functions into a library</li>
+<li>My original idea was to use a vendor-agnostic platform so I thought of WebGPU and wgpu-py, but these don't work with multiple GPUs so I'll proceed with CUDA. I contemplated OpenCL but it has problems with n &gt; 8. I have an NVIDIA GPU so let's make things easier for myself.</li>
+<li>Optimised kep2car, car2kep, rotX, rotY, rotZ, kepler2BP with Numba JIT. Substituted fsolve with a jitted solve_keplerEq. Considerable speed ups. Visualisation of object break-up and 2BP propagation.</li>
 </ul>
 <div id="section4"></div>
 <h3>November</h3>
@@ -176,6 +173,7 @@ section="blog">
 <ul>
 <li>Mind map of work planned, literature analysis, implemented NSBM</li>
 <li>My literature analysis wasn't thorough enough. The professor proposed to narrow the focus of the thesis towards an efficient many-object GPU working propagator, away from the initial conditions of long term analysis of fragment clouds in HEO. GPU was for me an off-shoot of the work I could focus on once everything else was in place but it seems better to make it a central part.</li>
+<li>She also asked me to really plan-out the GPU propagator ahead of time. Also mentioned multi-GPU problems. This discards using WebGPU to make it vendor-agnostic. Probably sticking to CUDA then.</li>
 <li>Will receive access to the GitLab in the coming days</li>
 </ul>
 </blockquote>
