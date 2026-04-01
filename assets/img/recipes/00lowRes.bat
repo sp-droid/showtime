@@ -1,0 +1,1 @@
+powershell -NoExit -Command "conda activate global; python ./00lowRes.py"
