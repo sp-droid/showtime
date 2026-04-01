@@ -75,7 +75,7 @@
     "size": 1458
   },
   "content\\recipes\\pannaCotta.json": {
-    "size": 1164
+    "size": 1176
   },
   "content\\recipes\\pastaFredda.json": {
     "size": 1476
@@ -84,7 +84,7 @@
     "size": 1209
   },
   "content\\recipes\\pestoGenovese.json": {
-    "size": 2609
+    "size": 2723
   },
   "content\\recipes\\pizza.json": {
     "size": 3586
@@ -96,13 +96,13 @@
     "size": 677
   },
   "content\\recipes\\pucheroCanario.json": {
-    "size": 3192
+    "size": 3224
   },
   "content\\recipes\\pumpkinCarrotSoup.json": {
     "size": 1846
   },
   "content\\recipes\\raguBolognese.json": {
-    "size": 3522
+    "size": 3566
   },
   "content\\recipes\\shortbreadCookies.json": {
     "size": 1140
@@ -111,7 +111,7 @@
     "size": 1452
   },
   "content\\recipes\\sopaPuchero.json": {
-    "size": 1316
+    "size": 1536
   },
   "content\\recipes\\tartaletas.json": {
     "size": 3200
@@ -142,5 +142,14 @@
   },
   "content\\recipes\\chickenTikkaMasala.json": {
     "size": 3917
+  },
+  "content\\recipes\\gambasajillo.json": {
+    "size": 1302
+  },
+  "content\\recipes\\tortilla.json": {
+    "size": 2124
+  },
+  "content\\recipes\\gambasAjillo.json": {
+    "size": 1310
   }
 }

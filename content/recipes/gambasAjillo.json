@@ -1,0 +1,44 @@
+{
+    "name": "Gambas al ajillo",
+    "category": "Main courses",
+    "description": "/'Prawns with garlic'/",
+    "origin": "-",
+    "portions": 2,
+    "flags": {
+        "difficulty": "Easy",
+        "cuisine": "Spanish",
+        "prepTime": "1h",
+        "totalTime": "1h",
+        "lactoseFree": true,
+        "glutenFree": true,
+        "vegetarian": false,
+        "vegan": false,
+		"finished": true
+    },
+    "ingredients": {
+        "Meatballs": [
+            "400 g prawns (also called shrimps. not too small. They get cooked too much.)",
+			"4 garlic cloves",
+			"Small bunch of parsley",
+			"Dried chili (1 piece)",
+			"Salt",
+			"4 tbsp oil"
+        ]
+    },
+    "utensils": [
+		"Pan"
+	],
+    "instructions": [
+		"- Peel the prawns completely. If they are big, cut them in 2 or 3 pieces.",
+		"- Throw them in the oil once it's mildly hot. Smaller pans are better so we have more depth for less oil, less waste. Heat on low from now on.",
+		"- Peel, crush and add the garlic",
+		"- When you see it's around 2 minutes from finishing, add parsley chopped in not too small bits."
+    ],
+    "variants": [],
+    "tips": {
+        "culinary": [],
+        "serving": [
+			"It's traditionally served hot in one of those red glazed terracotta dishes."
+		]
+    }
+}

@@ -1,0 +1,50 @@
+{
+    "name": "Tortilla española",
+    "category": "Main courses",
+    "description": "/'Spanish tortilla'/",
+    "origin": "-",
+    "portions": 3,
+    "flags": {
+        "difficulty": "Medium",
+        "cuisine": "Spanish",
+        "prepTime": "15'",
+        "totalTime": "1h",
+        "lactoseFree": true,
+        "glutenFree": true,
+        "vegetarian": false,
+        "vegan": false,
+		"finished": true
+    },
+    "ingredients": {
+        "Meatballs": [
+            "3 eggs",
+			"1.75 potatoes (about 350g)",
+			"0.5 onion (or 1 small)",
+			"Salt",
+			"3 tbsp oil"
+        ]
+    },
+    "utensils": [
+		"Pan"
+	],
+    "instructions": [
+		"- Cut potatoes in different small-ish sizes and start cooking in the pan (small anti-adherent pans work better, unless you scale the recipe) with the oil. Cover",
+		"- Chop the onion, again in the same fashion, and add to it. Add salt",
+		"- When it softens up a bit, remove the cover, perhaps adjust the heat. You want to caramelize them slightly without burning",
+		"- Beat up the eggs with a bit of salt",
+		"- Take the potatoes and onions out, leaving at least half a tbsp of oil in the pan and put it on a bowl to cool for 30s. Add the eggs to it, gently mix. Leave for a minute there.",
+		"- Heat the same pan again, on medium, move the oil around the sides so it greases it up well. This is the harder part. Pour tortilla. Count for 90s per side. To turn, be sure the tortilla can slide, then press a flat plate against the pan. Turn both very quickly, finally slide it in the pan again."
+    ],
+    "variants": [
+		"With parsley: Add finely chopped parsley to the beaten eggs",
+		"With candied peppers: Can cook along the onions",
+		"With tuna: break it up a bit and add to the beaten eggs",
+		"Without onion"
+	],
+    "tips": {
+        "culinary": [],
+        "serving": [
+			"I like mayonneise with it when it turns out dry, which can happen and it's okay. For making bocadillos de tortilla (sandwiches), specially for trips, it's good to cook the tortilla more than you would at home, to be on the safer side."
+		]
+    }
+}
