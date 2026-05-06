@@ -1,5 +1,16 @@
 [
 {
+	"link": "../content/JSexperiments/wakatime-wrapped/index.html",
+	"bg": "wakatime-wrapped",
+	"gif": true,
+	"type": "Personal",
+	"tools": ["JavaScript"],
+	"header": "Wakatime Wrapped",
+	"desc": "Makes your wakatime wrapped for the year you want, but better looking.",
+	"date": "06/05/2026",
+	"importance": "Low"
+},
+{
 	"link": "../content/JSexperiments/tournamentTool/index.html",
 	"bg": "tournamentTool",
 	"gif": false,
