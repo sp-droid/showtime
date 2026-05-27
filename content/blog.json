@@ -1,9 +1,15 @@
 [
   {
-    "title": "My badminton journey (so far!)",
+    "title": "Slippy map",
+    "file": "slippy-map",
+    "tag": "Algorithms",
+    "date": "27/05/2026"
+  },
+  {
+    "title": "My badminton journey so far",
     "file": "badminton",
     "tag": "Personal",
-    "date": "21/11/2025"
+    "date": "27/05/2026"
   },
   {
     "title": "MSc thesis progress log",

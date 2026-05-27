@@ -1,5 +1,16 @@
 [
 {
+	"link": "../pages/blog/slippy-map.html",
+	"bg": "slippy-map",
+	"gif": true,
+	"type": "Personal",
+	"tools": ["JavaScript","P5js"],
+	"header": "Slippy map",
+	"desc": "Implementation of a slippy map in P5js.",
+	"date": "27/05/2026",
+	"importance": "Low"
+},
+{
 	"link": "../content/JSexperiments/wakatime-wrapped/index.html",
 	"bg": "wakatime-wrapped",
 	"gif": true,
