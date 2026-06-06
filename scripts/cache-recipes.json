@@ -48,7 +48,7 @@
     "size": 2935
   },
   "content\\recipes\\gazpacho.json": {
-    "size": 1534
+    "size": 1662
   },
   "content\\recipes\\gofioEscaldado.json": {
     "size": 682
@@ -143,13 +143,10 @@
   "content\\recipes\\chickenTikkaMasala.json": {
     "size": 3917
   },
-  "content\\recipes\\gambasajillo.json": {
-    "size": 1302
-  },
   "content\\recipes\\tortilla.json": {
     "size": 2151
   },
   "content\\recipes\\gambasAjillo.json": {
-    "size": 1310
+    "size": 1311
   }
 }

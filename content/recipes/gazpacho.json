@@ -17,7 +17,7 @@
     },
     "ingredients": {
         "": [
-			"Tomatoes (either 1 kg of ripe tomatoes or 660 g of passata)",
+			"Tomatoes (1 ripe tomato grated + 300g of passata)",
 			"Wine vinegar (29 g)",
 			"100 ml olive oil (the higher the quality, the better)",
 			"1 clove of garlic",
@@ -32,7 +32,7 @@
 	],
     "instructions": [
 		"- Wash well the vegetables. Peel the garlic and cucumber. Roughly cut this one together with the tomatoes and pepper. Also split the bread in smaller bits.",
-		"- Blend everything well, adding water to correct for consistency. Should be somewhere between a soup and a pureè. If you used tomatoes instead of passata, now strain it to remove bits of skin and seeds. Correct for salt",
+		"- Blend everything except the grated skinless tomato. First blend with a bit of water finely, then add the passata, oil and vinegar. Correct with water for consistency. Tomato shouldn't be blended because broken seeds taste sour, instead you grate it and crush it with a fork, then add it. It should be somewhere between a soup and a pureè. Correct for salt",
 		"- Put in the fridge and serve when cold (though I do like it when made in the moment)"
     ],
     "variants": [],
