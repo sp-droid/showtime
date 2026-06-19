@@ -1,4 +1,4 @@
-[**Try it yourself**](../../content/JSexperiments/slippyMap/6.html)
+[**Try it yourself**](../../content/JSexperiments/slippyMap/7.html)
 ======
 
 ---
@@ -28,3 +28,7 @@ An implementation of the "slippy map" that were used at some point in map applic
 - [**V6 link**](../../content/JSexperiments/slippyMap/6.html)
 
   Only recompute cache request queue when the camera moves instead of at every frame
+  
+- [**V7 link**](../../content/JSexperiments/slippyMap/7.html)
+  
+  Zoomable

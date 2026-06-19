@@ -1,4 +1,4 @@
-// V6, only recomputed the cache requests when the camera moves instead of every frame
+// V7, zoomable
 const width = window.innerWidth;
 const height = window.innerHeight;
 
@@ -26,6 +26,8 @@ let nTilesLoading = 0;
 let loadingTimeStart = 0;
 let loadingTimeEnd = 0;
 
+let zoomed = true;
+
 function setup() {
     // Create a canvas with the same dimensions as the window
     createCanvas(width, height);
@@ -33,6 +35,13 @@ function setup() {
 
     reusableTile = createImage(TILE_SIZE, TILE_SIZE);
     reusableTile.loadPixels();
+
+    let button = createButton(`Zoom: ${zoomed ? 'ON' : 'OFF'}`);
+    button.position(20, height - 40);
+    button.mousePressed(() => {
+        zoomed = !zoomed;
+        button.html(`Zoom: ${zoomed ? 'ON' : 'OFF'}`);
+    });
 }
 
 function draw() {
@@ -48,51 +57,93 @@ function draw() {
     // Draw the zoomed-in images
     const level = 2 ** zoomLevel;
     const tileSize = Math.max(height, width) / 2 / level;
+
+    let worldPanX = panX;
+    let worldPanY = panY;
+    if (zoomed) {
+        worldPanX /= level;
+        worldPanY /= level;
+    }
     
     // Which tile is the crosshair pointing to
-    let xTile = Math.floor((-panX+width/2) / tileSize);
-    let yTile = Math.floor((-panY+height/2) / tileSize);
+    let xTile = Math.floor((-worldPanX +width/2) / tileSize);
+    let yTile = Math.floor((-worldPanY +height/2) / tileSize);
 
     if (movedCamera) {
         cacheRequests = [];
-        rebuildCacheRequests(zoomLevel, panX, panY);
+        rebuildCacheRequests(zoomLevel, worldPanX, worldPanY);
         movedCamera = false;
     }
 
     // Calculate which tiles would be visible if we were zoomed in near the crosshair
-    const startX = Math.max(0, Math.floor((-panX+width/2 - width / 2 / level) / tileSize));
-    const startY = Math.max(0, Math.floor((-panY+height/2 - height / 2 / level) / tileSize));
-    const endX = Math.min(level * 2, Math.ceil((-panX+width/2 + width / 2 / level) / tileSize));
-    const endY = Math.min(level, Math.ceil((-panY+height/2 + height / 2 / level) / tileSize));
-    // Draw visible tiles
-    for (let y = startY; y < endY; y++) {
-        for (let x = startX; x < endX; x++) {
-            const tileID = getTileID(zoomLevel, y, x);
+    const startX = Math.max(0, Math.floor((-worldPanX +width/2 - width / 2 / level) / tileSize));
+    const startY = Math.max(0, Math.floor((-worldPanY +height/2 - height / 2 / level) / tileSize));
+    const endX = Math.min(level * 2, Math.ceil((-worldPanX +width/2 + width / 2 / level) / tileSize));
+    const endY = Math.min(level, Math.ceil((-worldPanY +height/2 + height / 2 / level) / tileSize));
 
-            const pixels = getTile(tileID);
-            if (pixels) {
-                reusableTile.pixels.set(pixels);
-                reusableTile.updatePixels();
-                image(reusableTile, x * tileSize, y * tileSize, tileSize, tileSize);
+    if (zoomed) {
+        const trueTileSize = tileSize * level;
+        // Draw visible tiles
+        for (let y = startY; y < endY; y++) {
+            for (let x = startX; x < endX; x++) {
+                const tileID = getTileID(zoomLevel, y, x);
+
+                const pixels = getTile(tileID);
+                if (pixels) {
+                    reusableTile.pixels.set(pixels);
+                    reusableTile.updatePixels();
+                    image(reusableTile, x * trueTileSize -width/2*(level-1), y * trueTileSize -height/2*(level-1), trueTileSize, trueTileSize);
+                }
             }
         }
-    }
 
-    // Draw tile borders
-    for (let y = 0; y < level; y++) {
-        for (let x = 0; x < level*2; x++) {
-            stroke(0, 255, 0); // Green borders
-            strokeWeight(2);
-            noFill();
-            rect(x * tileSize, y * tileSize, tileSize, tileSize);
+        // Draw tile borders
+        for (let y = 0; y < level; y++) {
+            for (let x = 0; x < level*2; x++) {
+                stroke(0, 255, 0); // Green borders
+                strokeWeight(2);
+                noFill();
+                rect(x * trueTileSize -width/2*(level-1), y * trueTileSize -height/2*(level-1), trueTileSize, trueTileSize);
+            }
         }
-    }
 
-    // Draw a red rectangle of what would be the visible area if we were zoomed in
-    stroke(255, 0, 0); // Red borders
-    strokeWeight(2);
-    noFill();
-    rect(-panX+width/2 - width / 2 / level, -panY+height/2 - height / 2 / level, width / level, height / level);
+        // Draw a red rectangle of what would be the visible area if we were zoomed in
+        stroke(255, 0, 0); // Red borders
+        strokeWeight(2);
+        noFill();
+        rect(-panX+width/2 - width / 2, -panY+height/2 - height / 2, width, height);
+    } else {
+        // Draw visible tiles
+        for (let y = startY; y < endY; y++) {
+            for (let x = startX; x < endX; x++) {
+                const tileID = getTileID(zoomLevel, y, x);
+
+                const pixels = getTile(tileID);
+                if (pixels) {
+                    reusableTile.pixels.set(pixels);
+                    reusableTile.updatePixels();
+                    image(reusableTile, x * tileSize, y * tileSize, tileSize, tileSize);
+                }
+            }
+        }
+
+        // Draw tile borders
+        for (let y = 0; y < level; y++) {
+            for (let x = 0; x < level*2; x++) {
+                stroke(0, 255, 0); // Green borders
+                strokeWeight(2);
+                noFill();
+                rect(x * tileSize, y * tileSize, tileSize, tileSize);
+            }
+        }
+
+        // Draw a red rectangle of what would be the visible area if we were zoomed in
+        stroke(255, 0, 0); // Red borders
+        strokeWeight(2);
+        noFill();
+        rect(-panX+width/2 - width / 2 / level, -panY+height/2 - height / 2 / level, width / level, height / level);
+    }
+    
 
     // Restore transformation state. UI after this
     pop();
@@ -258,8 +309,18 @@ function rebuildCacheRequests(zoomLevel, panX, panY) {
 function mouseWheel(event) {
     const newZoomLevel = zoomLevel + Math.sign(-event.delta);
     if (newZoomLevel >= 0 && newZoomLevel <= MAX_ZOOM_LEVEL) {
+        
+        const levelOld = 2 ** zoomLevel;
+
         zoomLevel = newZoomLevel;
         movedCamera = true;
+
+        // Fix pan
+        const levelNew = 2 ** zoomLevel;
+        if (zoomed) {
+            panX = panX / levelOld * levelNew;
+            panY = panY / levelOld * levelNew;
+        }
 
         loadingTimeStart = millis();
         console.log(`Zoom level: ${zoomLevel}`);
