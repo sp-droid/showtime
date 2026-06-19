@@ -40,7 +40,7 @@ document.addEventListener('DOMContentLoaded', () => {
     setupForm.addEventListener('change', setupTournament);
 
     // Setup tournament
-    let Nplayers, NteamsPerRound, NplayersPerRound, NgamesPerRound, Ngames, gameDraft, gameScores;
+    let Nplayers, NteamsPerRound, NplayersPerRound, NgamesPerRound, Ngames, gameDraft, gameScores, gameCourts;
     // Draft analysis
     const analysisTotal = document.getElementById('analysis-total');
     const analysisLeftOut = document.getElementById('analysis-leftout');
@@ -50,6 +50,7 @@ document.addEventListener('DOMContentLoaded', () => {
     const analysisProbSameGame = document.getElementById('analysis-probSameGame');
     const analysisMinRoundsGame = document.getElementById('analysis-minRoundsGame');
     const analysisMinRoundsTeam = document.getElementById('analysis-minRoundsTeam');
+    const analysisDuplicateNames = document.getElementById('analysis-duplicateNames');
 
     // temp
     setupForm.elements["players-per-team"].value = 2;
@@ -194,9 +195,20 @@ document.addEventListener('DOMContentLoaded', () => {
         analysisMinRoundsGame.textContent = Math.ceil((Nplayers-1) / (N_PLAYERS_PER_TEAM*2-1));
         if (N_PLAYERS_PER_TEAM === 1) { analysisMinRoundsTeam.textContent = "infinite"; }
         else { analysisMinRoundsTeam.textContent = Math.ceil((Nplayers-1) / (N_PLAYERS_PER_TEAM-1)); }
+        
+        // Count duplicate names
+        const nameCounts = {};
+        for (const participant of participants) {
+            const trimmedName = participant.Name.trim();
+            nameCounts[trimmedName] = (nameCounts[trimmedName] || 0) + 1;
+        }
+        const duplicateCount = Object.values(nameCounts).filter(count => count > 1).length;
+        analysisDuplicateNames.textContent = duplicateCount;
+        analysisDuplicateNames.style.color = duplicateCount === 0 ? 'green' : 'red';
 
         gameDraft = Array.from({ length: N_ROUNDS }, (_, i) => generateRoundRandom(i));
         gameScores = Array.from({ length: N_ROUNDS }, () => Array(NteamsPerRound).fill(null));
+        gameCourts = Array.from({ length: N_ROUNDS }, () => Array(NgamesPerRound).fill(null));
         // gameScores = Array.from({ length: N_ROUNDS }, () => generateUniqueRandomIntegers(NteamsPerRound, 44));
 
         populateGamesTable();
@@ -221,10 +233,15 @@ document.addEventListener('DOMContentLoaded', () => {
                 const team2Players = gameDraft[round].slice((gameId + 0.5) * N_PLAYERS_PER_TEAM * 2, (gameId + 1) * N_PLAYERS_PER_TEAM * 2);
                 const team1Score = gameScores[round][gameId * 2];
                 const team2Score = gameScores[round][gameId * 2 + 1];
+                const court = gameCourts[round][gameId];
 
                 let score;
                 if (team1Score === null) {
-                    score = `<span class="introduceResult" style="color: rgb(0, 0, 238);" onclick="window.introduceResult(${round}, ${gameId})">Pending</span>`;
+                    if (court === null) {
+                        score = `<span class="introduceResult" style="color: rgb(0, 0, 238);" onclick="window.introduceResult(${round}, ${gameId})">Pending</span>`;
+                    } else {
+                        score = `<span class="introduceResult playing-status" onclick="window.introduceResult(${round}, ${gameId})">Playing</span>`;
+                    }
                 } else {
                     score = `<span class="introduceResult" style="color: rgb(0, 120, 150);" onclick="window.introduceResult(${round}, ${gameId})">${team1Score} - ${team2Score}</span>`;
                 }
@@ -235,6 +252,7 @@ document.addEventListener('DOMContentLoaded', () => {
                 row.innerHTML = `
                     <td>${completeGameId + 1}</td>
                     <td>${round + 1}</td>
+                    <td onclick="window.editCourt(${round}, ${gameId})" style="cursor: pointer;" class="court-cell">${court !== null ? court : '-'}</td>
                     <td>${team1Players.map(playerId => participants[playerId].Name).join(', ')}</td>
                     <td>${team2Players.map(playerId => participants[playerId].Name).join(', ')}</td>
                     <td>${score}</td>
@@ -244,6 +262,10 @@ document.addEventListener('DOMContentLoaded', () => {
             }
         }
         addPlayerClickHighlight();
+    }
+
+    window.editCourt = function(round, gameId) {
+        window.introduceResult(round, gameId);
     }
 
     window.introduceResult = function(round, gameId) {
@@ -268,7 +290,10 @@ document.addEventListener('DOMContentLoaded', () => {
         popup.style.zIndex = '1000';
 
         popup.innerHTML = `
-            <h3>Enter Scores for Game ${gameId}:</h3>
+            <h3>Enter Details for Game ${gameId}:</h3>
+            <label>Court:</label>
+            <input type="number" id="court-input" placeholder="Enter court number" value="${gameCourts[round][gameId] !== null ? gameCourts[round][gameId] : ''}" />
+            <br><br>
             <label>Team 1 score:</label>
             <input type="number" id="team1-score" placeholder="Enter score" />
             <br><br>
@@ -276,7 +301,7 @@ document.addEventListener('DOMContentLoaded', () => {
             <input type="number" id="team2-score" placeholder="Enter score" />
             <br><br>
             <div style="display: flex; justify-content: center; gap: 10px;">
-                <button id="ok-button" style="background-color: #4CAF50; color: white; border: none; padding: 10px 20px; border-radius: 5px; cursor: pointer;">Add result</button>
+                <button id="ok-button" style="background-color: #4CAF50; color: white; border: none; padding: 10px 20px; border-radius: 5px; cursor: pointer;">Update</button>
                 <button id="cancel-button" style="background-color: #f44336; color: white; border: none; padding: 10px 20px; border-radius: 5px; cursor: pointer;">Cancel</button>
             </div>
         `;
@@ -284,20 +309,26 @@ document.addEventListener('DOMContentLoaded', () => {
         document.body.appendChild(popup);
 
         document.getElementById('ok-button').addEventListener('click', () => {
+            const court = document.getElementById('court-input').value;
             const team1Score = document.getElementById('team1-score').value;
             const team2Score = document.getElementById('team2-score').value;
 
-            if (team1Score === '' || team2Score === '') {
-                alert('Please enter scores for both teams.');
+            if (court === '') {
+                alert('Please enter a court number.');
                 return;
             }
             document.body.removeChild(popup); document.body.removeChild(overlay);
 
-            gameScores[round][gameId * 2] = parseInt(team1Score);
-            gameScores[round][gameId * 2 + 1] = parseInt(team2Score);
-            populateGamesTable(); // Refresh the games table to show the new scores
-            assignScores(); // Assign scores to participants based on the updated game scores
-            populateWinnersTable(); // Refresh the winners table to show the new scores
+            gameCourts[round][gameId] = parseInt(court);
+            
+            if (team1Score !== '' && team2Score !== '') {
+                gameScores[round][gameId * 2] = parseInt(team1Score);
+                gameScores[round][gameId * 2 + 1] = parseInt(team2Score);
+                assignScores(); // Assign scores to participants based on the updated game scores
+                populateWinnersTable(); // Refresh the winners table to show the new scores
+            }
+            
+            populateGamesTable(); // Refresh the games table to show the new court
         });
         document.getElementById('cancel-button').addEventListener('click', () => {
             document.body.removeChild(popup); document.body.removeChild(overlay);
@@ -374,15 +405,18 @@ document.addEventListener('DOMContentLoaded', () => {
 
         const finalScores = participants.map((participant, index) => {
             let totalScore;
+            let averageScore;
             if (participant.scores.length === 0) {
                 totalScore = 0;
+                averageScore = 0;
             } else {
-                totalScore = participant.scores.reduce((sum, score) => sum + score, 0) / participant.scores.length; // Calculate average score
+                totalScore = participant.scores.reduce((sum, score) => sum + score, 0);
+                averageScore = totalScore / participant.scores.length; // Calculate average score
             }
-            return { Name: participant.Name, Results: participant.scores, Score: totalScore };
+            return { Name: participant.Name, Results: participant.scores, Total: totalScore, Average: averageScore };
         });
 
-        finalScores.sort((a, b) => b.Score - a.Score); // Sort by score descending
+        finalScores.sort((a, b) => b.Average - a.Average); // Sort by average score descending
 
         finalScores.forEach((participant, rank) => {
             const row = document.createElement('tr');
@@ -390,8 +424,16 @@ document.addEventListener('DOMContentLoaded', () => {
                 <td>${rank + 1}</td>
                 <td>${participant.Name}</td>
                 <td>${participant.Results.join(', ')}</td>
-                <td>${participant.Score}</td>
+                <td>${participant.Total}</td>
+                <td>${participant.Average}</td>
             `;
+            if (rank === 0) {
+                row.classList.add('rank-1');
+            } else if (rank === 1) {
+                row.classList.add('rank-2');
+            } else if (rank === 2) {
+                row.classList.add('rank-3');
+            }
             winnersTableBody.appendChild(row);
         });
     }

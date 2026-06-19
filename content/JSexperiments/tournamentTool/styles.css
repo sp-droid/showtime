@@ -45,6 +45,28 @@ table {
     border-collapse: collapse;
 }
 
+@keyframes fadeInOut {
+    0%, 100% { opacity: 0.3; }
+    50% { opacity: 1; }
+}
+
+.playing-status {
+    color: red;
+    animation: fadeInOut 3.0s infinite;
+}
+
+.rank-1 td {
+    background-color: rgba(255, 215, 0, 0.3) !important;
+}
+
+.rank-2 td {
+    background-color: rgba(192, 192, 192, 0.3) !important;
+}
+
+.rank-3 td {
+    background-color: rgba(205, 127, 50, 0.3) !important;
+}
+
 th, td {
     border: 1px solid #ddd;
     padding: 8px;
