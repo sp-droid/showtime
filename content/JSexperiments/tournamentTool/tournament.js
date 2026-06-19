@@ -60,13 +60,15 @@ document.addEventListener('DOMContentLoaded', () => {
     // STAGE 2
     const gamesTableBody = document.querySelector('#games-table tbody');
     const highlightedPlayerSpan = document.getElementById('highlighted-player');
+    let currentHighlightedPlayer = null;
+    let extraMatches = [];
 
     // Add Download CSV button before games table
     const gamesTable = document.getElementById('games-table');
     if (gamesTable) {
         const downloadBtn = document.createElement('button');
         downloadBtn.id = 'download-csv';
-        downloadBtn.textContent = 'Download copy';
+        downloadBtn.textContent = 'Download CSV';
         downloadBtn.style.backgroundColor = '#4CAF50';
         downloadBtn.style.color = 'white';
         downloadBtn.style.border = 'none';
@@ -109,6 +111,24 @@ document.addEventListener('DOMContentLoaded', () => {
             document.body.removeChild(a);
             URL.revokeObjectURL(url);
         });
+
+        // Add "Add match" button
+        const addMatchBtn = document.createElement('button');
+        addMatchBtn.id = 'add-match';
+        addMatchBtn.textContent = 'Add match';
+        addMatchBtn.style.backgroundColor = '#ff9800';
+        addMatchBtn.style.color = 'white';
+        addMatchBtn.style.border = 'none';
+        addMatchBtn.style.padding = '10px 20px';
+        addMatchBtn.style.borderRadius = '5px';
+        addMatchBtn.style.cursor = 'pointer';
+        addMatchBtn.style.marginBottom = '10px';
+        addMatchBtn.style.marginLeft = '10px';
+        gamesTable.parentNode.insertBefore(addMatchBtn, gamesTable);
+
+        addMatchBtn.addEventListener('click', () => {
+            window.showAddMatchDialog();
+        });
     }
 
     // STAGE 3
@@ -119,7 +139,7 @@ document.addEventListener('DOMContentLoaded', () => {
     if (resultsTable) {
         const downloadBtnResults = document.createElement('button');
         downloadBtnResults.id = 'download-csv-results';
-        downloadBtnResults.textContent = 'Download copy';
+        downloadBtnResults.textContent = 'Download CSV';
         downloadBtnResults.style.backgroundColor = '#4CAF50';
         downloadBtnResults.style.color = 'white';
         downloadBtnResults.style.border = 'none';
@@ -261,7 +281,49 @@ document.addEventListener('DOMContentLoaded', () => {
                 gamesTableBody.appendChild(row);
             }
         }
+
+        // Add extra matches
+        const lastGameId = Ngames;
+        for (let i = 0; i < extraMatches.length; i++) {
+            const extraMatch = extraMatches[i];
+            const completeGameId = lastGameId + i + 1;
+            const extraColor = '#E8E8E8'; // Light gray for extra matches
+
+            let score;
+            if (extraMatch.team1Score === null) {
+                if (extraMatch.court === null) {
+                    score = `<span class="introduceResult" style="color: rgb(0, 0, 238);" onclick="window.introduceResultExtra(${i})">Pending</span>`;
+                } else {
+                    score = `<span class="introduceResult playing-status" onclick="window.introduceResultExtra(${i})">Playing</span>`;
+                }
+            } else {
+                score = `<span class="introduceResult" style="color: rgb(0, 120, 150);" onclick="window.introduceResultExtra(${i})">${extraMatch.team1Score} - ${extraMatch.team2Score}</span>`;
+            }
+
+            const row = document.createElement('tr');
+            row.style.backgroundColor = extraColor;
+
+            row.innerHTML = `
+                <td>${completeGameId}</td>
+                <td>Extra</td>
+                <td onclick="window.editCourtExtra(${i})" style="cursor: pointer;" class="court-cell">${extraMatch.court !== null ? extraMatch.court : '-'}</td>
+                <td>${extraMatch.team1}</td>
+                <td>${extraMatch.team2}</td>
+                <td>${score}</td>
+            `;
+
+            gamesTableBody.appendChild(row);
+        }
+
         addPlayerClickHighlight();
+        
+        // Restore or set default highlighting
+        if (currentHighlightedPlayer) {
+            highlightGames(currentHighlightedPlayer);
+        } else if (gameDraft[0].length > 0) {
+            const firstPlayerName = participants[gameDraft[0][0]].Name;
+            highlightGames(firstPlayerName);
+        }
     }
 
     window.editCourt = function(round, gameId) {
@@ -345,14 +407,41 @@ document.addEventListener('DOMContentLoaded', () => {
                 if (score !== null) { participants[playerId]["scores"].push(score); }
             }
         }
+
+        // Add scores from extra matches
+        for (let i = 0; i < extraMatches.length; i++) {
+            const extraMatch = extraMatches[i];
+            
+            // Process team 1
+            if (extraMatch.team1Score !== null) {
+                const team1Players = extraMatch.team1.split(',').map(name => name.trim());
+                for (const playerName of team1Players) {
+                    const participant = participants.find(p => p.Name === playerName);
+                    if (participant) {
+                        participant.scores.push(extraMatch.team1Score);
+                    }
+                }
+            }
+
+            // Process team 2
+            if (extraMatch.team2Score !== null) {
+                const team2Players = extraMatch.team2.split(',').map(name => name.trim());
+                for (const playerName of team2Players) {
+                    const participant = participants.find(p => p.Name === playerName);
+                    if (participant) {
+                        participant.scores.push(extraMatch.team2Score);
+                    }
+                }
+            }
+        }
     }
 
     function addPlayerClickHighlight() {
         const rows = document.querySelectorAll('#games-table tbody tr');
 
         rows.forEach(row => {
-            const team1Cell = row.children[2];
-            const team2Cell = row.children[3];
+            const team1Cell = row.children[3];
+            const team2Cell = row.children[4];
 
             [team1Cell, team2Cell].forEach(cell => {
                 const players = cell.textContent.split(', ');
@@ -377,11 +466,12 @@ document.addEventListener('DOMContentLoaded', () => {
     }
 
     function highlightGames(playerName) {
+        currentHighlightedPlayer = playerName;
         highlightedPlayerSpan.textContent = playerName;
         const rows = document.querySelectorAll('#games-table tbody tr');
         rows.forEach(row => {
-            const team1Players = row.children[2].querySelectorAll('span');
-            const team2Players = row.children[3].querySelectorAll('span');
+            const team1Players = row.children[3].querySelectorAll('span');
+            const team2Players = row.children[4].querySelectorAll('span');
 
             const team1Names = Array.from(team1Players).map(span => span.textContent);
             const team2Names = Array.from(team2Players).map(span => span.textContent);
@@ -399,6 +489,204 @@ document.addEventListener('DOMContentLoaded', () => {
         });
     }
 
+    window.showAddMatchDialog = function() {
+        // Generate default placeholder
+        const defaultPlaceholder = Array.from({length: N_PLAYERS_PER_TEAM}, (_, i) => `Name ${i + 1}`).join(', ');
+        
+        const overlay = document.createElement('div');
+        overlay.style.position = 'fixed';
+        overlay.style.top = '0';
+        overlay.style.left = '0';
+        overlay.style.width = '100%';
+        overlay.style.height = '100%';
+        overlay.style.backgroundColor = 'rgba(0, 0, 0, 0.5)';
+        overlay.style.zIndex = '999';
+        document.body.appendChild(overlay);
+        
+        const popup = document.createElement('div');
+        popup.style.position = 'fixed';
+        popup.style.top = '50%';
+        popup.style.left = '50%';
+        popup.style.transform = 'translate(-50%, -50%)';
+        popup.style.backgroundColor = '#fff';
+        popup.style.padding = '20px';
+        popup.style.boxShadow = '0 0 10px rgba(0, 0, 0, 0.3)';
+        popup.style.zIndex = '1000';
+
+        popup.innerHTML = `
+            <h3>Add Extra Match</h3>
+            <label>Team 1 Players:</label>
+            <input type="text" id="add-team1" placeholder="${defaultPlaceholder}" />
+            <br><br>
+            <label>Team 2 Players:</label>
+            <input type="text" id="add-team2" placeholder="${defaultPlaceholder}" />
+            <br><br>
+            <div style="display: flex; justify-content: center; gap: 10px;">
+                <button id="add-ok-button" style="background-color: #4CAF50; color: white; border: none; padding: 10px 20px; border-radius: 5px; cursor: pointer;">Add</button>
+                <button id="add-cancel-button" style="background-color: #f44336; color: white; border: none; padding: 10px 20px; border-radius: 5px; cursor: pointer;">Cancel</button>
+            </div>
+        `;
+
+        document.body.appendChild(popup);
+
+        document.getElementById('add-ok-button').addEventListener('click', () => {
+            const team1 = document.getElementById('add-team1').value.trim();
+            const team2 = document.getElementById('add-team2').value.trim();
+
+            if (team1 === '' || team2 === '') {
+                alert('Please enter players for both teams.');
+                return;
+            }
+
+            // Get participant names
+            const participantNames = participants.map(p => p.Name);
+
+            // Parse and validate team 1
+            const team1Names = team1.split(',').map(name => name.trim());
+            const invalidTeam1 = team1Names.filter(name => !participantNames.includes(name));
+
+            // Parse and validate team 2
+            const team2Names = team2.split(',').map(name => name.trim());
+            const invalidTeam2 = team2Names.filter(name => !participantNames.includes(name));
+
+            // Check for invalid names
+            if (invalidTeam1.length > 0 || invalidTeam2.length > 0) {
+                const allInvalid = [...invalidTeam1, ...invalidTeam2];
+                alert(`The following names do not exist in the participant list:\n${allInvalid.join('\n')}`);
+                return;
+            }
+
+            // Check for correct number of players in team 1
+            if (team1Names.length !== N_PLAYERS_PER_TEAM) {
+                alert(`Team 1 has ${team1Names.length} players, but it should have ${N_PLAYERS_PER_TEAM} players.`);
+                return;
+            }
+
+            // Check for correct number of players in team 2
+            if (team2Names.length !== N_PLAYERS_PER_TEAM) {
+                alert(`Team 2 has ${team2Names.length} players, but it should have ${N_PLAYERS_PER_TEAM} players.`);
+                return;
+            }
+
+            // Check for duplicate names in team 1
+            const team1Duplicates = team1Names.filter((name, index) => team1Names.indexOf(name) !== index);
+            if (team1Duplicates.length > 0) {
+                alert(`Team 1 has duplicate players: ${[...new Set(team1Duplicates)].join(', ')}`);
+                return;
+            }
+
+            // Check for duplicate names in team 2
+            const team2Duplicates = team2Names.filter((name, index) => team2Names.indexOf(name) !== index);
+            if (team2Duplicates.length > 0) {
+                alert(`Team 2 has duplicate players: ${[...new Set(team2Duplicates)].join(', ')}`);
+                return;
+            }
+
+            // Check for duplicate names across both teams
+            const allTeamNames = [...team1Names, ...team2Names];
+            const crossTeamDuplicates = allTeamNames.filter((name, index) => allTeamNames.indexOf(name) !== index);
+            if (crossTeamDuplicates.length > 0) {
+                alert(`The following players appear in both teams: ${[...new Set(crossTeamDuplicates)].join(', ')}`);
+                return;
+            }
+
+            document.body.removeChild(popup);
+            document.body.removeChild(overlay);
+
+            extraMatches.push({
+                team1: team1,
+                team2: team2,
+                court: null,
+                team1Score: null,
+                team2Score: null
+            });
+
+            populateGamesTable();
+        });
+
+        document.getElementById('add-cancel-button').addEventListener('click', () => {
+            document.body.removeChild(popup);
+            document.body.removeChild(overlay);
+        });
+    };
+
+    window.editCourtExtra = function(matchIndex) {
+        window.introduceResultExtra(matchIndex);
+    };
+
+    window.introduceResultExtra = function(matchIndex) {
+        const match = extraMatches[matchIndex];
+        
+        const overlay = document.createElement('div');
+        overlay.style.position = 'fixed';
+        overlay.style.top = '0';
+        overlay.style.left = '0';
+        overlay.style.width = '100%';
+        overlay.style.height = '100%';
+        overlay.style.backgroundColor = 'rgba(0, 0, 0, 0.5)';
+        overlay.style.zIndex = '999';
+        document.body.appendChild(overlay);
+        
+        const popup = document.createElement('div');
+        popup.style.position = 'fixed';
+        popup.style.top = '50%';
+        popup.style.left = '50%';
+        popup.style.transform = 'translate(-50%, -50%)';
+        popup.style.backgroundColor = '#fff';
+        popup.style.padding = '20px';
+        popup.style.boxShadow = '0 0 10px rgba(0, 0, 0, 0.3)';
+        popup.style.zIndex = '1000';
+
+        popup.innerHTML = `
+            <h3>Enter Details for Extra Match:</h3>
+            <label>Court:</label>
+            <input type="number" id="court-input" placeholder="Enter court number" value="${match.court !== null ? match.court : ''}" />
+            <br><br>
+            <label>Team 1 score:</label>
+            <input type="number" id="team1-score" placeholder="Enter score" />
+            <br><br>
+            <label>Team 2 score:</label>
+            <input type="number" id="team2-score" placeholder="Enter score" />
+            <br><br>
+            <div style="display: flex; justify-content: center; gap: 10px;">
+                <button id="ok-button" style="background-color: #4CAF50; color: white; border: none; padding: 10px 20px; border-radius: 5px; cursor: pointer;">Update</button>
+                <button id="cancel-button" style="background-color: #f44336; color: white; border: none; padding: 10px 20px; border-radius: 5px; cursor: pointer;">Cancel</button>
+            </div>
+        `;
+
+        document.body.appendChild(popup);
+
+        document.getElementById('ok-button').addEventListener('click', () => {
+            const court = document.getElementById('court-input').value;
+            const team1Score = document.getElementById('team1-score').value;
+            const team2Score = document.getElementById('team2-score').value;
+
+            if (court === '') {
+                alert('Please enter a court number.');
+                return;
+            }
+
+            document.body.removeChild(popup);
+            document.body.removeChild(overlay);
+
+            extraMatches[matchIndex].court = parseInt(court);
+
+            if (team1Score !== '' && team2Score !== '') {
+                extraMatches[matchIndex].team1Score = parseInt(team1Score);
+                extraMatches[matchIndex].team2Score = parseInt(team2Score);
+                assignScores(); // Assign scores to participants based on the updated game scores
+                populateWinnersTable(); // Refresh the winners table to show the new scores
+            }
+
+            populateGamesTable();
+        });
+
+        document.getElementById('cancel-button').addEventListener('click', () => {
+            document.body.removeChild(popup);
+            document.body.removeChild(overlay);
+        });
+    };
+
     // STAGE 3
     function populateWinnersTable() {
         winnersTableBody.innerHTML = ''; // Clear previous rows
@@ -413,7 +701,7 @@ document.addEventListener('DOMContentLoaded', () => {
                 totalScore = participant.scores.reduce((sum, score) => sum + score, 0);
                 averageScore = totalScore / participant.scores.length; // Calculate average score
             }
-            return { Name: participant.Name, Results: participant.scores, Total: totalScore, Average: averageScore };
+            return { Name: participant.Name, Results: participant.scores, GamesPlayed: participant.scores.length, Total: totalScore, Average: averageScore };
         });
 
         finalScores.sort((a, b) => b.Average - a.Average); // Sort by average score descending
@@ -424,6 +712,7 @@ document.addEventListener('DOMContentLoaded', () => {
                 <td>${rank + 1}</td>
                 <td>${participant.Name}</td>
                 <td>${participant.Results.join(', ')}</td>
+                <td>${participant.GamesPlayed}</td>
                 <td>${participant.Total}</td>
                 <td>${participant.Average}</td>
             `;
