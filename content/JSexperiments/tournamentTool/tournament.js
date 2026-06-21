@@ -40,16 +40,12 @@ document.addEventListener('DOMContentLoaded', () => {
     setupForm.addEventListener('change', setupTournament);
 
     // Setup tournament
-    let Nplayers, NteamsPerRound, NplayersPerRound, NgamesPerRound, Ngames, gameDraft, gameScores, gameCourts;
+    let Nplayers, NteamsPerRound, NplayersPerRound, NgamesPerRound, Ngames, gameDraft, gameScores, gameCourts, pairingHistory;
     // Draft analysis
     const analysisTotal = document.getElementById('analysis-total');
     const analysisLeftOut = document.getElementById('analysis-leftout');
     const analysisGamesPerRound = document.getElementById('analysis-gamesPerRound');
     const analysisGamesTotal = document.getElementById('analysis-gamesTotal');
-    const analysisProbSameTeam = document.getElementById('analysis-probSameTeam');
-    const analysisProbSameGame = document.getElementById('analysis-probSameGame');
-    const analysisMinRoundsGame = document.getElementById('analysis-minRoundsGame');
-    const analysisMinRoundsTeam = document.getElementById('analysis-minRoundsTeam');
     const analysisDuplicateNames = document.getElementById('analysis-duplicateNames');
 
     // temp
@@ -60,6 +56,8 @@ document.addEventListener('DOMContentLoaded', () => {
     // STAGE 2
     const gamesTableBody = document.querySelector('#games-table tbody');
     const highlightedPlayerSpan = document.getElementById('highlighted-player');
+    const playsWithTeamSpan = document.getElementById('plays-with-team');
+    const playsWithGameSpan = document.getElementById('plays-with-game');
     let currentHighlightedPlayer = null;
     let extraMatches = [];
 
@@ -201,20 +199,6 @@ document.addEventListener('DOMContentLoaded', () => {
         analysisLeftOut.textContent = Nplayers-NplayersPerRound;
         analysisGamesPerRound.textContent = NgamesPerRound;
         analysisGamesTotal.textContent = Ngames;
-        let probPlayer = 1; let probTeam = 1; // Probability of always playing with different players
-        for (let i= 0; i < N_ROUNDS; i++) {
-            for (let k = 0; k < N_PLAYERS_PER_TEAM-1; k++) {
-                probPlayer *= (Nplayers - ((N_PLAYERS_PER_TEAM-1)*i + k + 1) ) / (Nplayers - 1 - k);
-            }
-            for (let k = 0; k < 2*N_PLAYERS_PER_TEAM-1; k++) {
-                probTeam *= (Nplayers - ((2*N_PLAYERS_PER_TEAM-1)*i + k + 1) ) / (Nplayers - 1 - k);
-            }
-        }
-        analysisProbSameTeam.textContent = (100-100*probPlayer).toFixed(2);
-        analysisProbSameGame.textContent = (100-100*probTeam).toFixed(2);
-        analysisMinRoundsGame.textContent = Math.ceil((Nplayers-1) / (N_PLAYERS_PER_TEAM*2-1));
-        if (N_PLAYERS_PER_TEAM === 1) { analysisMinRoundsTeam.textContent = "infinite"; }
-        else { analysisMinRoundsTeam.textContent = Math.ceil((Nplayers-1) / (N_PLAYERS_PER_TEAM-1)); }
         
         // Count duplicate names
         const nameCounts = {};
@@ -226,7 +210,25 @@ document.addEventListener('DOMContentLoaded', () => {
         analysisDuplicateNames.textContent = duplicateCount;
         analysisDuplicateNames.style.color = duplicateCount === 0 ? 'green' : 'red';
 
-        gameDraft = Array.from({ length: N_ROUNDS }, (_, i) => generateRoundRandom(i));
+        const tournamentFormat = setupForm.elements['tournament-format'].value;
+        if (tournamentFormat === '2') {
+            // Swiss with optimized pairings
+            initPairingHistory();
+            gameDraft = [];
+            for (let i = 0; i < N_ROUNDS; i++) {
+                const roundDraft = generateRoundOptimized(i);
+                gameDraft.push(roundDraft);
+                updatePairingHistory(roundDraft);
+            }
+        } else {
+            // Swiss with random pairings (default)
+            gameDraft = Array.from({ length: N_ROUNDS }, (_, i) => generateRoundRandom(i));
+            // Build pairing history for display
+            initPairingHistory();
+            for (let i = 0; i < N_ROUNDS; i++) {
+                updatePairingHistory(gameDraft[i]);
+            }
+        }
         gameScores = Array.from({ length: N_ROUNDS }, () => Array(NteamsPerRound).fill(null));
         gameCourts = Array.from({ length: N_ROUNDS }, () => Array(NgamesPerRound).fill(null));
         // gameScores = Array.from({ length: N_ROUNDS }, () => generateUniqueRandomIntegers(NteamsPerRound, 44));
@@ -237,6 +239,145 @@ document.addEventListener('DOMContentLoaded', () => {
 
     function generateRoundRandom(round) {
         return generateUniqueRandomIntegers(NteamsPerRound * N_PLAYERS_PER_TEAM, Nplayers - 1);
+    }
+
+    // Pairing history tracking for optimized pairings
+    function initPairingHistory() {
+        pairingHistory = {
+            sameGame: Array.from({ length: Nplayers }, () => new Map()),
+            sameTeam: Array.from({ length: Nplayers }, () => new Map())
+        };
+    }
+
+    function updatePairingHistory(roundDraft) {
+        for (let gameId = 0; gameId < NgamesPerRound; gameId++) {
+            const team1 = roundDraft.slice(gameId * N_PLAYERS_PER_TEAM * 2, (gameId + 0.5) * N_PLAYERS_PER_TEAM * 2);
+            const team2 = roundDraft.slice((gameId + 0.5) * N_PLAYERS_PER_TEAM * 2, (gameId + 1) * N_PLAYERS_PER_TEAM * 2);
+
+            // Record same-game pairs (all players in this game)
+            const allPlayers = [...team1, ...team2];
+            for (let i = 0; i < allPlayers.length; i++) {
+                for (let j = i + 1; j < allPlayers.length; j++) {
+                    const a = allPlayers[i], b = allPlayers[j];
+                    pairingHistory.sameGame[a].set(b, (pairingHistory.sameGame[a].get(b) || 0) + 1);
+                    pairingHistory.sameGame[b].set(a, (pairingHistory.sameGame[b].get(a) || 0) + 1);
+                }
+            }
+
+            // Record same-team pairs (within each team)
+            for (const team of [team1, team2]) {
+                for (let i = 0; i < team.length; i++) {
+                    for (let j = i + 1; j < team.length; j++) {
+                        const a = team[i], b = team[j];
+                        pairingHistory.sameTeam[a].set(b, (pairingHistory.sameTeam[a].get(b) || 0) + 1);
+                        pairingHistory.sameTeam[b].set(a, (pairingHistory.sameTeam[b].get(a) || 0) + 1);
+                    }
+                }
+            }
+        }
+    }
+
+    function updatePairingHistoryFromTeams(team1Ids, team2Ids) {
+        if (!pairingHistory) return;
+
+        // Same-game pairs (all players in this match)
+        const allPlayers = [...team1Ids, ...team2Ids];
+        for (let i = 0; i < allPlayers.length; i++) {
+            for (let j = i + 1; j < allPlayers.length; j++) {
+                const a = allPlayers[i], b = allPlayers[j];
+                pairingHistory.sameGame[a].set(b, (pairingHistory.sameGame[a].get(b) || 0) + 1);
+                pairingHistory.sameGame[b].set(a, (pairingHistory.sameGame[b].get(a) || 0) + 1);
+            }
+        }
+
+        // Same-team pairs (within each team)
+        for (const team of [team1Ids, team2Ids]) {
+            for (let i = 0; i < team.length; i++) {
+                for (let j = i + 1; j < team.length; j++) {
+                    const a = team[i], b = team[j];
+                    pairingHistory.sameTeam[a].set(b, (pairingHistory.sameTeam[a].get(b) || 0) + 1);
+                    pairingHistory.sameTeam[b].set(a, (pairingHistory.sameTeam[b].get(a) || 0) + 1);
+                }
+            }
+        }
+    }
+
+    function removePairingHistoryForRound(roundDraft) {
+        if (!pairingHistory) return;
+        for (let gameId = 0; gameId < NgamesPerRound; gameId++) {
+            const team1 = roundDraft.slice(gameId * N_PLAYERS_PER_TEAM * 2, (gameId + 0.5) * N_PLAYERS_PER_TEAM * 2);
+            const team2 = roundDraft.slice((gameId + 0.5) * N_PLAYERS_PER_TEAM * 2, (gameId + 1) * N_PLAYERS_PER_TEAM * 2);
+
+            const allPlayers = [...team1, ...team2];
+            for (let i = 0; i < allPlayers.length; i++) {
+                for (let j = i + 1; j < allPlayers.length; j++) {
+                    const a = allPlayers[i], b = allPlayers[j];
+                    const prevA = pairingHistory.sameGame[a].get(b) || 0;
+                    if (prevA <= 1) pairingHistory.sameGame[a].delete(b); else pairingHistory.sameGame[a].set(b, prevA - 1);
+                    const prevB = pairingHistory.sameGame[b].get(a) || 0;
+                    if (prevB <= 1) pairingHistory.sameGame[b].delete(a); else pairingHistory.sameGame[b].set(a, prevB - 1);
+                }
+            }
+
+            for (const team of [team1, team2]) {
+                for (let i = 0; i < team.length; i++) {
+                    for (let j = i + 1; j < team.length; j++) {
+                        const a = team[i], b = team[j];
+                        const prevA = pairingHistory.sameTeam[a].get(b) || 0;
+                        if (prevA <= 1) pairingHistory.sameTeam[a].delete(b); else pairingHistory.sameTeam[a].set(b, prevA - 1);
+                        const prevB = pairingHistory.sameTeam[b].get(a) || 0;
+                        if (prevB <= 1) pairingHistory.sameTeam[b].delete(a); else pairingHistory.sameTeam[b].set(a, prevB - 1);
+                    }
+                }
+            }
+        }
+    }
+
+    function calculateRoundScore(proposedRound, pairingHistory) {
+        let score = 0;
+        for (let gameId = 0; gameId < NgamesPerRound; gameId++) {
+            const team1 = proposedRound.slice(gameId * N_PLAYERS_PER_TEAM * 2, (gameId + 0.5) * N_PLAYERS_PER_TEAM * 2);
+            const team2 = proposedRound.slice((gameId + 0.5) * N_PLAYERS_PER_TEAM * 2, (gameId + 1) * N_PLAYERS_PER_TEAM * 2);
+            const allPlayers = [...team1, ...team2];
+
+            // +5 for each repeated same-game pair
+            for (let i = 0; i < allPlayers.length; i++) {
+                for (let j = i + 1; j < allPlayers.length; j++) {
+                    if (pairingHistory.sameGame[allPlayers[i]].has(allPlayers[j])) {
+                        score += 5;
+                    }
+                }
+            }
+
+            // +10 for each repeated same-team pair
+            for (const team of [team1, team2]) {
+                for (let i = 0; i < team.length; i++) {
+                    for (let j = i + 1; j < team.length; j++) {
+                        if (pairingHistory.sameTeam[team[i]].has(team[j])) {
+                            score += 10;
+                        }
+                    }
+                }
+            }
+        }
+        return score;
+    }
+
+    function generateRoundOptimized(round) {
+        const TRIALS = 100;
+        let bestRound = null;
+        let bestScore = Infinity;
+
+        for (let trial = 0; trial < TRIALS; trial++) {
+            const candidate = generateUniqueRandomIntegers(NteamsPerRound * N_PLAYERS_PER_TEAM, Nplayers - 1);
+            const trialScore = calculateRoundScore(candidate, pairingHistory);
+            if (trialScore < bestScore) {
+                bestScore = trialScore;
+                bestRound = candidate;
+            }
+        }
+
+        return bestRound;
     }
 
     // STAGE 2
@@ -272,7 +413,7 @@ document.addEventListener('DOMContentLoaded', () => {
                 row.innerHTML = `
                     <td>${completeGameId + 1}</td>
                     <td>${round + 1}</td>
-                    <td onclick="window.editCourt(${round}, ${gameId})" style="cursor: pointer;" class="court-cell">${court !== null ? court : '-'}</td>
+                    <td class="court-cell">${court !== null ? court : '-'}</td>
                     <td>${team1Players.map(playerId => participants[playerId].Name).join(', ')}</td>
                     <td>${team2Players.map(playerId => participants[playerId].Name).join(', ')}</td>
                     <td>${score}</td>
@@ -306,7 +447,7 @@ document.addEventListener('DOMContentLoaded', () => {
             row.innerHTML = `
                 <td>${completeGameId}</td>
                 <td>Extra</td>
-                <td onclick="window.editCourtExtra(${i})" style="cursor: pointer;" class="court-cell">${extraMatch.court !== null ? extraMatch.court : '-'}</td>
+                <td class="court-cell">${extraMatch.court !== null ? extraMatch.court : '-'}</td>
                 <td>${extraMatch.team1}</td>
                 <td>${extraMatch.team2}</td>
                 <td>${score}</td>
@@ -330,6 +471,185 @@ document.addEventListener('DOMContentLoaded', () => {
         window.introduceResult(round, gameId);
     }
 
+    function refreshIntroduceResultPopup(round, gameId, oldPopup, overlay) {
+        // Rebuild the popup content in-place to reflect swapped names
+        const initialCourt = gameCourts[round][gameId] !== null ? gameCourts[round][gameId] : 1;
+        const team1PlayerIds = gameDraft[round].slice(gameId * N_PLAYERS_PER_TEAM, gameId * N_PLAYERS_PER_TEAM + N_PLAYERS_PER_TEAM);
+        const team2PlayerIds = gameDraft[round].slice(gameId * N_PLAYERS_PER_TEAM + N_PLAYERS_PER_TEAM, gameId * N_PLAYERS_PER_TEAM + 2 * N_PLAYERS_PER_TEAM);
+
+        const team1NamesHtml = team1PlayerIds.map(id =>
+            `<span class="swap-player" data-player="${id}" data-team="0" style="cursor:pointer;color:rgb(0,0,238);text-decoration:underline;">${participants[id].Name}</span>`
+        ).join(', ');
+        const team2NamesHtml = team2PlayerIds.map(id =>
+            `<span class="swap-player" data-player="${id}" data-team="1" style="cursor:pointer;color:rgb(0,0,238);text-decoration:underline;">${participants[id].Name}</span>`
+        ).join(', ');
+
+        oldPopup.innerHTML = `
+            <h3>Enter results for game ${gameId}</h3>
+            <label>Court:</label>
+            <div style="display: flex; align-items: center; gap: 8px; margin: 5px 0;">
+                <button id="court-minus" style="width: 32px; height: 32px; font-size: 18px; cursor: pointer; border: 1px solid #ccc; border-radius: 4px; background: #f0f0f0;">−</button>
+                <span id="court-display" style="min-width: 30px; text-align: center; font-size: 16px; font-weight: bold;">${initialCourt}</span>
+                <button id="court-plus" style="width: 32px; height: 32px; font-size: 18px; cursor: pointer; border: 1px solid #ccc; border-radius: 4px; background: #f0f0f0;">+</button>
+            </div>
+            <br>
+            <label>Team 1 score:</label>
+            <input type="number" id="team1-score" placeholder="Enter score" value="${gameScores[round][gameId * 2] !== null ? gameScores[round][gameId * 2] : ''}" />
+            <div style="font-size: 13px; color: #555; margin: 2px 0 8px 0;">${team1NamesHtml}</div>
+            <label>Team 2 score:</label>
+            <input type="number" id="team2-score" placeholder="Enter score" value="${gameScores[round][gameId * 2 + 1] !== null ? gameScores[round][gameId * 2 + 1] : ''}" />
+            <div style="font-size: 13px; color: #555; margin: 2px 0 8px 0;">${team2NamesHtml}</div>
+            <br>
+            <div style="display: flex; justify-content: center; gap: 10px;">
+                <button id="ok-button" style="background-color: #4CAF50; color: white; border: none; padding: 10px 20px; border-radius: 5px; cursor: pointer;">Update</button>
+                <button id="cancel-button" style="background-color: #f44336; color: white; border: none; padding: 10px 20px; border-radius: 5px; cursor: pointer;">Cancel</button>
+            </div>
+        `;
+
+        // Re-attach event listeners
+        attachIntroduceResultEvents(round, gameId, oldPopup, overlay);
+    }
+
+    function attachIntroduceResultEvents(round, gameId, popup, overlay) {
+        let courtValue = gameCourts[round][gameId] !== null ? gameCourts[round][gameId] : 1;
+        document.getElementById('court-plus').addEventListener('click', () => {
+            courtValue++;
+            document.getElementById('court-display').textContent = courtValue;
+        });
+        document.getElementById('court-minus').addEventListener('click', () => {
+            if (courtValue > 1) courtValue--;
+            document.getElementById('court-display').textContent = courtValue;
+        });
+
+        document.getElementById('ok-button').addEventListener('click', () => {
+            const team1Score = document.getElementById('team1-score').value;
+            const team2Score = document.getElementById('team2-score').value;
+
+            document.body.removeChild(popup); document.body.removeChild(overlay);
+
+            gameCourts[round][gameId] = courtValue;
+            
+            if (team1Score !== '' && team2Score !== '') {
+                gameScores[round][gameId * 2] = parseInt(team1Score);
+                gameScores[round][gameId * 2 + 1] = parseInt(team2Score);
+                assignScores();
+                populateWinnersTable();
+            }
+            
+            populateGamesTable();
+        });
+        document.getElementById('cancel-button').addEventListener('click', () => {
+            // Revert any swap that happened
+            if (popup._originalRoundDraft) {
+                const currentDraft = gameDraft[round];
+                let swapped = false;
+                for (let i = 0; i < currentDraft.length; i++) {
+                    if (currentDraft[i] !== popup._originalRoundDraft[i]) {
+                        swapped = true;
+                        break;
+                    }
+                }
+                if (swapped) {
+                    removePairingHistoryForRound(currentDraft);
+                    gameDraft[round] = [...popup._originalRoundDraft];
+                    updatePairingHistory(gameDraft[round]);
+                }
+            }
+            document.body.removeChild(popup); document.body.removeChild(overlay);
+        });
+
+        // Attach swap click handlers
+        document.querySelectorAll('.swap-player').forEach(el => {
+            el.addEventListener('click', () => {
+                const clickedPlayerId = parseInt(el.dataset.player);
+                const teamIndex = parseInt(el.dataset.team); // 0 = team1, 1 = team2
+                showSwapPopup(round, gameId, popup, overlay, clickedPlayerId, teamIndex);
+            });
+        });
+    }
+
+    function showSwapPopup(round, gameId, mainPopup, mainOverlay, clickedPlayerId, teamIndex) {
+        const team1PlayerIds = gameDraft[round].slice(gameId * N_PLAYERS_PER_TEAM, gameId * N_PLAYERS_PER_TEAM + N_PLAYERS_PER_TEAM);
+        const team2PlayerIds = gameDraft[round].slice(gameId * N_PLAYERS_PER_TEAM + N_PLAYERS_PER_TEAM, gameId * N_PLAYERS_PER_TEAM + 2 * N_PLAYERS_PER_TEAM);
+        const otherTeamIds = teamIndex === 0 ? team2PlayerIds : team1PlayerIds;
+
+        const swapOverlay = document.createElement('div');
+        swapOverlay.style.position = 'fixed';
+        swapOverlay.style.top = '0';
+        swapOverlay.style.left = '0';
+        swapOverlay.style.width = '100%';
+        swapOverlay.style.height = '100%';
+        swapOverlay.style.backgroundColor = 'rgba(0, 0, 0, 0.3)';
+        swapOverlay.style.zIndex = '1001';
+        document.body.appendChild(swapOverlay);
+
+        const swapPopup = document.createElement('div');
+        swapPopup.style.position = 'fixed';
+        swapPopup.style.top = '50%';
+        swapPopup.style.left = '50%';
+        swapPopup.style.transform = 'translate(-50%, -50%)';
+        swapPopup.style.backgroundColor = '#fff';
+        swapPopup.style.padding = '20px';
+        swapPopup.style.boxShadow = '0 0 10px rgba(0, 0, 0, 0.3)';
+        swapPopup.style.zIndex = '1002';
+        swapPopup.style.minWidth = '250px';
+
+        const otherTeamOptions = otherTeamIds.map(id =>
+            `<div style="padding:6px 10px;cursor:pointer;color:rgb(0,0,238);border-bottom:1px solid #eee;" class="swap-option" data-target="${id}">${participants[id].Name}</div>`
+        ).join('');
+
+        swapPopup.innerHTML = `
+            <h3 style="margin-top:0;">Swap ${participants[clickedPlayerId].Name}</h3>
+            <p style="margin:8px 0;font-size:14px;">Choose a player from the other team to swap with:</p>
+            ${otherTeamOptions}
+            <div style="margin-top:12px;text-align:center;">
+                <button id="cancel-swap-button" style="background-color:#f44336;color:white;border:none;padding:8px 20px;border-radius:5px;cursor:pointer;">Cancel</button>
+            </div>
+        `;
+
+        document.body.appendChild(swapPopup);
+
+        // Attach swap option clicks
+        swapPopup.querySelectorAll('.swap-option').forEach(el => {
+            el.addEventListener('click', () => {
+                const targetPlayerId = parseInt(el.dataset.target);
+
+                // Perform the swap in gameDraft
+                const team1Ids = gameDraft[round].slice(gameId * N_PLAYERS_PER_TEAM, gameId * N_PLAYERS_PER_TEAM + N_PLAYERS_PER_TEAM);
+                const team2Ids = gameDraft[round].slice(gameId * N_PLAYERS_PER_TEAM + N_PLAYERS_PER_TEAM, gameId * N_PLAYERS_PER_TEAM + 2 * N_PLAYERS_PER_TEAM);
+
+                // Build the full round draft for this round to update pairing history
+                const oldRoundDraft = [...gameDraft[round]];
+
+                // Remove old pairing history for this round
+                removePairingHistoryForRound(oldRoundDraft);
+
+                // Swap the two players in gameDraft
+                const clickedIdx = gameDraft[round].indexOf(clickedPlayerId);
+                const targetIdx = gameDraft[round].indexOf(targetPlayerId);
+                if (clickedIdx !== -1 && targetIdx !== -1) {
+                    gameDraft[round][clickedIdx] = targetPlayerId;
+                    gameDraft[round][targetIdx] = clickedPlayerId;
+                }
+
+                // Add new pairing history for this round
+                updatePairingHistory(gameDraft[round]);
+
+                // Close swap popup
+                document.body.removeChild(swapPopup);
+                document.body.removeChild(swapOverlay);
+
+                // Refresh the main popup
+                refreshIntroduceResultPopup(round, gameId, mainPopup, mainOverlay);
+            });
+        });
+
+        document.getElementById('cancel-swap-button').addEventListener('click', () => {
+            document.body.removeChild(swapPopup);
+            document.body.removeChild(swapOverlay);
+        });
+    }
+
     window.introduceResult = function(round, gameId) {
         const overlay = document.createElement('div');
         overlay.style.position = 'fixed';
@@ -351,50 +671,10 @@ document.addEventListener('DOMContentLoaded', () => {
         popup.style.boxShadow = '0 0 10px rgba(0, 0, 0, 0.3)';
         popup.style.zIndex = '1000';
 
-        popup.innerHTML = `
-            <h3>Enter Details for Game ${gameId}:</h3>
-            <label>Court:</label>
-            <input type="number" id="court-input" placeholder="Enter court number" value="${gameCourts[round][gameId] !== null ? gameCourts[round][gameId] : ''}" />
-            <br><br>
-            <label>Team 1 score:</label>
-            <input type="number" id="team1-score" placeholder="Enter score" />
-            <br><br>
-            <label>Team 2 score:</label>
-            <input type="number" id="team2-score" placeholder="Enter score" />
-            <br><br>
-            <div style="display: flex; justify-content: center; gap: 10px;">
-                <button id="ok-button" style="background-color: #4CAF50; color: white; border: none; padding: 10px 20px; border-radius: 5px; cursor: pointer;">Update</button>
-                <button id="cancel-button" style="background-color: #f44336; color: white; border: none; padding: 10px 20px; border-radius: 5px; cursor: pointer;">Cancel</button>
-            </div>
-        `;
-
+        // Save original round draft so we can revert swaps on cancel
+        popup._originalRoundDraft = [...gameDraft[round]];
         document.body.appendChild(popup);
-
-        document.getElementById('ok-button').addEventListener('click', () => {
-            const court = document.getElementById('court-input').value;
-            const team1Score = document.getElementById('team1-score').value;
-            const team2Score = document.getElementById('team2-score').value;
-
-            if (court === '') {
-                alert('Please enter a court number.');
-                return;
-            }
-            document.body.removeChild(popup); document.body.removeChild(overlay);
-
-            gameCourts[round][gameId] = parseInt(court);
-            
-            if (team1Score !== '' && team2Score !== '') {
-                gameScores[round][gameId * 2] = parseInt(team1Score);
-                gameScores[round][gameId * 2 + 1] = parseInt(team2Score);
-                assignScores(); // Assign scores to participants based on the updated game scores
-                populateWinnersTable(); // Refresh the winners table to show the new scores
-            }
-            
-            populateGamesTable(); // Refresh the games table to show the new court
-        });
-        document.getElementById('cancel-button').addEventListener('click', () => {
-            document.body.removeChild(popup); document.body.removeChild(overlay);
-        });
+        refreshIntroduceResultPopup(round, gameId, popup, overlay);
     }
     function assignScores() {
         for (const participant of participants) {
@@ -467,7 +747,49 @@ document.addEventListener('DOMContentLoaded', () => {
 
     function highlightGames(playerName) {
         currentHighlightedPlayer = playerName;
-        highlightedPlayerSpan.textContent = playerName;
+
+        // Count total games this player participated in
+        const playerId = participants.findIndex(p => p.Name === playerName);
+        let totalGames = 0;
+        if (playerId !== -1) {
+            for (let round = 0; round < N_ROUNDS; round++) {
+                if (gameDraft[round].includes(playerId)) totalGames++;
+            }
+        }
+        highlightedPlayerSpan.textContent = `${playerName} (x${totalGames})`;
+
+        // Update plays-with display
+        if (playerId !== -1 && pairingHistory) {
+            // Same team
+            const teamMap = pairingHistory.sameTeam[playerId];
+            if (teamMap && teamMap.size > 0) {
+                const entries = [];
+                for (const [otherId, count] of teamMap) {
+                    const name = participants[otherId].Name;
+                    entries.push(count > 1 ? `${name} (x${count})` : name);
+                }
+                playsWithTeamSpan.textContent = [...entries].sort((a, b) => a.localeCompare(b)).join(', ');
+            } else {
+                playsWithTeamSpan.textContent = '-';
+            }
+
+            // Same game
+            const gameMap = pairingHistory.sameGame[playerId];
+            if (gameMap && gameMap.size > 0) {
+                const entries = [];
+                for (const [otherId, count] of gameMap) {
+                    const name = participants[otherId].Name;
+                    entries.push(count > 1 ? `${name} (x${count})` : name);
+                }
+                playsWithGameSpan.textContent = [...entries].sort((a, b) => a.localeCompare(b)).join(', ');
+            } else {
+                playsWithGameSpan.textContent = '-';
+            }
+        } else {
+            playsWithTeamSpan.textContent = '-';
+            playsWithGameSpan.textContent = '-';
+        }
+
         const rows = document.querySelectorAll('#games-table tbody tr');
         rows.forEach(row => {
             const team1Players = row.children[3].querySelectorAll('span');
@@ -490,9 +812,6 @@ document.addEventListener('DOMContentLoaded', () => {
     }
 
     window.showAddMatchDialog = function() {
-        // Generate default placeholder
-        const defaultPlaceholder = Array.from({length: N_PLAYERS_PER_TEAM}, (_, i) => `Name ${i + 1}`).join(', ');
-        
         const overlay = document.createElement('div');
         overlay.style.position = 'fixed';
         overlay.style.top = '0';
@@ -512,83 +831,96 @@ document.addEventListener('DOMContentLoaded', () => {
         popup.style.padding = '20px';
         popup.style.boxShadow = '0 0 10px rgba(0, 0, 0, 0.3)';
         popup.style.zIndex = '1000';
+        popup.style.minWidth = '500px';
+
+        const sortedParticipants = participants
+            .map((p, i) => ({ id: i, name: p.Name }))
+            .sort((a, b) => a.name.localeCompare(b.name));
+        const optionsHtml = sortedParticipants.map(({id, name}) => `<option value="${id}">${name}</option>`).join('');
 
         popup.innerHTML = `
             <h3>Add Extra Match</h3>
-            <label>Team 1 Players:</label>
-            <input type="text" id="add-team1" placeholder="${defaultPlaceholder}" />
-            <br><br>
-            <label>Team 2 Players:</label>
-            <input type="text" id="add-team2" placeholder="${defaultPlaceholder}" />
-            <br><br>
+            <div style="display: flex; gap: 20px; margin-bottom: 15px;">
+                <div style="flex: 1;">
+                    <strong>Team 1</strong>
+                    <div id="team1-players" style="min-height: 40px; border: 1px solid #ccc; padding: 5px; margin: 5px 0; border-radius: 4px;"><em>No players selected</em></div>
+                    <select id="team1-select" style="width: 100%; margin-bottom: 5px;">
+                        <option value="">-- Select player --</option>
+                        ${optionsHtml}
+                    </select>
+                    <span id="team1-count" style="margin-left: 10px;">0 / ${N_PLAYERS_PER_TEAM}</span>
+                </div>
+                <div style="flex: 1;">
+                    <strong>Team 2</strong>
+                    <div id="team2-players" style="min-height: 40px; border: 1px solid #ccc; padding: 5px; margin: 5px 0; border-radius: 4px;"><em>No players selected</em></div>
+                    <select id="team2-select" style="width: 100%; margin-bottom: 5px;">
+                        <option value="">-- Select player --</option>
+                        ${optionsHtml}
+                    </select>
+                    <span id="team2-count" style="margin-left: 10px;">0 / ${N_PLAYERS_PER_TEAM}</span>
+                </div>
+            </div>
             <div style="display: flex; justify-content: center; gap: 10px;">
-                <button id="add-ok-button" style="background-color: #4CAF50; color: white; border: none; padding: 10px 20px; border-radius: 5px; cursor: pointer;">Add</button>
+                <button id="add-ok-button" disabled style="background-color: #4CAF50; color: white; border: none; padding: 10px 20px; border-radius: 5px; cursor: pointer;">Add</button>
                 <button id="add-cancel-button" style="background-color: #f44336; color: white; border: none; padding: 10px 20px; border-radius: 5px; cursor: pointer;">Cancel</button>
             </div>
         `;
 
         document.body.appendChild(popup);
 
+        const team1Selected = [];
+        const team2Selected = [];
+
+        function removeOptionFromSelects(playerId) {
+            const s1 = document.getElementById('team1-select');
+            const s2 = document.getElementById('team2-select');
+            const opt1 = s1.querySelector(`option[value="${playerId}"]`);
+            const opt2 = s2.querySelector(`option[value="${playerId}"]`);
+            if (opt1) opt1.remove();
+            if (opt2) opt2.remove();
+        }
+
+        function updateTeamDisplay(teamNum) {
+            const selected = teamNum === 1 ? team1Selected : team2Selected;
+            const playersDiv = document.getElementById(`team${teamNum}-players`);
+            const select = document.getElementById(`team${teamNum}-select`);
+            const countSpan = document.getElementById(`team${teamNum}-count`);
+            const full = selected.length >= N_PLAYERS_PER_TEAM;
+
+            playersDiv.innerHTML = selected.length > 0
+                ? selected.map(id => participants[id].Name).join(', ')
+                : '<em>No players selected</em>';
+
+            countSpan.textContent = `${selected.length} / ${N_PLAYERS_PER_TEAM}`;
+            select.disabled = full;
+            select.style.opacity = full ? '0.5' : '1';
+
+            document.getElementById('add-ok-button').disabled =
+                team1Selected.length < N_PLAYERS_PER_TEAM || team2Selected.length < N_PLAYERS_PER_TEAM;
+        }
+
+        function addPlayerToTeam(teamNum) {
+            const select = document.getElementById(`team${teamNum}-select`);
+            const playerId = parseInt(select.value);
+            if (isNaN(playerId)) return;
+
+            const selected = teamNum === 1 ? team1Selected : team2Selected;
+            const otherSelected = teamNum === 1 ? team2Selected : team1Selected;
+
+            if (selected.includes(playerId) || otherSelected.includes(playerId)) return;
+
+            selected.push(playerId);
+            removeOptionFromSelects(playerId);
+            select.value = '';
+            updateTeamDisplay(teamNum);
+        }
+
+        document.getElementById('team1-select').addEventListener('change', function() { addPlayerToTeam(1); });
+        document.getElementById('team2-select').addEventListener('change', function() { addPlayerToTeam(2); });
+
         document.getElementById('add-ok-button').addEventListener('click', () => {
-            const team1 = document.getElementById('add-team1').value.trim();
-            const team2 = document.getElementById('add-team2').value.trim();
-
-            if (team1 === '' || team2 === '') {
-                alert('Please enter players for both teams.');
-                return;
-            }
-
-            // Get participant names
-            const participantNames = participants.map(p => p.Name);
-
-            // Parse and validate team 1
-            const team1Names = team1.split(',').map(name => name.trim());
-            const invalidTeam1 = team1Names.filter(name => !participantNames.includes(name));
-
-            // Parse and validate team 2
-            const team2Names = team2.split(',').map(name => name.trim());
-            const invalidTeam2 = team2Names.filter(name => !participantNames.includes(name));
-
-            // Check for invalid names
-            if (invalidTeam1.length > 0 || invalidTeam2.length > 0) {
-                const allInvalid = [...invalidTeam1, ...invalidTeam2];
-                alert(`The following names do not exist in the participant list:\n${allInvalid.join('\n')}`);
-                return;
-            }
-
-            // Check for correct number of players in team 1
-            if (team1Names.length !== N_PLAYERS_PER_TEAM) {
-                alert(`Team 1 has ${team1Names.length} players, but it should have ${N_PLAYERS_PER_TEAM} players.`);
-                return;
-            }
-
-            // Check for correct number of players in team 2
-            if (team2Names.length !== N_PLAYERS_PER_TEAM) {
-                alert(`Team 2 has ${team2Names.length} players, but it should have ${N_PLAYERS_PER_TEAM} players.`);
-                return;
-            }
-
-            // Check for duplicate names in team 1
-            const team1Duplicates = team1Names.filter((name, index) => team1Names.indexOf(name) !== index);
-            if (team1Duplicates.length > 0) {
-                alert(`Team 1 has duplicate players: ${[...new Set(team1Duplicates)].join(', ')}`);
-                return;
-            }
-
-            // Check for duplicate names in team 2
-            const team2Duplicates = team2Names.filter((name, index) => team2Names.indexOf(name) !== index);
-            if (team2Duplicates.length > 0) {
-                alert(`Team 2 has duplicate players: ${[...new Set(team2Duplicates)].join(', ')}`);
-                return;
-            }
-
-            // Check for duplicate names across both teams
-            const allTeamNames = [...team1Names, ...team2Names];
-            const crossTeamDuplicates = allTeamNames.filter((name, index) => allTeamNames.indexOf(name) !== index);
-            if (crossTeamDuplicates.length > 0) {
-                alert(`The following players appear in both teams: ${[...new Set(crossTeamDuplicates)].join(', ')}`);
-                return;
-            }
+            const team1 = team1Selected.map(id => participants[id].Name).join(', ');
+            const team2 = team2Selected.map(id => participants[id].Name).join(', ');
 
             document.body.removeChild(popup);
             document.body.removeChild(overlay);
@@ -601,7 +933,17 @@ document.addEventListener('DOMContentLoaded', () => {
                 team2Score: null
             });
 
+            // Update pairing history with the new match
+            if (pairingHistory) {
+                updatePairingHistoryFromTeams(team1Selected, team2Selected);
+            }
+
             populateGamesTable();
+
+            // Refresh the plays-with display if a player is highlighted
+            if (currentHighlightedPlayer) {
+                highlightGames(currentHighlightedPlayer);
+            }
         });
 
         document.getElementById('add-cancel-button').addEventListener('click', () => {
@@ -637,11 +979,17 @@ document.addEventListener('DOMContentLoaded', () => {
         popup.style.boxShadow = '0 0 10px rgba(0, 0, 0, 0.3)';
         popup.style.zIndex = '1000';
 
+        const initialCourt = match.court !== null ? match.court : 1;
+
         popup.innerHTML = `
             <h3>Enter Details for Extra Match:</h3>
             <label>Court:</label>
-            <input type="number" id="court-input" placeholder="Enter court number" value="${match.court !== null ? match.court : ''}" />
-            <br><br>
+            <div style="display: flex; align-items: center; gap: 8px; margin: 5px 0;">
+                <button id="court-minus" style="width: 32px; height: 32px; font-size: 18px; cursor: pointer; border: 1px solid #ccc; border-radius: 4px; background: #f0f0f0;">−</button>
+                <span id="court-display" style="min-width: 30px; text-align: center; font-size: 16px; font-weight: bold;">${initialCourt}</span>
+                <button id="court-plus" style="width: 32px; height: 32px; font-size: 18px; cursor: pointer; border: 1px solid #ccc; border-radius: 4px; background: #f0f0f0;">+</button>
+            </div>
+            <br>
             <label>Team 1 score:</label>
             <input type="number" id="team1-score" placeholder="Enter score" />
             <br><br>
@@ -656,26 +1004,30 @@ document.addEventListener('DOMContentLoaded', () => {
 
         document.body.appendChild(popup);
 
+        let courtValue = initialCourt;
+        document.getElementById('court-plus').addEventListener('click', () => {
+            courtValue++;
+            document.getElementById('court-display').textContent = courtValue;
+        });
+        document.getElementById('court-minus').addEventListener('click', () => {
+            if (courtValue > 1) courtValue--;
+            document.getElementById('court-display').textContent = courtValue;
+        });
+
         document.getElementById('ok-button').addEventListener('click', () => {
-            const court = document.getElementById('court-input').value;
             const team1Score = document.getElementById('team1-score').value;
             const team2Score = document.getElementById('team2-score').value;
-
-            if (court === '') {
-                alert('Please enter a court number.');
-                return;
-            }
 
             document.body.removeChild(popup);
             document.body.removeChild(overlay);
 
-            extraMatches[matchIndex].court = parseInt(court);
+            extraMatches[matchIndex].court = courtValue;
 
             if (team1Score !== '' && team2Score !== '') {
                 extraMatches[matchIndex].team1Score = parseInt(team1Score);
                 extraMatches[matchIndex].team2Score = parseInt(team2Score);
-                assignScores(); // Assign scores to participants based on the updated game scores
-                populateWinnersTable(); // Refresh the winners table to show the new scores
+                assignScores();
+                populateWinnersTable();
             }
 
             populateGamesTable();

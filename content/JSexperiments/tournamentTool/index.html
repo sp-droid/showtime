@@ -31,6 +31,7 @@
                 <label for="tournament-format">Tournament type:</label>
                 <select id="tournament-format" name="tournament-format">
                     <option value="1" title="Players are paired randomly, the winner being the player with the most points.">Swiss with random pairings</option>
+                    <option value="2" title="Pairings are optimized to minimize repeated matchups across rounds." selected>Swiss with optimized pairings</option>
                 </select>
                 <br>
                 <label for="players-per-team">Number of Players per Team:</label>
@@ -73,10 +74,6 @@
             <ul style="text-shadow: 1px 1px 5px rgba(255, 255, 255, 1); font-weight: 600;">
                 <li>Number of players (+left out each round): <div><span id="analysis-total">-</span> (+<span id="analysis-leftout">-</span>)</div></li>
                 <li>Games per round / total: <div><span id="analysis-gamesPerRound">-</span> / <span id="analysis-gamesTotal">-</span></div></li>
-                <li>Probability of sharing teams with the same player at least twice: <div><span id="analysis-probSameTeam">-</span> %</div></li>
-                <li>Probability of sharing games with the same player at least twice: <div><span id="analysis-probSameGame">-</span> %</div></li>
-                <li>Minimum rounds to have the chance to play with everybody (same game): <div><span id="analysis-minRoundsGame">-</span></div></li>
-                <li>Minimum rounds to have the chance to play with everybody (same team): <div><span id="analysis-minRoundsTeam">-</span></div></li>
                 <li>Players with duplicate names: <div><span id="analysis-duplicateNames">-</span></div></li>
             </ul>
         </section>
@@ -85,7 +82,11 @@
         <section id="stage-2" style="display: none;">
             <h2>Stage 2: Tournament Rounds</h2>
             <hr><br>
-            Highlighting games played by: <span id="highlighted-player" style="font-weight: bold; " title="Click player name to highlight">-</span>
+            <strong>Highlighting games played by:</strong> <span id="highlighted-player" style="font-weight: bold; " title="Click player name to highlight">-</span>
+            <br>
+            <strong>Plays with (same team):</strong> <span id="plays-with-team">-</span>
+            <br>
+            <strong>Plays with (same game):</strong> <span id="plays-with-game">-</span>
             <br><br>
             <div id="rounds-container">
                 <!-- Dynamically filled by tournament.js -->
