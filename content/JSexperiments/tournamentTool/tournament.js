@@ -773,7 +773,9 @@ document.addEventListener('DOMContentLoaded', () => {
             const team2Names = Array.from(team2Players).map(span => span.textContent);
 
             if (team1Names.includes(playerName) || team2Names.includes(playerName)) {
-                row.style.fontWeight = 'bold';
+                row.classList.add('highlighted-row');
+            } else {
+                row.classList.remove('highlighted-row');
             }
         });
     }
@@ -781,7 +783,7 @@ document.addEventListener('DOMContentLoaded', () => {
     function removeHighlight() {
         const rows = document.querySelectorAll('#games-table tbody tr');
         rows.forEach(row => {
-            row.style.fontWeight = '';
+            row.classList.remove('highlighted-row');
         });
     }
 
