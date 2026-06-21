@@ -399,12 +399,12 @@ document.addEventListener('DOMContentLoaded', () => {
                 let score;
                 if (team1Score === null) {
                     if (court === null) {
-                        score = `<span class="introduceResult" style="color: rgb(0, 0, 238);" onclick="window.introduceResult(${round}, ${gameId})">Pending</span>`;
+                        score = `<span class="introduceResult introduceResult-pending" onclick="window.introduceResult(${round}, ${gameId})">Pending</span>`;
                     } else {
                         score = `<span class="introduceResult playing-status" onclick="window.introduceResult(${round}, ${gameId})">Playing</span>`;
                     }
                 } else {
-                    score = `<span class="introduceResult" style="color: rgb(0, 120, 150);" onclick="window.introduceResult(${round}, ${gameId})">${team1Score} - ${team2Score}</span>`;
+                    score = `<span class="introduceResult introduceResult-done" onclick="window.introduceResult(${round}, ${gameId})">${team1Score} - ${team2Score}</span>`;
                 }
 
                 const row = document.createElement('tr');
@@ -433,12 +433,12 @@ document.addEventListener('DOMContentLoaded', () => {
             let score;
             if (extraMatch.team1Score === null) {
                 if (extraMatch.court === null) {
-                    score = `<span class="introduceResult" style="color: rgb(0, 0, 238);" onclick="window.introduceResultExtra(${i})">Pending</span>`;
+                    score = `<span class="introduceResult introduceResult-pending" onclick="window.introduceResultExtra(${i})">Pending</span>`;
                 } else {
                     score = `<span class="introduceResult playing-status" onclick="window.introduceResultExtra(${i})">Playing</span>`;
                 }
             } else {
-                score = `<span class="introduceResult" style="color: rgb(0, 120, 150);" onclick="window.introduceResultExtra(${i})">${extraMatch.team1Score} - ${extraMatch.team2Score}</span>`;
+                score = `<span class="introduceResult introduceResult-done" onclick="window.introduceResultExtra(${i})">${extraMatch.team1Score} - ${extraMatch.team2Score}</span>`;
             }
 
             const row = document.createElement('tr');
@@ -478,31 +478,29 @@ document.addEventListener('DOMContentLoaded', () => {
         const team2PlayerIds = gameDraft[round].slice(gameId * N_PLAYERS_PER_TEAM + N_PLAYERS_PER_TEAM, gameId * N_PLAYERS_PER_TEAM + 2 * N_PLAYERS_PER_TEAM);
 
         const team1NamesHtml = team1PlayerIds.map(id =>
-            `<span class="swap-player" data-player="${id}" data-team="0" style="cursor:pointer;color:rgb(0,0,238);text-decoration:underline;">${participants[id].Name}</span>`
+            `<span class="swap-player player-name-link" data-player="${id}" data-team="0">${participants[id].Name}</span>`
         ).join(', ');
         const team2NamesHtml = team2PlayerIds.map(id =>
-            `<span class="swap-player" data-player="${id}" data-team="1" style="cursor:pointer;color:rgb(0,0,238);text-decoration:underline;">${participants[id].Name}</span>`
+            `<span class="swap-player player-name-link" data-player="${id}" data-team="1">${participants[id].Name}</span>`
         ).join(', ');
 
         oldPopup.innerHTML = `
             <h3>Enter results for game ${gameId}</h3>
             <label>Court:</label>
-            <div style="display: flex; align-items: center; gap: 8px; margin: 5px 0;">
-                <button id="court-minus" style="width: 32px; height: 32px; font-size: 18px; cursor: pointer; border: 1px solid #ccc; border-radius: 4px; background: #f0f0f0;">−</button>
-                <span id="court-display" style="min-width: 30px; text-align: center; font-size: 16px; font-weight: bold;">${initialCourt}</span>
-                <button id="court-plus" style="width: 32px; height: 32px; font-size: 18px; cursor: pointer; border: 1px solid #ccc; border-radius: 4px; background: #f0f0f0;">+</button>
+            <div class="court-stepper">
+                <button id="court-minus" class="court-btn">−</button>
+                <span id="court-display" class="court-display">${initialCourt}</span>
+                <button id="court-plus" class="court-btn">+</button>
             </div>
-            <br>
             <label>Team 1 score:</label>
             <input type="number" id="team1-score" placeholder="Enter score" value="${gameScores[round][gameId * 2] !== null ? gameScores[round][gameId * 2] : ''}" />
-            <div style="font-size: 13px; color: #555; margin: 2px 0 8px 0;">${team1NamesHtml}</div>
+            <div style="font-size: 13px; color: #666; margin: 2px 0 10px 0;">${team1NamesHtml}</div>
             <label>Team 2 score:</label>
             <input type="number" id="team2-score" placeholder="Enter score" value="${gameScores[round][gameId * 2 + 1] !== null ? gameScores[round][gameId * 2 + 1] : ''}" />
-            <div style="font-size: 13px; color: #555; margin: 2px 0 8px 0;">${team2NamesHtml}</div>
-            <br>
-            <div style="display: flex; justify-content: center; gap: 10px;">
-                <button id="ok-button" style="background-color: #4CAF50; color: white; border: none; padding: 10px 20px; border-radius: 5px; cursor: pointer;">Update</button>
-                <button id="cancel-button" style="background-color: #f44336; color: white; border: none; padding: 10px 20px; border-radius: 5px; cursor: pointer;">Cancel</button>
+            <div style="font-size: 13px; color: #666; margin: 2px 0 10px 0;">${team2NamesHtml}</div>
+            <div class="button-row">
+                <button id="ok-button" class="btn-primary">Update</button>
+                <button id="cancel-button" class="btn-danger">Cancel</button>
             </div>
         `;
 
@@ -574,36 +572,25 @@ document.addEventListener('DOMContentLoaded', () => {
         const otherTeamIds = teamIndex === 0 ? team2PlayerIds : team1PlayerIds;
 
         const swapOverlay = document.createElement('div');
-        swapOverlay.style.position = 'fixed';
-        swapOverlay.style.top = '0';
-        swapOverlay.style.left = '0';
-        swapOverlay.style.width = '100%';
-        swapOverlay.style.height = '100%';
-        swapOverlay.style.backgroundColor = 'rgba(0, 0, 0, 0.3)';
+        swapOverlay.className = 'modal-overlay';
         swapOverlay.style.zIndex = '1001';
         document.body.appendChild(swapOverlay);
 
         const swapPopup = document.createElement('div');
-        swapPopup.style.position = 'fixed';
-        swapPopup.style.top = '50%';
-        swapPopup.style.left = '50%';
-        swapPopup.style.transform = 'translate(-50%, -50%)';
-        swapPopup.style.backgroundColor = '#fff';
-        swapPopup.style.padding = '20px';
-        swapPopup.style.boxShadow = '0 0 10px rgba(0, 0, 0, 0.3)';
+        swapPopup.className = 'modal-popup';
         swapPopup.style.zIndex = '1002';
-        swapPopup.style.minWidth = '250px';
+        swapPopup.style.minWidth = '280px';
 
         const otherTeamOptions = otherTeamIds.map(id =>
-            `<div style="padding:6px 10px;cursor:pointer;color:rgb(0,0,238);border-bottom:1px solid #eee;" class="swap-option" data-target="${id}">${participants[id].Name}</div>`
+            `<div class="swap-option" data-target="${id}">${participants[id].Name}</div>`
         ).join('');
 
         swapPopup.innerHTML = `
-            <h3 style="margin-top:0;">Swap ${participants[clickedPlayerId].Name}</h3>
-            <p style="margin:8px 0;font-size:14px;">Choose a player from the other team to swap with:</p>
+            <h3>Swap ${participants[clickedPlayerId].Name}</h3>
+            <p style="margin: 8px 0 14px 0; font-size: 14px; color: #666;">Choose a player from the other team to swap with:</p>
             ${otherTeamOptions}
-            <div style="margin-top:12px;text-align:center;">
-                <button id="cancel-swap-button" style="background-color:#f44336;color:white;border:none;padding:8px 20px;border-radius:5px;cursor:pointer;">Cancel</button>
+            <div class="button-row" style="margin-top:14px;">
+                <button id="cancel-swap-button" class="btn-danger">Cancel</button>
             </div>
         `;
 
@@ -652,24 +639,11 @@ document.addEventListener('DOMContentLoaded', () => {
 
     window.introduceResult = function(round, gameId) {
         const overlay = document.createElement('div');
-        overlay.style.position = 'fixed';
-        overlay.style.top = '0';
-        overlay.style.left = '0';
-        overlay.style.width = '100%';
-        overlay.style.height = '100%';
-        overlay.style.backgroundColor = 'rgba(0, 0, 0, 0.5)';
-        overlay.style.zIndex = '999';
+        overlay.className = 'modal-overlay';
         document.body.appendChild(overlay);
         
         const popup = document.createElement('div');
-        popup.style.position = 'fixed';
-        popup.style.top = '50%';
-        popup.style.left = '50%';
-        popup.style.transform = 'translate(-50%, -50%)';
-        popup.style.backgroundColor = '#fff';
-        popup.style.padding = '20px';
-        popup.style.boxShadow = '0 0 10px rgba(0, 0, 0, 0.3)';
-        popup.style.zIndex = '1000';
+        popup.className = 'modal-popup';
 
         // Save original round draft so we can revert swaps on cancel
         popup._originalRoundDraft = [...gameDraft[round]];
@@ -730,7 +704,7 @@ document.addEventListener('DOMContentLoaded', () => {
                 players.forEach((player, index) => {
                     const span = document.createElement('span');
                     span.textContent = player;
-                    span.style.cursor = 'pointer';
+                    span.className = 'player-name';
                     span.addEventListener('click', () => {
                         removeHighlight();
                         highlightGames(player);
@@ -813,24 +787,11 @@ document.addEventListener('DOMContentLoaded', () => {
 
     window.showAddMatchDialog = function() {
         const overlay = document.createElement('div');
-        overlay.style.position = 'fixed';
-        overlay.style.top = '0';
-        overlay.style.left = '0';
-        overlay.style.width = '100%';
-        overlay.style.height = '100%';
-        overlay.style.backgroundColor = 'rgba(0, 0, 0, 0.5)';
-        overlay.style.zIndex = '999';
+        overlay.className = 'modal-overlay';
         document.body.appendChild(overlay);
         
         const popup = document.createElement('div');
-        popup.style.position = 'fixed';
-        popup.style.top = '50%';
-        popup.style.left = '50%';
-        popup.style.transform = 'translate(-50%, -50%)';
-        popup.style.backgroundColor = '#fff';
-        popup.style.padding = '20px';
-        popup.style.boxShadow = '0 0 10px rgba(0, 0, 0, 0.3)';
-        popup.style.zIndex = '1000';
+        popup.className = 'modal-popup';
         popup.style.minWidth = '500px';
 
         const sortedParticipants = participants
@@ -843,26 +804,26 @@ document.addEventListener('DOMContentLoaded', () => {
             <div style="display: flex; gap: 20px; margin-bottom: 15px;">
                 <div style="flex: 1;">
                     <strong>Team 1</strong>
-                    <div id="team1-players" style="min-height: 40px; border: 1px solid #ccc; padding: 5px; margin: 5px 0; border-radius: 4px;"><em>No players selected</em></div>
-                    <select id="team1-select" style="width: 100%; margin-bottom: 5px;">
+                    <div id="team1-players" class="team-players-box"><em>No players selected</em></div>
+                    <select id="team1-select" style="width: 100%; margin-bottom: 4px;">
                         <option value="">-- Select player --</option>
                         ${optionsHtml}
                     </select>
-                    <span id="team1-count" style="margin-left: 10px;">0 / ${N_PLAYERS_PER_TEAM}</span>
+                    <span id="team1-count" style="font-size:13px;color:#888;">0 / ${N_PLAYERS_PER_TEAM}</span>
                 </div>
                 <div style="flex: 1;">
                     <strong>Team 2</strong>
-                    <div id="team2-players" style="min-height: 40px; border: 1px solid #ccc; padding: 5px; margin: 5px 0; border-radius: 4px;"><em>No players selected</em></div>
-                    <select id="team2-select" style="width: 100%; margin-bottom: 5px;">
+                    <div id="team2-players" class="team-players-box"><em>No players selected</em></div>
+                    <select id="team2-select" style="width: 100%; margin-bottom: 4px;">
                         <option value="">-- Select player --</option>
                         ${optionsHtml}
                     </select>
-                    <span id="team2-count" style="margin-left: 10px;">0 / ${N_PLAYERS_PER_TEAM}</span>
+                    <span id="team2-count" style="font-size:13px;color:#888;">0 / ${N_PLAYERS_PER_TEAM}</span>
                 </div>
             </div>
-            <div style="display: flex; justify-content: center; gap: 10px;">
-                <button id="add-ok-button" disabled style="background-color: #4CAF50; color: white; border: none; padding: 10px 20px; border-radius: 5px; cursor: pointer;">Add</button>
-                <button id="add-cancel-button" style="background-color: #f44336; color: white; border: none; padding: 10px 20px; border-radius: 5px; cursor: pointer;">Cancel</button>
+            <div class="button-row">
+                <button id="add-ok-button" disabled class="btn-primary">Add</button>
+                <button id="add-cancel-button" class="btn-danger">Cancel</button>
             </div>
         `;
 
@@ -960,45 +921,35 @@ document.addEventListener('DOMContentLoaded', () => {
         const match = extraMatches[matchIndex];
         
         const overlay = document.createElement('div');
-        overlay.style.position = 'fixed';
-        overlay.style.top = '0';
-        overlay.style.left = '0';
-        overlay.style.width = '100%';
-        overlay.style.height = '100%';
-        overlay.style.backgroundColor = 'rgba(0, 0, 0, 0.5)';
-        overlay.style.zIndex = '999';
+        overlay.className = 'modal-overlay';
         document.body.appendChild(overlay);
         
         const popup = document.createElement('div');
-        popup.style.position = 'fixed';
-        popup.style.top = '50%';
-        popup.style.left = '50%';
-        popup.style.transform = 'translate(-50%, -50%)';
-        popup.style.backgroundColor = '#fff';
-        popup.style.padding = '20px';
-        popup.style.boxShadow = '0 0 10px rgba(0, 0, 0, 0.3)';
-        popup.style.zIndex = '1000';
+        popup.className = 'modal-popup';
 
         const initialCourt = match.court !== null ? match.court : 1;
+
+        // Get player names for each team
+        const team1Names = match.team1;
+        const team2Names = match.team2;
 
         popup.innerHTML = `
             <h3>Enter Details for Extra Match:</h3>
             <label>Court:</label>
-            <div style="display: flex; align-items: center; gap: 8px; margin: 5px 0;">
-                <button id="court-minus" style="width: 32px; height: 32px; font-size: 18px; cursor: pointer; border: 1px solid #ccc; border-radius: 4px; background: #f0f0f0;">−</button>
-                <span id="court-display" style="min-width: 30px; text-align: center; font-size: 16px; font-weight: bold;">${initialCourt}</span>
-                <button id="court-plus" style="width: 32px; height: 32px; font-size: 18px; cursor: pointer; border: 1px solid #ccc; border-radius: 4px; background: #f0f0f0;">+</button>
+            <div class="court-stepper">
+                <button id="court-minus" class="court-btn">−</button>
+                <span id="court-display" class="court-display">${initialCourt}</span>
+                <button id="court-plus" class="court-btn">+</button>
             </div>
-            <br>
             <label>Team 1 score:</label>
             <input type="number" id="team1-score" placeholder="Enter score" />
-            <br><br>
+            <div style="font-size: 13px; color: #666; margin: 2px 0 10px 0;">${team1Names}</div>
             <label>Team 2 score:</label>
             <input type="number" id="team2-score" placeholder="Enter score" />
-            <br><br>
-            <div style="display: flex; justify-content: center; gap: 10px;">
-                <button id="ok-button" style="background-color: #4CAF50; color: white; border: none; padding: 10px 20px; border-radius: 5px; cursor: pointer;">Update</button>
-                <button id="cancel-button" style="background-color: #f44336; color: white; border: none; padding: 10px 20px; border-radius: 5px; cursor: pointer;">Cancel</button>
+            <div style="font-size: 13px; color: #666; margin: 2px 0 10px 0;">${team2Names}</div>
+            <div class="button-row">
+                <button id="ok-button" class="btn-primary">Update</button>
+                <button id="cancel-button" class="btn-danger">Cancel</button>
             </div>
         `;
 
