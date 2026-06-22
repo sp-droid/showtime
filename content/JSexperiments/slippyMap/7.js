@@ -20,7 +20,7 @@ const MAX_CACHED_TILES = 128;
 const TILE_PIXEL_COUNT = TILE_SIZE * TILE_SIZE * 4; // RGBA
 let tileCache = new Uint8Array(MAX_CACHED_TILES * TILE_PIXEL_COUNT);
 let cachedKeys = new Map();
-let cacheIndex = 0;
+// cacheIndex replaced by trimCache returning slot directly
 const LOAD_TILE_DELAY = 100;
 let nTilesLoading = 0;
 let loadingTimeStart = 0;
@@ -39,8 +39,19 @@ function setup() {
     let button = createButton(`Zoom: ${zoomed ? 'ON' : 'OFF'}`);
     button.position(20, height - 40);
     button.mousePressed(() => {
+        const level = 2 ** zoomLevel;
+        if (zoomed) {
+            // Switching FROM zoomed TO non-zoomed: scale pan down to world coords
+            panX /= level;
+            panY /= level;
+        } else {
+            // Switching FROM non-zoomed TO zoomed: scale pan up to zoomed coords
+            panX *= level;
+            panY *= level;
+        }
         zoomed = !zoomed;
         button.html(`Zoom: ${zoomed ? 'ON' : 'OFF'}`);
+        movedCamera = true;
     });
 }
 
@@ -177,16 +188,29 @@ function getTileID(z, y, x) {
 }
 
 function trimCache() {
-    if (cachedKeys.size < MAX_CACHED_TILES) {
-        cacheIndex = cachedKeys.size;
-        return;
+    // If cache is full, evict the oldest entry and reuse its slot
+    if (cachedKeys.size >= MAX_CACHED_TILES) {
+        const oldestKey = cachedKeys.keys().next().value; // Get the first key (oldest)
+        const evictedSlot = cachedKeys.get(oldestKey).slot;
+        console.log(`Evicting tile ${oldestKey} from cache slot ${evictedSlot}`);
+        cachedKeys.delete(oldestKey);
+        return evictedSlot;
     }
 
-    const oldestKey = cachedKeys.keys().next().value; // Get the first key (oldest)
-    cacheIndex = cachedKeys.get(oldestKey).slot;
-    
-    console.log(`Evicting tile ${oldestKey} from cache slot ${cacheIndex}`);
+    // Cache not yet full — find the first unused slot (O(n) but MAX_CACHED_TILES is small)
+    const usedSlots = new Set();
+    for (const [, entry] of cachedKeys) {
+        usedSlots.add(entry.slot);
+    }
+    for (let i = 0; i < MAX_CACHED_TILES; i++) {
+        if (!usedSlots.has(i)) return i;
+    }
+
+    // Fallback (shouldn't reach here)
+    const oldestKey = cachedKeys.keys().next().value;
+    const evictedSlot = cachedKeys.get(oldestKey).slot;
     cachedKeys.delete(oldestKey);
+    return evictedSlot;
 }
 
 function cacheTile(tileID, z, y, x) {
@@ -198,28 +222,30 @@ function cacheTile(tileID, z, y, x) {
         return null; // Too many tiles loading, skip this one for now
     }
 
-    trimCache();
-    const reservedSlot = cacheIndex;
+    const reservedSlot = trimCache();
     cachedKeys.set(tileID, {
         slot: reservedSlot,
         loading: true
     });
 
-    // Tile is not in cache and not being loaded
     nTilesLoading += 1;
     setTimeout(() => {
-        loadImage(`map/${z}/${y}/${x}.png`, (img) => {
-            img.loadPixels();
+        loadImage(`map/${z}/${y}/${x}.png`,
+            (img) => { // Success callback
+                img.loadPixels();
 
-            const arrayIndex = reservedSlot * TILE_PIXEL_COUNT;
-            if (cachedKeys.has(tileID)) { // Tile wasn't evicted while loading
-                cachedKeys.get(tileID).loading = false;
-
-                tileCache.set(img.pixels, arrayIndex);  
-
+                const arrayIndex = reservedSlot * TILE_PIXEL_COUNT;
+                if (cachedKeys.has(tileID)) { // Tile wasn't evicted while loading
+                    cachedKeys.get(tileID).loading = false;
+                    tileCache.set(img.pixels, arrayIndex);
+                }
+                nTilesLoading -= 1;
+            },
+            () => { // Failure callback — image missing or load error
+                cachedKeys.delete(tileID);
                 nTilesLoading -= 1;
             }
-        });
+        );
     }, LOAD_TILE_DELAY);
 }
 
@@ -345,10 +371,11 @@ function mouseDragged() {
         lastMouseY = mouseY;
 
         movedCamera = true;
-        if (nTilesLoading > 0) {
+        if (nTilesLoading === 0) {
+            // Starting a fresh batch of loads — reset the timer
             loadingTimeStart = millis();
-            loadingTimeEnd = millis();
         }
+        loadingTimeEnd = millis();
     }
 }
 
