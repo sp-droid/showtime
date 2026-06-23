@@ -1,4 +1,4 @@
-[**Try it yourself**](../../content/JSexperiments/slippyMap/7.html)
+[**Try it yourself**](../../content/JSexperiments/slippyMap/8.html)
 ======
 
 ---
@@ -32,3 +32,14 @@ An implementation of the "slippy map" that were used at some point in map applic
 - [**V7 link**](../../content/JSexperiments/slippyMap/7.html)
   
   Zoomable
+
+- [**V8 link**](../../content/JSexperiments/slippyMap/8.html)
+
+  Continuous zoom, zoom level 0 removed, changed preload cache priority on zoom out tiles, painted loading and cache loaded tiles, touchscreen support
+
+
+
+Things to improve:
+
+- Visual pop on zoom changes using the floor zoom level
+- 
