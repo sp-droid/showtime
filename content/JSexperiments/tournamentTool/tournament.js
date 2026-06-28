@@ -18,8 +18,14 @@ document.addEventListener('DOMContentLoaded', () => {
     }
 
     stageButtons.stage1.addEventListener('click', () => showStage('stage1'));
-    stageButtons.stage2.addEventListener('click', () => showStage('stage2'));
-    stageButtons.stage3.addEventListener('click', () => showStage('stage3'));
+    stageButtons.stage2.addEventListener('click', () => {
+        showStage('stage2');
+        if (gameDraft) populateGamesTable();
+    });
+    stageButtons.stage3.addEventListener('click', () => {
+        showStage('stage3');
+        if (gameDraft) populateWinnersTable();
+    });
 
     // STAGE 1
     const tournamentNameInput = document.getElementById('tournament-name');
@@ -226,6 +232,8 @@ document.addEventListener('DOMContentLoaded', () => {
         gamesTableBody.innerHTML = '';
         const winnersTBody = document.querySelector('#results-table tbody');
         if (winnersTBody) winnersTBody.innerHTML = '';
+        const chartContainer = document.getElementById('score-chart');
+        if (chartContainer) chartContainer.innerHTML = '<div class="score-chart-empty">No scores yet</div>';
     }
 
     function generateTournament() {
@@ -642,11 +650,9 @@ document.addEventListener('DOMContentLoaded', () => {
                 gameScores[round][gameId * 2] = parseInt(team1Score);
                 gameScores[round][gameId * 2 + 1] = parseInt(team2Score);
                 assignScores();
-                populateWinnersTable();
             }
 
             rebalancePendingMatches();
-            
             populateGamesTable();
         });
         document.getElementById('cancel-button').addEventListener('click', () => {
@@ -1205,11 +1211,9 @@ document.addEventListener('DOMContentLoaded', () => {
                 extraMatches[matchIndex].team1Score = parseInt(team1Score);
                 extraMatches[matchIndex].team2Score = parseInt(team2Score);
                 assignScores();
-                populateWinnersTable();
             }
 
             rebalancePendingMatches();
-
             populateGamesTable();
         });
 
@@ -1346,6 +1350,135 @@ document.addEventListener('DOMContentLoaded', () => {
             }
             winnersTableBody.appendChild(row);
         });
+
+        renderLuckInfo();
+        renderScoreChart();
+    }
+
+    function renderLuckInfo() {
+        const luckContainer = document.getElementById('luck-info');
+        if (!luckContainer) return;
+
+        if (!gameDraft || !gameScores) {
+            luckContainer.innerHTML = '';
+            return;
+        }
+
+        const rankMap = getPlayerRankMap();
+        // playerLuck[i] = { index, totalLuck, matches }
+        const playerLuck = participants.map((p, i) => ({ index: i, name: p.Name, totalLuck: 0, matches: 0 }));
+
+        // Helper: compute luck for a match
+        function addMatchLuck(team1Players, team2Players) {
+            const team1Ranks = team1Players.map(id => rankMap.get(id) || participants.length);
+            const team2Ranks = team2Players.map(id => rankMap.get(id) || participants.length);
+            const avgTeam1Rank = team1Ranks.reduce((a, b) => a + b, 0) / team1Ranks.length;
+            const avgTeam2Rank = team2Ranks.reduce((a, b) => a + b, 0) / team2Ranks.length;
+
+            for (const playerId of team1Players) {
+                const teammateRanks = team1Players.filter(id => id !== playerId).map(id => rankMap.get(id) || participants.length);
+                const avgTeammate = teammateRanks.length > 0 ? teammateRanks.reduce((a, b) => a + b, 0) / teammateRanks.length : 0;
+                playerLuck[playerId].totalLuck += avgTeam2Rank - avgTeammate;
+                playerLuck[playerId].matches++;
+            }
+            for (const playerId of team2Players) {
+                const teammateRanks = team2Players.filter(id => id !== playerId).map(id => rankMap.get(id) || participants.length);
+                const avgTeammate = teammateRanks.length > 0 ? teammateRanks.reduce((a, b) => a + b, 0) / teammateRanks.length : 0;
+                playerLuck[playerId].totalLuck += avgTeam1Rank - avgTeammate;
+                playerLuck[playerId].matches++;
+            }
+        }
+
+        // Regular games
+        for (let round = 0; round < N_ROUNDS; round++) {
+            for (let gameId = 0; gameId < NgamesPerRound; gameId++) {
+                const team1Score = gameScores[round][gameId * 2];
+                const team2Score = gameScores[round][gameId * 2 + 1];
+                if (team1Score === null || team2Score === null) continue;
+
+                const team1Players = gameDraft[round].slice(gameId * N_PLAYERS_PER_TEAM * 2, gameId * N_PLAYERS_PER_TEAM * 2 + N_PLAYERS_PER_TEAM);
+                const team2Players = gameDraft[round].slice(gameId * N_PLAYERS_PER_TEAM * 2 + N_PLAYERS_PER_TEAM, gameId * N_PLAYERS_PER_TEAM * 2 + 2 * N_PLAYERS_PER_TEAM);
+                addMatchLuck(team1Players, team2Players);
+            }
+        }
+
+        // Extra matches
+        for (const match of extraMatches) {
+            if (match.team1Score === null || match.team2Score === null) continue;
+            addMatchLuck(match.team1, match.team2);
+        }
+
+        // Compute average luck per player
+        const avgLuck = playerLuck
+            .filter(p => p.matches > 0)
+            .map(p => ({ name: p.name, avg: p.totalLuck / p.matches }));
+
+        if (avgLuck.length === 0) {
+            luckContainer.innerHTML = '';
+            return;
+        }
+
+        avgLuck.sort((a, b) => b.avg - a.avg);
+        const luckiest = avgLuck[0];
+        const unluckiest = avgLuck[avgLuck.length - 1];
+
+        luckContainer.innerHTML = `
+            <p>🍀 Luckiest player: <strong class="luck-lucky">${luckiest.name}</strong></p>
+            <p>😩 Unluckiest player: <strong class="luck-unlucky">${unluckiest.name}</strong></p>
+        `;
+    }
+
+    function renderScoreChart() {
+        const chartContainer = document.getElementById('score-chart');
+        if (!chartContainer) return;
+
+        // Collect all non-null scores
+        if (!gameScores) {
+            chartContainer.innerHTML = '<div class="score-chart-empty">No scores yet</div>';
+            return;
+        }
+
+        const freq = new Map();
+        for (const round of gameScores) {
+            for (const score of round) {
+                if (score !== null && score !== undefined) {
+                    freq.set(score, (freq.get(score) || 0) + 1);
+                }
+            }
+        }
+
+        if (freq.size === 0) {
+            chartContainer.innerHTML = '<div class="score-chart-empty">No scores yet</div>';
+            return;
+        }
+
+        // Sort scores ascending
+        const sortedScores = Array.from(freq.entries()).sort((a, b) => a[0] - b[0]);
+        const minScore = sortedScores[0][0];
+        const maxScore = sortedScores[sortedScores.length - 1][0];
+        const maxCount = Math.max(...sortedScores.map(([_, count]) => count));
+        // Use a safe max height that fits inside the chart container (min-height 180px
+        // minus padding, x-label, and score labels beneath bars)
+        const MAX_BAR_HEIGHT = 250;
+
+        let barsHtml = '';
+        for (let score = minScore; score <= maxScore; score++) {
+            const count = freq.get(score) || 0;
+            const barHeight = count === 0 ? 4 : Math.max(4, (count / maxCount) * MAX_BAR_HEIGHT);
+            barsHtml += `
+                <div class="score-chart-wrapper">
+                    <div class="score-chart-bar" style="height:${barHeight}px;"></div>
+                    <div class="score-chart-label">${score}</div>
+                </div>
+            `;
+        }
+        chartContainer.innerHTML = `
+            <div class="score-chart-y-label">Frequency</div>
+            <div class="score-chart-bars-area">
+                <div class="score-chart-bars-row">${barsHtml}</div>
+                <div class="score-chart-x-label">Scores</div>
+            </div>
+        `;
     }
 });
 
