@@ -182,11 +182,14 @@ document.addEventListener('DOMContentLoaded', () => {
     showStage('stage1');
     setupTournament();
     
+    // Generate button
+    document.getElementById('generate-button').addEventListener('click', generateTournament);
+
     // STAGE 1
     function setupTournament() {
         N_PLAYERS_PER_TEAM = parseInt(setupForm.elements['players-per-team'].value);
         N_ROUNDS = parseInt(setupForm.elements['rounds'].value);
-        participants = setupForm.elements['participants'].value.split('\n').map(name => ({ Name: name.trim(), scores: [], finalScore: 0 }));
+        participants = setupForm.elements['participants'].value.split('\n').map(name => ({ Name: name.trim(), scores: [], finalScore: 0, category: 1 }));
         if (participants.length <= 1) { return; }
         
         Nplayers = participants.length;
@@ -210,13 +213,42 @@ document.addEventListener('DOMContentLoaded', () => {
         analysisDuplicateNames.textContent = duplicateCount;
         analysisDuplicateNames.style.color = duplicateCount === 0 ? 'green' : 'red';
 
+        // Invalidate any previous draft
+        gameDraft = null;
+        gameScores = null;
+        gameCourts = null;
+
+        // Disable stage buttons until Generate is clicked
+        stageButtons.stage2.disabled = true;
+        stageButtons.stage3.disabled = true;
+
+        // Clear tables
+        gamesTableBody.innerHTML = '';
+        const winnersTBody = document.querySelector('#results-table tbody');
+        if (winnersTBody) winnersTBody.innerHTML = '';
+    }
+
+    function generateTournament() {
+        // Re-read form values to ensure latest data
+        N_PLAYERS_PER_TEAM = parseInt(setupForm.elements['players-per-team'].value);
+        N_ROUNDS = parseInt(setupForm.elements['rounds'].value);
+        participants = setupForm.elements['participants'].value.split('\n').map(name => ({ Name: name.trim(), scores: [], finalScore: 0, category: 1 }));
+        if (participants.length <= 1) { return; }
+        
+        Nplayers = participants.length;
+        NgamesPerRound = Math.floor(Nplayers/N_PLAYERS_PER_TEAM/2);
+        NteamsPerRound = NgamesPerRound * 2;
+        NplayersPerRound = NteamsPerRound * N_PLAYERS_PER_TEAM;
+        Ngames = NgamesPerRound * N_ROUNDS;
+
         const tournamentFormat = setupForm.elements['tournament-format'].value;
-        if (tournamentFormat === '2') {
+        if (tournamentFormat === '2' || tournamentFormat === '3') {
             // Swiss with optimized pairings
             initPairingHistory();
             gameDraft = [];
+            const skipSameTeam = tournamentFormat === '3';
             for (let i = 0; i < N_ROUNDS; i++) {
-                const roundDraft = generateRoundOptimized(i);
+                const roundDraft = generateRoundOptimized(i, skipSameTeam);
                 gameDraft.push(roundDraft);
                 updatePairingHistory(roundDraft);
             }
@@ -231,10 +263,13 @@ document.addEventListener('DOMContentLoaded', () => {
         }
         gameScores = Array.from({ length: N_ROUNDS }, () => Array(NteamsPerRound).fill(null));
         gameCourts = Array.from({ length: N_ROUNDS }, () => Array(NgamesPerRound).fill(null));
-        // gameScores = Array.from({ length: N_ROUNDS }, () => generateUniqueRandomIntegers(NteamsPerRound, 44));
 
         populateGamesTable();
         populateWinnersTable();
+
+        // Enable stage buttons now that a draft exists
+        stageButtons.stage2.disabled = false;
+        stageButtons.stage3.disabled = false;
     }
 
     function generateRoundRandom(round) {
@@ -333,7 +368,7 @@ document.addEventListener('DOMContentLoaded', () => {
         }
     }
 
-    function calculateRoundScore(proposedRound, pairingHistory) {
+    function calculateRoundScore(proposedRound, pairingHistory, skipSameTeam) {
         let score = 0;
         for (let gameId = 0; gameId < NgamesPerRound; gameId++) {
             const team1 = proposedRound.slice(gameId * N_PLAYERS_PER_TEAM * 2, (gameId + 0.5) * N_PLAYERS_PER_TEAM * 2);
@@ -349,12 +384,14 @@ document.addEventListener('DOMContentLoaded', () => {
                 }
             }
 
-            // +10 for each repeated same-team pair
-            for (const team of [team1, team2]) {
-                for (let i = 0; i < team.length; i++) {
-                    for (let j = i + 1; j < team.length; j++) {
-                        if (pairingHistory.sameTeam[team[i]].has(team[j])) {
-                            score += 10;
+            // +10 for each repeated same-team pair (skipped for format 3 — teams shuffle dynamically)
+            if (!skipSameTeam) {
+                for (const team of [team1, team2]) {
+                    for (let i = 0; i < team.length; i++) {
+                        for (let j = i + 1; j < team.length; j++) {
+                            if (pairingHistory.sameTeam[team[i]].has(team[j])) {
+                                score += 10;
+                            }
                         }
                     }
                 }
@@ -363,14 +400,14 @@ document.addEventListener('DOMContentLoaded', () => {
         return score;
     }
 
-    function generateRoundOptimized(round) {
-        const TRIALS = 100;
+    function generateRoundOptimized(round, skipSameTeam) {
+        const TRIALS = 1000;
         let bestRound = null;
         let bestScore = Infinity;
 
         for (let trial = 0; trial < TRIALS; trial++) {
             const candidate = generateUniqueRandomIntegers(NteamsPerRound * N_PLAYERS_PER_TEAM, Nplayers - 1);
-            const trialScore = calculateRoundScore(candidate, pairingHistory);
+            const trialScore = calculateRoundScore(candidate, pairingHistory, skipSameTeam);
             if (trialScore < bestScore) {
                 bestScore = trialScore;
                 bestRound = candidate;
@@ -381,8 +418,46 @@ document.addEventListener('DOMContentLoaded', () => {
     }
 
     // STAGE 2
+    function getBusyPlayerIds() {
+        const busyPlayerIds = new Set();
+
+        // Check regular games — only ongoing (Playing) matches make players busy
+        for (let round = 0; round < N_ROUNDS; round++) {
+            for (let gameId = 0; gameId < NgamesPerRound; gameId++) {
+                const team1Score = gameScores[round][gameId * 2];
+                const court = gameCourts[round][gameId];
+
+                const isOngoing = team1Score === null && court !== null;
+
+                if (isOngoing) {
+                    const team1Players = gameDraft[round].slice(gameId * N_PLAYERS_PER_TEAM * 2, (gameId + 0.5) * N_PLAYERS_PER_TEAM * 2);
+                    const team2Players = gameDraft[round].slice((gameId + 0.5) * N_PLAYERS_PER_TEAM * 2, (gameId + 1) * N_PLAYERS_PER_TEAM * 2);
+                    for (const id of team1Players) busyPlayerIds.add(id);
+                    for (const id of team2Players) busyPlayerIds.add(id);
+                }
+            }
+        }
+
+        // Check extra matches — only ongoing (Playing) matches make players busy
+        for (const match of extraMatches) {
+            const isOngoing = match.team1Score === null && match.court !== null;
+
+            if (isOngoing) {
+                const team1Names = match.team1.split(',').map(name => name.trim());
+                const team2Names = match.team2.split(',').map(name => name.trim());
+                const allNames = [...team1Names, ...team2Names];
+                for (const name of allNames) {
+                    const idx = participants.findIndex(p => p.Name === name);
+                    if (idx !== -1) busyPlayerIds.add(idx);
+                }
+            }
+        }
+
+        return busyPlayerIds;
+    }
+
     function populateGamesTable() {
-        const colors = ['#FF6666', '#66FF66', '#6666FF', '#FFFF66', '#66FFFF', '#FF66FF'];
+        const colors = ['#66FF66', '#6666FF', '#FFFF66', '#66FFFF', '#FF66FF'];
         gamesTableBody.innerHTML = ''; // Clear previous rows
 
         for (let round = 0; round < N_ROUNDS; round++) {
@@ -399,7 +474,16 @@ document.addEventListener('DOMContentLoaded', () => {
                 let score;
                 if (team1Score === null) {
                     if (court === null) {
-                        score = `<span class="introduceResult introduceResult-pending" onclick="window.introduceResult(${round}, ${gameId})">Pending</span>`;
+                        const busyPlayerIds = getBusyPlayerIds();
+                        const team1PlayerIds = gameDraft[round].slice(gameId * N_PLAYERS_PER_TEAM * 2, (gameId + 0.5) * N_PLAYERS_PER_TEAM * 2);
+                        const team2PlayerIds = gameDraft[round].slice((gameId + 0.5) * N_PLAYERS_PER_TEAM * 2, (gameId + 1) * N_PLAYERS_PER_TEAM * 2);
+                        const allPlayerIds = [...team1PlayerIds, ...team2PlayerIds];
+                        const hasBusyPlayers = allPlayerIds.some(id => busyPlayerIds.has(id));
+                        if (hasBusyPlayers) {
+                            score = `<span class="introduceResult introduceResult-pending" onclick="window.introduceResult(${round}, ${gameId})" title="Warning: some players of this match are busy">Pending <span class="busy-warning">❌</span></span>`;
+                        } else {
+                            score = `<span class="introduceResult introduceResult-pending" onclick="window.introduceResult(${round}, ${gameId})">Pending</span>`;
+                        }
                     } else {
                         score = `<span class="introduceResult playing-status" onclick="window.introduceResult(${round}, ${gameId})">Playing</span>`;
                     }
@@ -433,7 +517,19 @@ document.addEventListener('DOMContentLoaded', () => {
             let score;
             if (extraMatch.team1Score === null) {
                 if (extraMatch.court === null) {
-                    score = `<span class="introduceResult introduceResult-pending" onclick="window.introduceResultExtra(${i})">Pending</span>`;
+                    const busyPlayerIds = getBusyPlayerIds();
+                    const team1Names = extraMatch.team1.split(',').map(name => name.trim());
+                    const team2Names = extraMatch.team2.split(',').map(name => name.trim());
+                    const allNames = [...team1Names, ...team2Names];
+                    const hasBusyPlayers = allNames.some(name => {
+                        const idx = participants.findIndex(p => p.Name === name);
+                        return idx !== -1 && busyPlayerIds.has(idx);
+                    });
+                    if (hasBusyPlayers) {
+                        score = `<span class="introduceResult introduceResult-pending" onclick="window.introduceResultExtra(${i})" title="Warning: some players of this match are busy">Pending <span class="busy-warning">❌</span></span>`;
+                    } else {
+                        score = `<span class="introduceResult introduceResult-pending" onclick="window.introduceResultExtra(${i})">Pending</span>`;
+                    }
                 } else {
                     score = `<span class="introduceResult playing-status" onclick="window.introduceResultExtra(${i})">Playing</span>`;
                 }
@@ -473,23 +569,28 @@ document.addEventListener('DOMContentLoaded', () => {
 
     function refreshIntroduceResultPopup(round, gameId, oldPopup, overlay) {
         // Rebuild the popup content in-place to reflect swapped names
-        const initialCourt = gameCourts[round][gameId] !== null ? gameCourts[round][gameId] : 1;
-        const team1PlayerIds = gameDraft[round].slice(gameId * N_PLAYERS_PER_TEAM, gameId * N_PLAYERS_PER_TEAM + N_PLAYERS_PER_TEAM);
-        const team2PlayerIds = gameDraft[round].slice(gameId * N_PLAYERS_PER_TEAM + N_PLAYERS_PER_TEAM, gameId * N_PLAYERS_PER_TEAM + 2 * N_PLAYERS_PER_TEAM);
+        const initialCourt = gameCourts[round][gameId]; // can be null (none)
+        const team1PlayerIds = gameDraft[round].slice(gameId * N_PLAYERS_PER_TEAM * 2, gameId * N_PLAYERS_PER_TEAM * 2 + N_PLAYERS_PER_TEAM);
+        const team2PlayerIds = gameDraft[round].slice(gameId * N_PLAYERS_PER_TEAM * 2 + N_PLAYERS_PER_TEAM, gameId * N_PLAYERS_PER_TEAM * 2 + 2 * N_PLAYERS_PER_TEAM);
 
-        const team1NamesHtml = team1PlayerIds.map(id =>
-            `<span class="swap-player player-name-link" data-player="${id}" data-team="0">${participants[id].Name}</span>`
-        ).join(', ');
-        const team2NamesHtml = team2PlayerIds.map(id =>
-            `<span class="swap-player player-name-link" data-player="${id}" data-team="1">${participants[id].Name}</span>`
-        ).join(', ');
+        const rankMap = getPlayerRankMap();
+        const team1NamesHtml = team1PlayerIds.map(id => {
+            const rank = rankMap.get(id);
+            const rankHtml = rank ? `<sup style="font-size:0.65em;color:#888;margin-left:1px;">#${rank}</sup>` : '';
+            return `<span class="swap-player player-name-link" data-player="${id}" data-team="0">${participants[id].Name}${rankHtml}</span>`;
+        }).join(', ');
+        const team2NamesHtml = team2PlayerIds.map(id => {
+            const rank = rankMap.get(id);
+            const rankHtml = rank ? `<sup style="font-size:0.65em;color:#888;margin-left:1px;">#${rank}</sup>` : '';
+            return `<span class="swap-player player-name-link" data-player="${id}" data-team="1">${participants[id].Name}${rankHtml}</span>`;
+        }).join(', ');
 
         oldPopup.innerHTML = `
             <h3>Enter results for game ${gameId}</h3>
             <label>Court:</label>
             <div class="court-stepper">
                 <button id="court-minus" class="court-btn">−</button>
-                <span id="court-display" class="court-display">${initialCourt}</span>
+                <span id="court-display" class="court-display">${initialCourt !== null ? initialCourt : 'none'}</span>
                 <button id="court-plus" class="court-btn">+</button>
             </div>
             <label>Team 1 score:</label>
@@ -509,14 +610,24 @@ document.addEventListener('DOMContentLoaded', () => {
     }
 
     function attachIntroduceResultEvents(round, gameId, popup, overlay) {
-        let courtValue = gameCourts[round][gameId] !== null ? gameCourts[round][gameId] : 1;
+        let courtValue = gameCourts[round][gameId]; // can be null (none)
         document.getElementById('court-plus').addEventListener('click', () => {
-            courtValue++;
-            document.getElementById('court-display').textContent = courtValue;
+            if (courtValue === null) {
+                courtValue = 1;
+            } else {
+                courtValue++;
+            }
+            document.getElementById('court-display').textContent = courtValue === null ? 'none' : courtValue;
         });
         document.getElementById('court-minus').addEventListener('click', () => {
-            if (courtValue > 1) courtValue--;
-            document.getElementById('court-display').textContent = courtValue;
+            if (courtValue === null) {
+                // already none, do nothing
+            } else if (courtValue === 1) {
+                courtValue = null;
+            } else {
+                courtValue--;
+            }
+            document.getElementById('court-display').textContent = courtValue === null ? 'none' : courtValue;
         });
 
         document.getElementById('ok-button').addEventListener('click', () => {
@@ -533,6 +644,8 @@ document.addEventListener('DOMContentLoaded', () => {
                 assignScores();
                 populateWinnersTable();
             }
+
+            rebalancePendingMatches();
             
             populateGamesTable();
         });
@@ -567,8 +680,8 @@ document.addEventListener('DOMContentLoaded', () => {
     }
 
     function showSwapPopup(round, gameId, mainPopup, mainOverlay, clickedPlayerId, teamIndex) {
-        const team1PlayerIds = gameDraft[round].slice(gameId * N_PLAYERS_PER_TEAM, gameId * N_PLAYERS_PER_TEAM + N_PLAYERS_PER_TEAM);
-        const team2PlayerIds = gameDraft[round].slice(gameId * N_PLAYERS_PER_TEAM + N_PLAYERS_PER_TEAM, gameId * N_PLAYERS_PER_TEAM + 2 * N_PLAYERS_PER_TEAM);
+        const team1PlayerIds = gameDraft[round].slice(gameId * N_PLAYERS_PER_TEAM * 2, gameId * N_PLAYERS_PER_TEAM * 2 + N_PLAYERS_PER_TEAM);
+        const team2PlayerIds = gameDraft[round].slice(gameId * N_PLAYERS_PER_TEAM * 2 + N_PLAYERS_PER_TEAM, gameId * N_PLAYERS_PER_TEAM * 2 + 2 * N_PLAYERS_PER_TEAM);
         const otherTeamIds = teamIndex === 0 ? team2PlayerIds : team1PlayerIds;
 
         const swapOverlay = document.createElement('div');
@@ -602,8 +715,8 @@ document.addEventListener('DOMContentLoaded', () => {
                 const targetPlayerId = parseInt(el.dataset.target);
 
                 // Perform the swap in gameDraft
-                const team1Ids = gameDraft[round].slice(gameId * N_PLAYERS_PER_TEAM, gameId * N_PLAYERS_PER_TEAM + N_PLAYERS_PER_TEAM);
-                const team2Ids = gameDraft[round].slice(gameId * N_PLAYERS_PER_TEAM + N_PLAYERS_PER_TEAM, gameId * N_PLAYERS_PER_TEAM + 2 * N_PLAYERS_PER_TEAM);
+                const team1Ids = gameDraft[round].slice(gameId * N_PLAYERS_PER_TEAM * 2, gameId * N_PLAYERS_PER_TEAM * 2 + N_PLAYERS_PER_TEAM);
+                const team2Ids = gameDraft[round].slice(gameId * N_PLAYERS_PER_TEAM * 2 + N_PLAYERS_PER_TEAM, gameId * N_PLAYERS_PER_TEAM * 2 + 2 * N_PLAYERS_PER_TEAM);
 
                 // Build the full round draft for this round to update pairing history
                 const oldRoundDraft = [...gameDraft[round]];
@@ -690,7 +803,95 @@ document.addEventListener('DOMContentLoaded', () => {
         }
     }
 
+    function getPlayerRankMap() {
+        const categories = {};
+        participants.forEach((p, index) => {
+            const cat = p.category || 1;
+            if (!categories[cat]) categories[cat] = [];
+            let totalScore = 0, averageScore = 0;
+            if (p.scores.length > 0) {
+                totalScore = p.scores.reduce((sum, score) => sum + score, 0);
+                averageScore = totalScore / p.scores.length;
+            }
+            categories[cat].push({ index, average: averageScore });
+        });
+        Object.keys(categories).forEach(cat => {
+            categories[cat].sort((a, b) => b.average - a.average);
+            categories[cat].forEach((p, i) => p.rank = i + 1);
+        });
+        const rankMap = new Map();
+        Object.values(categories).forEach(arr => arr.forEach(p => rankMap.set(p.index, p.rank)));
+        return rankMap;
+    }
+
+    function rebalancePendingMatches() {
+        const tournamentFormat = setupForm.elements['tournament-format'].value;
+        if (tournamentFormat !== '3') return;
+
+        const rankMap = getPlayerRankMap();
+
+        for (let round = 0; round < N_ROUNDS; round++) {
+            // Check if any game in this round needs rebalancing
+            let needsRebalance = false;
+            for (let gameId = 0; gameId < NgamesPerRound; gameId++) {
+                const team1Score = gameScores[round][gameId * 2];
+                const court = gameCourts[round][gameId];
+                if (team1Score === null && court === null) {
+                    needsRebalance = true;
+                    break;
+                }
+            }
+            if (!needsRebalance) continue;
+
+            // Save old draft before modifying for pairing history update
+            const oldDraft = gameDraft[round] ? [...gameDraft[round]] : null;
+
+            // Rebalance each pending game in this round
+            for (let gameId = 0; gameId < NgamesPerRound; gameId++) {
+                const team1Score = gameScores[round][gameId * 2];
+                const court = gameCourts[round][gameId];
+                if (team1Score !== null || court !== null) continue;
+
+                const startIdx = gameId * N_PLAYERS_PER_TEAM * 2;
+                const allPlayerIds = gameDraft[round].slice(startIdx, startIdx + N_PLAYERS_PER_TEAM * 2);
+
+                // Sort by category rank ascending (1 = best)
+                allPlayerIds.sort((a, b) => (rankMap.get(a) || 999) - (rankMap.get(b) || 999));
+
+                const newTeam1 = [];
+                const newTeam2 = [];
+                let front = 0, back = allPlayerIds.length - 1;
+                let team1Turn = true;
+
+                // Distribute: best+worst together on Team 1, then next best+worst on Team 2, alternating
+                while (front <= back) {
+                    const best = allPlayerIds[front++];
+                    const worst = allPlayerIds[back--];
+                    if (team1Turn) {
+                        newTeam1.push(best, worst);
+                    } else {
+                        newTeam2.push(best, worst);
+                    }
+                    team1Turn = !team1Turn;
+                }
+
+                // Write back to gameDraft
+                for (let i = 0; i < N_PLAYERS_PER_TEAM; i++) {
+                    gameDraft[round][startIdx + i] = newTeam1[i];
+                    gameDraft[round][startIdx + N_PLAYERS_PER_TEAM + i] = newTeam2[i];
+                }
+            }
+
+            // Update pairing history: remove old, add new
+            if (pairingHistory && oldDraft) {
+                removePairingHistoryForRound(oldDraft);
+                updatePairingHistory(gameDraft[round]);
+            }
+        }
+    }
+
     function addPlayerClickHighlight() {
+        const rankMap = getPlayerRankMap();
         const rows = document.querySelectorAll('#games-table tbody tr');
 
         rows.forEach(row => {
@@ -710,6 +911,20 @@ document.addEventListener('DOMContentLoaded', () => {
                         highlightGames(player);
                     });
                     cell.appendChild(span);
+
+                    // Add category rank superscript after the name
+                    const playerId = participants.findIndex(p => p.Name === player);
+                    if (playerId !== -1) {
+                        const rank = rankMap.get(playerId);
+                        if (rank) {
+                            const sup = document.createElement('sup');
+                            sup.textContent = '#' + rank;
+                            sup.style.fontSize = '0.65em';
+                            sup.style.color = '#888';
+                            sup.style.marginLeft = '1px';
+                            cell.appendChild(sup);
+                        }
+                    }
 
                     if (index < players.length - 1) {
                         cell.appendChild(document.createTextNode(', '));
@@ -929,7 +1144,7 @@ document.addEventListener('DOMContentLoaded', () => {
         const popup = document.createElement('div');
         popup.className = 'modal-popup';
 
-        const initialCourt = match.court !== null ? match.court : 1;
+        const initialCourt = match.court; // can be null (none)
 
         // Get player names for each team
         const team1Names = match.team1;
@@ -940,7 +1155,7 @@ document.addEventListener('DOMContentLoaded', () => {
             <label>Court:</label>
             <div class="court-stepper">
                 <button id="court-minus" class="court-btn">−</button>
-                <span id="court-display" class="court-display">${initialCourt}</span>
+                <span id="court-display" class="court-display">${initialCourt !== null ? initialCourt : 'none'}</span>
                 <button id="court-plus" class="court-btn">+</button>
             </div>
             <label>Team 1 score:</label>
@@ -957,14 +1172,24 @@ document.addEventListener('DOMContentLoaded', () => {
 
         document.body.appendChild(popup);
 
-        let courtValue = initialCourt;
+        let courtValue = initialCourt; // can be null (none)
         document.getElementById('court-plus').addEventListener('click', () => {
-            courtValue++;
-            document.getElementById('court-display').textContent = courtValue;
+            if (courtValue === null) {
+                courtValue = 1;
+            } else {
+                courtValue++;
+            }
+            document.getElementById('court-display').textContent = courtValue === null ? 'none' : courtValue;
         });
         document.getElementById('court-minus').addEventListener('click', () => {
-            if (courtValue > 1) courtValue--;
-            document.getElementById('court-display').textContent = courtValue;
+            if (courtValue === null) {
+                // already none, do nothing
+            } else if (courtValue === 1) {
+                courtValue = null;
+            } else {
+                courtValue--;
+            }
+            document.getElementById('court-display').textContent = courtValue === null ? 'none' : courtValue;
         });
 
         document.getElementById('ok-button').addEventListener('click', () => {
@@ -983,6 +1208,8 @@ document.addEventListener('DOMContentLoaded', () => {
                 populateWinnersTable();
             }
 
+            rebalancePendingMatches();
+
             populateGamesTable();
         });
 
@@ -993,39 +1220,128 @@ document.addEventListener('DOMContentLoaded', () => {
     };
 
     // STAGE 3
+    window.editPlayer = function(playerIndex) {
+        const participant = participants[playerIndex];
+
+        const overlay = document.createElement('div');
+        overlay.className = 'modal-overlay';
+        document.body.appendChild(overlay);
+
+        const popup = document.createElement('div');
+        popup.className = 'modal-popup';
+        popup.innerHTML = `
+            <h3>Edit Player</h3>
+            <label>Name:</label>
+            <input type="text" id="edit-name" value="${participant.Name}" style="width:100%;padding:10px 14px;border:2px solid #e0e0e0;border-radius:8px;font-size:15px;font-family:inherit;" />
+            <label>Category:</label>
+            <div class="court-stepper" style="margin-bottom:12px;">
+                <button id="category-minus" class="court-btn" style="font-size:28px;width:60px;height:60px;">−</button>
+                <span id="category-display" class="court-display" style="font-size:28px;min-width:80px;">${participant.category || 1}</span>
+                <button id="category-plus" class="court-btn" style="font-size:28px;width:60px;height:60px;">+</button>
+            </div>
+            <div class="button-row" style="margin-top:16px;">
+                <button id="ok-button" class="btn-primary">Update</button>
+                <button id="cancel-button" class="btn-danger">Cancel</button>
+            </div>
+        `;
+        document.body.appendChild(popup);
+
+        let categoryValue = participant.category || 1;
+        document.getElementById('category-plus').addEventListener('click', () => {
+            categoryValue++;
+            document.getElementById('category-display').textContent = categoryValue;
+        });
+        document.getElementById('category-minus').addEventListener('click', () => {
+            if (categoryValue > 1) categoryValue--;
+            document.getElementById('category-display').textContent = categoryValue;
+        });
+
+        document.getElementById('ok-button').addEventListener('click', () => {
+            const newName = document.getElementById('edit-name').value.trim();
+            const newCategory = categoryValue;
+
+            if (newName) {
+                // If the highlighted player was renamed, update the highlight tracking
+                if (currentHighlightedPlayer === participant.Name) {
+                    currentHighlightedPlayer = newName;
+                }
+                participant.Name = newName;
+            }
+            participant.category = newCategory;
+
+            document.body.removeChild(popup);
+            document.body.removeChild(overlay);
+
+            populateWinnersTable();
+            populateGamesTable();
+        });
+
+        document.getElementById('cancel-button').addEventListener('click', () => {
+            document.body.removeChild(popup);
+            document.body.removeChild(overlay);
+        });
+    };
+
     function populateWinnersTable() {
         winnersTableBody.innerHTML = ''; // Clear previous rows
 
-        const finalScores = participants.map((participant, index) => {
-            let totalScore;
-            let averageScore;
-            if (participant.scores.length === 0) {
+        // Build player data and group by category to compute per-category ranks
+        const categories = {};
+        const allPlayers = [];
+        participants.forEach((p, index) => {
+            const cat = p.category || 1;
+            if (!categories[cat]) categories[cat] = [];
+
+            let totalScore, averageScore;
+            if (p.scores.length === 0) {
                 totalScore = 0;
                 averageScore = 0;
             } else {
-                totalScore = participant.scores.reduce((sum, score) => sum + score, 0);
-                averageScore = totalScore / participant.scores.length; // Calculate average score
+                totalScore = p.scores.reduce((sum, score) => sum + score, 0);
+                averageScore = totalScore / p.scores.length;
             }
-            return { Name: participant.Name, Results: participant.scores, GamesPlayed: participant.scores.length, Total: totalScore, Average: averageScore };
+
+            const playerData = {
+                Name: p.Name,
+                Results: p.scores,
+                GamesPlayed: p.scores.length,
+                Total: totalScore,
+                Average: averageScore,
+                index: index,
+                category: cat
+            };
+            categories[cat].push(playerData);
+            allPlayers.push(playerData);
         });
 
-        finalScores.sort((a, b) => b.Average - a.Average); // Sort by average score descending
+        // Assign per-category ranks (sort by average within each category)
+        Object.keys(categories).forEach(cat => {
+            categories[cat].sort((a, b) => b.Average - a.Average);
+            categories[cat].forEach((p, i) => p._catRank = i + 1);
+        });
 
-        finalScores.forEach((participant, rank) => {
+        // Sort all players globally by average descending
+        allPlayers.sort((a, b) => b.Average - a.Average);
+
+        // Render all players in global average order, showing per-category rank
+        allPlayers.forEach((participant) => {
+            const rank = participant._catRank;
+            const cat = participant.category;
             const row = document.createElement('tr');
             row.innerHTML = `
-                <td>${rank + 1}</td>
-                <td>${participant.Name}</td>
+                <td>${rank}</td>
+                <td>${cat}</td>
+                <td><span class="player-name" onclick="window.editPlayer(${participant.index})">${participant.Name}</span></td>
                 <td>${participant.Results.join(', ')}</td>
                 <td>${participant.GamesPlayed}</td>
                 <td>${participant.Total}</td>
                 <td>${participant.Average}</td>
             `;
-            if (rank === 0) {
+            if (rank === 1) {
                 row.classList.add('rank-1');
-            } else if (rank === 1) {
-                row.classList.add('rank-2');
             } else if (rank === 2) {
+                row.classList.add('rank-2');
+            } else if (rank === 3) {
                 row.classList.add('rank-3');
             }
             winnersTableBody.appendChild(row);

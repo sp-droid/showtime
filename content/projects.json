@@ -7,7 +7,18 @@
 	"tools": ["JavaScript","P5js"],
 	"header": "Slippy map",
 	"desc": "Implementation of a slippy map in P5js.",
-	"date": "27/05/2026",
+	"date": "23/06/2026",
+	"importance": "Low"
+},
+{
+	"link": "../content/JSexperiments/tournamentTool/index.html",
+	"bg": "tournamentTool",
+	"gif": false,
+	"type": "Personal",
+	"tools": ["JavaScript"],
+	"header": "Tournament draft tool",
+	"desc": "Tournament draft tool I made for the 15zero badminton club.",
+	"date": "22/06/2026",
 	"importance": "Low"
 },
 {
@@ -19,17 +30,6 @@
 	"header": "Wakatime Wrapped",
 	"desc": "Makes your wakatime wrapped for the year you want, but better looking.",
 	"date": "06/05/2026",
-	"importance": "Low"
-},
-{
-	"link": "../content/JSexperiments/tournamentTool/index.html",
-	"bg": "tournamentTool",
-	"gif": false,
-	"type": "Personal",
-	"tools": ["JavaScript"],
-	"header": "Tournament draft tool",
-	"desc": "Tournament draft tool I made for the 15zero badminton club.",
-	"date": "12/07/2025",
 	"importance": "Low"
 },
 {

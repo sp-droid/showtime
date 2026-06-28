@@ -45,6 +45,10 @@
   },
   "slippy-map": {
     "mdSize": 1324,
-    "meta": "{\"title\":\"Slippy map\",\"file\":\"slippy-map\",\"tag\":\"Algorithms\",\"date\":\"27/05/2026\"}"
+    "meta": "{\"title\":\"Slippy map\",\"file\":\"slippy-map\",\"tag\":\"Algorithms\",\"date\":\"23/06/2026\"}"
+  },
+  "typora-ukenglish": {
+    "mdSize": 949,
+    "meta": "{\"title\":\"Short guide for Typora on manually setting a custom UK spelling\",\"file\":\"typora-ukenglish\",\"tag\":\"Guides\",\"date\":\"27/06/2026\"}"
   }
 }

@@ -69,6 +69,13 @@ nav button:active {
 #stage-2-button { background: linear-gradient(135deg, #f39c12, #f1c40f); color: #2c3e50; }
 #stage-3-button { background: linear-gradient(135deg, #e74c3c, #c0392b); }
 
+nav button:disabled {
+    opacity: 0.4;
+    cursor: not-allowed;
+    transform: none !important;
+    box-shadow: none !important;
+}
+
 /* ===== Main Container ===== */
 main {
     width: 92%;
@@ -302,6 +309,11 @@ tr:last-child td {
 
 .introduceResult-pending:hover {
     color: #2c6cb0;
+}
+
+.busy-warning {
+    font-size: 1.1em;
+    cursor: help;
 }
 
 .introduceResult-done {
