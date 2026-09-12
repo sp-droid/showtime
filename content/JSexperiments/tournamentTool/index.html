@@ -1,122 +1,87 @@
 <!DOCTYPE html>
 <html lang="en" data-theme="light">
 <head>
-    <meta name="color-scheme" content="light only">
-    <meta name="darkreader-lock">
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Tournament tool</title>
-    <link rel="stylesheet" href="styles.css"> <!-- Link to external CSS file -->
+    <meta name="color-scheme" content="light only">
+    <meta name="darkreader-lock">
+    <title>Court Club · Tournament tool</title>
+    <link rel="stylesheet" href="styles.css">
 </head>
 <body>
-    <header>
-        <h1>Tournament tool</h1>
-        <nav>
-            <button type="button" id="stage-1-button">Setup stage</button>
-            <button type="button" id="stage-2-button" disabled>Play</button>
-            <button type="button" id="stage-3-button" disabled>Results</button>
-        </nav>
+    <header class="app-header">
+        <a class="brand" href="./" aria-label="Court Club home"><span class="brand-icon" aria-hidden="true">↗</span><span id="brand-name">court club</span><span class="brand-period">.</span></a>
+        <div class="header-divider"></div><h1>Tournament tool</h1>
+        <span class="sport-badge"><span class="sport-dot"></span><b id="sport-name">BADMINTON</b></span>
     </header>
+    <div class="workspace">
+        <aside class="sidebar">
+            <div class="sidebar-label">YOUR TOURNAMENT</div>
+            <nav aria-label="Tournament stages">
+                <button type="button" id="stage-1-button" aria-current="step"><span class="step-icon">01</span><span>Setup<small>Make it yours</small></span><span class="nav-arrow">›</span></button>
+                <button type="button" id="stage-2-button" disabled><span class="step-icon">02</span><span>Play<small>Every match matters</small></span><span class="nav-arrow">›</span></button>
+                <button type="button" id="stage-3-button" disabled><span class="step-icon">03</span><span>Results<small>See who comes out on top</small></span><span class="nav-arrow">›</span></button>
+            </nav>
+            <div class="sidebar-note"><span class="mini-court" aria-hidden="true"></span><strong>Good luck!</strong><p>A little competition.<br>A whole lot of <span id="sidebar-sport">badminton</span>.</p></div>
+            <div class="sidebar-footer">MADE FOR THE LOVE OF THE GAME</div>
+        </aside>
+        <main>
+            <section id="stage-1" style="display:block">
+                <div class="page-heading"><div><p class="eyebrow">LET’S GET THE SHUTTLE FLYING</p><h2>Set up your tournament<span>.</span></h2><p>A few details, a few players, and you’re ready to hit the court.</p></div><span class="draft-badge">● &nbsp; DRAFT</span></div>
+                <div class="setup-grid">
+                    <div class="setup-fields">
+                        <div class="panel">
+                            <div class="panel-heading"><span class="section-number">01</span><div><h3>The essentials</h3><p>Choose your format and game plan.</p></div></div>
 
-    <main>
-        <!-- Stage 1: Input Participant Details -->
-        <section id="stage-1" style="display: block;">
-            <h2>Stage 1: Setup Tournament</h2>
-            <hr><br>
-            <form id="tournament-name-form">
-                <label for="tournament-name">Tournament Name:</label>
-                <input type="text" id="tournament-name" name="tournament-name" placeholder="Tournament tool">
-            </form><br>
-            <form id="setup-form">
-                <label for="tournament-format">Tournament type:</label>
-                <select id="tournament-format" name="tournament-format">
-                    <option value="1" title="Players are paired randomly, the winner being the player with the most points.">All-against-All Random pairings</option>
-                    <option value="2" title="Same as random pairings, but optimized to minimize repeated matchups across rounds.">All-against-All Better random pairings</option>
-                    <option value="3" title="Same as better random pairings, but making teams more balanced through the ranking." selected>All-against-All Optimized pairings</option>
-                </select>
-                <br>
-                <label for="players-per-team">Number of Players per Team:</label>
-                <select id="players-per-team" name="players-per-team" title="If the participants are the teams themselves, select 1. If the participants are the individual players, choose the number of players per team.">
-                    <!-- Options from 1 to 6 -->
-                    <option value="1">1</option>
-                    <option value="2">2</option>
-                    <option value="3">3</option>
-                    <option value="4">4</option>
-                    <option value="5">5</option>
-                    <option value="6">6</option>
-                </select>
-                <br>
-                <label for="rounds">Number of Rounds:</label>
-                <input type="number" id="rounds" name="rounds" value="4" min="2" step="1" style="width: 100px;">
-                <br>
-                <label for="participants">Participant Names (1 for each row):</label>
-                <br>
-                <textarea id="participants" name="participants" rows="8" cols="50" required placeholder="Enter participant names..."></textarea>
-            </form>
-            <h3>Draft analysis</h3>
-            <ul style="text-shadow: 1px 1px 5px rgba(255, 255, 255, 1); font-weight: 600;">
-                <li>Number of players (+left out each round): <div><span id="analysis-total">-</span> (+<span id="analysis-leftout">-</span>)</div></li>
-                <li>Games per round / total: <div><span id="analysis-gamesPerRound">-</span> / <span id="analysis-gamesTotal">-</span></div></li>
-                <li>Players with duplicate names: <div><span id="analysis-duplicateNames">-</span></div></li>
-            </ul>
-            <button type="button" id="generate-button" style="background:linear-gradient(135deg,#27ae60,#2ecc71);color:white;border:none;padding:12px;border-radius:8px;cursor:pointer;font-size:16px;font-weight:700;box-shadow:0 4px 16px rgba(46,204,113,0.3);margin-top:12px;">Generate draft</button>
-        </section>
-
-        <!-- Stage 2: Display Rounds and Games -->
-        <section id="stage-2" style="display: none;">
-            <h2>Stage 2: Tournament Rounds</h2>
-            <hr><br>
-            <strong>Highlighting games played by:</strong> <span id="highlighted-player" style="font-weight: bold; " title="Click player name to highlight">-</span>
-            <br>
-            <strong>Plays with (same team):</strong> <span id="plays-with-team">-</span>
-            <br>
-            <strong>Plays with (same game):</strong> <span id="plays-with-game">-</span>
-            <br><br>
-            <div id="rounds-container">
-                <!-- Dynamically filled by tournament.js -->
-            </div>
-            <table id="games-table">
-                <thead>
-                    <tr>
-                        <th>Game ID</th>
-                        <th>Round</th>
-                        <th>Court</th>
-                        <th>Team 1 Players</th>
-                        <th>Team 2 Players</th>
-                        <th>Score</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    <!-- Dynamically filled by tournament.js -->
-                </tbody>
-            </table>
-        </section>
-
-        <!-- Stage 3: Display Results -->
-        <section id="stage-3" style="display: none;">
-            <h2>Stage 3: Final Results</h2>
-            <hr>
-            <table id="results-table">
-                <thead>
-                    <tr>
-                        <th>Rank</th>
-                        <th>Category</th>
-                        <th>Participant</th>
-                        <th>Results</th>
-                        <th>Games Played</th>
-                        <th>Total</th>
-                        <th>Average</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    <!-- Dynamically filled by tournament.js -->
-                </tbody>
-            </table>
-            <div id="luck-info" class="luck-info"></div>
-            <h3>Score Distribution</h3>
-            <div id="score-chart" class="score-chart"></div>
-        </section>
-    </main>
+                            <form id="setup-form">
+                                <label for="tournament-format">Pairing format</label>
+                                <select id="tournament-format" name="tournament-format" aria-describedby="format-help"><option value="1">Random pairings</option><option value="2">Varied random pairings</option><option value="3" selected>Optimized pairings</option></select>
+                                <p id="format-help" class="field-help">Balanced teams, fewer repeat matchups. Let us do the thinking.</p>
+                                <div class="field-row"><div><label for="players-per-team">Players per team</label><select id="players-per-team" name="players-per-team"><option value="1">1 · Singles / existing teams</option><option value="2" selected>2 · Doubles</option><option value="3">3 players</option><option value="4">4 players</option><option value="5">5 players</option><option value="6">6 players</option></select></div><div><label for="rounds">Number of rounds</label><input type="number" id="rounds" name="rounds" value="4" min="2" max="100" step="1" required></div></div>
+                            </form>
+                        </div>
+                        <div class="panel participants-panel">
+                            <div class="panel-heading"><span class="section-number">02</span><div><h3>The lineup</h3><p>Who’s joining you on court?</p></div><span class="count-badge" id="lineup-count">0 players</span></div>
+                            <label for="participants">Player names</label><textarea id="participants" name="participants" form="setup-form" rows="7" required placeholder="One player per line&#10;Alex Chen&#10;Sam Rivera&#10;Jordan Lee" aria-describedby="participants-help"></textarea>
+                            <p class="field-help" id="participants-help">One player per line. You can paste your whole list at once.</p>
+                        </div>
+                        <div class="panel branding-panel">
+                            <div class="panel-heading"><span class="section-number">03</span><div><h3>Make it yours</h3><p>Optional details for your tournament and club.</p></div></div>
+                            <form id="tournament-name-form"><label for="tournament-name">Tournament name</label><input type="text" id="tournament-name" name="tournament-name" placeholder="e.g. Sunday Shuttle Club"></form>
+                            <form id="branding-form">
+                                <div class="field-row"><div><label for="club-name-input">Club name</label><input id="club-name-input" type="text" value="court club" maxlength="60" placeholder="Your club name"></div><div><label for="sport-name-input">Sport name</label><input id="sport-name-input" type="text" value="Badminton" maxlength="40" placeholder="Your sport"></div></div>
+                                <label for="club-logo-input" class="logo-label">Club logo</label>
+                                <div class="logo-upload-row"><span id="logo-preview" class="logo-preview" aria-hidden="true">↗</span><div><input id="club-logo-input" type="file" accept="image/png,image/jpeg,image/webp" aria-describedby="logo-help logo-status"><button id="remove-logo" type="button" class="logo-remove" hidden>Reset logo</button></div></div>
+                                <p class="field-help" id="logo-help">Recommended: 256 × 256 px square. PNG, JPG or WebP, up to 2 MB. Fits a 36 × 36 px space without cropping.</p>
+                                <p id="logo-status" class="field-help" role="status"></p>
+                            </form>
+                        </div>
+                    </div>
+                    <aside class="summary-column">
+                        <div class="court-art" aria-hidden="true"><div class="court-label">THE COURT IS CALLING</div><div class="court-drawing"><i></i><b></b><span></span></div><div class="court-caption">Bring your game. We’ll handle the draw.<span>↗</span></div></div>
+                        <div class="panel summary-panel"><div class="summary-title"><h3>Your game plan</h3><span class="live-badge">LIVE PREVIEW</span></div><p class="summary-description">Here’s how your tournament shapes up.</p>
+                            <div class="summary-stats" aria-live="polite"><div><strong id="analysis-total">0</strong><span>Players</span></div><div><strong id="analysis-gamesTotal">0</strong><span>Total games</span></div></div>
+                            <dl class="summary-details"><div><dt>Games per round</dt><dd id="analysis-gamesPerRound">0</dd></div><div><dt>Sitting out each round</dt><dd id="analysis-leftout">0</dd></div><div><dt>Duplicate names</dt><dd id="analysis-duplicateNames">0</dd></div></dl>
+                            <div class="summary-tip"><span aria-hidden="true">✧</span><p>Your draft is just the start. You can swap players and add matches as you go.</p></div>
+                            <p id="setup-error" role="alert" hidden></p><button type="button" id="generate-button">Generate tournament <span aria-hidden="true">→</span></button><p class="generate-note">Next up: your match schedule</p>
+                        </div>
+                    </aside>
+                </div>
+            </section>
+            <section id="stage-2" style="display:none">
+                <div class="page-heading"><div><p class="eyebrow">TIME TO HIT THE COURT</p><h2>Let’s play<span>.</span></h2><p>Your draw is ready. Select a score to manage a match.</p></div><span class="draft-badge">● &nbsp; MATCH SCHEDULE</span></div>
+                <div class="panel player-insights"><div><span>Highlighted player</span><strong id="highlighted-player" title="Click a player name to highlight">—</strong></div><div><span>Same team</span><strong id="plays-with-team">—</strong></div><div><span>Same game</span><strong id="plays-with-game">—</strong></div></div>
+                <div id="rounds-container"></div><div class="panel table-panel"><table id="games-table"><thead><tr><th>Game</th><th>Round</th><th>Court</th><th>Team 1</th><th>Team 2</th><th>Score</th></tr></thead><tbody></tbody></table></div>
+            </section>
+            <section id="stage-3" style="display:none">
+                <div class="page-heading"><div><p class="eyebrow">EVERY POINT COUNTS</p><h2>The leaderboard<span>.</span></h2><p>Follow the standings. Select a player to edit their name or category.</p></div><span class="draft-badge">● &nbsp; RESULTS</span></div>
+                <div class="panel table-panel"><table id="results-table"><thead><tr><th>Rank</th><th>Category</th><th>Participant</th><th>Results</th><th>Played</th><th>Total</th><th>Average</th></tr></thead><tbody></tbody></table></div>
+                <div id="luck-info" class="luck-info"></div><h3>Score distribution</h3><div id="score-chart" class="score-chart"></div>
+            </section>
+            <footer class="main-footer"><span>A better draw. A better game.</span><span><span id="footer-club-name">COURT CLUB</span> &nbsp; / &nbsp; TOURNAMENT TOOL</span></footer>
+        </main>
+    </div>
     <script src="tournament.js" defer></script>
+    <script src="branding.js" defer></script>
 </body>
 </html>

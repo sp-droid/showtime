@@ -15,6 +15,10 @@ document.addEventListener('DOMContentLoaded', () => {
     function showStage(stageToShow) {
         Object.values(stages).forEach(stage => stage.style.display = 'none');
         stages[stageToShow].style.display = 'block';
+        Object.entries(stageButtons).forEach(([key, button]) => {
+            if (key === stageToShow) button.setAttribute('aria-current', 'step');
+            else button.removeAttribute('aria-current');
+        });
     }
 
     stageButtons.stage1.addEventListener('click', () => showStage('stage1'));
@@ -43,7 +47,14 @@ document.addEventListener('DOMContentLoaded', () => {
     let N_PLAYERS_PER_TEAM;
     let N_ROUNDS;
     let participants = [];
-    setupForm.addEventListener('change', setupTournament);
+    Array.from(setupForm.elements).forEach(field => field.addEventListener('input', setupTournament));
+    document.getElementById('tournament-format').addEventListener('change', () => {
+        document.getElementById('format-help').textContent = {
+            '1': 'Fresh random teams and opponents in every round.',
+            '2': 'Varied matchups with fewer repeated teammates and opponents.',
+            '3': 'Balanced teams, fewer repeat matchups. Let us do the thinking.'
+        }[setupForm.elements['tournament-format'].value];
+    });
 
     // Setup tournament
     let Nplayers, NteamsPerRound, NplayersPerRound, NgamesPerRound, Ngames, gameDraft, gameScores, gameCourts, pairingHistory;
@@ -197,14 +208,14 @@ document.addEventListener('DOMContentLoaded', () => {
     function setupTournament() {
         N_PLAYERS_PER_TEAM = parseInt(setupForm.elements['players-per-team'].value);
         N_ROUNDS = parseInt(setupForm.elements['rounds'].value);
-        participants = setupForm.elements['participants'].value.split('\n').map(name => ({ Name: name.trim(), scores: [], finalScore: 0, category: 1 }));
-        if (participants.length <= 1) { return; }
+        participants = setupForm.elements['participants'].value.split('\n').map(name => name.trim()).filter(Boolean).map(name => ({ Name: name, scores: [], finalScore: 0, category: 1 }));
+        document.getElementById('lineup-count').textContent = participants.length + ' players';
         
         Nplayers = participants.length;
         NgamesPerRound = Math.floor(Nplayers/N_PLAYERS_PER_TEAM/2);
         NteamsPerRound = NgamesPerRound * 2;
         NplayersPerRound = NteamsPerRound * N_PLAYERS_PER_TEAM;
-        Ngames = NgamesPerRound * N_ROUNDS;
+        Ngames = NgamesPerRound * (Number.isFinite(N_ROUNDS) ? N_ROUNDS : 0);
 
         analysisTotal.textContent = Nplayers;
         analysisLeftOut.textContent = Nplayers-NplayersPerRound;
@@ -246,8 +257,12 @@ document.addEventListener('DOMContentLoaded', () => {
         // Re-read form values to ensure latest data
         N_PLAYERS_PER_TEAM = parseInt(setupForm.elements['players-per-team'].value);
         N_ROUNDS = parseInt(setupForm.elements['rounds'].value);
-        participants = setupForm.elements['participants'].value.split('\n').map(name => ({ Name: name.trim(), scores: [], finalScore: 0, category: 1 }));
-        if (participants.length <= 1) { return; }
+        participants = setupForm.elements['participants'].value.split('\n').map(name => name.trim()).filter(Boolean).map(name => ({ Name: name, scores: [], finalScore: 0, category: 1 }));
+        const error = document.getElementById('setup-error');
+        const valid = setupForm.reportValidity() && participants.length >= N_PLAYERS_PER_TEAM * 2;
+        error.hidden = valid;
+        error.textContent = 'Add enough players for two full teams and choose at least 2 rounds.';
+        if (!valid) return;
         
         Nplayers = participants.length;
         NgamesPerRound = Math.floor(Nplayers/N_PLAYERS_PER_TEAM/2);
@@ -284,6 +299,8 @@ document.addEventListener('DOMContentLoaded', () => {
         // Enable stage buttons now that a draft exists
         stageButtons.stage2.disabled = false;
         stageButtons.stage3.disabled = false;
+        showStage('stage2');
+        window.scrollTo({ top: 0, behavior: 'smooth' });
     }
 
     function generateRoundRandom(round) {
