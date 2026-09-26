@@ -1,9 +1,16 @@
 import json
 import hashlib
+import argparse
 from pathlib import Path
 
 from tqdm import tqdm
-import pandas as pd
+
+parser = argparse.ArgumentParser(description="Build recipe pages and their index")
+parser.add_argument("--index-only", action="store_true", help="Rebuild the Recipes index and its data without touching detail pages or their cache")
+args = parser.parse_args()
+
+if not args.index_only:
+    import pandas as pd
 
 def categoryIcon(category):
     if category == "Appetizers": icon = None
@@ -14,14 +21,12 @@ def categoryIcon(category):
     else: raise ValueError(f"Category {category} not found.")
     return icon
 
-# Load ingredient facts datasheet
-foodProperties = pd.read_excel("assets/data/recipes/foodProperties.xlsx", skiprows=2).fillna(0)
-# Load special food conversions, e.g. how many grams is an average egg or garlic clove
-with open("assets/data/recipes/specialFoods.json", "r") as file: specialFoods = json.load(file)
-# Load Dietary reference intakes
-with open("assets/data/recipes/dietaryReferenceIntakes.json", "r") as file: DRI = json.load(file)
-# Load nutrient name conversion table
-with open("assets/data/recipes/nutrientNames.json", "r") as file: nutrientNames = json.load(file)
+if not args.index_only:
+    # Nutrition data is only needed when rendering detail pages.
+    foodProperties = pd.read_excel("assets/data/recipes/foodProperties.xlsx", skiprows=2).fillna(0)
+    with open("assets/data/recipes/specialFoods.json", "r") as file: specialFoods = json.load(file)
+    with open("assets/data/recipes/dietaryReferenceIntakes.json", "r") as file: DRI = json.load(file)
+    with open("assets/data/recipes/nutrientNames.json", "r") as file: nutrientNames = json.load(file)
 
 # Shared layout snippets
 with open("assets/templates/topbar.html", 'r', encoding='utf-8') as file:
@@ -55,21 +60,22 @@ def getNutrition(string, nutrition):
     
     return nutrition
 
-# Load recipe template
-with open(f"assets/templates/recipes/recipe.html", "r") as file:
-    template = file.read()
-render_signature = hashlib.sha256(
-    (template + HTMLtopbar + favicon + googleAnalytics).encode("utf-8")
-).hexdigest()
+# Load the detail template only when detail pages are being rendered.
+if not args.index_only:
+    with open("assets/templates/recipes/recipe.html", "r", encoding="utf-8") as file:
+        template = file.read()
+    render_signature = hashlib.sha256(
+        (template + HTMLtopbar + favicon + googleAnalytics).encode("utf-8")
+    ).hexdigest()
 
 # List existing recipes
-recipes = list(Path("content/recipes").glob("*"))
+recipes = sorted(Path("content/recipes").glob("*.json"))
 
 # Lightweight cache so we can avoid re-processing recipe
 # JSON files whose size hasn't changed since the last run.
 cache_path = Path("scripts/cache-recipes.json")
 recipe_cache = {}
-if cache_path.exists():
+if not args.index_only and cache_path.exists():
     try:
         with cache_path.open('r', encoding='utf-8') as f:
             recipe_cache = json.load(f)
@@ -97,8 +103,8 @@ def should_skip_recipe(path: Path, cache: dict) -> bool:
     return False
 
 # Load each file, edit the template accordingly and save as a new html
-recipeRows = ""
-pbar = tqdm(recipes)
+index_entries = []
+pbar = tqdm(recipes, disable=args.index_only)
 skipped = 0
 for recipePath in pbar:
     pbar.set_postfix_str(f"Current recipe: {recipePath.stem}, skipped: {skipped}")
@@ -106,23 +112,26 @@ for recipePath in pbar:
     with open(recipePath, "r", encoding="utf-8") as file:
         recipe = json.load(file)
 
-    recipeRows += "<tr>"
-    recipeRows += f'<td>{recipe["name"]}</td>'
-    recipeRows += f'<td>{recipe["category"]}</td>'
-    recipeRows += f'<td>{recipe["flags"]["cuisine"]}</td>'
-    recipeRows += f'<td>{int(recipe["flags"]["finished"])}</td>'
-    if recipe["flags"]["totalTime"] == "Idem": recipeRows += f'<td>{recipe["flags"]["prepTime"]}</td>'
-    else: recipeRows += f'<td>{recipe["flags"]["totalTime"]}</td>'
-    recipeRows += f'<td>{recipe["flags"]["difficulty"]}</td>'
-    recipeRows += f'<td>{recipePath.stem}</td>'
-    recipeRows += f'<td>{recipe["origin"]}</td>'
-    recipeRows += f'<td>{recipe["description"]}</td>'
-    recipeRows += f'<td>{recipe["flags"]["prepTime"]}</td>'
-    recipeRows += f'<td>{recipe["flags"]["lactoseFree"]}</td>'
-    recipeRows += f'<td>{recipe["flags"]["glutenFree"]}</td>'
-    recipeRows += f'<td>{recipe["flags"]["vegetarian"]}</td>'
-    recipeRows += f'<td>{recipe["flags"]["vegan"]}</td>'
-    recipeRows += "</tr>"
+    flags = recipe["flags"]
+    index_entries.append({
+        "file": recipePath.stem,
+        "name": recipe["name"],
+        "category": recipe["category"],
+        "cuisine": flags["cuisine"],
+        "time": flags["prepTime"] if flags["totalTime"] == "Idem" else flags["totalTime"],
+        "prepTime": flags["prepTime"],
+        "difficulty": flags["difficulty"],
+        "finished": flags["finished"],
+        "lactoseFree": flags["lactoseFree"],
+        "glutenFree": flags["glutenFree"],
+        "vegetarian": flags["vegetarian"],
+        "vegan": flags["vegan"],
+        "origin": recipe["origin"],
+        "description": recipe["description"],
+    })
+
+    if args.index_only:
+        continue
 
     # Only regenerate the per-recipe HTML page when the
     # underlying JSON file changed size since last run.
@@ -240,7 +249,12 @@ for recipePath in pbar:
 
 with open("assets/templates/recipes.html", "r", encoding="utf-8") as file:
     content = file.read()
-content = content.replace("{{recipeRows}}", recipeRows)
+
+index_data_path = Path("content/recipes-index.json")
+index_data_path.write_text(
+    json.dumps(index_entries, ensure_ascii=False, indent=2) + "\n",
+    encoding="utf-8",
+)
 
 # Inject shared layout fragments for the recipes index.
 # recipes.html lives directly under pages/, so its
@@ -255,9 +269,10 @@ with open(f"pages/recipes.html", "w", encoding="utf-8") as file:
     file.write(content)
 
 # Persist updated recipe cache at the end
-try:
-    cache_path.parent.mkdir(parents=True, exist_ok=True)
-    with cache_path.open('w', encoding='utf-8') as f:
-        json.dump(recipe_cache, f, indent=2)
-except Exception:
-    pass
+if not args.index_only:
+    try:
+        cache_path.parent.mkdir(parents=True, exist_ok=True)
+        with cache_path.open('w', encoding='utf-8') as f:
+            json.dump(recipe_cache, f, indent=2)
+    except Exception:
+        pass
