@@ -1,0 +1,39 @@
+{
+    "name": "Lemonade",
+    "category": "Drinks",
+    "description": "/'Lemon flavoured drink'/ ",
+    "origin": "No information",
+    "portions": 1,
+    "flags": {
+        "difficulty": "Very easy",
+        "cuisine": "No information",
+        "prepTime": "5'",
+        "totalTime": "8h",
+        "lactoseFree": true,
+        "glutenFree": true,
+        "vegetarian": true,
+        "vegan": true,
+		"finished": true
+    },
+    "ingredients": {
+        "": [
+            "Small lemon",
+			"35 g sugar",
+			"Water"
+        ]
+    },
+    "utensils": [
+    ],
+    "instructions": [
+		"- Peel the lemon with no pith (white part). It takes a bit of time and patience.",
+		"- Mix peels with sugar, cover and leave overnight.",
+        "- Add juice, then water until it's about 300 ml, then mix, strain the peels and refrigerate."
+    ],
+    "variants": [
+		"You can avoid using peels, it's plain good too."
+	],
+    "tips": {
+        "culinary": [],
+        "serving": []
+    }
+}
