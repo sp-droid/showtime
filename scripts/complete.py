@@ -43,5 +43,6 @@ with open("pages/about.html", 'r', encoding='utf-8') as file:
         contents = file.read()
 contents = """<meta http-equiv="Refresh" content="0; url='pages/about.html'" />""" + contents
 contents = contents.replace("<title>About me</title>", "<title>Index</title>")
+contents = contents.replace("../assets/", "assets/").replace("../pages/", "pages/")
 with open("index.html", 'w', encoding='utf-8') as file:
     file.write(contents)

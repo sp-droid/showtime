@@ -2,6 +2,7 @@
 <html lang="en">
 <head>
     <meta name="darkreader-lock">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
     <link rel="stylesheet" href="{{rootFolder}}assets/libraries/bootstrap5.0.2/bootstrap.min.css">
     <link rel="stylesheet" href="{{rootFolder}}assets/libraries/fontawesome6.5.1/css/all.min.css">
     
@@ -13,10 +14,10 @@
     <script src="https://cdn.jsdelivr.net/npm/markdown-it-emoji/dist/markdown-it-emoji.min.js"></script>
 
     
-    <link rel="stylesheet" href="{{rootFolder}}assets/css/style.css">
+    <link rel="stylesheet" href="{{rootFolder}}assets/css/style.css?v=20260926">
     <link rel="stylesheet" href="{{rootFolder}}assets/css/github-markdown-dark.css">
     <script src="{{rootFolder}}assets/js/blog.js"></script>
-    <script src="{{rootFolder}}assets/js/common.js"></script>
+    <script src="{{rootFolder}}assets/js/common.js?v=20260926"></script>
     <title>Blog</title>
 	
 	{{favicon}}
@@ -28,16 +29,16 @@
 <div id="HTMLdata"
 section="blog">
 </div>
-<div style="display: flex; flex-direction: column; height: 100vh; width: 100vw; overflow-x: hidden; background-color: rgb(35, 39, 50);">
+<div class="page-shell blog-page" style="display: flex; flex-direction: column; height: 100vh; width: 100vw; overflow-x: hidden; background-color: rgb(35, 39, 50);">
 	<div id="HTMLtopbar" style="flex: 0;">{{HTMLtopbar}}</div>
-    <div style="flex: 1; display: flex;">
-        <div style="flex: 1;"></div>
+    <div class="blog-page-layout" style="flex: 1; display: flex;">
+        <div class="blog-page-spacer"></div>
         <div id="HTMLindex" style="flex: 0 1 800px; color: white;">
             <div></div>
             <div></div>
         </div>
         <div class="markdown-body" id="HTMLpost" style="display: none; flex: 0 1 800px;"></div>
-        <div style="flex: 1;"></div>
+        <div class="blog-page-spacer"></div>
     </div>
 </div>
 </body>

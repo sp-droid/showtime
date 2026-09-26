@@ -1,4 +1,5 @@
 import json
+import hashlib
 from pathlib import Path
 
 from tqdm import tqdm
@@ -57,6 +58,9 @@ def getNutrition(string, nutrition):
 # Load recipe template
 with open(f"assets/templates/recipes/recipe.html", "r") as file:
     template = file.read()
+render_signature = hashlib.sha256(
+    (template + HTMLtopbar + favicon + googleAnalytics).encode("utf-8")
+).hexdigest()
 
 # List existing recipes
 recipes = list(Path("content/recipes").glob("*"))
@@ -83,10 +87,13 @@ def should_skip_recipe(path: Path, cache: dict) -> bool:
 
     key = str(path)
     prev = cache.get(key)
-    if prev is not None and prev.get("size") == size:
+    output_path = Path("pages/recipes") / f"{path.stem}.html"
+    if (prev is not None and prev.get("size") == size
+            and prev.get("renderSignature") == render_signature
+            and output_path.exists()):
         return True
 
-    cache[key] = {"size": size}
+    cache[key] = {"size": size, "renderSignature": render_signature}
     return False
 
 # Load each file, edit the template accordingly and save as a new html

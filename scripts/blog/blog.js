@@ -2,6 +2,7 @@
 // ########### Imports ############
 // ################################
 import fs from "fs";
+import { createHash } from "node:crypto";
 import markdownit from "markdown-it";
 import markdownitFootnote from "markdown-it-footnote";
 import markdownitTaskLists from "markdown-it-task-lists";
@@ -32,6 +33,9 @@ const template = await retrieveFile("../../assets/templates/blog/post.html");
 const topbar = await retrieveFile("../../assets/templates/topbar.html");
 const favicon = await retrieveFile("../../assets/templates/favicon.html");
 const googleAnalytics = await retrieveFile("../../assets/templates/googleAnalytics.html");
+const renderSignature = createHash("sha256")
+    .update(template).update(topbar).update(favicon).update(googleAnalytics)
+    .digest("hex");
 
 // Reorder and rewrite
 blogJSON = blogJSON.sort((a, b) => {
@@ -117,13 +121,15 @@ async function processPostIfChanged(blogMD) {
     const key = blogMD.file;
     const prev = blogCache[key];
 
-    if (prev && prev.mdSize === mdSize && prev.meta === stableJson) {
+    if (prev && prev.mdSize === mdSize && prev.meta === stableJson
+            && prev.renderSignature === renderSignature
+            && fs.existsSync(`../../pages/blog/${blogMD["file"]}.html`)) {
         // No change detected in MD size or blog.json entry.
         return "skipped";
     }
 
     // Update cache and regenerate.
-    blogCache[key] = { mdSize: mdSize, meta: stableJson };
+    blogCache[key] = { mdSize: mdSize, meta: stableJson, renderSignature };
     savePost(blogMD);
     return "processed";
 }

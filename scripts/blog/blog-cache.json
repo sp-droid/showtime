@@ -1,54 +1,67 @@
 {
   "eac-internship": {
     "mdSize": 7713,
-    "meta": "{\"title\":\"Internship at the European Space Agency\",\"file\":\"eac-internship\",\"tag\":\"Personal\",\"date\":\"31/12/2023\"}"
+    "meta": "{\"title\":\"Internship at the European Space Agency\",\"file\":\"eac-internship\",\"tag\":\"Personal\",\"date\":\"31/12/2023\"}",
+    "renderSignature": "3afd098e057034a45d1b99d603aa17da4e7bfbd3b445586ccc22fff92a6ea7e0"
   },
   "diffusion-limited-aggregation": {
     "mdSize": 2483,
-    "meta": "{\"title\":\"(GPU) DLA - Diffused Limited Aggregation\",\"file\":\"diffusion-limited-aggregation\",\"tag\":\"Algorithms\",\"date\":\"17/03/2025\"}"
+    "meta": "{\"title\":\"(GPU) DLA - Diffused Limited Aggregation\",\"file\":\"diffusion-limited-aggregation\",\"tag\":\"Algorithms\",\"date\":\"17/03/2025\"}",
+    "renderSignature": "3afd098e057034a45d1b99d603aa17da4e7bfbd3b445586ccc22fff92a6ea7e0"
   },
   "rainbow-smoke-gpu": {
     "mdSize": 7240,
-    "meta": "{\"title\":\"(GPU) Rainbow Smoke algorithm\",\"file\":\"rainbow-smoke-gpu\",\"tag\":\"Algorithms\",\"date\":\"13/03/2025\"}"
+    "meta": "{\"title\":\"(GPU) Rainbow Smoke algorithm\",\"file\":\"rainbow-smoke-gpu\",\"tag\":\"Algorithms\",\"date\":\"13/03/2025\"}",
+    "renderSignature": "3afd098e057034a45d1b99d603aa17da4e7bfbd3b445586ccc22fff92a6ea7e0"
   },
   "webgpu": {
     "mdSize": 36442,
-    "meta": "{\"title\":\"WebGPU\",\"file\":\"webgpu\",\"tag\":\"Reference\",\"date\":\"13/03/2025\"}"
+    "meta": "{\"title\":\"WebGPU\",\"file\":\"webgpu\",\"tag\":\"Reference\",\"date\":\"13/03/2025\"}",
+    "renderSignature": "3afd098e057034a45d1b99d603aa17da4e7bfbd3b445586ccc22fff92a6ea7e0"
   },
   "uni-projects": {
     "mdSize": 6168,
-    "meta": "{\"title\":\"Projects during the MSc. in Space Engineering\",\"file\":\"uni-projects\",\"tag\":\"Projects\",\"date\":\"05/03/2025\"}"
+    "meta": "{\"title\":\"Projects during the MSc. in Space Engineering\",\"file\":\"uni-projects\",\"tag\":\"Projects\",\"date\":\"05/03/2025\"}",
+    "renderSignature": "3afd098e057034a45d1b99d603aa17da4e7bfbd3b445586ccc22fff92a6ea7e0"
   },
   "dbi": {
     "mdSize": 4041,
-    "meta": "{\"title\":\"DBI - Discrete Bilinear Interpolation\",\"file\":\"dbi\",\"tag\":\"Algorithms\",\"date\":\"24/02/2025\"}"
+    "meta": "{\"title\":\"DBI - Discrete Bilinear Interpolation\",\"file\":\"dbi\",\"tag\":\"Algorithms\",\"date\":\"24/02/2025\"}",
+    "renderSignature": "3afd098e057034a45d1b99d603aa17da4e7bfbd3b445586ccc22fff92a6ea7e0"
   },
   "md-cheat-sheet": {
     "mdSize": 20388,
-    "meta": "{\"title\":\"Markdown cheat sheet and tools explanation\",\"file\":\"md-cheat-sheet\",\"tag\":\"Reference\",\"date\":\"07/09/2024\"}"
+    "meta": "{\"title\":\"Markdown cheat sheet and tools explanation\",\"file\":\"md-cheat-sheet\",\"tag\":\"Reference\",\"date\":\"07/09/2024\"}",
+    "renderSignature": "3afd098e057034a45d1b99d603aa17da4e7bfbd3b445586ccc22fff92a6ea7e0"
   },
   "technical_notes": {
     "mdSize": 19819,
-    "meta": "{\"title\":\"MSc thesis technical notes\",\"file\":\"technical_notes\",\"tag\":\"WIP\",\"date\":\"21/11/2025\"}"
+    "meta": "{\"title\":\"MSc thesis technical notes\",\"file\":\"technical_notes\",\"tag\":\"WIP\",\"date\":\"21/11/2025\"}",
+    "renderSignature": "3afd098e057034a45d1b99d603aa17da4e7bfbd3b445586ccc22fff92a6ea7e0"
   },
   "badminton": {
     "mdSize": 12726,
-    "meta": "{\"title\":\"Badminton\",\"file\":\"badminton\",\"tag\":\"Personal\",\"date\":\"26/09/2026\"}"
+    "meta": "{\"title\":\"Badminton\",\"file\":\"badminton\",\"tag\":\"Personal\",\"date\":\"26/09/2026\"}",
+    "renderSignature": "3afd098e057034a45d1b99d603aa17da4e7bfbd3b445586ccc22fff92a6ea7e0"
   },
   "progress_log": {
     "mdSize": 6563,
-    "meta": "{\"title\":\"MSc thesis progress log\",\"file\":\"progress_log\",\"tag\":\"WIP\",\"date\":\"21/11/2025\"}"
+    "meta": "{\"title\":\"MSc thesis progress log\",\"file\":\"progress_log\",\"tag\":\"WIP\",\"date\":\"21/11/2025\"}",
+    "renderSignature": "3afd098e057034a45d1b99d603aa17da4e7bfbd3b445586ccc22fff92a6ea7e0"
   },
   "literature_review": {
     "mdSize": 17267,
-    "meta": "{\"title\":\"MSc thesis literature summary\",\"file\":\"literature_review\",\"tag\":\"WIP\",\"date\":\"21/11/2025\"}"
+    "meta": "{\"title\":\"MSc thesis literature summary\",\"file\":\"literature_review\",\"tag\":\"WIP\",\"date\":\"21/11/2025\"}",
+    "renderSignature": "3afd098e057034a45d1b99d603aa17da4e7bfbd3b445586ccc22fff92a6ea7e0"
   },
   "slippy-map": {
     "mdSize": 1324,
-    "meta": "{\"title\":\"Slippy map\",\"file\":\"slippy-map\",\"tag\":\"Algorithms\",\"date\":\"23/06/2026\"}"
+    "meta": "{\"title\":\"Slippy map\",\"file\":\"slippy-map\",\"tag\":\"Algorithms\",\"date\":\"23/06/2026\"}",
+    "renderSignature": "3afd098e057034a45d1b99d603aa17da4e7bfbd3b445586ccc22fff92a6ea7e0"
   },
   "typora-ukenglish": {
     "mdSize": 949,
-    "meta": "{\"title\":\"Short guide for Typora on manually setting a custom UK spelling\",\"file\":\"typora-ukenglish\",\"tag\":\"Guides\",\"date\":\"27/06/2026\"}"
+    "meta": "{\"title\":\"Short guide for Typora on manually setting a custom UK spelling\",\"file\":\"typora-ukenglish\",\"tag\":\"Guides\",\"date\":\"27/06/2026\"}",
+    "renderSignature": "3afd098e057034a45d1b99d603aa17da4e7bfbd3b445586ccc22fff92a6ea7e0"
   }
 }

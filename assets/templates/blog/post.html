@@ -2,15 +2,16 @@
 <html lang="en">
 <head>
     <meta name="darkreader-lock">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
     <link rel="stylesheet" href="{{rootFolder}}assets/libraries/bootstrap5.0.2/bootstrap.min.css">
     <link rel="stylesheet" href="{{rootFolder}}assets/libraries/fontawesome6.5.1/css/all.min.css">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/highlight.js@9.12.0/styles/atom-one-dark.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.11.1/katex.min.css">
     <script src="https://public.flourish.studio/resources/embed.js"></script>
     
-    <link rel="stylesheet" href="{{rootFolder}}assets/css/style.css">
+    <link rel="stylesheet" href="{{rootFolder}}assets/css/style.css?v=20260926">
     <link rel="stylesheet" href="{{rootFolder}}assets/css/github-markdown-dark.css">
-    <script src="{{rootFolder}}assets/js/common.js"></script>
+    <script src="{{rootFolder}}assets/js/common.js?v=20260926"></script>
     <title>{{title}}</title>
 	
 	{{favicon}}
@@ -22,12 +23,12 @@
 <div id="HTMLdata"
 section="blog">
 </div>
-<div style="display: flex; flex-direction: column; height: 100vh; width: 100vw; overflow-x: hidden; background-color: rgb(35, 39, 50);">
+<div class="page-shell blog-post-page" style="display: flex; flex-direction: column; height: 100vh; width: 100vw; overflow-x: hidden; background-color: rgb(35, 39, 50);">
 	<div id="HTMLtopbar" style="flex: 0;">{{HTMLtopbar}}</div>
-    <div style="flex: 1; display: flex;">
-        <div class="markdown-body sidebarHide" style="flex: 1; min-width: 22px; max-width: 16%; margin-right: 6px;"><br>[toc]</div>
+    <div class="blog-post-layout" style="flex: 1; display: flex;">
+        <div class="markdown-body sidebarHide blog-post-sidebar" style="flex: 1; min-width: 22px; max-width: 16%; margin-right: 6px;"><br>[toc]</div>
         <div class="markdown-body" id="HTMLpost">{{content}}</div>
-        <div style="flex: 1; min-width: 20px;"></div>
+        <div class="blog-post-spacer" style="flex: 1; min-width: 20px;"></div>
     </div>
 </div>
 <script>

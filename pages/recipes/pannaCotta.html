@@ -2,11 +2,12 @@
 <html lang="en">
 <head>
     <meta name="darkreader-lock">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
     <link rel="stylesheet" href="../../assets/libraries/bootstrap5.0.2/bootstrap.min.css">
     <link rel="stylesheet" href="../../assets/libraries/fontawesome6.5.1/css/all.min.css">
     
-    <link rel="stylesheet" href="../../assets/css/style.css">
-    <script src="../../assets/js/common.js"></script>
+    <link rel="stylesheet" href="../../assets/css/style.css?v=20260926">
+    <script src="../../assets/js/common.js?v=20260926"></script>
     <title>Panna cotta | Recipes</title>
 	
 	<link rel="apple-touch-icon" sizes="180x180" href="../../assets/img/favicon/apple-touch-icon.png">
@@ -55,33 +56,34 @@ section ="recipes">
     -webkit-filter: blur(8px);
     z-index: 0;;
     "></div>
-<div style="position: absolute; top: 0; left: 0; display: flex; flex-direction: column; height: 100vh; width: 100vw; overflow-x: hidden;">
-	<div id="HTMLtopbar" style="flex: 0;"><div class="row" style="display: flex;" id="linksTopbar">
-    <div style="flex: 6; display: flex; align-items: center; background-color: rgb(14, 60, 76); color: white; height: 100%;">
-        &emsp;<a href="../../pages/about.html" style="text-decoration: none; color: white;" title="Who am I?">Arbelo Cabrera, Pablo</a>
-        <!-- &emsp;<a class="linkPopUp" href="https://www.youtube.com/@pactomars"><i class="fa-brands fa-youtube fa-lg" title="YouTube channel" style="color: rgb(255, 129, 129)"></i></a>
-        &emsp;<a class="linkPopUp" href="https://www.flickr.com/photos/200282744@N03/albums" title="flickr albums"><img height="45em" src="../../assets/img/icons/flickr.svg" alt="flickr official logo."></a> -->
-        &emsp;<a class="linkPopUp" href="https://www.linkedin.com/in/pablo-arbelo-cabrera-051a951a2"><i class="fa-brands fa-linkedin-in fa-lg" title="LinkedIn profile" style="color: rgb(90, 176, 247)"></i></a>
-        &emsp;<a class="linkPopUp" href="https://github.com/sp-droid"><i class="fa-brands fa-github fa-lg" title="GitHub profile" style="color: rgb(230, 237, 243)"></i></a>
+<div class="page-shell recipe-page" style="position: absolute; top: 0; left: 0; display: flex; flex-direction: column; height: 100vh; width: 100vw; overflow-x: hidden;">
+	<div id="HTMLtopbar" style="flex: 0;"><header class="site-header">
+    <div class="site-header__inner">
+        <a class="site-brand" href="../../pages/about.html">Pablo Arbelo Cabrera</a>
+        <button class="site-menu-toggle" type="button" aria-controls="site-navigation" aria-expanded="false">
+            <i class="fa-solid fa-bars" aria-hidden="true"></i><span>Menu</span>
+        </button>
+        <nav class="site-navigation" id="site-navigation" aria-label="Primary navigation">
+            <div class="site-navigation__links">
+                <a class="site-nav-link" id="projectsMenuButton" href="../../pages/projects.html">Projects</a>
+                <a class="site-nav-link" id="recipesMenuButton" href="../../pages/recipes.html">Recipes</a>
+                <a class="site-nav-link" id="blogMenuButton" href="../../pages/blog.html">Blog</a>
+                <a class="site-nav-link" id="aboutMenuButton" href="../../pages/about.html">About</a>
+            </div>
+            <div class="site-navigation__actions">
+                <a class="site-social-link linkPopUp" href="https://www.linkedin.com/in/pablo-arbelo-cabrera-051a951a2" aria-label="LinkedIn profile" title="LinkedIn profile"><i class="fa-brands fa-linkedin-in" aria-hidden="true"></i><span>LinkedIn</span></a>
+                <a class="site-social-link linkPopUp" href="https://github.com/sp-droid" aria-label="GitHub profile" title="GitHub profile"><i class="fa-brands fa-github" aria-hidden="true"></i><span>GitHub</span></a>
+                <a class="site-contact-link linkPopUp" href="https://docs.google.com/forms/d/1pK5hPSywf1resOSLIUOESFpqQn6cnRa2YjkRF7d77D8" title="For work or other topics">Contact <i class="fa-solid fa-arrow-up-right-from-square" aria-hidden="true"></i></a>
+            </div>
+        </nav>
     </div>
-    <div style="flex: 1; display: flex; align-items: center; justify-content: center; background-color: rgb(76, 57, 2); height: 100%;">
-        <a class="linkPopUp" title="For work or other topics" href="https://docs.google.com/forms/d/1pK5hPSywf1resOSLIUOESFpqQn6cnRa2YjkRF7d77D8" style="font-weight: 500; color: rgb(222, 237, 240)">Contact</a>
-    </div>
+</header>
 </div>
-<div class="row" id="navTopbar" style="background: linear-gradient(to right, rgb(48, 40, 2), rgb(35, 38, 39))">
-    <div class="col d-flex align-items-center justify-content-center" style="line-height: 20px; height: 100%;">
-        <!-- <a id="indexMenuButton" href="../../pages/index.html" title="Homepage where recent or current projects/entries/news are showcased">Home</a> -->
-        <a id="projectsMenuButton" href="../../pages/projects.html" title="Projects of different kinds are highlighted, sometimes as a video, as a JS browser-app or as an entire webpage">Projects</a>
-        <a id="recipesMenuButton" href="../../pages/recipes.html" title="Some of my recipes since I like cooking quite a bit">Recipes</a>
-        <a id="blogMenuButton" href="../../pages/blog.html" title="Devlogs and personal notes">Blog</a>
-        <a id="aboutMenuButton" href="../../pages/about.html" title="Brief page about myself for anyone interested">About me</a>
-    </div>
-</div></div>
-    <div style="flex: 0; display: flex;">
-        <div style="flex: 1; background-color: rgba(18, 18, 19, 0.7);"></div>
-        <div style="flex: 1 0 1000px; background-color: rgb(18, 18, 19);">
-            <div style="display: flex;flex-wrap: wrap; text-align: center;">
-                <div style="flex: 3 0 600px">
+    <div class="recipe-shell" style="flex: 0; display: flex;">
+        <div class="recipe-side-scrim" style="flex: 1; background-color: rgba(18, 18, 19, 0.7);"></div>
+        <div class="recipe-content" style="flex: 1 0 1000px; background-color: rgb(18, 18, 19);">
+            <div class="recipe-hero" style="display: flex; flex-wrap: wrap; text-align: center;">
+                <div class="recipe-hero-media" style="flex: 3 0 600px">
                     <img style="width: 100%; border-radius: 1px;" src="../../assets/img/recipes/pannaCotta.jpg" alt="Picture of the end result">
                     <div class="recipeMainFlags">
                         <div class="recipeMainFlag">
@@ -102,7 +104,7 @@ section ="recipes">
                         </div>
                     </div>
                 </div>
-                <div style="flex: 1; text-align: left; margin-left: 18px; margin-top: 12px; min-width: 500px;">
+                <div class="recipe-intro" style="flex: 1; text-align: left; margin-left: 18px; margin-top: 12px; min-width: 500px;">
                     <div style="margin-bottom: 0px;">
                         <span style="color: rgb(213, 213, 45);">></span> <span style="font-size: large;"><i class="fas fa-ice-cream"></i> Desserts</span> 
                     </div>
@@ -113,7 +115,7 @@ section ="recipes">
                     <p class="pRich">1800-1900s Piedmont, Italy.</p>
                 </div>
             </div>
-            <div style="margin-right: 40px; margin-left: 40px; font-size: larger">
+            <div class="recipe-body" style="margin-right: 40px; margin-left: 40px; font-size: larger">
                 <hr style="border-top: 1px solid rgb(143, 108, 80);"><br>
                 <h2>Ingredients for 4 servings</h2><br>
                 <h4></h4><ul><li>250ml heavy cream</li><li>30g sugar</li><li>2g gelatin</li><li>Vanilla flavouring</li></ul>
@@ -165,7 +167,7 @@ section ="recipes">
                 <div id="disqus_thread"></div>
             </div>
         </div>
-        <div style="flex: 1; background-color: rgba(18, 18, 19, 0.7);"></div>
+        <div class="recipe-side-scrim" style="flex: 1; background-color: rgba(18, 18, 19, 0.7);"></div>
     </div>
 </div>
 </body>

@@ -2,15 +2,16 @@
 <html lang="en">
 <head>
     <meta name="darkreader-lock">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
     <link rel="stylesheet" href="../../assets/libraries/bootstrap5.0.2/bootstrap.min.css">
     <link rel="stylesheet" href="../../assets/libraries/fontawesome6.5.1/css/all.min.css">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/highlight.js@9.12.0/styles/atom-one-dark.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.11.1/katex.min.css">
     <script src="https://public.flourish.studio/resources/embed.js"></script>
     
-    <link rel="stylesheet" href="../../assets/css/style.css">
+    <link rel="stylesheet" href="../../assets/css/style.css?v=20260926">
     <link rel="stylesheet" href="../../assets/css/github-markdown-dark.css">
-    <script src="../../assets/js/common.js"></script>
+    <script src="../../assets/js/common.js?v=20260926"></script>
     <title>(GPU) Rainbow Smoke algorithm</title>
 	
 	<link rel="apple-touch-icon" sizes="180x180" href="../../assets/img/favicon/apple-touch-icon.png">
@@ -37,30 +38,31 @@
 <div id="HTMLdata"
 section="blog">
 </div>
-<div style="display: flex; flex-direction: column; height: 100vh; width: 100vw; overflow-x: hidden; background-color: rgb(35, 39, 50);">
-	<div id="HTMLtopbar" style="flex: 0;"><div class="row" style="display: flex;" id="linksTopbar">
-    <div style="flex: 6; display: flex; align-items: center; background-color: rgb(14, 60, 76); color: white; height: 100%;">
-        &emsp;<a href="../../pages/about.html" style="text-decoration: none; color: white;" title="Who am I?">Arbelo Cabrera, Pablo</a>
-        <!-- &emsp;<a class="linkPopUp" href="https://www.youtube.com/@pactomars"><i class="fa-brands fa-youtube fa-lg" title="YouTube channel" style="color: rgb(255, 129, 129)"></i></a>
-        &emsp;<a class="linkPopUp" href="https://www.flickr.com/photos/200282744@N03/albums" title="flickr albums"><img height="45em" src="../../assets/img/icons/flickr.svg" alt="flickr official logo."></a> -->
-        &emsp;<a class="linkPopUp" href="https://www.linkedin.com/in/pablo-arbelo-cabrera-051a951a2"><i class="fa-brands fa-linkedin-in fa-lg" title="LinkedIn profile" style="color: rgb(90, 176, 247)"></i></a>
-        &emsp;<a class="linkPopUp" href="https://github.com/sp-droid"><i class="fa-brands fa-github fa-lg" title="GitHub profile" style="color: rgb(230, 237, 243)"></i></a>
+<div class="page-shell blog-post-page" style="display: flex; flex-direction: column; height: 100vh; width: 100vw; overflow-x: hidden; background-color: rgb(35, 39, 50);">
+	<div id="HTMLtopbar" style="flex: 0;"><header class="site-header">
+    <div class="site-header__inner">
+        <a class="site-brand" href="../../pages/about.html">Pablo Arbelo Cabrera</a>
+        <button class="site-menu-toggle" type="button" aria-controls="site-navigation" aria-expanded="false">
+            <i class="fa-solid fa-bars" aria-hidden="true"></i><span>Menu</span>
+        </button>
+        <nav class="site-navigation" id="site-navigation" aria-label="Primary navigation">
+            <div class="site-navigation__links">
+                <a class="site-nav-link" id="projectsMenuButton" href="../../pages/projects.html">Projects</a>
+                <a class="site-nav-link" id="recipesMenuButton" href="../../pages/recipes.html">Recipes</a>
+                <a class="site-nav-link" id="blogMenuButton" href="../../pages/blog.html">Blog</a>
+                <a class="site-nav-link" id="aboutMenuButton" href="../../pages/about.html">About</a>
+            </div>
+            <div class="site-navigation__actions">
+                <a class="site-social-link linkPopUp" href="https://www.linkedin.com/in/pablo-arbelo-cabrera-051a951a2" aria-label="LinkedIn profile" title="LinkedIn profile"><i class="fa-brands fa-linkedin-in" aria-hidden="true"></i><span>LinkedIn</span></a>
+                <a class="site-social-link linkPopUp" href="https://github.com/sp-droid" aria-label="GitHub profile" title="GitHub profile"><i class="fa-brands fa-github" aria-hidden="true"></i><span>GitHub</span></a>
+                <a class="site-contact-link linkPopUp" href="https://docs.google.com/forms/d/1pK5hPSywf1resOSLIUOESFpqQn6cnRa2YjkRF7d77D8" title="For work or other topics">Contact <i class="fa-solid fa-arrow-up-right-from-square" aria-hidden="true"></i></a>
+            </div>
+        </nav>
     </div>
-    <div style="flex: 1; display: flex; align-items: center; justify-content: center; background-color: rgb(76, 57, 2); height: 100%;">
-        <a class="linkPopUp" title="For work or other topics" href="https://docs.google.com/forms/d/1pK5hPSywf1resOSLIUOESFpqQn6cnRa2YjkRF7d77D8" style="font-weight: 500; color: rgb(222, 237, 240)">Contact</a>
-    </div>
+</header>
 </div>
-<div class="row" id="navTopbar" style="background: linear-gradient(to right, rgb(48, 40, 2), rgb(35, 38, 39))">
-    <div class="col d-flex align-items-center justify-content-center" style="line-height: 20px; height: 100%;">
-        <!-- <a id="indexMenuButton" href="../../pages/index.html" title="Homepage where recent or current projects/entries/news are showcased">Home</a> -->
-        <a id="projectsMenuButton" href="../../pages/projects.html" title="Projects of different kinds are highlighted, sometimes as a video, as a JS browser-app or as an entire webpage">Projects</a>
-        <a id="recipesMenuButton" href="../../pages/recipes.html" title="Some of my recipes since I like cooking quite a bit">Recipes</a>
-        <a id="blogMenuButton" href="../../pages/blog.html" title="Devlogs and personal notes">Blog</a>
-        <a id="aboutMenuButton" href="../../pages/about.html" title="Brief page about myself for anyone interested">About me</a>
-    </div>
-</div></div>
-    <div style="flex: 1; display: flex;">
-        <div class="markdown-body sidebarHide" style="flex: 1; min-width: 22px; max-width: 16%; margin-right: 6px;"><br></div>
+    <div class="blog-post-layout" style="flex: 1; display: flex;">
+        <div class="markdown-body sidebarHide blog-post-sidebar" style="flex: 1; min-width: 22px; max-width: 16%; margin-right: 6px;"><br></div>
         <div class="markdown-body" id="HTMLpost"><div id="section0"></div>
 <h6>March 13th, 2025</h6>
 <h1>(GPU) Rainbow Smoke algorithm</h1>
@@ -133,7 +135,7 @@ section="blog">
 <p><img src="../../content/blog/assets/rainbow-smoke-2.jpg" alt="Downsampled 4K, minimum variant, ordered by hue, hue shifted +0.5"></p>
 <p><img src="../../content/blog/assets/rainbow-smoke-3.jpg" alt="Downsampled 4K, minimum variant, ordered by hue, hue shifted -0.5"></p>
 <hr><div class="blogTags"><button class="blogTagSelected" title='Check more posts of the "Algorithms" category on my blog!'>Algorithms</button></div><br></div>
-        <div style="flex: 1; min-width: 20px;"></div>
+        <div class="blog-post-spacer" style="flex: 1; min-width: 20px;"></div>
     </div>
 </div>
 <script>
