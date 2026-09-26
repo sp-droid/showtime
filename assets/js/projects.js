@@ -1,192 +1,180 @@
-document.addEventListener("DOMContentLoaded", function() {
-    // ################################
-    // ######## WebGPU compat. ########
-    // ################################
-    const hideAlertChrome = document.getElementById("hideAlertChrome");
-    setTimeout(function() {
-        hideAlertChrome.style.opacity = 0;
-        setTimeout(function() {
-            hideAlertChrome.style.display = "none";
-        }, 2000);
-    }, 4000);
+document.addEventListener("DOMContentLoaded", async () => {
+    const grid = document.getElementById("gridProjects");
+    const prioritySelect = document.getElementById("projectsPriority");
+    const toolSelect = document.getElementById("projectsTool");
+    const clearButton = document.getElementById("projectsClearFilters");
+    const resultCount = document.getElementById("projectsResultCount");
+    const emptyState = document.getElementById("projectsEmpty");
+    const webGpuNote = document.getElementById("projectsWebGpuNote");
+    const previewAllowed = window.matchMedia("(hover: hover) and (pointer: fine) and (prefers-reduced-motion: no-preference)");
 
-    // ################################
-    // ########## Typewriter ##########
-    // ################################
-    const typewriterProjects = document.getElementById("typewriterProjects");
-    const typewriterPhrases = ["Personal projects...", "Interactive web apps, timelapses, summaries...", "Work projects..."];
-    const typewriterDelay = 4000;
-    let typewriterCurrentPhrase = 1;
-
-    setTimeout(function() {
-        changeTypeWriterPhrase();
-        setInterval(changeTypeWriterPhrase, typewriterDelay*2);
-    }, typewriterDelay);
-
-    function changeTypeWriterPhrase() {
-        typewriterProjects.textContent = typewriterPhrases[typewriterCurrentPhrase];
-
-        typewriterCurrentPhrase += 1;
-        if (typewriterCurrentPhrase === typewriterPhrases.length) { typewriterCurrentPhrase = 0; }
-    };
-
-    // ################################
-    // ############# Grid #############
-    // ################################
-    let projectData;
-    const buttonFilterImportance = document.getElementById("buttonFilterImportance");
-    // REMEMBER TO ADD MAJOR IN THE FIRST SPOT WHEN I FINALLY (!) DO SOMETHING MAJOR 
-    let uniqueImportances = ["High","Medium","Low"];
-    let filterImportance = 0;
-    const buttonFilterTool = document.getElementById("buttonFilterTool");
-    let uniqueTools;
-    let filterTools = 0;
-    const gridProjects = document.getElementById("gridProjects");
-
-    fetch("../content/projects.json")
-        .then(response => {
-            if (!response.ok) { throw new Error('Network response was not ok'); }
-            return response.json();
-        })
-        .then(data => {
-            populateGrid(data);
-            projectData = data;
-            uniqueTools = [...new Set(projectData.flatMap(item => item.tools))].sort((a, b) => a.toLowerCase().localeCompare(b.toLowerCase()));
-        })
-        .catch(error => { console.error('There was a problem fetching the JSON data:', error); });
-
-    buttonFilterImportance.onclick = function() {
-        let data;
-        let name;
-        if (filterImportance === uniqueImportances.length) {
-            data = projectData;
-            filterImportance = 0;
-            name = "All";
-        } else {
-            name = uniqueImportances[filterImportance];
-            data = projectData.filter(item => item.importance === name);
-            filterImportance++;
+    async function checkWebGpu() {
+        if (!navigator.gpu || typeof navigator.gpu.requestAdapter !== "function") {
+            webGpuNote.hidden = false;
+            return;
         }
-        populateGrid(data);
-        buttonFilterImportance.innerHTML = "<i class='fa fa-fire'></i>&ensp;Prio: "+name;
-        buttonFilterTool.innerHTML = "<i class='fa fa-code'></i>&ensp;Tool: All";
-        filterTools = uniqueTools.length;
-    };
-    buttonFilterTool.onclick = function() {
-        let data;
-        let name;
-        if (filterTools === uniqueTools.length) {
-            data = projectData;
-            filterTools = 0;
-            name = "All";
-        } else {
-            name = uniqueTools[filterTools];
-            data = projectData.filter(item => item.tools.includes(name));
-            filterTools++;
-        }
-        populateGrid(data);
-        buttonFilterTool.innerHTML = "<i class='fa fa-code'></i>&ensp;Tool: "+name;
-        buttonFilterImportance.innerHTML = "<i class='fa fa-fire'></i>&ensp;Prio: All";
-        filterImportance = uniqueImportances.length;
-    };
 
-    function populateGrid(data) {
-        gridProjects.innerHTML = "";
-        for (let i = 0; i < data.length; i++) {
-            const projectElement = document.createElement("a");
-            projectElement.classList.add("gridElement");
-            projectElement.setAttribute("target", "_blank");
-            projectElement.setAttribute("rel", "noopener noreferrer");
-            
-            if (data[i]["link"] != "#") { projectElement.setAttribute("href", data[i]["link"]) }
-            projectElement.style.backgroundImage = `url('../assets/img/projects/${data[i]["bg"]}.jpg')`;
-            
-            const innerDiv = document.createElement("div");
-            // Header
-            const header = document.createElement("h3");
-            header.innerHTML = data[i]["header"];
-            innerDiv.appendChild(header);
-            // Description
-            const desc = document.createElement("p");
-            desc.classList.add("pRich")
-            desc.innerHTML = "<br>"+data[i]["desc"];
-            innerDiv.appendChild(desc);
-            // Date
-            const date = document.createElement("h5");
-            date.innerHTML = formatDate(data[i]["date"]);
-            date.setAttribute("title","The assigned date could be related to the latest major change or the date of completion");
-            innerDiv.appendChild(date);
-            // Project type icon
-            const projectType = document.createElement("div");
-            const projectTypeImage = document.createElement("img");
-            projectTypeImage.src = `../assets/img/icons/${data[i]["type"]}.png`;
-            projectTypeImage.setAttribute("title", `Project type: ${data[i]["type"]}`);
-            projectType.appendChild(projectTypeImage);
-            innerDiv.appendChild(projectType);
-            // Tools used
-            const tools = document.createElement("div");
-            for (const toolName of data[i]["tools"]) {
-                const toolImage = document.createElement("img");
-                toolImage.src = `../assets/img/icons/${toolName}.svg`;
-                toolImage.setAttribute("title", `Tool employed: ${toolName}`);
-                tools.appendChild(toolImage);
-            }
-            innerDiv.appendChild(tools);
-            projectElement.appendChild(innerDiv);
-            
-            // On hover GIF
-            if (data[i]["gif"] === true) {
-                projectElement.addEventListener('mouseenter', function() {
-                    projectElement.style.backgroundImage = `url('../assets/img/projects/${data[i]["bg"]}.avif')`;
-                });
-                projectElement.addEventListener('mouseleave', function() {
-                    projectElement.style.backgroundImage = `url('../assets/img/projects/${data[i]["bg"]}.jpg')`;
-                });
-            };
-
-            // Importance feature
-            if (data[i]["importance"] === "Medium") {
-                projectElement.style.border = "1px solid";
-                projectElement.setAttribute("title","Medium relative importance");
-            } else if (data[i]["importance"] === "High") {
-                projectElement.style.border = "2px solid gold";
-                projectElement.setAttribute("title","High relative importance");
-            } else if (data[i]["importance"] === "Major") {
-                projectElement.style.border = "3px solid darkred";
-                projectElement.setAttribute("title","Major importance");
-            }
-            gridProjects.appendChild(projectElement);
+        try {
+            webGpuNote.hidden = Boolean(await navigator.gpu.requestAdapter());
+        } catch {
+            webGpuNote.hidden = false;
         }
     }
-    // ################################
-    // ############# Date #############
-    // ################################
-    function formatDate(inputDate) {
-        const parts = inputDate.split('/'); // Split the date string into parts
-        const day = parseInt(parts[0], 10); // Extract the day
-        const month = parseInt(parts[1], 10); // Extract the month
-        const year = parseInt(parts[2], 10); // Extract the year
-    
-        // Create a new Date object
+
+    checkWebGpu();
+
+    function dateKey(value) {
+        const [day, month, year] = value.split("/").map(Number);
+        return year * 10000 + month * 100 + day;
+    }
+
+    function projectDate(value) {
+        const [day, month, year] = value.split("/").map(Number);
         const date = new Date(year, month - 1, day);
-    
-        // Define month names array
-        const monthNames = [
-            'Jan', 'Feb', 'Mar', 'Apr',
-            'May', 'Jun', 'Jul', 'Aug',
-            'Sep', 'Oct', 'Nov', 'Dec'
-        ];
-    
-        // Get month name and append 'th', 'st', 'nd', 'rd' suffix for day
-        const monthName = monthNames[date.getMonth()];
-        const suffix = (day === 11 || day === 12 || day === 13) ? 'th' :
-                       (day % 10 === 1) ? 'st' :
-                       (day % 10 === 2) ? 'nd' :
-                       (day % 10 === 3) ? 'rd' : 'th';
-    
-        // Construct formatted date string
-        const formattedDate = `${monthName} ${day}${suffix}, ${year}`;
-    
-        return formattedDate;
+        return {
+            machine: `${year}-${String(month).padStart(2, "0")}-${String(day).padStart(2, "0")}`,
+            display: new Intl.DateTimeFormat("en", { day: "numeric", month: "short", year: "numeric" }).format(date)
+        };
+    }
+
+    function addOptions(select, values) {
+        for (const value of values) {
+            const option = document.createElement("option");
+            option.value = value;
+            option.textContent = value;
+            select.appendChild(option);
+        }
+        select.disabled = false;
+    }
+
+    function createCard(project) {
+        const linked = project.link !== "#";
+        const card = document.createElement(linked ? "a" : "article");
+        card.className = `project-card${linked ? " project-card--linked" : ""}`;
+
+        if (linked) {
+            card.href = project.link;
+            if (new URL(project.link, document.baseURI).origin !== window.location.origin) {
+                card.target = "_blank";
+                card.rel = "noopener noreferrer";
+            }
+        }
+
+        const media = document.createElement("div");
+        media.className = "project-card__media";
+
+        const image = document.createElement("img");
+        const stillImage = `../assets/img/projects/${project.bg}.jpg`;
+        image.src = stillImage;
+        image.alt = "";
+        image.loading = "lazy";
+        image.decoding = "async";
+        media.appendChild(image);
+
+        if (project.gif) {
+            const animatedImage = `../assets/img/projects/${project.bg}.avif`;
+            image.dataset.still = stillImage;
+            card.addEventListener("mouseenter", () => {
+                if (previewAllowed.matches) image.src = animatedImage;
+            });
+            card.addEventListener("mouseleave", () => { image.src = stillImage; });
+        }
+
+        if (project.importance === "High") {
+            const badge = document.createElement("span");
+            badge.className = "project-card__badge";
+            badge.textContent = "Featured";
+            media.appendChild(badge);
+        }
+        card.appendChild(media);
+
+        const body = document.createElement("div");
+        body.className = "project-card__body";
+
+        const meta = document.createElement("div");
+        meta.className = "project-card__meta";
+        const type = document.createElement("span");
+        type.textContent = project.type;
+        meta.appendChild(type);
+        const date = document.createElement("time");
+        const formattedDate = projectDate(project.date);
+        date.dateTime = formattedDate.machine;
+        date.textContent = formattedDate.display;
+        meta.appendChild(date);
+        body.appendChild(meta);
+
+        const title = document.createElement("h2");
+        title.className = "project-card__title";
+        title.textContent = project.header;
+        body.appendChild(title);
+
+        const description = document.createElement("p");
+        description.className = "project-card__description";
+        description.textContent = project.desc;
+        body.appendChild(description);
+
+        if (project.tools.length) {
+            const tools = document.createElement("ul");
+            tools.className = "project-card__tools";
+            tools.setAttribute("aria-label", "Tools used");
+            for (const tool of project.tools) {
+                const chip = document.createElement("li");
+                chip.dataset.tool = tool;
+                chip.textContent = tool;
+                tools.appendChild(chip);
+            }
+            body.appendChild(tools);
+        }
+
+        card.appendChild(body);
+        return card;
+    }
+
+    previewAllowed.addEventListener("change", () => {
+        if (!previewAllowed.matches) {
+            grid.querySelectorAll("img[data-still]").forEach(image => { image.src = image.dataset.still; });
+        }
+    });
+
+    try {
+        const response = await fetch("../content/projects.json");
+        if (!response.ok) throw new Error(`HTTP ${response.status}`);
+        const projects = (await response.json()).sort((a, b) => dateKey(b.date) - dateKey(a.date));
+
+        const priorityOrder = ["Major", "High", "Medium", "Low"];
+        const priorities = [...new Set(projects.map(project => project.importance))]
+            .sort((a, b) => priorityOrder.indexOf(a) - priorityOrder.indexOf(b));
+        const tools = [...new Set(projects.flatMap(project => project.tools))]
+            .sort((a, b) => a.localeCompare(b, undefined, { sensitivity: "base" }));
+        addOptions(prioritySelect, priorities);
+        addOptions(toolSelect, tools);
+
+        function render() {
+            const priority = prioritySelect.value;
+            const tool = toolSelect.value;
+            const visible = projects.filter(project =>
+                (!priority || project.importance === priority) &&
+                (!tool || project.tools.includes(tool))
+            );
+            const cards = document.createDocumentFragment();
+            visible.forEach(project => cards.appendChild(createCard(project)));
+            grid.replaceChildren(cards);
+            resultCount.textContent = `Showing ${visible.length} of ${projects.length} projects`;
+            clearButton.hidden = !priority && !tool;
+            emptyState.hidden = visible.length !== 0;
+        }
+
+        prioritySelect.addEventListener("change", render);
+        toolSelect.addEventListener("change", render);
+        clearButton.addEventListener("click", () => {
+            prioritySelect.value = "";
+            toolSelect.value = "";
+            render();
+            prioritySelect.focus();
+        });
+        render();
+    } catch (error) {
+        console.error("Could not load projects:", error);
+        resultCount.textContent = "Projects could not be loaded. Please try again later.";
     }
 });

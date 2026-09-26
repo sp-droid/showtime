@@ -1,13 +1,14 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
+    <meta charset="UTF-8">
     <meta name="darkreader-lock">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <link rel="stylesheet" href="../assets/libraries/bootstrap5.0.2/bootstrap.min.css">
     <link rel="stylesheet" href="../assets/libraries/fontawesome6.5.1/css/all.min.css">
     
-    <link rel="stylesheet" href="../assets/css/style.css?v=20260926-3">
-    <script src="../assets/js/projects.js"></script>
+    <link rel="stylesheet" href="../assets/css/style.css?v=20260926-4">
+    <script src="../assets/js/projects.js?v=20260926-projects-2"></script>
     <script src="../assets/js/common.js?v=20260926"></script>
     <title>Projects</title>
 	
@@ -35,8 +36,8 @@
 <div id="HTMLdata"
 section ="projects">
 </div>
-<div class="page-shell projects-page" style="display: flex; flex-direction: column; height: 100vh; width: 100vw; overflow-x: hidden; background-color: rgb(26, 28, 29);">
-	<div id="HTMLtopbar" style="flex: 0;"><header class="site-header">
+<div class="page-shell projects-page">
+    <div id="HTMLtopbar"><header class="site-header">
     <div class="site-header__inner">
         <a class="site-brand" href="../pages/about.html">Pablo Arbelo Cabrera</a>
         <button class="site-menu-toggle" type="button" aria-controls="site-navigation" aria-expanded="false">
@@ -58,27 +59,32 @@ section ="projects">
     </div>
 </header>
 </div>
-    <div id="layoutList" style="flex: 1; display: flex; flex-direction: column;">
-        <div style="flex: 0;">
-            <div class="projects-intro">
-                <div class="projects-intro-alert"><p id="hideAlertChrome" style="color: orangered; font-weight: bolder; transition: opacity 2s">Not all <a class="linkPopUp" href="https://caniuse.com/?search=web%20gpu">browsers</a> support WebGPU yet!</p></div>
-                <h2 id="typewriterProjects">Personal projects...</h2>
-                <div class="projects-intro-spacer"></div>
+    <main class="projects-main">
+        <header class="projects-hero">
+            <p class="projects-eyebrow">Portfolio</p>
+            <h1>Projects</h1>
+            <p class="projects-lede">A selection of software experiments, interactive tools, and space engineering work.</p>
+            <p class="projects-webgpu-note" id="projectsWebGpuNote" hidden>Some interactive projects use WebGPU and may need a compatible browser. <a class="linkPopUp" href="https://caniuse.com/?search=web%20gpu">Check browser support</a>.</p>
+        </header>
+        <section class="projects-section" aria-label="Project collection">
+            <div class="projects-controls-row">
+                <div class="projects-controls">
+                    <div class="projects-control">
+                        <label for="projectsPriority">Priority</label>
+                        <select id="projectsPriority" disabled><option value="">All priorities</option></select>
+                    </div>
+                    <div class="projects-control">
+                        <label for="projectsTool">Tool</label>
+                        <select id="projectsTool" disabled><option value="">All tools</option></select>
+                    </div>
+                </div>
+                <button class="projects-clear" id="projectsClearFilters" type="button" hidden>Clear filters</button>
             </div>
-            <div class="projects-filters" style="margin-bottom: 25px; display: flex; justify-content: center;">
-                <button id="buttonFilterImportance" class="btn btn-warning" style="border-radius: 1px; margin-right: 12px;"><i class="fa fa-fire"></i>&ensp;Prio: All</button>
-                <button id="buttonFilterTool" class="btn btn-info" style="border-radius: 1px;"><i class="fa fa-code"></i>&ensp;Tool: All</button>
-            </div>
-        </div>
-        <div class="projects-grid-row">
-            <div class="projects-grid-spacer"></div>
-            <div id="gridProjects">
-                 <!-- Projects are generated here from parsing the ../content/projects.json file -->
-            </div>
-            <div class="projects-grid-spacer"></div>
-        </div>
-        <br><br>
-    </div>
+            <p class="projects-result-count" id="projectsResultCount" role="status" aria-live="polite">Loading projects…</p>
+            <div class="projects-grid" id="gridProjects"></div>
+            <div class="projects-empty" id="projectsEmpty" hidden>No projects match those filters. Try another priority or tool.</div>
+        </section>
+    </main>
 </div>
 </body>
 </html>
