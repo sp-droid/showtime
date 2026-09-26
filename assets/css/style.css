@@ -106,11 +106,28 @@ body {
     height: 38px;
     justify-content: center;
     padding: 0 10px;
+    transition: background-color 0.18s ease, color 0.18s ease;
     white-space: nowrap;
 }
 .site-social-link:hover {
     background: #263238;
     color: #eef2f3;
+}
+.site-social-link[href^="https://www.linkedin.com/"] {
+    background: rgba(10, 102, 194, 0.18);
+    color: #82c5ff;
+}
+.site-social-link[href^="https://www.linkedin.com/"]:hover {
+    background: #0a66c2;
+    color: #fff;
+}
+.site-social-link[href^="https://github.com/"] {
+    background: rgba(130, 86, 205, 0.18);
+    color: #c9b0ff;
+}
+.site-social-link[href^="https://github.com/"]:hover {
+    background: #7047b9;
+    color: #fff;
 }
 .site-contact-link {
     align-items: center;
@@ -504,13 +521,77 @@ p { font-size: 18px; }
     }
 }
 
+/* About page */
+.about-page {
+    background: #1a1c1d;
+    display: flex;
+    flex-direction: column;
+    min-height: 100vh;
+}
+.about-page #HTMLtopbar {
+    flex: none;
+}
+.about-main {
+    align-items: center;
+    display: flex;
+    flex: 1;
+    padding: clamp(48px, 7vh, 88px) 24px;
+}
+.about-content {
+    align-items: center;
+    display: grid;
+    gap: clamp(48px, 6vw, 76px);
+    grid-template-columns: 270px minmax(0, 1fr);
+    margin: 0 auto;
+    max-width: 980px;
+    width: 100%;
+}
+.about-photo {
+    width: 270px;
+}
+.about-photo img {
+    border: 1px solid rgba(128, 200, 189, 0.25);
+    border-radius: 12px;
+    box-shadow: 0 20px 50px rgba(0, 0, 0, 0.24);
+    box-sizing: border-box;
+    display: block;
+    height: auto;
+    width: 100%;
+}
+.about-copy {
+    max-width: 620px;
+    min-width: 0;
+}
+.about-copy .about-eyebrow {
+    color: #80c8bd;
+    font-size: 12px;
+    font-weight: 700;
+    letter-spacing: 0.18em;
+    margin: 0 0 12px;
+    text-transform: uppercase;
+}
+.about-copy h1 {
+    font-size: clamp(38px, 3.7vw, 50px);
+    font-weight: 700;
+    letter-spacing: -0.035em;
+    line-height: 1.12;
+    margin: 0 0 22px;
+}
+.about-copy p {
+    color: #d7dddf;
+    font-size: 18px;
+    line-height: 1.65;
+    margin: 0;
+}
+.about-copy p + p {
+    margin-top: 18px;
+}
+
 /* Layout hooks for the existing desktop pages */
-.about-layout,
 .projects-intro,
 .projects-grid-row {
     display: flex;
 }
-.about-layout-spacer,
 .projects-intro-alert,
 .projects-intro-spacer,
 .projects-grid-spacer,
@@ -518,28 +599,6 @@ p { font-size: 18px; }
 .recipe-grid-spacer,
 .blog-page-spacer {
     flex: 1;
-}
-.about-content {
-    display: flex;
-    flex: 1 0 900px;
-    flex-wrap: wrap;
-    text-align: center;
-}
-.about-photo {
-    flex: 1;
-    text-align: center;
-}
-.about-photo img {
-    border-radius: 1px;
-    max-width: 100%;
-}
-.about-copy {
-    flex: 2;
-    margin: 0 34px 0 36px;
-    text-align: left;
-}
-.about-copy .pRich {
-    min-width: 400px;
 }
 .projects-intro {
     margin: 25px 0 20px;
@@ -648,7 +707,6 @@ p { font-size: 18px; }
         margin-left: auto;
     }
 
-    .about-layout-spacer,
     .projects-grid-spacer,
     .recipe-index-spacer,
     .recipe-grid-spacer,
@@ -657,27 +715,27 @@ p { font-size: 18px; }
     .blog-post-spacer {
         display: none;
     }
+    .about-main {
+        padding: 40px 20px 64px;
+    }
     .about-content {
-        display: block;
-        flex: 1 1 auto;
-        min-width: 0;
-        width: 100%;
+        gap: 28px;
+        grid-template-columns: minmax(0, 1fr);
+        max-width: 560px;
     }
     .about-photo {
-        padding: 0 16px;
+        justify-self: center;
+        width: 220px;
     }
-    .about-photo img {
-        height: auto;
-        width: min(100%, 420px);
+    .about-copy h1 {
+        font-size: 34px;
     }
-    .about-copy {
-        margin: 24px auto 0;
-        max-width: 560px;
-        padding: 0 20px;
-        width: 100%;
+    .about-copy p {
+        font-size: 16px;
+        line-height: 1.6;
     }
-    .about-copy .pRich {
-        min-width: 0;
+    .about-copy .about-eyebrow {
+        font-size: 11px;
     }
 
     .projects-intro {
@@ -910,24 +968,21 @@ p { font-size: 18px; }
     .site-social-link span {
         display: none;
     }
-    .about-layout-spacer {
-        display: none;
+    .about-main {
+        padding: 48px 24px;
     }
     .about-content {
-        flex: 1 1 100%;
-        min-width: 0;
-        width: 100%;
+        gap: 32px;
+        grid-template-columns: 240px minmax(0, 1fr);
     }
     .about-photo {
-        flex: 1 1 35%;
+        width: 240px;
     }
-    .about-copy {
-        flex: 1 1 55%;
-        margin: 0 20px 0 24px;
-        min-width: 0;
+    .about-copy h1 {
+        font-size: 40px;
     }
-    .about-copy .pRich {
-        min-width: 0;
+    .about-copy p {
+        font-size: 17px;
     }
     .projects-intro {
         flex-direction: column;
