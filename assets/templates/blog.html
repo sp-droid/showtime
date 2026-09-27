@@ -1,45 +1,47 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
+    <meta charset="UTF-8">
     <meta name="darkreader-lock">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <link rel="stylesheet" href="{{rootFolder}}assets/libraries/bootstrap5.0.2/bootstrap.min.css">
     <link rel="stylesheet" href="{{rootFolder}}assets/libraries/fontawesome6.5.1/css/all.min.css">
-    
-    <script src="https://cdn.jsdelivr.net/npm/markdown-it/dist/markdown-it.min.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/markdown-it-footnote@4.0.0/dist/markdown-it-footnote.min.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/markdown-it-task-lists/dist/markdown-it-task-lists.min.js"></script>
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/highlight.js@9.12.0/styles/atom-one-dark.css">
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/highlight.min.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/markdown-it-emoji/dist/markdown-it-emoji.min.js"></script>
-
-    
-    <link rel="stylesheet" href="{{rootFolder}}assets/css/style.css?v=20260926-4">
-    <link rel="stylesheet" href="{{rootFolder}}assets/css/github-markdown-dark.css">
-    <script src="{{rootFolder}}assets/js/blog.js"></script>
-    <script src="{{rootFolder}}assets/js/common.js?v=20260926"></script>
+    <link rel="stylesheet" href="{{rootFolder}}assets/css/style.css?v=20260927-blog-index-1">
+    <script src="{{rootFolder}}assets/js/common.js?v=20260926" defer></script>
+    <script src="{{rootFolder}}assets/js/blog.js?v=20260927-blog-index-1" defer></script>
     <title>Blog</title>
-	
-	{{favicon}}
+    {{favicon}}
 </head>
 
 {{googleAnalytics}}
 
 <body>
-<div id="HTMLdata"
-section="blog">
-</div>
-<div class="page-shell blog-page" style="display: flex; flex-direction: column; height: 100vh; width: 100vw; overflow-x: hidden; background-color: rgb(35, 39, 50);">
-	<div id="HTMLtopbar" style="flex: 0;">{{HTMLtopbar}}</div>
-    <div class="blog-page-layout" style="flex: 1; display: flex;">
-        <div class="blog-page-spacer"></div>
-        <div id="HTMLindex" style="flex: 0 1 800px; color: white;">
-            <div></div>
-            <div></div>
-        </div>
-        <div class="markdown-body" id="HTMLpost" style="display: none; flex: 0 1 800px;"></div>
-        <div class="blog-page-spacer"></div>
-    </div>
+<div id="HTMLdata" section="blog"></div>
+<div class="page-shell blog-page">
+    <div id="HTMLtopbar">{{HTMLtopbar}}</div>
+    <main class="blog-main">
+        <header class="blog-hero">
+            <p class="blog-eyebrow" id="blog-eyebrow">Writing</p>
+            <h1 id="blog-heading">Blog</h1>
+            <p class="blog-lede" id="blog-lede">Notes on software, algorithms, space engineering, and the occasional detour.</p>
+        </header>
+
+        <section class="blog-browse" aria-label="Browse posts">
+            <div class="blog-controls">
+                <label class="blog-search" for="blog-search-input">
+                    <i class="fa-solid fa-magnifying-glass" aria-hidden="true"></i>
+                    <span class="visually-hidden">Search post titles</span>
+                    <input id="blog-search-input" type="search" placeholder="Search posts" autocomplete="off">
+                </label>
+                <p class="blog-count" id="blog-count" role="status" aria-live="polite"></p>
+            </div>
+            <div class="blog-filters" id="blog-filters" role="group" aria-label="Filter posts by category"></div>
+        </section>
+
+        <section class="blog-results" id="blog-results" aria-label="Posts" aria-busy="true">
+            <p class="blog-loading">Loading posts…</p>
+        </section>
+    </main>
 </div>
 </body>
 </html>
