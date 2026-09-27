@@ -1,6 +1,7 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
+    <meta charset="UTF-8">
     <meta name="darkreader-lock">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <link rel="stylesheet" href="../../assets/libraries/bootstrap5.0.2/bootstrap.min.css">
@@ -8,13 +9,11 @@
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/highlight.js@9.12.0/styles/atom-one-dark.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.11.1/katex.min.css">
     <script src="https://public.flourish.studio/resources/embed.js"></script>
-    
-    <link rel="stylesheet" href="../../assets/css/style.css?v=20260926-4">
-    <link rel="stylesheet" href="../../assets/css/github-markdown-dark.css">
-    <script src="../../assets/js/common.js?v=20260926"></script>
-    <title>(GPU) Rainbow Smoke algorithm</title>
-	
-	<link rel="apple-touch-icon" sizes="180x180" href="../../assets/img/favicon/apple-touch-icon.png">
+    <link rel="stylesheet" href="../../assets/css/style.css?v=20260927-blog-post-1">
+    <link rel="stylesheet" href="../../assets/css/github-markdown-dark.css?v=20260927-blog-post-1">
+    <script src="../../assets/js/common.js?v=20260926" defer></script>
+    <title>(GPU) Rainbow Smoke algorithm | Blog</title>
+    <link rel="apple-touch-icon" sizes="180x180" href="../../assets/img/favicon/apple-touch-icon.png">
 <link rel="icon" type="image/png" sizes="32x32" href="../../assets/img/favicon/favicon-32x32.png">
 <link rel="icon" type="image/png" sizes="16x16" href="../../assets/img/favicon/favicon-16x16.png">
 <link rel="manifest" href="../../assets/img/favicon/site.webmanifest">
@@ -24,7 +23,6 @@
 <meta name="msapplication-config" content="../../assets/img/favicon/browserconfig.xml">
 <meta name="theme-color" content="#ffffff">
 </head>
-
 <script async src="https://www.googletagmanager.com/gtag/js?id=G-5RWJF4E3GR"></script>
 <script>
     window.dataLayer = window.dataLayer || [];
@@ -33,13 +31,10 @@
 
     gtag('config', 'G-5RWJF4E3GR');
 </script>
-
 <body>
-<div id="HTMLdata"
-section="blog">
-</div>
-<div class="page-shell blog-post-page" style="display: flex; flex-direction: column; height: 100vh; width: 100vw; overflow-x: hidden; background-color: rgb(35, 39, 50);">
-	<div id="HTMLtopbar" style="flex: 0;"><header class="site-header">
+<div id="HTMLdata" section="blog"></div>
+<div class="page-shell blog-post-page ">
+    <div id="HTMLtopbar"><header class="site-header">
     <div class="site-header__inner">
         <a class="site-brand" href="../../pages/about.html">Pablo Arbelo Cabrera</a>
         <button class="site-menu-toggle" type="button" aria-controls="site-navigation" aria-expanded="false">
@@ -61,14 +56,22 @@ section="blog">
     </div>
 </header>
 </div>
-    <div class="blog-post-layout" style="flex: 1; display: flex;">
-        <div class="markdown-body sidebarHide blog-post-sidebar" style="flex: 1; min-width: 22px; max-width: 16%; margin-right: 6px;"><br></div>
-        <div class="markdown-body" id="HTMLpost"><div id="section0"></div>
-<h6>March 13th, 2025</h6>
-<h1>(GPU) Rainbow Smoke algorithm</h1>
-<h5>Reading time: 5 mins</h5>
-<hr>
-<h1><a href="../../content/JSexperiments/GPUrainbowSmoke/index.html"><strong>Try it yourself</strong></a></h1>
+    <main class="blog-post-main">
+        <div class="blog-post-grid">
+            <header class="blog-post-heading" id="post-top">
+                <a class="blog-post-back" href="../blog.html"><i class="fa-solid fa-arrow-left" aria-hidden="true"></i> Back to Blog</a>
+                <p class="blog-post-eyebrow">Algorithms</p>
+                <h1>(GPU) Rainbow Smoke algorithm</h1>
+                <div class="blog-post-meta">
+                    <time datetime="2025-03-13">March 13th, 2025</time>
+                    <span class="blog-post-meta__separator" aria-hidden="true"></span>
+                    <span>5 min read</span>
+                </div>
+            </header>
+
+            <article class="blog-post-article" aria-label="(GPU) Rainbow Smoke algorithm">
+
+                <div class="markdown-body" id="HTMLpost"><h1><a href="../../content/JSexperiments/GPUrainbowSmoke/index.html"><strong>Try it yourself</strong></a></h1>
 <hr>
 <p>An implementation of the Rainbow Smoke algorithm using GPU compute shaders through WebGPU, in JavaScript. You can try it yourself <a href="https://caniuse.com/?search=web%20gpu">if your browser supports WebGPU</a>.</p>
 <p>Example result:</p>
@@ -134,47 +137,27 @@ section="blog">
 <h2>Some results from 4K resolution</h2>
 <p><img src="../../content/blog/assets/rainbow-smoke-2.jpg" alt="Downsampled 4K, minimum variant, ordered by hue, hue shifted +0.5"></p>
 <p><img src="../../content/blog/assets/rainbow-smoke-3.jpg" alt="Downsampled 4K, minimum variant, ordered by hue, hue shifted -0.5"></p>
-<hr><div class="blogTags"><button class="blogTagSelected" title='Check more posts of the "Algorithms" category on my blog!'>Algorithms</button></div><br></div>
-        <div class="blog-post-spacer" style="flex: 1; min-width: 20px;"></div>
-    </div>
+</div>
+                <footer class="blog-post-footer">
+                    <span class="blog-post-footer__tag">Algorithms</span>
+                    <a href="../blog.html">All posts <i class="fa-solid fa-arrow-right" aria-hidden="true"></i></a>
+                </footer>
+            </article>
+        </div>
+    </main>
 </div>
 <script>
-// Table of contents fix for correct opening and closing of detail-summary blocks
-function toggleDetails(event) {
-    if (event.offsetX < 0) {
-        event.stopPropagation();
-        const details = event.currentTarget.firstChild;
-        details.open = !details.open;
-    } else if (event.offsetY < 30) {
-        event.stopPropagation();
-        const details = event.currentTarget.firstChild;
-        details.open = true;
-    }
-}
-window.onload = function() {   
-    // Add figure number and caption to all images
-    const images = document.querySelectorAll("#HTMLpost img");
+document.addEventListener("DOMContentLoaded", () => {
     let figureNumber = 0;
-    images.forEach(img => {
-        if (img.alt === "INLINE") { return; }
-
-        figureNumber++;
-
-        img.style.display = "block";
-        img.style.margin = "auto";
-
-        const caption = document.createElement("p");
+    document.querySelectorAll("#HTMLpost img").forEach(img => {
+        if (img.alt === "INLINE" || !img.alt.trim()) return;
+        figureNumber += 1;
+        const caption = document.createElement("span");
+        caption.className = "blog-post-caption";
         caption.textContent = `Figure ${figureNumber}. ${img.alt}`;
-        caption.style.textAlign = "center";
-        caption.style.fontSize = "0.9em"
-        caption.style.marginTop = "0.5em";
-        img.parentNode.insertBefore(caption, img.nextSibling);        
+        img.insertAdjacentElement("afterend", caption);
     });
-
-    // Turn all details open by default in HTMLpost's TOC
-    const details = document.querySelectorAll("#HTMLpost .TOCpost details");
-    details.forEach(detail => detail.open = true);
-};
+});
 </script>
 </body>
 </html>

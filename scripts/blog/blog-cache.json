@@ -1,67 +1,67 @@
 {
   "eac-internship": {
-    "mdSize": 7713,
+    "mdHash": "39c37a7045c7682cc6dd406e93cf8a0c575374682e28ec29c268a6a024ca3681",
     "meta": "{\"title\":\"Internship at the European Space Agency\",\"file\":\"eac-internship\",\"tag\":\"Personal\",\"date\":\"31/12/2023\"}",
-    "renderSignature": "cf1e4e8faa0eb67bbb51dba573aa76389c44278b6c42e7ba4a5682c5d95c8953"
+    "renderSignature": "03b3d7b026d711aa1a332a34716a948b94eb499042303eee8d07ca0294d1e85c"
   },
   "diffusion-limited-aggregation": {
-    "mdSize": 2483,
+    "mdHash": "b2c091f725983d79f7247e8fe0c6b227bf184ec419df25411e067ef5b8cc8be3",
     "meta": "{\"title\":\"(GPU) DLA - Diffused Limited Aggregation\",\"file\":\"diffusion-limited-aggregation\",\"tag\":\"Algorithms\",\"date\":\"17/03/2025\"}",
-    "renderSignature": "cf1e4e8faa0eb67bbb51dba573aa76389c44278b6c42e7ba4a5682c5d95c8953"
+    "renderSignature": "03b3d7b026d711aa1a332a34716a948b94eb499042303eee8d07ca0294d1e85c"
   },
   "rainbow-smoke-gpu": {
-    "mdSize": 7240,
+    "mdHash": "dc5774403809cb1fa1ca50d667b119115ff5c49991c344f5735f2b0be02bcdbd",
     "meta": "{\"title\":\"(GPU) Rainbow Smoke algorithm\",\"file\":\"rainbow-smoke-gpu\",\"tag\":\"Algorithms\",\"date\":\"13/03/2025\"}",
-    "renderSignature": "cf1e4e8faa0eb67bbb51dba573aa76389c44278b6c42e7ba4a5682c5d95c8953"
+    "renderSignature": "03b3d7b026d711aa1a332a34716a948b94eb499042303eee8d07ca0294d1e85c"
   },
   "webgpu": {
-    "mdSize": 36442,
+    "mdHash": "194fe3eec18080e12a37ad5f8826312fe18d6a67ba5589cf70f38611a7e8e516",
     "meta": "{\"title\":\"WebGPU\",\"file\":\"webgpu\",\"tag\":\"Reference\",\"date\":\"13/03/2025\"}",
-    "renderSignature": "cf1e4e8faa0eb67bbb51dba573aa76389c44278b6c42e7ba4a5682c5d95c8953"
+    "renderSignature": "03b3d7b026d711aa1a332a34716a948b94eb499042303eee8d07ca0294d1e85c"
   },
   "uni-projects": {
-    "mdSize": 6168,
+    "mdHash": "43c93eb3e51a118c487f1b3c4e1919f023d3b61f533a53d7593fde6be9ffa890",
     "meta": "{\"title\":\"Projects during the MSc. in Space Engineering\",\"file\":\"uni-projects\",\"tag\":\"Projects\",\"date\":\"05/03/2025\"}",
-    "renderSignature": "cf1e4e8faa0eb67bbb51dba573aa76389c44278b6c42e7ba4a5682c5d95c8953"
+    "renderSignature": "03b3d7b026d711aa1a332a34716a948b94eb499042303eee8d07ca0294d1e85c"
   },
   "dbi": {
-    "mdSize": 4041,
+    "mdHash": "9d3cf463e0aff84484879f4a5744bcec5be2a5c932b6177c8272ba170fa124a4",
     "meta": "{\"title\":\"DBI - Discrete Bilinear Interpolation\",\"file\":\"dbi\",\"tag\":\"Algorithms\",\"date\":\"24/02/2025\"}",
-    "renderSignature": "cf1e4e8faa0eb67bbb51dba573aa76389c44278b6c42e7ba4a5682c5d95c8953"
+    "renderSignature": "03b3d7b026d711aa1a332a34716a948b94eb499042303eee8d07ca0294d1e85c"
   },
   "md-cheat-sheet": {
-    "mdSize": 20388,
+    "mdHash": "5ed114f3dff21896ae859e2bd301aa46cc8faa9ee42321c2b57df6aae2ca2430",
     "meta": "{\"title\":\"Markdown cheat sheet and tools explanation\",\"file\":\"md-cheat-sheet\",\"tag\":\"Reference\",\"date\":\"07/09/2024\"}",
-    "renderSignature": "cf1e4e8faa0eb67bbb51dba573aa76389c44278b6c42e7ba4a5682c5d95c8953"
+    "renderSignature": "03b3d7b026d711aa1a332a34716a948b94eb499042303eee8d07ca0294d1e85c"
   },
   "technical_notes": {
-    "mdSize": 19819,
+    "mdHash": "dde7b3cfcf5b02c28649653871b07bdc108ee1e1a795d3722e42e513efeedff7",
     "meta": "{\"title\":\"MSc thesis technical notes\",\"file\":\"technical_notes\",\"tag\":\"WIP\",\"date\":\"21/11/2025\"}",
-    "renderSignature": "cf1e4e8faa0eb67bbb51dba573aa76389c44278b6c42e7ba4a5682c5d95c8953"
+    "renderSignature": "03b3d7b026d711aa1a332a34716a948b94eb499042303eee8d07ca0294d1e85c"
   },
   "badminton": {
-    "mdSize": 12726,
+    "mdHash": "dbf33b3bb0d1f5455b8b39d0200c2aa84e786b2187400930422f44abc63ca4b4",
     "meta": "{\"title\":\"Badminton\",\"file\":\"badminton\",\"tag\":\"Personal\",\"date\":\"26/09/2026\"}",
-    "renderSignature": "cf1e4e8faa0eb67bbb51dba573aa76389c44278b6c42e7ba4a5682c5d95c8953"
+    "renderSignature": "03b3d7b026d711aa1a332a34716a948b94eb499042303eee8d07ca0294d1e85c"
   },
   "progress_log": {
-    "mdSize": 6563,
+    "mdHash": "c9d7389664e506b4468c192e4d238f2138a254b5b7422a8d5d135696fbe524e7",
     "meta": "{\"title\":\"MSc thesis progress log\",\"file\":\"progress_log\",\"tag\":\"WIP\",\"date\":\"21/11/2025\"}",
-    "renderSignature": "cf1e4e8faa0eb67bbb51dba573aa76389c44278b6c42e7ba4a5682c5d95c8953"
+    "renderSignature": "03b3d7b026d711aa1a332a34716a948b94eb499042303eee8d07ca0294d1e85c"
   },
   "literature_review": {
-    "mdSize": 17267,
+    "mdHash": "76d23bfc1d2f0bdb69070d4615ff70333869cb60e6ad65933d2763699bc927a1",
     "meta": "{\"title\":\"MSc thesis literature summary\",\"file\":\"literature_review\",\"tag\":\"WIP\",\"date\":\"21/11/2025\"}",
-    "renderSignature": "cf1e4e8faa0eb67bbb51dba573aa76389c44278b6c42e7ba4a5682c5d95c8953"
+    "renderSignature": "03b3d7b026d711aa1a332a34716a948b94eb499042303eee8d07ca0294d1e85c"
   },
   "slippy-map": {
-    "mdSize": 1324,
+    "mdHash": "40e1d236969e8fb7111ba89d220f7463375652b6686310f20e7ccaaaac2daf6d",
     "meta": "{\"title\":\"Slippy map\",\"file\":\"slippy-map\",\"tag\":\"Algorithms\",\"date\":\"23/06/2026\"}",
-    "renderSignature": "cf1e4e8faa0eb67bbb51dba573aa76389c44278b6c42e7ba4a5682c5d95c8953"
+    "renderSignature": "03b3d7b026d711aa1a332a34716a948b94eb499042303eee8d07ca0294d1e85c"
   },
   "typora-ukenglish": {
-    "mdSize": 949,
+    "mdHash": "2d97756c3cc6202b14a7332f0561a11cff6bcedfb4eecf2a79e57f3ce2cb8a3e",
     "meta": "{\"title\":\"Short guide for Typora on manually setting a custom UK spelling\",\"file\":\"typora-ukenglish\",\"tag\":\"Guides\",\"date\":\"27/06/2026\"}",
-    "renderSignature": "cf1e4e8faa0eb67bbb51dba573aa76389c44278b6c42e7ba4a5682c5d95c8953"
+    "renderSignature": "03b3d7b026d711aa1a332a34716a948b94eb499042303eee8d07ca0294d1e85c"
   }
 }

@@ -1,7 +1,5 @@
-// ################################
-// ########### Imports ############
-// ################################
-import fs from "fs";
+import fs from "node:fs";
+import { promises as files } from "node:fs";
 import { createHash } from "node:crypto";
 import markdownit from "markdown-it";
 import markdownitFootnote from "markdown-it-footnote";
@@ -14,317 +12,195 @@ import markdownitSub from "markdown-it-sub";
 import markdownitAbbr from "markdown-it-abbr";
 import hljs from "highlight.js";
 
-// ################################
-// ######### Global vars ##########
-// ################################
-
-let blogJSON = JSON.parse(await retrieveFile("../../content/blog.json"));
-// Lightweight cache of last-seen sizes so we can skip
-// regenerating posts whose inputs haven't changed.
-// Keep this alongside the script instead of under content/.
+const blogPath = "../../content/blog.json";
 const cachePath = "./blog-cache.json";
-let blogCache = {};
-try {
-    blogCache = JSON.parse(await retrieveFile(cachePath));
-} catch (e) {
-    blogCache = {};
-}
-const template = await retrieveFile("../../assets/templates/blog/post.html");
-const topbar = await retrieveFile("../../assets/templates/topbar.html");
-const favicon = await retrieveFile("../../assets/templates/favicon.html");
-const googleAnalytics = await retrieveFile("../../assets/templates/googleAnalytics.html");
+const template = await files.readFile("../../assets/templates/blog/post.html", "utf8");
+const topbar = await files.readFile("../../assets/templates/topbar.html", "utf8");
+const favicon = await files.readFile("../../assets/templates/favicon.html", "utf8");
+const googleAnalytics = await files.readFile("../../assets/templates/googleAnalytics.html", "utf8");
+const generatorSource = await files.readFile(new URL(import.meta.url), "utf8");
 const renderSignature = createHash("sha256")
-    .update(template).update(topbar).update(favicon).update(googleAnalytics)
+    .update(generatorSource).update(template).update(topbar).update(favicon).update(googleAnalytics)
     .digest("hex");
 
-// Reorder and rewrite
-blogJSON = blogJSON.sort((a, b) => {
-    let [dayA, monthA, yearA] = a.date.split('/').map(Number);
-    let [dayB, monthB, yearB] = b.date.split('/').map(Number);
-
-    let dateA = Date.parse(`${yearA}-${monthA.toString().padStart(2, '0')}-${dayA.toString().padStart(2, '0')}`);
-    let dateB = Date.parse(`${yearB}-${monthB.toString().padStart(2, '0')}-${dayB.toString().padStart(2, '0')}`);
-
-    return dateB - dateA;
-});
-fs.writeFile("../../content/blog.json", JSON.stringify(blogJSON, null, 2), "utf8", (err) => {
-    if (err) {
-        console.error("Error writing file:", err);
-    }
-});
-{
-    let skipped = 0;
-    let processed = 0;
-    const total = blogJSON.length;
-
-    for (let i = 0; i < blogJSON.length; i++) {
-        const result = await processPostIfChanged(blogJSON[i]);
-        if (result === "processed") {
-            processed++;
-        } else if (result === "skipped") {
-            skipped++;
+const markdown = markdownit({
+    html: true,
+    highlight(source, language) {
+        if (language && hljs.getLanguage(language)) {
+            try {
+                return hljs.highlight(source, { language }).value;
+            } catch (_) {
+                // Let markdown-it escape unrecognized code blocks.
+            }
         }
+        return "";
     }
+})
+    .use(markdownitFootnote)
+    .use(markdownitTaskLists)
+    .use(markdownitEmoji)
+    .use(markdownitKatex)
+    .use(markdownitAlign)
+    .use(markdownitSup)
+    .use(markdownitSub)
+    .use(markdownitAbbr);
 
-    // Persist updated cache after processing all posts
-    fs.writeFile(cachePath, JSON.stringify(blogCache, null, 2), "utf8", (err) => {
-        if (err) {
-            console.error("Error writing cache file:", err);
-        }
-    });
-
-    console.log(`Finished blog generation (${total} posts): skipped ${skipped}, processed ${processed}.`);
+const originalBlogJSON = await files.readFile(blogPath, "utf8");
+const blogJSON = JSON.parse(originalBlogJSON).sort((a, b) => dateValue(b.date) - dateValue(a.date));
+if (JSON.stringify(JSON.parse(originalBlogJSON)) !== JSON.stringify(blogJSON)) {
+    await files.writeFile(blogPath, JSON.stringify(blogJSON, null, 2), "utf8");
 }
 
-// ################################
-// ######## Functions #########
-// ################################
-async function retrieveFile(path) {
-    return new Promise((resolve, reject) => {
-        fs.readFile(path, "utf8", (err, content) => {
-            if (err) {
-                console.error("Error reading file:", err);
-                reject(err);
-            } else {
-                resolve(content);
-            }
-        });
-    });
+let blogCache = {};
+try {
+    blogCache = JSON.parse(await files.readFile(cachePath, "utf8"));
+} catch (_) {
+    // Build every post when the cache is absent or invalid.
 }
 
-// Only call savePost if the MD file or its blog.json
-// entry has changed. Uses stat size of the MD and a
-// stable JSON of the entry stored in a small cache.
-async function processPostIfChanged(blogMD) {
-    const mdPath = `../../content/blog/${blogMD["file"]}.md`;
-
-    // Get current MD file size (fast, no file read).
-    let mdSize = 0;
-    try {
-        const stats = await new Promise((resolve, reject) => {
-            fs.stat(mdPath, (err, s) => (err ? reject(err) : resolve(s)));
-        });
-        mdSize = stats.size;
-    } catch (e) {
-        // If we can't stat the file, let savePost handle it.
-        savePost(blogMD);
-        return "processed";
+let processed = 0;
+let skipped = 0;
+for (const post of blogJSON) {
+    const source = await files.readFile(`../../content/blog/${post.file}.md`, "utf8");
+    const mdHash = createHash("sha256").update(source).digest("hex");
+    const meta = JSON.stringify({ title: post.title, file: post.file, tag: post.tag, date: post.date });
+    const previous = blogCache[post.file];
+    const outputPath = `../../pages/blog/${post.file}.html`;
+    if (previous?.mdHash === mdHash && previous.meta === meta
+            && previous.renderSignature === renderSignature && fs.existsSync(outputPath)) {
+        skipped += 1;
+        continue;
     }
 
-    const stableJson = JSON.stringify({
-        title: blogMD.title,
-        file: blogMD.file,
-        tag: blogMD.tag,
-        date: blogMD.date,
+    await files.writeFile(outputPath, renderPost(post, source), "utf8");
+    blogCache[post.file] = { mdHash, meta, renderSignature };
+    processed += 1;
+}
+await files.writeFile(cachePath, JSON.stringify(blogCache, null, 2), "utf8");
+console.log(`Finished blog generation (${blogJSON.length} posts): skipped ${skipped}, processed ${processed}.`);
+
+function dateValue(value) {
+    const [day, month, year] = value.split("/").map(Number);
+    return Date.UTC(year, month - 1, day);
+}
+
+function escapeHtml(value) {
+    return String(value).replace(/[&<>"']/g, character => ({
+        "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#39;"
+    })[character]);
+}
+
+function headingText(inline) {
+    const parts = (inline?.children || []).map(token => {
+        if (token.type === "image") return token.content;
+        if (["text", "code_inline", "emoji", "math_inline"].includes(token.type)) return token.content;
+        return "";
     });
+    return parts.join("").trim() || inline?.content.trim() || "Section";
+}
 
-    const key = blogMD.file;
-    const prev = blogCache[key];
-
-    if (prev && prev.mdSize === mdSize && prev.meta === stableJson
-            && prev.renderSignature === renderSignature
-            && fs.existsSync(`../../pages/blog/${blogMD["file"]}.html`)) {
-        // No change detected in MD size or blog.json entry.
-        return "skipped";
+function renderTocList(headings) {
+    const root = { level: 0, children: [] };
+    const parents = [root];
+    for (const heading of headings) {
+        while (parents.length > 1 && parents.at(-1).level >= heading.level) parents.pop();
+        const node = { ...heading, children: [] };
+        parents.at(-1).children.push(node);
+        parents.push(node);
     }
 
-    // Update cache and regenerate.
-    blogCache[key] = { mdSize: mdSize, meta: stableJson, renderSignature };
-    savePost(blogMD);
-    return "processed";
+    function renderNodes(nodes) {
+        return `<ul class="blog-post-toc__list">${nodes.map(node =>
+            `<li><a href="#${node.id}">${escapeHtml(node.label)}</a>${node.children.length ? renderNodes(node.children) : ""}</li>`
+        ).join("")}</ul>`;
+    }
+
+    return `<ul class="blog-post-toc__list"><li><a href="#post-top">Top</a></li>`
+        + root.children.map(node =>
+            `<li><a href="#${node.id}">${escapeHtml(node.label)}</a>${node.children.length ? renderNodes(node.children) : ""}</li>`
+        ).join("") + "</ul>";
 }
 
-function savePost(blogMD) {
-    fs.readFile(`../../content/blog/${blogMD["file"]}.md`, "utf8", (err, text) => {
-        if (err) {
-            console.error(err);
-            return;
+function renderMarkdown(source) {
+    const environment = {};
+    const tokens = markdown.parse(source.replaceAll("assets/", "../../content/blog/assets/"), environment);
+    const contentTokens = [];
+    const headings = [];
+    let tocRequested = false;
+    let afterToc = false;
+
+    for (let index = 0; index < tokens.length; index += 1) {
+        const token = tokens[index];
+        if (token.type === "paragraph_open" && token.level === 0
+                && tokens[index + 1]?.type === "inline"
+                && tokens[index + 1].content.trim() === "[toc]"
+                && tokens[index + 2]?.type === "paragraph_close") {
+            tocRequested = true;
+            afterToc = true;
+            index += 2;
+            continue;
         }
-        text = text.split(/\r?\n/);
-        let toc = false; let ignoreLines = false; let tocDict = {};
-        let lastH1 = ""; let lastH2 = ""; let ref = 1;
-        for (let i=0; i<text.length; i++) {
-            const line = text[i];
-            if (toc === false) {
-                if (line.trim() === "[toc]") {
-                    toc = true;
-                }
-            } else {
-                // Ignore lines in code blocks
-                if (ignoreLines === true && line.slice(0, 3) === "```") {
-                    ignoreLines = false;
-                    continue;
-                }
-                if (line.slice(0, 3) === "```") { 
-                    ignoreLines = true;
-                    continue;
-                }
-                if (ignoreLines === true) { continue; }
-                
-                if (line.slice(0, 2) === "# ") {
-                    lastH1 = line.slice(2);
-                    tocDict[lastH1] = {};
-                    text[i-1] += `<div id="section${ref}"></div>\n`
-                    ref++;
-                }
-                if (line.slice(0, 3) === "## ") {
-                    if (lastH1 === "") { lastH1 = " "; tocDict[lastH1] = {}; }
-                    lastH2 = line.slice(3);
-                    tocDict[lastH1][lastH2] = [];
-                    text[i-1] += `<div id="section${ref}"></div>\n`
-                    ref++;
-                }
-                if (line.slice(0, 4) === "### ") {
-                    if (lastH2 === "") { lastH2 = " "; tocDict[lastH1][lastH2] = []; }
-                    tocDict[lastH1][lastH2].push(line.slice(4));
-                    text[i-1] += `<div id="section${ref}"></div>\n`
-                    ref++;
-                }
-            }
+
+        if (afterToc && token.type === "heading_open" && token.level === 0
+                && /^h[1-4]$/.test(token.tag)) {
+            const id = `post-section-${headings.length + 1}`;
+            token.attrSet("id", id);
+            token.attrSet("tabindex", "-1");
+            headings.push({ id, level: Number(token.tag[1]), label: headingText(tokens[index + 1]) });
         }
-        text = text.join("\n");
-        text = '<div id="section0"></div>\n\n'+
-            `###### ${formatDatePost(blogMD["date"])}\n`+
-            `# ${blogMD["title"]}\n`+
-            `##### Reading time: ${calculateReadingTime(text)} mins\n\n---\n`+
-            text.replaceAll("assets/", "../../content/blog/assets/");
+        contentTokens.push(token);
+    }
 
-        const md = markdownit({
-            html: true,
-            highlight: function (str, lang) {
-                if (lang && hljs.getLanguage(lang)) {
-                try {
-                    return hljs.highlight(str, { language: lang }).value;
-                } catch (__) {}
-                }
-            
-                return ''; // use external default escaping
-            }
-            })
-            .use(markdownitFootnote)
-            .use(markdownitTaskLists)
-            .use(markdownitEmoji)
-            .use(markdownitKatex)
-            .use(markdownitAlign)
-            .use(markdownitSup)
-            .use(markdownitSub)
-            .use(markdownitAbbr);
-        text = md.render(text);
-        text += `<hr><div class="blogTags"><button class="blogTagSelected" title='Check more posts of the "${blogMD["tag"]}" category on my blog!'>${blogMD["tag"]}</button></div><br>`
-        text = template.replace("{{content}}", text);
-        text = text.replace("{{title}}", blogMD["title"]);
-
-        // Inject shared layout fragments (same placeholders
-        // as used by complete.py). Individual blog posts
-        // live under pages/blog/, so rootFolder is ../.. to
-        // reach the site root.
-        const rootFolder = "../../";
-        text = text.replaceAll("{{HTMLtopbar}}", topbar);
-        text = text.replaceAll("{{favicon}}", favicon);
-        text = text.replaceAll("{{googleAnalytics}}", googleAnalytics);
-        text = text.replaceAll("{{rootFolder}}", rootFolder);
-
-        // Multiple row/col table cells
-        text = text.replaceAll(">#rowspan=2 ", " rowspan=2>").replaceAll(">#rowspan=3 ", " rowspan=3>").replaceAll(">#rowspan=4 ", " rowspan=4>").replaceAll(">#rowspan=5 ", " rowspan=5>");
-        text = text.replaceAll(">#colspan=2 ", " colspan=2>").replaceAll(">#colspan=3 ", " colspan=3>").replaceAll(">#colspan=4 ", " colspan=4>").replaceAll(">#colspan=5 ", " colspan=5>");
-        text = text.replaceAll(/<td[^>]*>#remove<\/td>/g, "");
-
-        if (toc === true) {
-            ref = 1;
-            let tocText = "<div class='TOCpost'><h4>&emsp;&nbsp;Contents</h4><ul><li><a href='#section0'>(Top)</a></li>";
-            for (let H1 in tocDict) {
-                if (Object.keys(tocDict[H1]).length > 0) {
-                    if (H1 === " ") {
-                        tocText += `<ul>`
-                    } else {
-                        tocText += `<li onclick="toggleDetails(event)"><details><summary><a href='#section${ref}'>${H1}</a></summary><ul>`
-                        ref++;
-                    }
-                    for (let H2 in tocDict[H1]) {
-                        if (tocDict[H1][H2].length > 0) {
-                            tocText += `<li onclick="toggleDetails(event)"><details><summary><a href='#section${ref}'>${H2}</a></summary><ul>`
-                            ref++;
-                            for (let H3 of tocDict[H1][H2]) {
-                                tocText += `<li><a href='#section${ref}'>${H3}</a></li>`;
-                                ref++;
-                            }
-                            tocText += "</ul></details></li>"
-                        } else {
-                            tocText += `<li><a href='#section${ref}'>${H2}</a></li>`;
-                            ref++;
-                        }
-                    }
-                    
-                    if (H1 === " ") {
-                        tocText += "</ul>"
-                    } else {
-                        tocText += "</ul></details></li>"
-                    }
-                } else {
-                    tocText += `<li><a href='#section${ref}'>${H1}</a></li>`;
-                    ref++;
-                }
-            }
-            tocText += "\n</ul></div>"
-            text = text.replaceAll("[toc]",tocText);
-        } else {
-            text = text.replace("[toc]","");
-        }
-        
-        fs.writeFile(`../../pages/blog/${blogMD["file"]}.html`, text, 'utf8', (err) => {
-            if (err) {
-                console.error('Error writing to file:', err);
-                return;
-            }
-        });        
-    });
+    let content = markdown.renderer.render(contentTokens, markdown.options, environment);
+    content = content.replaceAll(">#rowspan=2 ", " rowspan=2>")
+        .replaceAll(">#rowspan=3 ", " rowspan=3>")
+        .replaceAll(">#rowspan=4 ", " rowspan=4>")
+        .replaceAll(">#rowspan=5 ", " rowspan=5>")
+        .replaceAll(">#colspan=2 ", " colspan=2>")
+        .replaceAll(">#colspan=3 ", " colspan=3>")
+        .replaceAll(">#colspan=4 ", " colspan=4>")
+        .replaceAll(">#colspan=5 ", " colspan=5>")
+        .replaceAll(/<td[^>]*>#remove<\/td>/g, "");
+    return { content, headings: tocRequested ? headings : [] };
 }
 
-// ################################
-// ############# Date #############
-// ################################
+function renderPost(post, source) {
+    const { content, headings } = renderMarkdown(source);
+    const hasToc = headings.length > 0;
+    const tocList = hasToc ? renderTocList(headings) : "";
+    const values = {
+        title: escapeHtml(post.title),
+        tag: escapeHtml(post.tag),
+        date: escapeHtml(formatDatePost(post.date)),
+        isoDate: post.date.split("/").reverse().join("-"),
+        readingTime: calculateReadingTime(source),
+        backHref: post.tag === "WIP" ? "../blog.html#wip" : "../blog.html",
+        tocClass: hasToc ? "blog-post-page--with-toc" : "",
+        desktopToc: hasToc
+            ? `<aside class="blog-post-sidebar"><nav class="blog-post-toc" aria-label="On this page"><p class="blog-post-toc__title">On this page</p>${tocList}</nav></aside>`
+            : "",
+        mobileToc: hasToc
+            ? `<details class="blog-post-toc-mobile"><summary>On this page <i class="fa-solid fa-chevron-down" aria-hidden="true"></i></summary><nav aria-label="On this page">${tocList}</nav></details>`
+            : "",
+        content,
+        HTMLtopbar: topbar,
+        favicon,
+        googleAnalytics,
+        rootFolder: "../../"
+    };
+    return Object.entries(values).reduce((html, [key, value]) =>
+        html.replaceAll(`{{${key}}}`, String(value)), template);
+}
 
 function formatDatePost(inputDate) {
-    const parts = inputDate.split('/'); // Split the date string into parts
-    const day = parseInt(parts[0], 10); // Extract the day
-    const month = parseInt(parts[1], 10); // Extract the month
-    const year = parseInt(parts[2], 10); // Extract the year
-
-    // Create a new Date object
-    const date = new Date(year, month - 1, day);
-
-    // Define month names array
-    const monthNames = [
-        'January', 'February', 'March', 'April',
-        'May', 'June', 'July', 'August',
-        'September', 'October', 'November', 'December'
-    ];
-
-    // Get month name and append 'th', 'st', 'nd', 'rd' suffix for day
-    const monthName = monthNames[date.getMonth()];
-    const suffix = (day === 11 || day === 12 || day === 13) ? 'th' :
-                    (day % 10 === 1) ? 'st' :
-                    (day % 10 === 2) ? 'nd' :
-                    (day % 10 === 3) ? 'rd' : 'th';
-
-    // Construct formatted date string
-    const formattedDate = `${monthName} ${day}${suffix}, ${year}`;
-
-    return formattedDate;
+    const [day, month, year] = inputDate.split("/").map(Number);
+    const monthName = new Intl.DateTimeFormat("en-US", { month: "long", timeZone: "UTC" })
+        .format(new Date(Date.UTC(year, month - 1, day)));
+    const suffix = [11, 12, 13].includes(day % 100) ? "th"
+        : day % 10 === 1 ? "st" : day % 10 === 2 ? "nd" : day % 10 === 3 ? "rd" : "th";
+    return `${monthName} ${day}${suffix}, ${year}`;
 }
 
-// ################################
-// ########### Read time ##########
-// ################################
-function calculateReadingTime(text) {
-    // Define average reading speed (words per minute)
-    const wordsPerMinute = 225;
-    
-    // Remove any extra spaces and count the number of words
-    const wordCount = text.trim().split(/\s+/).length;
-    
-    // Calculate the reading time in minutes
-    const timeInMinutes = Math.ceil(wordCount / wordsPerMinute);
-    
-    return timeInMinutes;
+function calculateReadingTime(source) {
+    return Math.max(1, Math.ceil(source.trim().split(/\s+/).length / 225));
 }

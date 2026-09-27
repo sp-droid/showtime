@@ -1,6 +1,7 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
+    <meta charset="UTF-8">
     <meta name="darkreader-lock">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <link rel="stylesheet" href="../../assets/libraries/bootstrap5.0.2/bootstrap.min.css">
@@ -8,13 +9,11 @@
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/highlight.js@9.12.0/styles/atom-one-dark.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.11.1/katex.min.css">
     <script src="https://public.flourish.studio/resources/embed.js"></script>
-    
-    <link rel="stylesheet" href="../../assets/css/style.css?v=20260926-4">
-    <link rel="stylesheet" href="../../assets/css/github-markdown-dark.css">
-    <script src="../../assets/js/common.js?v=20260926"></script>
-    <title>MSc thesis literature summary</title>
-	
-	<link rel="apple-touch-icon" sizes="180x180" href="../../assets/img/favicon/apple-touch-icon.png">
+    <link rel="stylesheet" href="../../assets/css/style.css?v=20260927-blog-post-1">
+    <link rel="stylesheet" href="../../assets/css/github-markdown-dark.css?v=20260927-blog-post-1">
+    <script src="../../assets/js/common.js?v=20260926" defer></script>
+    <title>MSc thesis literature summary | Blog</title>
+    <link rel="apple-touch-icon" sizes="180x180" href="../../assets/img/favicon/apple-touch-icon.png">
 <link rel="icon" type="image/png" sizes="32x32" href="../../assets/img/favicon/favicon-32x32.png">
 <link rel="icon" type="image/png" sizes="16x16" href="../../assets/img/favicon/favicon-16x16.png">
 <link rel="manifest" href="../../assets/img/favicon/site.webmanifest">
@@ -24,7 +23,6 @@
 <meta name="msapplication-config" content="../../assets/img/favicon/browserconfig.xml">
 <meta name="theme-color" content="#ffffff">
 </head>
-
 <script async src="https://www.googletagmanager.com/gtag/js?id=G-5RWJF4E3GR"></script>
 <script>
     window.dataLayer = window.dataLayer || [];
@@ -33,13 +31,10 @@
 
     gtag('config', 'G-5RWJF4E3GR');
 </script>
-
 <body>
-<div id="HTMLdata"
-section="blog">
-</div>
-<div class="page-shell blog-post-page" style="display: flex; flex-direction: column; height: 100vh; width: 100vw; overflow-x: hidden; background-color: rgb(35, 39, 50);">
-	<div id="HTMLtopbar" style="flex: 0;"><header class="site-header">
+<div id="HTMLdata" section="blog"></div>
+<div class="page-shell blog-post-page blog-post-page--with-toc">
+    <div id="HTMLtopbar"><header class="site-header">
     <div class="site-header__inner">
         <a class="site-brand" href="../../pages/about.html">Pablo Arbelo Cabrera</a>
         <button class="site-menu-toggle" type="button" aria-controls="site-navigation" aria-expanded="false">
@@ -61,21 +56,24 @@ section="blog">
     </div>
 </header>
 </div>
-    <div class="blog-post-layout" style="flex: 1; display: flex;">
-        <div class="markdown-body sidebarHide blog-post-sidebar" style="flex: 1; min-width: 22px; max-width: 16%; margin-right: 6px;"><br><div class='TOCpost'><h4>&emsp;&nbsp;Contents</h4><ul><li><a href='#section0'>(Top)</a></li><li onclick="toggleDetails(event)"><details><summary><a href='#section1'>Propagator</a></summary><ul><li onclick="toggleDetails(event)"><details><summary><a href='#section2'>Solver</a></summary><ul><li><a href='#section3'>Benchmarks</a></li><li><a href='#section4'>Picard-Chebyshev</a></li><li><a href='#section5'>GPU specific</a></li></ul></details></li></ul></details></li><li><a href='#section6'>GPU programming</a></li><li onclick="toggleDetails(event)"><details><summary><a href='#section7'>Other</a></summary><ul><li><a href='#section8'>Break-up model</a></li><li><a href='#section9'>Perturbation modelling</a></li><li><a href='#section10'>Validation</a></li></ul></details></li><li onclick="toggleDetails(event)"><details><summary><a href='#section11'>Recommended but unused</a></summary><ul><li><a href='#section12'>HEO</a></li></ul></details></li>
-</ul></div></div>
-        <div class="markdown-body" id="HTMLpost"><div id="section0"></div>
-<h6>November 21st, 2025</h6>
-<h1>MSc thesis literature summary</h1>
-<h5>Reading time: 10 mins</h5>
-<hr>
-<p><img src="../../content/blog/assets/mind_map.drawio.svg" alt="Thesis mind map"></p>
-<p><div class='TOCpost'><h4>&emsp;&nbsp;Contents</h4><ul><li><a href='#section0'>(Top)</a></li><li onclick="toggleDetails(event)"><details><summary><a href='#section1'>Propagator</a></summary><ul><li onclick="toggleDetails(event)"><details><summary><a href='#section2'>Solver</a></summary><ul><li><a href='#section3'>Benchmarks</a></li><li><a href='#section4'>Picard-Chebyshev</a></li><li><a href='#section5'>GPU specific</a></li></ul></details></li></ul></details></li><li><a href='#section6'>GPU programming</a></li><li onclick="toggleDetails(event)"><details><summary><a href='#section7'>Other</a></summary><ul><li><a href='#section8'>Break-up model</a></li><li><a href='#section9'>Perturbation modelling</a></li><li><a href='#section10'>Validation</a></li></ul></details></li><li onclick="toggleDetails(event)"><details><summary><a href='#section11'>Recommended but unused</a></summary><ul><li><a href='#section12'>HEO</a></li></ul></details></li>
-</ul></div></p>
-<div id="section1"></div>
-<h1>Propagator</h1>
-<div id="section2"></div>
-<h2>Solver</h2>
+    <main class="blog-post-main">
+        <div class="blog-post-grid">
+            <header class="blog-post-heading" id="post-top">
+                <a class="blog-post-back" href="../blog.html#wip"><i class="fa-solid fa-arrow-left" aria-hidden="true"></i> Back to Blog</a>
+                <p class="blog-post-eyebrow">WIP</p>
+                <h1>MSc thesis literature summary</h1>
+                <div class="blog-post-meta">
+                    <time datetime="2025-11-21">November 21st, 2025</time>
+                    <span class="blog-post-meta__separator" aria-hidden="true"></span>
+                    <span>10 min read</span>
+                </div>
+            </header>
+<aside class="blog-post-sidebar"><nav class="blog-post-toc" aria-label="On this page"><p class="blog-post-toc__title">On this page</p><ul class="blog-post-toc__list"><li><a href="#post-top">Top</a></li><li><a href="#post-section-1">Propagator</a><ul class="blog-post-toc__list"><li><a href="#post-section-2">Solver</a><ul class="blog-post-toc__list"><li><a href="#post-section-3">Benchmarks</a></li><li><a href="#post-section-4">Picard-Chebyshev</a></li><li><a href="#post-section-5">GPU specific</a></li></ul></li></ul></li><li><a href="#post-section-6">GPU programming</a></li><li><a href="#post-section-7">Other</a><ul class="blog-post-toc__list"><li><a href="#post-section-8">Break-up model</a></li><li><a href="#post-section-9">Perturbation modelling</a></li><li><a href="#post-section-10">Validation</a></li></ul></li><li><a href="#post-section-11">Recommended but unused</a><ul class="blog-post-toc__list"><li><a href="#post-section-12">HEO</a></li></ul></li></ul></nav></aside>
+            <article class="blog-post-article" aria-label="MSc thesis literature summary">
+<details class="blog-post-toc-mobile"><summary>On this page <i class="fa-solid fa-chevron-down" aria-hidden="true"></i></summary><nav aria-label="On this page"><ul class="blog-post-toc__list"><li><a href="#post-top">Top</a></li><li><a href="#post-section-1">Propagator</a><ul class="blog-post-toc__list"><li><a href="#post-section-2">Solver</a><ul class="blog-post-toc__list"><li><a href="#post-section-3">Benchmarks</a></li><li><a href="#post-section-4">Picard-Chebyshev</a></li><li><a href="#post-section-5">GPU specific</a></li></ul></li></ul></li><li><a href="#post-section-6">GPU programming</a></li><li><a href="#post-section-7">Other</a><ul class="blog-post-toc__list"><li><a href="#post-section-8">Break-up model</a></li><li><a href="#post-section-9">Perturbation modelling</a></li><li><a href="#post-section-10">Validation</a></li></ul></li><li><a href="#post-section-11">Recommended but unused</a><ul class="blog-post-toc__list"><li><a href="#post-section-12">HEO</a></li></ul></li></ul></nav></details>
+                <div class="markdown-body" id="HTMLpost"><p><img src="../../content/blog/assets/mind_map.drawio.svg" alt="Thesis mind map"></p>
+<h1 id="post-section-1" tabindex="-1">Propagator</h1>
+<h2 id="post-section-2" tabindex="-1">Solver</h2>
 <p>Van Der Houwen, P.J., E. Messina, and J.J.B. De Swart. “Parallel Störmer–Cowell Methods for High-Precision Orbit Computations.” <em>Applied Numerical Mathematics</em> 31, no. 3 (1999): 353–74. https://doi.org/10.1016/S0168-9274(98)00135-4.</p>
 <ul>
 <li><strong>Many orbital mechanics problems are non-stiff, initial value problems.</strong></li>
@@ -84,8 +82,7 @@ section="blog">
 <ul>
 <li>Runge-Kutta method</li>
 </ul>
-<div id="section3"></div>
-<h3>Benchmarks</h3>
+<h3 id="post-section-3" tabindex="-1">Benchmarks</h3>
 <p>Atallah, Ahmed M., Robyn M. Woollands, Tarek A. Elgohary, and John L. Junkins. “Accuracy and Efficiency Comparison of Six Numerical Integrators for Propagating Perturbed Orbits.” <em>The Journal of the Astronautical Sciences</em> 67, no. 2 (2020): 511–38. https://doi.org/10.1007/s40295-019-00167-2.</p>
 <ul>
 <li>Benchmark of different numerical integrators, though only aimed at short term comparisons. Adaptive <strong>Picard-Chebyshev outperforms</strong> algorithms included in the comparison.</li>
@@ -94,8 +91,7 @@ section="blog">
 <ul>
 <li>Comparison of different solvers and their preferred case with respect to problem stiffness. <strong>The algorithms ode45 and ode113 are good for our non-stiff problem. ode45 is one step, ode113 is multistep, better for long propagations with expensive evaluation functions.</strong></li>
 </ul>
-<div id="section4"></div>
-<h3>Picard-Chebyshev</h3>
+<h3 id="post-section-4" tabindex="-1">Picard-Chebyshev</h3>
 <p>Picard-Chebyshev is great for extracting computing power properly out of GPUs, due to its parallel nature, in comparison to most solvers for orbit propagation that are sequential. <strong>However</strong>, if the goal is still multi-object (in the hundreds, thousands), it stops being crucial because we can simply run each thread independently on simple sequential solvers, for each object. It's worse for collision detection too. Unless the goal changes or becomes in the future to propagate a single orbit very accurately very fast, it's not the best solution.</p>
 <p>Koblick, Darin, Mark Poole, and Praveen Shankar. “Parallel High-Precision Orbit Propagation Using the Modified Picard-Chebyshev Method.” <em>Volume 1: Advances in Aerospace Technology</em>, American Society of Mechanical Engineers, November 9, 2012, 587–605. https://doi.org/10.1115/IMECE2012-87878.</p>
 <ul>
@@ -105,8 +101,7 @@ section="blog">
 <ul>
 <li>Method to increase the convergence interval in PC</li>
 </ul>
-<div id="section5"></div>
-<h3>GPU specific</h3>
+<h3 id="post-section-5" tabindex="-1">GPU specific</h3>
 <p>Masat, Alessandro, Camilla Colombo, and Arnaud Boutonnet. “GPU-Based High-Precision Orbital Propagation of Large Sets of Initial Conditions through Picard-Chebyshev Augmentation.” <em>Acta Astronautica</em> 204 (March 2023): 239–52. https://doi.org/10.1016/j.actaastro.2022.12.037.</p>
 <ul>
 <li>Highly parallel Picard–Chebyshev orbital propagator that augments the integrator to propagate <em>many initial conditions at once</em> with high accuracy, significantly improving throughput versus multi-core CPU approaches.</li>
@@ -116,17 +111,14 @@ section="blog">
 <li>Thesis: Long term analytical (averaged elements) propagator for GPU. Extensive guidelines for extracting performance from the GPU for these kind of problems.</li>
 <li>His short conference paper adjoined to the thesis later: Short summary on the problem specifically for the orbital debris case with thousands of fragments, includes tips on the general implementation on GPUs.</li>
 </ul>
-<div id="section6"></div>
-<h1>GPU programming</h1>
+<h1 id="post-section-6" tabindex="-1">GPU programming</h1>
 <p>Oden, Lena. “Lessons Learned from Comparing C-CUDA and Python-Numba for GPU-Computing.” <em>2020 28th Euromicro International Conference on Parallel, Distributed and Network-Based Processing (PDP)</em>, March 2020, 216–23. https://doi.org/10.1109/PDP50117.2020.00041.</p>
 <ul>
 <li>Numba CUDA is compared against C-CUDA. Numba uses NVVM JIT compiled Python-written kernels for NVIDIA GPUs which, despite the bad reputation of Python, show comparable performance to C-CUDA at least for the GPU part. There is always some slow overhead from Python's interpreter -there is a price for simplification- but the effect on total computation time depends on how little we can rely on the CPU side to solve a task. Numba CUDA can be employed in multi-GPU applications.</li>
 <li>There are some improvements that should be taken into account: defined thread ids as unsigned integers instead of signed, manually assign single precision types when needed (otherwise automatic type inference can result in problems for single precision applications)</li>
 </ul>
-<div id="section7"></div>
-<h1>Other</h1>
-<div id="section8"></div>
-<h2>Break-up model</h2>
+<h1 id="post-section-7" tabindex="-1">Other</h1>
+<h2 id="post-section-8" tabindex="-1">Break-up model</h2>
 <p>Johnson, N. L., P. H. Krisko, J. -C. Liou, and P. D. Anz-Meador. “NASA’s New Breakup Model of Evolve 4.0.” <em>Advances in Space Research</em> 28, no. 9 (2001): 1377–84. https://doi.org/10.1016/S0273-1177(01)00423-9.</p>
 <ul>
 <li>NASA's new break-up model article. Comparison with the old model.</li>
@@ -139,8 +131,7 @@ section="blog">
 <ul>
 <li>Compares freely available C++, Fortran and Python implementations of NASA's break-up model, and eventually offers a validated version without errors. I used their C++ implementation for ESA for the bridge function and to double check everything.</li>
 </ul>
-<div id="section9"></div>
-<h2>Perturbation modelling</h2>
+<h2 id="post-section-9" tabindex="-1">Perturbation modelling</h2>
 <p>Montenbruck, O, E Gill, and Fh Lutze. “<em>Satellite Orbits: Models, Methods, and Applications</em>.” <em>Applied Mechanics Reviews</em> 55, no. 2 (2002): B27–28. https://doi.org/10.1115/1.1451162.</p>
 <ul>
 <li>Perturbations, Earth's geopotential, 3<sup>rd</sup> body, drag, SRP... and precision modelling ones like tides, Earth radiation pressure and relativistic effects.</li>
@@ -155,8 +146,7 @@ section="blog">
 <li><strong>Cartesian form of J2</strong>.</li>
 </ul>
 <p>Curtis, Howard D. <em>Orbital Mechanics for Engineering Students</em>. 1. ed., Reprinted. Elsevier Aerospace Engineering Series. Elsevier Butterworth Heinemann, 2008.</p>
-<div id="section10"></div>
-<h2>Validation</h2>
+<h2 id="post-section-10" tabindex="-1">Validation</h2>
 <p>Colombo, Camilla. <em>PLANETARY ORBITAL DYNAMICS (PLANODYN) SUITE FOR LONG TERM PROPAGATION IN PERTURBED ENVIRONMENT</em>. January 1, 2016.</p>
 <ul>
 <li><strong>PlanODyn</strong></li>
@@ -170,8 +160,7 @@ section="blog">
 <li><strong>Precision Orbit Ephemerides (POE)</strong>. POE’s are available for a few satellites such as TOPEX, LAGEOS, ETALON 1 and 2, GPS, TDRSS, and a few others. You should contact the appropriate organization to determine their availability. For instance, the Center for Space Research at the University of Texas at Austin produces POE’s for TOPEX. See Appendix D for additional information</li>
 </ul>
 <hr>
-<div id="section11"></div>
-<h1>Recommended but unused</h1>
+<h1 id="post-section-11" tabindex="-1">Recommended but unused</h1>
 <p>*, <strong>2</strong>. [Colombo C, Alessi EM, van der Weg W, Soldini S, Letizia F, Vetrisano M, Vasile M, Rossi A, Landgraf M. End-of-life disposal concepts for Libration Point Orbit and Highly Elliptical Orbit missions. Acta Astronautica. 2015 May 1;110:298-312.](literature/proposal papers/End-of-life disposal concepts for Libration Point Orbit and Highly Elliptical Orbit missions.pdf)</p>
 <ul>
 <li>Focused on the analysis of possible disposal strategies for HEO but also Libration Point Orbits (LPO). Disposal strategies are not in the scope of the thesis.</li>
@@ -232,8 +221,7 @@ section="blog">
 <li>Continuum model and semi-analytical evolution of fragment cloud, for faster results.</li>
 <li>COMMENTS: Strong reference for analytical and continuum based solutions but probably not what we are looking for.</li>
 </ul>
-<div id="section12"></div>
-<h2>HEO</h2>
+<h2 id="post-section-12" tabindex="-1">HEO</h2>
 <p>*, <strong>A1</strong>. [Colombo C, Alessi EM, Landgraf M. End-of life disposal of spacecraft in Highly Elliptical Orbits by means of luni-solar perturbations and Moon resonances. Earth. 2013;3(2):2-.](literature/proposal papers/End-of life disposal of spacecraft in Highly Elliptical Orbits by means of luni-solar perturbations and Moon resonances.pdf)</p>
 <ul>
 <li><strong>HEO orbits are important for communications, spending most of the time at high altitudes above the radiation belts for stable observation and communications. They have a considerable risk of severe collisions and fragmentation events.</strong></li>
@@ -264,47 +252,27 @@ h_a(e=0.5,h_p=100\,km) \approx \text{13000 km}
 <ul>
 <li>Analytical modelling of the fragment cloud evolution. Good reference for this different approach</li>
 </ul>
-<hr><div class="blogTags"><button class="blogTagSelected" title='Check more posts of the "WIP" category on my blog!'>WIP</button></div><br></div>
-        <div class="blog-post-spacer" style="flex: 1; min-width: 20px;"></div>
-    </div>
+</div>
+                <footer class="blog-post-footer">
+                    <span class="blog-post-footer__tag">WIP</span>
+                    <a href="../blog.html#wip">All posts <i class="fa-solid fa-arrow-right" aria-hidden="true"></i></a>
+                </footer>
+            </article>
+        </div>
+    </main>
 </div>
 <script>
-// Table of contents fix for correct opening and closing of detail-summary blocks
-function toggleDetails(event) {
-    if (event.offsetX < 0) {
-        event.stopPropagation();
-        const details = event.currentTarget.firstChild;
-        details.open = !details.open;
-    } else if (event.offsetY < 30) {
-        event.stopPropagation();
-        const details = event.currentTarget.firstChild;
-        details.open = true;
-    }
-}
-window.onload = function() {   
-    // Add figure number and caption to all images
-    const images = document.querySelectorAll("#HTMLpost img");
+document.addEventListener("DOMContentLoaded", () => {
     let figureNumber = 0;
-    images.forEach(img => {
-        if (img.alt === "INLINE") { return; }
-
-        figureNumber++;
-
-        img.style.display = "block";
-        img.style.margin = "auto";
-
-        const caption = document.createElement("p");
+    document.querySelectorAll("#HTMLpost img").forEach(img => {
+        if (img.alt === "INLINE" || !img.alt.trim()) return;
+        figureNumber += 1;
+        const caption = document.createElement("span");
+        caption.className = "blog-post-caption";
         caption.textContent = `Figure ${figureNumber}. ${img.alt}`;
-        caption.style.textAlign = "center";
-        caption.style.fontSize = "0.9em"
-        caption.style.marginTop = "0.5em";
-        img.parentNode.insertBefore(caption, img.nextSibling);        
+        img.insertAdjacentElement("afterend", caption);
     });
-
-    // Turn all details open by default in HTMLpost's TOC
-    const details = document.querySelectorAll("#HTMLpost .TOCpost details");
-    details.forEach(detail => detail.open = true);
-};
+});
 </script>
 </body>
 </html>
