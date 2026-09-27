@@ -1,24 +1,21 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
+    <meta charset="UTF-8">
     <meta name="darkreader-lock">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <link rel="stylesheet" href="{{rootFolder}}assets/libraries/bootstrap5.0.2/bootstrap.min.css">
     <link rel="stylesheet" href="{{rootFolder}}assets/libraries/fontawesome6.5.1/css/all.min.css">
     
-    <link rel="stylesheet" href="{{rootFolder}}assets/css/style.css?v=20260926-4">
-    <script src="{{rootFolder}}assets/js/common.js?v=20260926"></script>
+    <link rel="stylesheet" href="{{rootFolder}}assets/css/style.css?v=20260927-recipe-detail-4">
+    <script src="{{rootFolder}}assets/js/common.js?v=20260926" defer></script>
     <title>{{name}} | Recipes</title>
 	
 	{{favicon}}
     <!-- PREVISUALIZATION OPEN GRAPH -->
     <meta property="og:title" content="{{name}} | Recipes">
     <meta property="og:description" content="{{description}}">
-    <meta name="image" property="og:image" content="https://sp-droid.github.io/showtime/img/recipes/{{baseName}}.jpg">
-    <meta property="og:image:secure_url" content="https://sp-droid.github.io/showtime/img/recipes/{{baseName}}.jpg">
-    <meta property="og:image:type" content="image/jpg">
-    <meta property="og:image:width" content="1188">
-    <meta property="og:image:height" content="665">
+    {{openGraphImage}}
     <meta property="og:locale" content="en_US">
     <meta property="og:site_name" content="Pablo A.C. personal website">
     <meta property="og:type" content="article">
@@ -27,20 +24,11 @@
 
 {{googleAnalytics}}
 
-<body>
+<body class="recipe-detail-body">
 <div id="HTMLdata"
 section ="recipes">
 </div>
-<div style="
-    width: 100vw;
-    height: 100vh;
-    background-image: url('{{rootFolder}}assets/img/recipes/{{baseName}}.jpg');
-    background-attachment: fixed;
-    background-size: cover;
-    filter: blur(8px);
-    -webkit-filter: blur(8px);
-    z-index: 0;;
-    "></div>
+{{backdrop}}
 <div class="page-shell recipe-page" style="position: absolute; top: 0; left: 0; display: flex; flex-direction: column; height: 100vh; width: 100vw; overflow-x: hidden;">
 	<div id="HTMLtopbar" style="flex: 0;">{{HTMLtopbar}}</div>
     <div class="recipe-shell" style="flex: 0; display: flex;">
@@ -48,14 +36,14 @@ section ="recipes">
         <div class="recipe-content" style="flex: 1 0 1000px; background-color: rgb(18, 18, 19);">
             <div class="recipe-hero" style="display: flex; flex-wrap: wrap; text-align: center;">
                 <div class="recipe-hero-media" style="flex: 3 0 600px">
-                    <img style="width: 100%; border-radius: 1px;" src="{{rootFolder}}assets/img/recipes/{{baseName}}.jpg" alt="Picture of the end result">
+                    {{heroMedia}}
                     <div class="recipeMainFlags">
                         <div class="recipeMainFlag">
                             <div><img src="{{rootFolder}}assets/img/icons/difficulty{{difficulty}}.png" alt="{{difficulty}} difficulty icon"></div>
                             <strong>DIFFICULTY</strong><p>{{difficulty}}</p>
                         </div>
                         <div style="left: 25%;" class="recipeMainFlag">
-                            <div><img src="{{rootFolder}}assets/img/icons/cuisine{{cuisine}}.png" alt="{{cuisine}} cuisine icon"></div>
+                            <div>{{cuisineIcon}}</div>
                             <strong>CUISINE</strong><p>{{cuisine}}</p>
                         </div>
                         <div style="left: 50%;" class="recipeMainFlag">
@@ -69,37 +57,28 @@ section ="recipes">
                     </div>
                 </div>
                 <div class="recipe-intro" style="flex: 1; text-align: left; margin-left: 18px; margin-top: 12px; min-width: 500px;">
-                    <div style="margin-bottom: 0px;">
-                        <span style="color: rgb(213, 213, 45);">></span> <span style="font-size: large;">{{categoryIcon}} {{category}}</span> 
-                    </div>
-                    <h2>{{name}}</h2>
+                    <a class="recipe-back-link" href="{{rootFolder}}pages/recipes.html"><i class="fa-solid fa-arrow-left" aria-hidden="true"></i> All recipes</a>
+                    <p class="recipe-category">{{categoryIcon}} {{category}}</p>
+                    <h1>{{name}}</h1>
                     <p class="pRich">{{description}}</p>
-                    <br>
-                    <h4>Origin</h4>
-                    <p class="pRich">{{origin}}</p>
+                    {{originBlock}}
+                    <nav class="recipe-jump-links" aria-label="On this recipe">
+                        <a href="#ingredients">Ingredients <i class="fa-solid fa-arrow-down" aria-hidden="true"></i></a>
+                        <a href="#steps">Steps <i class="fa-solid fa-arrow-down" aria-hidden="true"></i></a>
+                    </nav>
                 </div>
             </div>
             <div class="recipe-body" style="margin-right: 40px; margin-left: 40px; font-size: larger">
                 <hr style="border-top: 1px solid rgb(143, 108, 80);"><br>
-                <h2>Ingredients for {{portions}} servings</h2><br>
+                <h2 id="ingredients">Ingredients <span>for {{portions}} {{servingUnit}}</span></h2><br>
                 {{ingredients}}
                 <br><hr><br>
-                <h2>Utensils</h2><br>
-                <div style="height: 80px; max-width: 900px; position: relative;">
-                    <div id="buttonUtensilsLeft" class="btn recipeUtensilsButton" style="display: none;"><</div>
-                    <div id="buttonUtensilsRight" class="btn recipeUtensilsButton" style="right: 0px;">></div>
-                    <div id="scrollbarUtensils" class="recipeUtensils">
-                        {{utensils}}
-                    </div>
-                </div>
-                <br><hr><br>
-                <h2>Steps</h2><br>
+                {{utensilsSection}}
+                <h2 id="steps">Steps</h2><br>
                 {{instructions}}
-                <br><hr><br>
-                <h2>Variations</h2><br>
-                {{variants}}
-                <br><hr><br>
-                <div class="recipeEndCard" style="border: 3px solid rgb(65, 63, 58); width: 400px;">
+                {{variantsSection}}
+                <hr><br>
+                <div class="recipeEndCard recipe-nutrition" style="border: 3px solid rgb(65, 63, 58); width: 400px;">
                     <div style="background-color: rgb(57, 25, 4);">
                         <i class="fa-stack" style="font-size: 26px; color: black;"><i class="fa-regular fa-circle fa-stack-2x"></i><strong class="fa-stack-1x" style="font-style: normal; font-size: 36px;">!</strong></i>
                     </div>
@@ -129,12 +108,12 @@ section ="recipes">
                 {{tips}}
                 <br><br>
                 <div id="disqus_thread"></div>
+                <a class="recipe-bottom-link" href="{{rootFolder}}pages/recipes.html"><i class="fa-solid fa-arrow-left" aria-hidden="true"></i> Back to all recipes</a>
             </div>
         </div>
         <div class="recipe-side-scrim" style="flex: 1; background-color: rgba(18, 18, 19, 0.7);"></div>
     </div>
 </div>
-</body>
 <script>
     /**
     *  RECOMMENDED CONFIGURATION VARIABLES: EDIT AND UNCOMMENT THE SECTION BELOW TO INSERT DYNAMIC VALUES FROM YOUR PLATFORM OR CMS.
@@ -152,38 +131,6 @@ section ="recipes">
     (d.head || d.body).appendChild(s);
     })();
 
-    // Utensil horizontal scrollbar
-    const scrollbarUtensils = document.getElementById("scrollbarUtensils");
-    const buttonUtensilsLeft = document.getElementById("buttonUtensilsLeft");
-    const buttonUtensilsRight = document.getElementById("buttonUtensilsRight");
-
-    if (scrollbarUtensils.children.length === 0) {
-        scrollbarUtensils.parentElement.style.display = "none";
-    }
-    if (scrollbarUtensils.children.length < 5) {
-        buttonUtensilsRight.style.display = "none";
-    }
-
-    buttonUtensilsLeft.addEventListener("click", () => {
-        scrollbarUtensils.scrollTo({
-            left: scrollbarUtensils.scrollLeft - 200,
-            behavior: "smooth"
-        });
-        if (scrollbarUtensils.scrollLeft - 200 <= 10) {
-            buttonUtensilsLeft.style.display = "none";
-        }
-        buttonUtensilsRight.style.display = "block";
-    });
-    buttonUtensilsRight.addEventListener("click", () => {
-        scrollbarUtensils.scrollTo({
-            left: scrollbarUtensils.scrollLeft + 200,
-            behavior: "smooth"
-        });
-        const maxScrollLeft = scrollbarUtensils.scrollWidth - scrollbarUtensils.clientWidth;
-        if (scrollbarUtensils.scrollLeft + 200 >= maxScrollLeft - 10) {
-            buttonUtensilsRight.style.display = "none";
-        }
-        buttonUtensilsLeft.style.display = "block";
-    });
 </script>
+</body>
 </html>

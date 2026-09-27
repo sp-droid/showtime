@@ -1,15 +1,16 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
+    <meta charset="UTF-8">
     <meta name="darkreader-lock">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <link rel="stylesheet" href="../../assets/libraries/bootstrap5.0.2/bootstrap.min.css">
     <link rel="stylesheet" href="../../assets/libraries/fontawesome6.5.1/css/all.min.css">
-    
-    <link rel="stylesheet" href="../../assets/css/style.css?v=20260926-4">
-    <script src="../../assets/js/common.js?v=20260926"></script>
+
+    <link rel="stylesheet" href="../../assets/css/style.css?v=20260927-recipe-detail-4">
+    <script src="../../assets/js/common.js?v=20260926" defer></script>
     <title>Pizza | Recipes</title>
-	
+
 	<link rel="apple-touch-icon" sizes="180x180" href="../../assets/img/favicon/apple-touch-icon.png">
 <link rel="icon" type="image/png" sizes="32x32" href="../../assets/img/favicon/favicon-32x32.png">
 <link rel="icon" type="image/png" sizes="16x16" href="../../assets/img/favicon/favicon-16x16.png">
@@ -22,8 +23,8 @@
     <!-- PREVISUALIZATION OPEN GRAPH -->
     <meta property="og:title" content="Pizza | Recipes">
     <meta property="og:description" content="/'Pie'/">
-    <meta name="image" property="og:image" content="https://sp-droid.github.io/showtime/img/recipes/pizza.jpg">
-    <meta property="og:image:secure_url" content="https://sp-droid.github.io/showtime/img/recipes/pizza.jpg">
+    <meta name="image" property="og:image" content="https://sp-droid.github.io/showtime/assets/img/recipes/pizza.jpg">
+    <meta property="og:image:secure_url" content="https://sp-droid.github.io/showtime/assets/img/recipes/pizza.jpg">
     <meta property="og:image:type" content="image/jpg">
     <meta property="og:image:width" content="1188">
     <meta property="og:image:height" content="665">
@@ -42,20 +43,11 @@
     gtag('config', 'G-5RWJF4E3GR');
 </script>
 
-<body>
+<body class="recipe-detail-body">
 <div id="HTMLdata"
 section ="recipes">
 </div>
-<div style="
-    width: 100vw;
-    height: 100vh;
-    background-image: url('../../assets/img/recipes/pizza.jpg');
-    background-attachment: fixed;
-    background-size: cover;
-    filter: blur(8px);
-    -webkit-filter: blur(8px);
-    z-index: 0;;
-    "></div>
+<div class="recipe-backdrop" style="background-image: url('../../assets/img/recipes/pizza.jpg')" aria-hidden="true"></div>
 <div class="page-shell recipe-page" style="position: absolute; top: 0; left: 0; display: flex; flex-direction: column; height: 100vh; width: 100vw; overflow-x: hidden;">
 	<div id="HTMLtopbar" style="flex: 0;"><header class="site-header">
     <div class="site-header__inner">
@@ -84,7 +76,7 @@ section ="recipes">
         <div class="recipe-content" style="flex: 1 0 1000px; background-color: rgb(18, 18, 19);">
             <div class="recipe-hero" style="display: flex; flex-wrap: wrap; text-align: center;">
                 <div class="recipe-hero-media" style="flex: 3 0 600px">
-                    <img style="width: 100%; border-radius: 1px;" src="../../assets/img/recipes/pizza.jpg" alt="Picture of the end result">
+                    <img src="../../assets/img/recipes/pizza.jpg" alt="Photo of Pizza">
                     <div class="recipeMainFlags">
                         <div class="recipeMainFlag">
                             <div><img src="../../assets/img/icons/difficultyHard.png" alt="Hard difficulty icon"></div>
@@ -105,37 +97,28 @@ section ="recipes">
                     </div>
                 </div>
                 <div class="recipe-intro" style="flex: 1; text-align: left; margin-left: 18px; margin-top: 12px; min-width: 500px;">
-                    <div style="margin-bottom: 0px;">
-                        <span style="color: rgb(213, 213, 45);">></span> <span style="font-size: large;"><i class="fas fa-drumstick-bite"></i> Main courses</span> 
-                    </div>
-                    <h2>Pizza</h2>
+                    <a class="recipe-back-link" href="../../pages/recipes.html"><i class="fa-solid fa-arrow-left" aria-hidden="true"></i> All recipes</a>
+                    <p class="recipe-category"><i class="fas fa-drumstick-bite"></i> Main courses</p>
+                    <h1>Pizza</h1>
                     <p class="pRich">/'Pie'/</p>
-                    <br>
-                    <h4>Origin</h4>
-                    <p class="pRich">1889 Naples, Italy.(Raffaele Esposito)</p>
+                    <div class="recipe-origin"><span>Origin</span><p>1889 Naples, Italy.(Raffaele Esposito)</p></div>
+                    <nav class="recipe-jump-links" aria-label="On this recipe">
+                        <a href="#ingredients">Ingredients <i class="fa-solid fa-arrow-down" aria-hidden="true"></i></a>
+                        <a href="#steps">Steps <i class="fa-solid fa-arrow-down" aria-hidden="true"></i></a>
+                    </nav>
                 </div>
             </div>
             <div class="recipe-body" style="margin-right: 40px; margin-left: 40px; font-size: larger">
                 <hr style="border-top: 1px solid rgb(143, 108, 80);"><br>
-                <h2>Ingredients for 2 servings</h2><br>
-                <h4></h4><ul><li>167 g high protein flour (i.e. bread flour, 00, pizza flour)</li><li>Salt (4 g)</li><li>Yeast (1.7 g dry yeast / 3.4 g fresh yeast / 1.13 g instant yeast / 3.8 brewer's yeast)</li><li>Water (100 g)</li></ul>
+                <h2 id="ingredients">Ingredients <span>for 2 servings</span></h2><br>
+                <ul><li>167 g high protein flour (i.e. bread flour, 00, pizza flour)</li><li>Salt (4 g)</li><li>Yeast (1.7 g dry yeast / 3.4 g fresh yeast / 1.13 g instant yeast / 3.8 brewer's yeast)</li><li>Water (100 g)</li></ul>
                 <br><hr><br>
-                <h2>Utensils</h2><br>
-                <div style="height: 80px; max-width: 900px; position: relative;">
-                    <div id="buttonUtensilsLeft" class="btn recipeUtensilsButton" style="display: none;"><</div>
-                    <div id="buttonUtensilsRight" class="btn recipeUtensilsButton" style="right: 0px;">></div>
-                    <div id="scrollbarUtensils" class="recipeUtensils">
-                        <div class="recipeUtensil"><img src="../../assets/img/icons/utensilOven.png" alt=""><div>Oven</div></div>
-                    </div>
-                </div>
-                <br><hr><br>
-                <h2>Steps</h2><br>
-                <h4>Dough</h4><ol><li>Mix flour and salt on one side, water and yeast on the other, leave for a couple minutes. Combine the two for a minute and leave 15-30'.</li><li>Knead for 8-15', make a shiny ball of dough and place in the fridge for 1-5 days, in an airtight container.</li></ol><br><h4>Pizza day</h4><ol><li>Take out of the fridge, reshape into a ball and leave it to warm up.</li><li>Pre-heat oven to the maximum temperature.</li><li>Cover in flour, remove excess and start shaping it with your fingers from the middle. Pushing the air outwards, not crushing the pizza. Then use your hands, lift it... whatever works for you to get the pizza to the required round shape with big lips.</li><li>Since we are using a home oven, the next steps are slightly different.</li><li>To char the sides. Wet your fingers with olive oil or use a spoon to cover the outer crust with it.</li><li>Add the tomato on a spiral motion from the center so it's not even, cook until golden.</li><li>Now take it out slightly and quickly add wet toppings. In this case for example, mozzarella and a bit of gorgonzola in the middle</li><li>Once ready (by eye, look for melted bubbling cheese, not a wet pizza) shut it off, place things that burn like basil leaves, take out and split using a pizza cutter.</li></ol>
-                <br><hr><br>
-                <h2>Variations</h2><br>
-                <ul><li>Pizza with other topping combinations. Google an Italian pizzeria's menu and steal their creativity.</li><li>Pizza bianca, or white pizza, is the whole array of pizza recipes that don't contain a tomato base. I hate it personally, many Italians love it.</li><li>Pizza with ananas/pineapple. It's traditional to bash on it, but many like it. If pizza bianca is a thing, this is okey too.</li><li>Neapolitan style pizza has very large but thin lips, Roman style has a very thin and crunchy crust. Your result depends on how you shape it.</li><li>Pizza fritta. Can't do it easily at home, but if you go to an authentic Neapolizan pizzeria you have to try it. 10/10</li><li>Calzone. A more known, also closed-up pizza you should try at least once. 6/10</li></ul>
-                <br><hr><br>
-                <div class="recipeEndCard" style="border: 3px solid rgb(65, 63, 58); width: 400px;">
+                <h2>Utensils</h2><div class="recipeUtensils"><div class="recipeUtensil"><img src="../../assets/img/icons/utensilOven.png" alt=""><span>Oven</span></div></div><hr>
+                <h2 id="steps">Steps</h2><br>
+                <h3>Dough</h3><ol><li>Mix flour and salt on one side, water and yeast on the other, leave for a couple minutes. Combine the two for a minute and leave 15-30'.</li><li>Knead for 8-15', make a shiny ball of dough and place in the fridge for 1-5 days, in an airtight container.</li></ol><h3>Pizza day</h3><ol><li>Take out of the fridge, reshape into a ball and leave it to warm up.</li><li>Pre-heat oven to the maximum temperature.</li><li>Cover in flour, remove excess and start shaping it with your fingers from the middle. Pushing the air outwards, not crushing the pizza. Then use your hands, lift it... whatever works for you to get the pizza to the required round shape with big lips.</li><li>Since we are using a home oven, the next steps are slightly different.</li><li>To char the sides. Wet your fingers with olive oil or use a spoon to cover the outer crust with it.</li><li>Add the tomato on a spiral motion from the center so it's not even, cook until golden.</li><li>Now take it out slightly and quickly add wet toppings. In this case for example, mozzarella and a bit of gorgonzola in the middle</li><li>Once ready (by eye, look for melted bubbling cheese, not a wet pizza) shut it off, place things that burn like basil leaves, take out and split using a pizza cutter.</li></ol>
+                <hr><h2>Variations</h2><ul><li>Pizza with other topping combinations. Google an Italian pizzeria's menu and steal their creativity.</li><li>Pizza bianca, or white pizza, is the whole array of pizza recipes that don't contain a tomato base. I hate it personally, many Italians love it.</li><li>Pizza with ananas/pineapple. It's traditional to bash on it, but many like it. If pizza bianca is a thing, this is okey too.</li><li>Neapolitan style pizza has very large but thin lips, Roman style has a very thin and crunchy crust. Your result depends on how you shape it.</li><li>Pizza fritta. Can't do it easily at home, but if you go to an authentic Neapolizan pizzeria you have to try it. 10/10</li><li>Calzone. A more known, also closed-up pizza you should try at least once. 6/10</li></ul>
+                <hr><br>
+                <div class="recipeEndCard recipe-nutrition" style="border: 3px solid rgb(65, 63, 58); width: 400px;">
                     <div style="background-color: rgb(57, 25, 4);">
                         <i class="fa-stack" style="font-size: 26px; color: black;"><i class="fa-regular fa-circle fa-stack-2x"></i><strong class="fa-stack-1x" style="font-style: normal; font-size: 36px;">!</strong></i>
                     </div>
@@ -156,28 +139,28 @@ section ="recipes">
                             <div style="display: flex; justify-content: space-between;"><span>Protein</span><span>8 g</span></div>
                             <hr style="border-top: 2px solid; margin: 3px;">
                             <hr style="border-top: 2px solid; margin: 3px;">
-                            <div style="display: flex; justify-content: space-between;"><span>Phosphorus</span><span>12% DV</span></div><div style="display: flex; justify-content: space-between;"><span>Iron</span><span>6% DV</span></div><div style="display: flex; justify-content: space-between;"><span>Zinc</span><span>5% DV</span></div><div style="display: flex; justify-content: space-between;"><span>Copper</span><span>12% DV</span></div><div style="display: flex; justify-content: space-between;"><span>Manganese</span><span>28% DV</span></div><div style="display: flex; justify-content: space-between;"><span>Selenium</span><span>51% DV</span></div>
+                            <div class="recipe-nutrition__row"><span>Phosphorus</span><span>12% DV</span></div><div class="recipe-nutrition__row"><span>Iron</span><span>6% DV</span></div><div class="recipe-nutrition__row"><span>Zinc</span><span>5% DV</span></div><div class="recipe-nutrition__row"><span>Copper</span><span>12% DV</span></div><div class="recipe-nutrition__row"><span>Manganese</span><span>28% DV</span></div><div class="recipe-nutrition__row"><span>Selenium</span><span>51% DV</span></div>
                         </div>
                         <br>
                     </div>
                 </div>
                 <br>
-                <div class="recipeEndCard" style="border: 3px solid rgb(75, 29, 26); width: 600px;">
-                    <div style="background-color: rgb(219, 50, 41);">
-                        <i style="font-size: 40px; color: black;" class="fas fa-apple-alt"></i>
+                <div class="recipeEndCard recipe-tip-card">
+                    <div>
+                        <i class="fas fa-apple-alt" aria-hidden="true"></i>
                     </div>
                     <div>
-                        <h4 style="color: rgb(222, 70, 62);">CULINARY TIP</h4><p>The recipe is marked as hard because some skills need practice: kneading, shaping the pizza, knowing when it's ready. But it is fundamentally simple, and contrary to other recipes such as making croissants, it's not messy or lengthy. After a while this recipe is easy.</p><hr style="border-top: 3px solid rgb(75, 29, 26);"><h4 style="color: rgb(222, 70, 62);">CULINARY TIP</h4><p>The hotter the oven, the less important it is to cook the base first.</p><hr style="border-top: 3px solid rgb(75, 29, 26);"><h4 style="color: rgb(222, 70, 62);">CULINARY TIP</h4><p>I've lived in Italy 2 years and eaten many traditional pizzas. Usually Italians are very picky and force you to make recipes exactly as they are. One would think it translates to pizzas too, but I disagree. This people put everything on top of them, and they will pretend otherwise! Don't believe them, use whatever floats your boat.</p>
+                        <h4>CULINARY TIP</h4><p>The recipe is marked as hard because some skills need practice: kneading, shaping the pizza, knowing when it's ready. But it is fundamentally simple, and contrary to other recipes such as making croissants, it's not messy or lengthy. After a while this recipe is easy.</p><hr><h4>CULINARY TIP</h4><p>The hotter the oven, the less important it is to cook the base first.</p><hr><h4>CULINARY TIP</h4><p>I've lived in Italy 2 years and eaten many traditional pizzas. Usually Italians are very picky and force you to make recipes exactly as they are. One would think it translates to pizzas too, but I disagree. This people put everything on top of them, and they will pretend otherwise! Don't believe them, use whatever floats your boat.</p>
                     </div>
                 </div>
                 <br><br>
                 <div id="disqus_thread"></div>
+                <a class="recipe-bottom-link" href="../../pages/recipes.html"><i class="fa-solid fa-arrow-left" aria-hidden="true"></i> Back to all recipes</a>
             </div>
         </div>
         <div class="recipe-side-scrim" style="flex: 1; background-color: rgba(18, 18, 19, 0.7);"></div>
     </div>
 </div>
-</body>
 <script>
     /**
     *  RECOMMENDED CONFIGURATION VARIABLES: EDIT AND UNCOMMENT THE SECTION BELOW TO INSERT DYNAMIC VALUES FROM YOUR PLATFORM OR CMS.
@@ -195,38 +178,6 @@ section ="recipes">
     (d.head || d.body).appendChild(s);
     })();
 
-    // Utensil horizontal scrollbar
-    const scrollbarUtensils = document.getElementById("scrollbarUtensils");
-    const buttonUtensilsLeft = document.getElementById("buttonUtensilsLeft");
-    const buttonUtensilsRight = document.getElementById("buttonUtensilsRight");
-
-    if (scrollbarUtensils.children.length === 0) {
-        scrollbarUtensils.parentElement.style.display = "none";
-    }
-    if (scrollbarUtensils.children.length < 5) {
-        buttonUtensilsRight.style.display = "none";
-    }
-
-    buttonUtensilsLeft.addEventListener("click", () => {
-        scrollbarUtensils.scrollTo({
-            left: scrollbarUtensils.scrollLeft - 200,
-            behavior: "smooth"
-        });
-        if (scrollbarUtensils.scrollLeft - 200 <= 10) {
-            buttonUtensilsLeft.style.display = "none";
-        }
-        buttonUtensilsRight.style.display = "block";
-    });
-    buttonUtensilsRight.addEventListener("click", () => {
-        scrollbarUtensils.scrollTo({
-            left: scrollbarUtensils.scrollLeft + 200,
-            behavior: "smooth"
-        });
-        const maxScrollLeft = scrollbarUtensils.scrollWidth - scrollbarUtensils.clientWidth;
-        if (scrollbarUtensils.scrollLeft + 200 >= maxScrollLeft - 10) {
-            buttonUtensilsRight.style.display = "none";
-        }
-        buttonUtensilsLeft.style.display = "block";
-    });
 </script>
+</body>
 </html>

@@ -144,60 +144,103 @@ for recipePath in pbar:
 
     content = content.replace("{{baseName}}", recipePath.stem)
     content = content.replace("{{name}}", recipe["name"])
+    photo_path = Path("assets/img/recipes") / f"{recipePath.stem}.jpg"
+    if photo_path.exists():
+        hero_media = f'<img src="../../assets/img/recipes/{recipePath.stem}.jpg" alt="Photo of {recipe["name"]}">'
+        backdrop = f'<div class="recipe-backdrop" style="background-image: url(\'../../assets/img/recipes/{recipePath.stem}.jpg\')" aria-hidden="true"></div>'
+        image_url = f'https://sp-droid.github.io/showtime/assets/img/recipes/{recipePath.stem}.jpg'
+        open_graph_image = (
+            f'<meta name="image" property="og:image" content="{image_url}">\n'
+            f'    <meta property="og:image:secure_url" content="{image_url}">\n'
+            '    <meta property="og:image:type" content="image/jpg">\n'
+            '    <meta property="og:image:width" content="1188">\n'
+            '    <meta property="og:image:height" content="665">'
+        )
+    else:
+        hero_media = '<div class="recipe-hero-placeholder" role="img" aria-label="Photo coming soon"><i class="fa-solid fa-utensils" aria-hidden="true"></i><span>Photo coming soon</span></div>'
+        backdrop = ''
+        open_graph_image = ''
+    content = content.replace("{{heroMedia}}", hero_media)
+    content = content.replace("{{backdrop}}", backdrop)
+    content = content.replace("{{openGraphImage}}", open_graph_image)
     content = content.replace("{{categoryIcon}}", categoryIcon(recipe["category"]))
     content = content.replace("{{category}}", recipe["category"])
     content = content.replace("{{description}}", recipe["description"])
-    content = content.replace("{{origin}}", recipe["origin"])
+    origin = recipe["origin"].strip()
+    origin_block = (
+        f'<div class="recipe-origin"><span>Origin</span><p>{origin}</p></div>'
+        if origin and origin not in ("-", "No information") else ""
+    )
+    content = content.replace("{{originBlock}}", origin_block)
 
     content = content.replace("{{difficulty}}", recipe["flags"]["difficulty"])
-    content = content.replace("{{cuisine}}", recipe["flags"]["cuisine"])
+    cuisine = recipe["flags"]["cuisine"]
+    cuisine_image = Path("assets/img/icons") / f"cuisine{cuisine}.png"
+    cuisine_icon = (
+        f'<img src="../../assets/img/icons/{cuisine_image.name}" alt="{cuisine} cuisine icon">'
+        if cuisine_image.exists() else '<i class="fa-solid fa-globe" aria-hidden="true"></i>'
+    )
+    content = content.replace("{{cuisineIcon}}", cuisine_icon)
+    content = content.replace("{{cuisine}}", cuisine)
     content = content.replace("{{prepTime}}", recipe["flags"]["prepTime"])
-    content = content.replace("{{totalTime}}", recipe["flags"]["totalTime"])
+    total_time = recipe["flags"]["totalTime"]
+    content = content.replace("{{totalTime}}", recipe["flags"]["prepTime"] if total_time == "Idem" else total_time)
 
     content = content.replace("{{portions}}", str(recipe["portions"]))
+    content = content.replace("{{servingUnit}}", "serving" if recipe["portions"] == 1 else "servings")
 
     ingredients = ""
     nutrition = pd.DataFrame(columns=foodProperties.columns)
     for group in recipe["ingredients"]:
-        ingredients += f"<h4>{group}</h4><ul>"
+        if group:
+            ingredients += f"<h3>{group}</h3>"
+        ingredients += "<ul>"
         for ingredient in recipe["ingredients"][group]:
             nutrition = getNutrition(ingredient, nutrition)
             ingredients += f"<li>{ingredient}</li>"
         ingredients += "</ul>"
     content = content.replace("{{ingredients}}", ingredients)
 
-    utensils = ""
-    for utensil in recipe["utensils"]:
-        utensils += f'<div class="recipeUtensil"><img src="../../assets/img/icons/utensil{utensil}.png" alt=""><div>{utensil}</div></div>'
-    content = content.replace("{{utensils}}", utensils)
+    utensils_section = ""
+    if recipe["utensils"]:
+        utensils = "".join(
+            f'<div class="recipeUtensil"><img src="../../assets/img/icons/utensil{utensil}.png" alt=""><span>{utensil}</span></div>'
+            for utensil in recipe["utensils"]
+        )
+        utensils_section = (
+            '<h2>Utensils</h2><div class="recipeUtensils">'
+            + utensils + '</div><hr>'
+        )
+    content = content.replace("{{utensilsSection}}", utensils_section)
 
-    instructions = ""
-    for i, line in enumerate(recipe["instructions"]):
-        if line == "":
-            instructions += "<br>"
-        elif line[0] == "#":
-            instructions += f"<h4>{line[2:]}</h4>"
-        elif line[0] == "-":
-            if i==0: instructions += "<ol>"
-            if recipe["instructions"][i-1][0] != "-":
-                instructions += "<ol>"
-            instructions += f"<li>{line[2:]}</li>"
-            if len(recipe["instructions"])==i+1:
-                instructions += "</ol>"
-            elif recipe["instructions"][i+1] == "":
-                instructions += "</ol>"
-            elif recipe["instructions"][i+1][0] != "-":
-                instructions += "</ol>"
+    instruction_parts = []
+    numbered_steps_open = False
+    for line in recipe["instructions"]:
+        if line.startswith("- "):
+            if not numbered_steps_open:
+                instruction_parts.append("<ol>")
+                numbered_steps_open = True
+            instruction_parts.append(f"<li>{line[2:]}</li>")
+            continue
+        if numbered_steps_open:
+            instruction_parts.append("</ol>")
+            numbered_steps_open = False
+        if not line:
+            continue
+        if line.startswith("# "):
+            instruction_parts.append(f"<h3>{line[2:]}</h3>")
         else:
-            instructions += f'<p style="margin-bottom: 12px;">{line}</p>'
+            instruction_parts.append(f"<p>{line}</p>")
+    if numbered_steps_open:
+        instruction_parts.append("</ol>")
+    instructions = "".join(instruction_parts)
     content = content.replace("{{instructions}}", instructions)
 
-    variants = ""
-    if len(recipe["variants"]) > 0:
-        variants += "<ul><li>"
-        variants += "</li><li>".join(str(elem) for elem in recipe["variants"])
-        variants += "</li></ul>"
-    content = content.replace("{{variants}}", variants)
+    variants_section = ""
+    if recipe["variants"]:
+        variants = "<ul><li>" + "</li><li>".join(str(elem) for elem in recipe["variants"]) + "</li></ul>"
+        variants_section = f"<hr><h2>Variations</h2>{variants}"
+    content = content.replace("{{variantsSection}}", variants_section)
 
     for nutrient in ["Calories","Fat","Carbohydrates","Sugar","Protein"]:
         value = int(sum(nutrition[nutrient].values)/recipe["portions"])
@@ -209,7 +252,7 @@ for recipePath in pbar:
         name = nutrientNames[nutrient]
         value = int(sum(nutrition[nutrient].values)/DRI[nutrient]/recipe["portions"]*100)
         if value < 5: continue
-        nutritionExtra += f'<div style="display: flex; justify-content: space-between;"><span>{name}</span><span>{value}% DV</span></div>'
+        nutritionExtra += f'<div class="recipe-nutrition__row"><span>{name}</span><span>{value}% DV</span></div>'
     content = content.replace("{{nutritionExtra}}", nutritionExtra)
 
     nTips = len(recipe["tips"]["culinary"])+len(recipe["tips"]["serving"])
@@ -219,15 +262,15 @@ for recipePath in pbar:
         i = 0
         for tip in recipe["tips"]["culinary"]:
             i += 1
-            tips += f'<h4 style="color: rgb(222, 70, 62);">CULINARY TIP</h4><p>{tip}</p>'
-            if i != nTips: tips += '<hr style="border-top: 3px solid rgb(75, 29, 26);">'
+            tips += f'<h4>CULINARY TIP</h4><p>{tip}</p>'
+            if i != nTips: tips += '<hr>'
         for tip in recipe["tips"]["serving"]:
             i += 1
-            tips += f'<h4 style="color: rgb(222, 70, 62);">SERVING TIP</h4><p>{tip}</p>'
-            if i != nTips: tips += '<hr style="border-top: 3px solid rgb(75, 29, 26);">'
-        tips = f"""<div class="recipeEndCard" style="border: 3px solid rgb(75, 29, 26); width: 600px;">
-                    <div style="background-color: rgb(219, 50, 41);">
-                        <i style="font-size: 40px; color: black;" class="fas fa-apple-alt"></i>
+            tips += f'<h4>SERVING TIP</h4><p>{tip}</p>'
+            if i != nTips: tips += '<hr>'
+        tips = f"""<div class="recipeEndCard recipe-tip-card">
+                    <div>
+                        <i class="fas fa-apple-alt" aria-hidden="true"></i>
                     </div>
                     <div>
                         {tips}
@@ -245,7 +288,7 @@ for recipePath in pbar:
     content = content.replace("{{rootFolder}}", rootFolder)
 
     with open(f"pages/recipes/{recipePath.stem}.html", "w", encoding="utf-8") as file:
-        file.write(content)
+        file.write("\n".join(line.rstrip() for line in content.split("\n")))
 
 with open("assets/templates/recipes.html", "r", encoding="utf-8") as file:
     content = file.read()
