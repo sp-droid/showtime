@@ -6,9 +6,9 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <link rel="stylesheet" href="{{rootFolder}}assets/libraries/bootstrap5.0.2/bootstrap.min.css">
     <link rel="stylesheet" href="{{rootFolder}}assets/libraries/fontawesome6.5.1/css/all.min.css">
-    <link rel="stylesheet" href="{{rootFolder}}assets/css/style.css?v=20260927-blog-index-1">
+    <link rel="stylesheet" href="{{rootFolder}}assets/css/style.css?v=20260928-blog-year-center">
     <script src="{{rootFolder}}assets/js/common.js?v=20260926" defer></script>
-    <script src="{{rootFolder}}assets/js/blog.js?v=20260927-blog-index-1" defer></script>
+    <script src="{{rootFolder}}assets/js/blog.js?v=20260928-blog-row-alignment" defer></script>
     <title>Blog</title>
     {{favicon}}
 </head>
@@ -23,7 +23,6 @@
         <header class="blog-hero">
             <p class="blog-eyebrow" id="blog-eyebrow">Writing</p>
             <h1 id="blog-heading">Blog</h1>
-            <p class="blog-lede" id="blog-lede">Notes on software, algorithms, space engineering, and the occasional detour.</p>
         </header>
 
         <section class="blog-browse" aria-label="Browse posts">
@@ -33,9 +32,9 @@
                     <span class="visually-hidden">Search post titles</span>
                     <input id="blog-search-input" type="search" placeholder="Search posts" autocomplete="off">
                 </label>
-                <p class="blog-count" id="blog-count" role="status" aria-live="polite"></p>
+                <div class="blog-filters" id="blog-filters" role="group" aria-label="Filter posts by category"></div>
+                <p class="blog-count" id="blog-count" role="status" aria-live="polite">Loading entries…</p>
             </div>
-            <div class="blog-filters" id="blog-filters" role="group" aria-label="Filter posts by category"></div>
         </section>
 
         <section class="blog-results" id="blog-results" aria-label="Posts" aria-busy="true">

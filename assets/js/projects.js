@@ -1,5 +1,6 @@
 document.addEventListener("DOMContentLoaded", async () => {
     const grid = document.getElementById("gridProjects");
+    const searchInput = document.getElementById("projectsSearch");
     const prioritySelect = document.getElementById("projectsPriority");
     const toolSelect = document.getElementById("projectsTool");
     const clearButton = document.getElementById("projectsClearFilters");
@@ -58,6 +59,8 @@ document.addEventListener("DOMContentLoaded", async () => {
                 card.target = "_blank";
                 card.rel = "noopener noreferrer";
             }
+        } else {
+            card.tabIndex = 0;
         }
 
         const media = document.createElement("div");
@@ -103,15 +106,19 @@ document.addEventListener("DOMContentLoaded", async () => {
         meta.appendChild(date);
         body.appendChild(meta);
 
+        const content = document.createElement("div");
+        content.className = "project-card__content";
+        const front = document.createElement("div");
+        front.className = "project-card__front";
+
         const title = document.createElement("h2");
         title.className = "project-card__title";
         title.textContent = project.header;
-        body.appendChild(title);
+        front.appendChild(title);
 
         const description = document.createElement("p");
         description.className = "project-card__description";
         description.textContent = project.desc;
-        body.appendChild(description);
 
         if (project.tools.length) {
             const tools = document.createElement("ul");
@@ -123,9 +130,11 @@ document.addEventListener("DOMContentLoaded", async () => {
                 chip.textContent = tool;
                 tools.appendChild(chip);
             }
-            body.appendChild(tools);
+            front.appendChild(tools);
         }
 
+        content.append(front, description);
+        body.appendChild(content);
         card.appendChild(body);
         return card;
     }
@@ -150,27 +159,32 @@ document.addEventListener("DOMContentLoaded", async () => {
         addOptions(toolSelect, tools);
 
         function render() {
+            const query = searchInput.value.trim().toLocaleLowerCase();
             const priority = prioritySelect.value;
             const tool = toolSelect.value;
             const visible = projects.filter(project =>
+                (!query || [project.header, project.desc, project.type, ...project.tools]
+                    .join(" ").toLocaleLowerCase().includes(query)) &&
                 (!priority || project.importance === priority) &&
                 (!tool || project.tools.includes(tool))
             );
             const cards = document.createDocumentFragment();
             visible.forEach(project => cards.appendChild(createCard(project)));
             grid.replaceChildren(cards);
-            resultCount.textContent = `Showing ${visible.length} of ${projects.length} projects`;
-            clearButton.hidden = !priority && !tool;
+            resultCount.textContent = `${visible.length} of ${projects.length} entries`;
+            clearButton.hidden = !query && !priority && !tool;
             emptyState.hidden = visible.length !== 0;
         }
 
+        searchInput.addEventListener("input", render);
         prioritySelect.addEventListener("change", render);
         toolSelect.addEventListener("change", render);
         clearButton.addEventListener("click", () => {
+            searchInput.value = "";
             prioritySelect.value = "";
             toolSelect.value = "";
             render();
-            prioritySelect.focus();
+            searchInput.focus();
         });
         render();
     } catch (error) {

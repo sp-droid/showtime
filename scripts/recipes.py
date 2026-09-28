@@ -1,9 +1,21 @@
 import json
 import hashlib
 import argparse
+import re
 from pathlib import Path
 
-from tqdm import tqdm
+try:
+    from tqdm import tqdm
+except ImportError:
+    class tqdm:
+        def __init__(self, iterable, **_kwargs):
+            self.iterable = iterable
+
+        def __iter__(self):
+            return iter(self.iterable)
+
+        def set_postfix_str(self, _message):
+            pass
 
 parser = argparse.ArgumentParser(description="Build recipe pages and their index")
 parser.add_argument("--index-only", action="store_true", help="Rebuild the Recipes index and its data without touching detail pages or their cache")
@@ -23,7 +35,30 @@ def categoryIcon(category):
 
 if not args.index_only:
     # Nutrition data is only needed when rendering detail pages.
-    foodProperties = pd.read_excel("assets/data/recipes/foodProperties.xlsx", skiprows=2).fillna(0)
+    food_properties_path = Path("assets/data/recipes/foodProperties.xlsx")
+    foodProperties = pd.read_excel(food_properties_path, skiprows=2).fillna(0)
+    food_names = tuple(foodProperties["Ingredient"])
+    food_emojis = dict(zip(foodProperties["Ingredient"], foodProperties["Emoji"]))
+    def food_forms(food):
+        forms = [food]
+        if food.endswith("ies"):
+            forms.append(food[:-3] + "y")
+        elif food.endswith("s"):
+            forms.append(food[:-1])
+        elif food.endswith("y"):
+            forms.append(food[:-1] + "ies")
+        elif food.endswith("o"):
+            forms.append(food + "es")
+        else:
+            forms.append(food + "s")
+        return forms
+
+    food_patterns = [
+        (food, re.compile(r"(?<![a-z])(?:" + "|".join(re.escape(form) for form in food_forms(food)) + r")(?![a-z])", re.IGNORECASE))
+        for food in sorted(food_names, key=len, reverse=True)
+    ]
+    nutrition_columns = [column for column in foodProperties.columns if column != "Emoji"]
+    nutrient_columns = [column for column in nutrition_columns if column != "Ingredient"]
     with open("assets/data/recipes/specialFoods.json", "r") as file: specialFoods = json.load(file)
     with open("assets/data/recipes/dietaryReferenceIntakes.json", "r") as file: DRI = json.load(file)
     with open("assets/data/recipes/nutrientNames.json", "r") as file: nutrientNames = json.load(file)
@@ -36,25 +71,43 @@ with open("assets/templates/favicon.html", 'r', encoding='utf-8') as file:
 with open("assets/templates/googleAnalytics.html", 'r', encoding='utf-8') as file:
     googleAnalytics = file.read()
 
-def getNutrition(string, nutrition):
+def findFood(text):
+    text = re.sub(r"<[^>]+>", "", text)
+    return next((food for food, pattern in food_patterns if pattern.search(text)), "")
+
+
+def detectFood(string):
+    return findFood(string.split("(", 1)[0])
+
+
+def detectEmojiFood(string, food):
+    # A quantity is not needed for an emoji, but notes in parentheses should not
+    # override the main ingredient. Some recipes put a note or quantity first.
+    if food:
+        return food
+    text = re.sub(r"<[^>]+>", "", string)
+    leading_parenthesis = re.match(r"^\s*\([^)]*\)\s*(.+)$", text)
+    return findFood(leading_parenthesis.group(1).split("(", 1)[0]) if leading_parenthesis else ""
+
+
+def getNutrition(string, nutrition, food):
+    if not food: return nutrition
     ingredient = string.lower().split("(")[0]
     if "tsp" in ingredient or "tbsp" in ingredient: return nutrition
     quantity = ''.join(filter(str.isdigit, ingredient))
     if quantity == '': return nutrition
     else: quantity = float(quantity)
 
-    ingredient = max((s for s in foodProperties["Ingredient"].values if s in ingredient), key=len, default="")
     # All foods in the datasheet are scaled per 100g
     factor = quantity/100
     # Some of them are assumed to be inputed as single units like an egg or so
-    if ingredient in specialFoods: factor *= specialFoods[ingredient]
+    if food in specialFoods: factor *= specialFoods[food]
 
     try:
         # Load ingredient datasheet corresponding row
-        entry = foodProperties[foodProperties["Ingredient"]==ingredient].values[0]
+        entry = foodProperties.loc[foodProperties["Ingredient"] == food].iloc[0]
         # Adjust for used quantity
-        entry[1:] = [elem*factor for elem in entry[1:]]
-        nutrition.loc[ingredient,:] = entry
+        nutrition.loc[food,:] = [food, *(entry[column] * factor for column in nutrient_columns)]
     except:
         raise ValueError(string)
     
@@ -66,6 +119,8 @@ if not args.index_only:
         template = file.read()
     render_signature = hashlib.sha256(
         (template + HTMLtopbar + favicon + googleAnalytics).encode("utf-8")
+        + Path(__file__).read_bytes()
+        + food_properties_path.read_bytes()
     ).hexdigest()
 
 # List existing recipes
@@ -190,14 +245,17 @@ for recipePath in pbar:
     content = content.replace("{{servingUnit}}", "serving" if recipe["portions"] == 1 else "servings")
 
     ingredients = ""
-    nutrition = pd.DataFrame(columns=foodProperties.columns)
+    nutrition = pd.DataFrame(columns=nutrition_columns)
     for group in recipe["ingredients"]:
         if group:
             ingredients += f"<h3>{group}</h3>"
         ingredients += "<ul>"
         for ingredient in recipe["ingredients"][group]:
-            nutrition = getNutrition(ingredient, nutrition)
-            ingredients += f"<li>{ingredient}</li>"
+            food = detectFood(ingredient)
+            nutrition = getNutrition(ingredient, nutrition, food)
+            emoji = food_emojis.get(detectEmojiFood(ingredient, food))
+            prefix = f'<span aria-hidden="true">{emoji}</span> ' if isinstance(emoji, str) and emoji else ''
+            ingredients += f"<li>{prefix}{ingredient}</li>"
         ingredients += "</ul>"
     content = content.replace("{{ingredients}}", ingredients)
 
@@ -248,7 +306,7 @@ for recipePath in pbar:
         content = content.replace(name, str(value))
 
     nutritionExtra = ""
-    for nutrient in [elem for elem in foodProperties.columns if elem not in ["Ingredient","Calories","Fat","Carbohydrates","Sugar","Protein"]]:
+    for nutrient in [elem for elem in nutrient_columns if elem not in ["Calories","Fat","Carbohydrates","Sugar","Protein"]]:
         name = nutrientNames[nutrient]
         value = int(sum(nutrition[nutrient].values)/DRI[nutrient]/recipe["portions"]*100)
         if value < 5: continue

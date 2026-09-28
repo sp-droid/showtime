@@ -235,7 +235,8 @@ document.addEventListener('DOMContentLoaded', async () => {
         const visible = advancedOpen ? tableEntries() : galleryEntries();
         if (advancedOpen) renderTable(visible);
         else renderGallery(visible);
-        count.textContent = `${visible.length} ${visible.length === 1 ? 'recipe' : 'recipes'}${advancedOpen && unfinished.checked ? ' in progress' : ''}`;
+        const total = recipes.filter(entry => entry.finished !== (advancedOpen && unfinished.checked)).length;
+        count.textContent = `${visible.length} of ${total} entries`;
         empty.hidden = visible.length !== 0;
         empty.textContent = advancedOpen && unfinished.checked
             ? 'No unfinished recipes match these filters. Try another name, origin, category, or dietary choice.'
@@ -251,7 +252,6 @@ document.addEventListener('DOMContentLoaded', async () => {
         const label = open ? 'Photo gallery' : 'Advanced search';
         viewToggle.setAttribute('aria-label', label);
         viewToggle.title = label;
-        document.querySelector('.recipes-gallery-hint').hidden = open;
         render();
     }
 

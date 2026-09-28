@@ -5,7 +5,6 @@ document.addEventListener("DOMContentLoaded", () => {
     const count = document.getElementById("blog-count");
     const eyebrow = document.getElementById("blog-eyebrow");
     const heading = document.getElementById("blog-heading");
-    const lede = document.getElementById("blog-lede");
     const dateFormatter = new Intl.DateTimeFormat("en-GB", {
         day: "numeric", month: "short", year: "numeric", timeZone: "UTC"
     });
@@ -38,9 +37,6 @@ document.addEventListener("DOMContentLoaded", () => {
         const drafts = isDraftView();
         eyebrow.textContent = drafts ? "Drafts" : "Writing";
         heading.textContent = drafts ? "Work in progress" : "Blog";
-        lede.textContent = drafts
-            ? "Notes that are still taking shape."
-            : "Notes on software, algorithms, space engineering, and the occasional detour.";
         document.title = drafts ? "Work in progress | Blog" : "Blog";
     }
 
@@ -74,6 +70,8 @@ document.addEventListener("DOMContentLoaded", () => {
         const link = document.createElement("a");
         link.className = "blog-entry__link";
         link.href = "blog/" + encodeURIComponent(post.file) + ".html";
+        link.title = post.title;
+        link.setAttribute("aria-label", `${post.title}, ${post.tag}, ${post.displayDate}`);
 
         const meta = document.createElement("span");
         meta.className = "blog-entry__meta";
@@ -90,15 +88,8 @@ document.addEventListener("DOMContentLoaded", () => {
         title.className = "blog-entry__title";
         title.textContent = post.title;
 
-        const arrow = document.createElement("span");
-        arrow.className = "blog-entry__arrow";
-        arrow.setAttribute("aria-hidden", "true");
-        const arrowIcon = document.createElement("i");
-        arrowIcon.className = "fa-solid fa-arrow-right";
-        arrow.appendChild(arrowIcon);
-
-        meta.append(date, tag);
-        link.append(meta, title, arrow);
+        meta.append(tag, date);
+        link.append(title, meta);
         article.appendChild(link);
         return article;
     }
@@ -136,11 +127,12 @@ document.addEventListener("DOMContentLoaded", () => {
         if (!loaded) return;
 
         const query = searchInput.value.trim().toLowerCase();
-        const visible = scopedPosts().filter(post =>
+        const available = scopedPosts();
+        const visible = available.filter(post =>
             (selectedTag === "All" || post.tag === selectedTag) &&
             post.title.toLowerCase().includes(query)
         );
-        count.textContent = visible.length + (visible.length === 1 ? " post" : " posts");
+        count.textContent = `${visible.length} of ${available.length} entries`;
         results.replaceChildren();
         results.setAttribute("aria-busy", "false");
 
@@ -191,7 +183,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
     async function loadPosts() {
         loaded = false;
-        count.textContent = "";
+        count.textContent = "Loading entries…";
         results.setAttribute("aria-busy", "true");
         results.innerHTML = '<p class="blog-loading">Loading posts…</p>';
 

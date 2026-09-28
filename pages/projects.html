@@ -7,8 +7,8 @@
     <link rel="stylesheet" href="../assets/libraries/bootstrap5.0.2/bootstrap.min.css">
     <link rel="stylesheet" href="../assets/libraries/fontawesome6.5.1/css/all.min.css">
     
-    <link rel="stylesheet" href="../assets/css/style.css?v=20260926-projects-align">
-    <script src="../assets/js/projects.js?v=20260926-projects-2"></script>
+    <link rel="stylesheet" href="../assets/css/style.css?v=20260928-project-card-hover">
+    <script src="../assets/js/projects.js?v=20260928-project-card-hover"></script>
     <script src="../assets/js/common.js?v=20260926"></script>
     <title>Projects</title>
 	
@@ -63,26 +63,34 @@ section ="projects">
         <header class="projects-hero">
             <p class="projects-eyebrow">Portfolio</p>
             <h1>Projects</h1>
-            <p class="projects-lede">A selection of software experiments, interactive tools, and space engineering work.</p>
             <p class="projects-webgpu-note" id="projectsWebGpuNote" hidden>Some interactive projects use WebGPU and may need a compatible browser. <a class="linkPopUp" href="https://caniuse.com/?search=web%20gpu">Check browser support</a>.</p>
         </header>
         <section class="projects-section" aria-label="Project collection">
             <div class="projects-controls-row">
                 <div class="projects-controls">
+                    <div class="projects-control projects-search-control">
+                        <label class="visually-hidden" for="projectsSearch">Search projects</label>
+                        <div class="projects-search">
+                            <i class="fa-solid fa-magnifying-glass" aria-hidden="true"></i>
+                            <input id="projectsSearch" type="search" placeholder="Search projects" autocomplete="off">
+                        </div>
+                    </div>
                     <div class="projects-control">
-                        <label for="projectsPriority">Priority</label>
+                        <label class="visually-hidden" for="projectsPriority">Priority</label>
                         <select id="projectsPriority" disabled><option value="">All priorities</option></select>
                     </div>
                     <div class="projects-control">
-                        <label for="projectsTool">Tool</label>
+                        <label class="visually-hidden" for="projectsTool">Tool</label>
                         <select id="projectsTool" disabled><option value="">All tools</option></select>
                     </div>
                 </div>
-                <button class="projects-clear" id="projectsClearFilters" type="button" hidden>Clear filters</button>
+                <div class="projects-controls-meta">
+                    <button class="projects-clear" id="projectsClearFilters" type="button" hidden>Clear filters</button>
+                    <p class="projects-result-count" id="projectsResultCount" role="status" aria-live="polite">Loading entries…</p>
+                </div>
             </div>
-            <p class="projects-result-count" id="projectsResultCount" role="status" aria-live="polite">Loading projects…</p>
             <div class="projects-grid" id="gridProjects"></div>
-            <div class="projects-empty" id="projectsEmpty" hidden>No projects match those filters. Try another priority or tool.</div>
+            <div class="projects-empty" id="projectsEmpty" hidden>No projects match your search or filters. Try another term, priority, or tool.</div>
         </section>
     </main>
 </div>

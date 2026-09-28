@@ -6,8 +6,8 @@
     <meta name="darkreader-lock">
     <link rel="stylesheet" href="{{rootFolder}}assets/libraries/bootstrap5.0.2/bootstrap.min.css">
     <link rel="stylesheet" href="{{rootFolder}}assets/libraries/fontawesome6.5.1/css/all.min.css">
-    <link rel="stylesheet" href="{{rootFolder}}assets/css/style.css?v=20260926-recipes-7">
-    <script src="{{rootFolder}}assets/js/recipes.js?v=20260926-recipes-4" defer></script>
+    <link rel="stylesheet" href="{{rootFolder}}assets/css/style.css?v=20260928-index-rows">
+    <script src="{{rootFolder}}assets/js/recipes.js?v=20260928-compact-controls" defer></script>
     <script src="{{rootFolder}}assets/js/common.js?v=20260926" defer></script>
     <title>Recipes · Pablo Arbelo Cabrera</title>
     {{favicon}}
@@ -22,38 +22,34 @@
             <img class="recipes-hero__cuisine" id="recipeCuisineWatermark" alt="" aria-hidden="true" hidden>
             <p class="recipes-eyebrow">FROM MY KITCHEN</p>
             <h1>Recipes</h1>
-            <p class="recipes-intro">A collection of things I like to make.</p>
         </div>
 
-        <div class="recipes-toolbar">
-            <div class="recipes-search-wrap">
-                <label class="visually-hidden" for="recipeSearch">Search recipes by name</label>
-                <i class="fa-solid fa-magnifying-glass" aria-hidden="true"></i>
-                <input id="recipeSearch" type="search" placeholder="Search recipes by name" autocomplete="off">
+        <div class="recipes-controls-row">
+            <div class="recipes-toolbar">
+                <div class="recipes-search-wrap">
+                    <label class="visually-hidden" for="recipeSearch">Search recipes</label>
+                    <i class="fa-solid fa-magnifying-glass" aria-hidden="true"></i>
+                    <input id="recipeSearch" type="search" placeholder="Search recipes" autocomplete="off">
+                </div>
+                <button class="recipes-view-toggle" id="recipeViewToggle" type="button" aria-label="Advanced search" title="Advanced search" aria-controls="recipeAdvanced" aria-pressed="false">
+                    <i class="fa-solid fa-bars" aria-hidden="true"></i>
+                </button>
             </div>
-            <button class="recipes-view-toggle" id="recipeViewToggle" type="button" aria-label="Advanced search" title="Advanced search" aria-controls="recipeAdvanced" aria-pressed="false">
-                <i class="fa-solid fa-bars" aria-hidden="true"></i>
-            </button>
-        </div>
-
-        <div class="recipes-categories" role="group" aria-label="Recipe filters">
-            <label class="recipes-origin" for="recipeOrigin">
-                <span class="visually-hidden">Filter by origin</span>
-                <select id="recipeOrigin" aria-label="Filter by origin">
-                    <option value="">Origin</option>
-                </select>
-                <i class="fa-solid fa-chevron-down" aria-hidden="true"></i>
-            </label>
-            <button type="button" class="is-active" data-category="" aria-pressed="true">All</button>
-            <button type="button" data-category="Main courses" aria-pressed="false">Main courses</button>
-            <button type="button" data-category="Desserts" aria-pressed="false">Desserts</button>
-            <button type="button" data-category="Drinks" aria-pressed="false">Drinks</button>
-            <button type="button" data-category="Other" aria-pressed="false">Other</button>
-        </div>
-
-        <div class="recipes-results-heading">
-            <p id="recipeResultCount" role="status" aria-live="polite">Loading recipes…</p>
-            <span class="recipes-gallery-hint" aria-hidden="true">A little different every visit</span>
+            <div class="recipes-categories" role="group" aria-label="Recipe filters">
+                <label class="recipes-origin" for="recipeOrigin">
+                    <span class="visually-hidden">Filter by origin</span>
+                    <select id="recipeOrigin" aria-label="Filter by origin">
+                        <option value="">Origin</option>
+                    </select>
+                    <i class="fa-solid fa-chevron-down" aria-hidden="true"></i>
+                </label>
+                <button type="button" class="is-active" data-category="" aria-pressed="true">All</button>
+                <button type="button" data-category="Main courses" aria-pressed="false">Main courses</button>
+                <button type="button" data-category="Desserts" aria-pressed="false">Desserts</button>
+                <button type="button" data-category="Drinks" aria-pressed="false">Drinks</button>
+                <button type="button" data-category="Other" aria-pressed="false">Other</button>
+            </div>
+            <p class="recipes-result-count" id="recipeResultCount" role="status" aria-live="polite">Loading entries…</p>
         </div>
 
         <div id="recipeGallery" class="recipes-gallery"></div>
