@@ -71,8 +71,7 @@
 
             <article class="blog-post-article" aria-label="Slippy map">
 
-                <div class="markdown-body" id="HTMLpost"><h1><a href="../../content/JSexperiments/slippyMap/8.html"><strong>Try it yourself</strong></a></h1>
-<hr>
+                <div class="markdown-body" id="HTMLpost"><p class="blog-post-cta"><a class="blog-post-cta__button" href="../../content/JSexperiments/slippyMap/8.html"><i class="fa-solid fa-play" aria-hidden="true"></i>Try it yourself<i class="fa-solid fa-arrow-right" aria-hidden="true"></i></a></p>
 <p>An implementation of the &quot;slippy map&quot; that were used at some point in map applications such as Google Maps.</p>
 <ul>
 <li>
@@ -128,10 +127,14 @@ document.addEventListener("DOMContentLoaded", () => {
     document.querySelectorAll("#HTMLpost img").forEach(img => {
         if (img.alt === "INLINE" || !img.alt.trim()) return;
         figureNumber += 1;
+        // Wrap image and caption so the caption is centred under the image, not the column.
+        const figure = document.createElement("span");
+        figure.className = "blog-post-figure";
         const caption = document.createElement("span");
         caption.className = "blog-post-caption";
         caption.textContent = `Figure ${figureNumber}. ${img.alt}`;
-        img.insertAdjacentElement("afterend", caption);
+        img.replaceWith(figure);
+        figure.append(img, caption);
     });
 });
 </script>

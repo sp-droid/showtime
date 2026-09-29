@@ -42,7 +42,7 @@ document.addEventListener("DOMContentLoaded", async () => {
         for (const value of values) {
             const option = document.createElement("option");
             option.value = value;
-            option.textContent = value;
+            option.textContent = select === prioritySelect ? `${value} priority` : value;
             select.appendChild(option);
         }
         select.disabled = false;
@@ -148,7 +148,10 @@ document.addEventListener("DOMContentLoaded", async () => {
     try {
         const response = await fetch("../content/projects.json");
         if (!response.ok) throw new Error(`HTTP ${response.status}`);
-        const projects = (await response.json()).sort((a, b) => dateKey(b.date) - dateKey(a.date));
+        // Featured (High importance) projects first, then newest first.
+        const isFeatured = project => project.importance === "High";
+        const projects = (await response.json()).sort((a, b) =>
+            (isFeatured(b) - isFeatured(a)) || (dateKey(b.date) - dateKey(a.date)));
 
         const priorityOrder = ["Major", "High", "Medium", "Low"];
         const priorities = [...new Set(projects.map(project => project.importance))]

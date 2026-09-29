@@ -73,6 +73,9 @@ document.addEventListener("DOMContentLoaded", () => {
         link.title = post.title;
         link.setAttribute("aria-label", `${post.title}, ${post.tag}, ${post.displayDate}`);
 
+        const main = document.createElement("span");
+        main.className = "blog-entry__main";
+
         const meta = document.createElement("span");
         meta.className = "blog-entry__meta";
 
@@ -88,8 +91,9 @@ document.addEventListener("DOMContentLoaded", () => {
         title.className = "blog-entry__title";
         title.textContent = post.title;
 
-        meta.append(tag, date);
-        link.append(title, meta);
+        main.append(title, tag);
+        meta.append(date);
+        link.append(main, meta);
         article.appendChild(link);
         return article;
     }

@@ -91,10 +91,14 @@ document.addEventListener("DOMContentLoaded", () => {
     document.querySelectorAll("#HTMLpost img").forEach(img => {
         if (img.alt === "INLINE" || !img.alt.trim()) return;
         figureNumber += 1;
+        // Wrap image and caption so the caption is centred under the image, not the column.
+        const figure = document.createElement("span");
+        figure.className = "blog-post-figure";
         const caption = document.createElement("span");
         caption.className = "blog-post-caption";
         caption.textContent = `Figure ${figureNumber}. ${img.alt}`;
-        img.insertAdjacentElement("afterend", caption);
+        img.replaceWith(figure);
+        figure.append(img, caption);
     });
 });
 </script>

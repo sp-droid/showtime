@@ -817,3 +817,62 @@ input::placeholder, textarea::placeholder { color: #667260; }
     .branding-panel .field-row { grid-template-columns: 1fr; }
     .main-footer #footer-club-name { display: inline; }
 }
+
+/* ===== Richer palette (2026-09) =====
+   Same layout, stronger colour: tinted canvas, green sidebar,
+   lime accents and filled badges instead of near-white greys. */
+:root {
+    --ink: #1d3a2e;
+    --muted: #4f6152;
+    --green: #1f5a43;
+    --green-deep: #173f31;
+    --lime: #c9e87a;
+    --lime-soft: #e4f2c2;
+    --line: #d3dfc4;
+    --paper: #edf3e2;
+}
+body { background: var(--paper); }
+.app-header { background: #fff; border-bottom: 3px solid var(--lime); }
+.brand-period, h2 span { color: #5e9a24; }
+.sport-badge { color: var(--green); }
+.sport-badge span { background: #6fae2c; }
+.sidebar { background: var(--green); border-right-color: var(--green-deep); color: #e4efd6; }
+.sidebar-label, .sidebar-footer { color: #a9c79a; }
+nav button, #stage-1-button, #stage-2-button, #stage-3-button { color: #dcead0; }
+nav small { color: #a9c79a; }
+.step-icon { border-color: #6f977e; color: #e4efd6; }
+nav #stage-1-button[aria-current="step"], nav #stage-2-button[aria-current="step"], nav #stage-3-button[aria-current="step"] {
+    background: var(--lime); color: var(--green-deep); border-color: var(--lime);
+}
+nav button[aria-current="step"] small { color: #2f5a3f; }
+nav button[aria-current="step"] .step-icon { border-color: var(--green-deep); color: var(--green-deep); }
+nav button:hover:not(:disabled) { background: #2a6b51; }
+nav button[aria-current="step"]:hover:not(:disabled) { background: #d5ef8c; }
+nav button:disabled { opacity: .55; }
+.sidebar-note strong { color: #fff; }
+.sidebar-note p { color: #b9d2ab; }
+.mini-court { border-color: var(--lime); background:
+    linear-gradient(90deg, transparent 49%, var(--lime) 49%, var(--lime) 51%, transparent 51%),
+    linear-gradient(0deg, transparent 49%, var(--lime) 49%, var(--lime) 51%, transparent 51%); }
+.eyebrow, .live-badge { color: #4d8a22; }
+.draft-badge { background: var(--lime-soft); border-color: #bfdc8a; color: #35631d; }
+.panel { border-color: var(--line); box-shadow: 0 6px 18px #1f5a4312; }
+.section-number { background: var(--lime); border-color: #b4d766; color: var(--green-deep); font-weight: 700; }
+.count-badge { background: var(--lime-soft); border-color: #bfdc8a; color: #35631d; }
+.court-art { background: linear-gradient(135deg, #1f5a43, #2e7a55); }
+.summary-stats { background: var(--lime-soft); border-color: #cfe4a4; }
+.summary-stats div + div { border-left-color: #bcd68f; }
+.summary-stats strong { color: var(--green); }
+.summary-tip > span { color: #5e9a24; }
+#generate-button { background: var(--green); box-shadow: 0 6px 14px #1f5a4330; }
+#generate-button:hover { background: var(--green-deep); }
+form input:focus, form select:focus, textarea:focus, #tournament-name-form input:focus {
+    border-color: #5e9a24; box-shadow: 0 0 0 3px #c9e87a66;
+}
+th { background: var(--lime-soft); color: #35631d; }
+#games-table tr:hover td { background: #f3f8e8; }
+#download-csv, #download-csv-results, #add-match { background: var(--lime-soft) !important; border-color: #bfdc8a !important; }
+.main-footer { border-top-color: var(--line); }
+@media (max-width: 850px) {
+    .sidebar { border-bottom-color: var(--green-deep); }
+}

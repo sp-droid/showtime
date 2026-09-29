@@ -121,6 +121,28 @@ function renderTocList(headings) {
         ).join("") + "</ul>";
 }
 
+// A top-level heading that is only a link (e.g. "[**Try it yourself**](demo.html)")
+// becomes a button instead of a large underlined heading. A following "---" is dropped.
+function callToActionFrom(tokens, index) {
+    const open = tokens[index];
+    const inline = tokens[index + 1];
+    if (open.type !== "heading_open" || open.level !== 0 || open.tag !== "h1"
+            || inline?.type !== "inline" || tokens[index + 2]?.type !== "heading_close") return null;
+    const children = (inline.children || []).filter(child => !(child.type === "text" && !child.content.trim()));
+    if (children[0]?.type !== "link_open" || children.at(-1)?.type !== "link_close") return null;
+    const inner = children.slice(1, -1);
+    if (!inner.every(child => ["text", "strong_open", "strong_close", "em_open", "em_close"].includes(child.type))) return null;
+    const label = inner.filter(child => child.type === "text").map(child => child.content).join("").trim();
+    const href = children[0].attrGet("href");
+    if (!label || !href) return null;
+    return {
+        end: index + 2,
+        html: `<p class="blog-post-cta"><a class="blog-post-cta__button" href="${escapeHtml(href)}">`
+            + `<i class="fa-solid fa-play" aria-hidden="true"></i>${escapeHtml(label)}`
+            + `<i class="fa-solid fa-arrow-right" aria-hidden="true"></i></a></p>\n`
+    };
+}
+
 function renderMarkdown(source) {
     const environment = {};
     const tokens = markdown.parse(source.replaceAll("assets/", "../../content/blog/assets/"), environment);
@@ -131,6 +153,15 @@ function renderMarkdown(source) {
 
     for (let index = 0; index < tokens.length; index += 1) {
         const token = tokens[index];
+        const callToAction = callToActionFrom(tokens, index);
+        if (callToAction) {
+            const html = new token.constructor("html_block", "", 0);
+            html.content = callToAction.html;
+            contentTokens.push(html);
+            index = callToAction.end;
+            if (tokens[index + 1]?.type === "hr") index += 1;
+            continue;
+        }
         if (token.type === "paragraph_open" && token.level === 0
                 && tokens[index + 1]?.type === "inline"
                 && tokens[index + 1].content.trim() === "[toc]"

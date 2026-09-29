@@ -63,7 +63,7 @@
 	"header": "MSc. Space Engineering",
 	"desc": "The results of some of the projects during my master in Space Engineering at PoliMi.",
 	"date": "05/03/2025",
-	"importance": "High"
+	"importance": "Medium"
 },
 {
 	"link": "../pages/blog/dbi.html",
@@ -140,7 +140,7 @@
 	"header": "Validation tool for (aircraft) ML models",
 	"desc": "Writing wip.",
 	"date": "31/08/2023",
-	"importance": "High"
+	"importance": "Medium"
 },
 {
 	"link": "#",

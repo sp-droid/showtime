@@ -522,7 +522,7 @@ document.addEventListener('DOMContentLoaded', () => {
     }
 
     function populateGamesTable() {
-        const colors = ['#66FF66', '#6666FF', '#FFFF66', '#66FFFF', '#FF66FF'];
+        const colors = ['#C9E87A', '#A9D3F0', '#F6D37A', '#9FE0CF', '#E9B8DC'];
         gamesTableBody.innerHTML = ''; // Clear previous rows
 
         for (let round = 0; round < N_ROUNDS; round++) {
