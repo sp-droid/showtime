@@ -21,11 +21,12 @@
             "3 carrots",
 			"0.5 leek",
             "1 onion",
-			"1 potato",
+			"2 potato",
+			"1 tomato",
 			"Salt",
 			"Black pepper",
 			"48g olive oil (4 tbsp)",
-			"2 cloves of garlic"
+			"3 cloves of garlic"
         ]
     },
     "utensils": [
@@ -33,9 +34,8 @@
 		"Hand blender"
     ],
     "instructions": [
-        "- Chop the onions and leeks roughly, peel the garlic, fry them in the pot with the oil when it's hot.",
-		"- Cut the pumpkin, carrots and potatoes in cubes, add them to the pot as you do.",
-		"- When the onion is at least transparent add salt, pepper and cover with about 850ml water.",
+        "- Chop the onions, leeks and carrots roughly, peel the garlic, fry them in the pot with the oil when it's hot.",
+		"- When the mix is caramelized, cut the pumpkin and potatoes in cubes, add them with salt, pepper, the tomato skinless and 1L water to the pot.",
 		"- Once it comes to a boil, lower the heat until there is little bubbling and cook for 30'",
 		"- Turn off the stove and blend very well. Taste and correct for salt."
     ],
