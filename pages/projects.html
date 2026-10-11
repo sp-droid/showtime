@@ -75,9 +75,8 @@ section ="projects">
                             <input id="projectsSearch" type="search" placeholder="Search projects" autocomplete="off">
                         </div>
                     </div>
-                    <div class="projects-control">
-                        <label class="visually-hidden" for="projectsPriority">Priority</label>
-                        <select id="projectsPriority" disabled><option value="">No filter</option></select>
+                    <div class="projects-control projects-order-control">
+                        <button class="projects-order" id="projectsOrder" type="button" title="Switch between curated and chronological order">Order: Curated</button>
                     </div>
                     <div class="projects-control">
                         <label class="visually-hidden" for="projectsTool">Tool</label>
@@ -90,7 +89,7 @@ section ="projects">
                 </div>
             </div>
             <div class="projects-grid" id="gridProjects"></div>
-            <div class="projects-empty" id="projectsEmpty" hidden>No projects match your search or filters. Try another term, priority, or tool.</div>
+            <div class="projects-empty" id="projectsEmpty" hidden>No projects match your search or filters. Try another term or tool.</div>
         </section>
     </main>
 </div>

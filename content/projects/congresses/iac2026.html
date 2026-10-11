@@ -101,9 +101,9 @@ body{background:#f5fafb;font-family:var(--text-font);color:var(--ink)}
 /* bottom-right toolbar */
 .ip-bar{position:sticky;bottom:calc(var(--u)*14);display:flex;justify-content:flex-end;gap:calc(var(--u)*12);
   margin-top:calc(var(--u)*30);pointer-events:none;z-index:2}
-.ip-bar button{pointer-events:auto;background:var(--btn);color:#fff;border:2px solid #9a9a9a;border-radius:4px;
-  font:400 max(11px,calc(var(--u)*22))/1 var(--title-font);text-transform:uppercase;padding:.35em .3em;cursor:pointer}
-.ip-bar button:hover{background:#4f4f4f}
+.ip-bar button,.ip-bar a{pointer-events:auto;background:var(--btn);color:#fff;border:2px solid #9a9a9a;border-radius:4px;
+  font:400 max(11px,calc(var(--u)*22))/1 var(--title-font);text-transform:uppercase;padding:.35em .3em;cursor:pointer;text-decoration:none}
+.ip-bar button:hover,.ip-bar a:hover{background:#4f4f4f}
 
 /* ---------- opened box ---------- */
 /* sizes follow the browser window, measured on the original at 2541 px wide */
@@ -165,7 +165,7 @@ body{background:#f5fafb;font-family:var(--text-font);color:var(--ink)}
   .box-open{height:52px;font-size:13px}
   .box-open::after{border-left-width:34px;border-right-width:34px;border-top-width:16px}
   .ip-bar{position:static;justify-content:center;margin-top:18px;gap:8px}
-  .ip-bar button{font-size:12px;padding:8px 10px}
+  .ip-bar button,.ip-bar a{font-size:12px;padding:8px 10px}
 }
 @media (max-width:640px){
   .dlg-panel{width:100vw}
@@ -392,6 +392,7 @@ body{background:#f5fafb;font-family:var(--text-font);color:var(--ink)}
 
   <div class="ip-bar">
     <button type="button" data-extra="cv">Author information</button>
+    <a href="https://dl.iafastro.directory/event/IAC-2026/paper/107517/" target="_blank" rel="noopener">Paper</a>
     <button type="button" data-extra="abstract">Abstract</button>
   </div>
 </main>

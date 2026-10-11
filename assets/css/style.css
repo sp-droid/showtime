@@ -1141,6 +1141,9 @@ p { font-size: 18px; }
     gap: 5px;
     min-width: 0;
 }
+.projects-order-control {
+    flex-basis: 178px;
+}
 .projects-search-control {
     flex: 1 1 180px;
     max-width: 320px;
@@ -1187,11 +1190,26 @@ p { font-size: 18px; }
     min-height: 38px;
     padding: 7px 32px 7px 12px;
 }
+.projects-order {
+    background: var(--projects-control-bg);
+    border: 1px solid var(--line-cool-strong);
+    border-radius: 8px;
+    color: var(--projects-text);
+    cursor: pointer;
+    font-size: 14px;
+    min-height: 38px;
+    padding: 7px 12px;
+    text-align: left;
+    white-space: nowrap;
+}
 .projects-control select:hover,
-.projects-control select:focus-visible {
+.projects-control select:focus-visible,
+.projects-order:hover,
+.projects-order:focus-visible {
     border-color: var(--accent-projects);
 }
 .projects-control select:focus-visible,
+.projects-order:focus-visible,
 .projects-clear:focus-visible,
 .project-card:focus-visible {
     outline: 2px solid var(--accent-projects);
@@ -1269,6 +1287,15 @@ p { font-size: 18px; }
     object-fit: cover;
     width: 100%;
 }
+.project-card__badges {
+    align-items: flex-start;
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+    left: 14px;
+    position: absolute;
+    top: 14px;
+}
 .project-card__badge {
     background: #162b2b;
     border: 1px solid rgba(128, 200, 189, 0.65);
@@ -1276,10 +1303,7 @@ p { font-size: 18px; }
     color: #a8e3d8;
     font-size: 12px;
     font-weight: 700;
-    left: 14px;
     padding: 5px 10px;
-    position: absolute;
-    top: 14px;
 }
 .project-card__body {
     display: flex;
@@ -1464,7 +1488,8 @@ p { font-size: 18px; }
         grid-column: 1 / -1;
         max-width: none;
     }
-    .projects-control select {
+    .projects-control select,
+    .projects-order {
         width: 100%;
     }
     .projects-grid {
@@ -1481,6 +1506,7 @@ p { font-size: 18px; }
         padding-right: 16px;
     }
     .projects-control select { font-size: 13px; padding-left: 10px; padding-right: 28px; }
+    .projects-order { font-size: 13px; padding-left: 10px; padding-right: 10px; }
 }
 @media (hover: none), (pointer: coarse) {
     .project-card__content { display: flex; flex-direction: column; }

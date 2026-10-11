@@ -1,7 +1,7 @@
 document.addEventListener("DOMContentLoaded", async () => {
     const grid = document.getElementById("gridProjects");
     const searchInput = document.getElementById("projectsSearch");
-    const prioritySelect = document.getElementById("projectsPriority");
+    const orderButton = document.getElementById("projectsOrder");
     const toolSelect = document.getElementById("projectsTool");
     const clearButton = document.getElementById("projectsClearFilters");
     const resultCount = document.getElementById("projectsResultCount");
@@ -42,13 +42,13 @@ document.addEventListener("DOMContentLoaded", async () => {
         for (const value of values) {
             const option = document.createElement("option");
             option.value = value;
-            option.textContent = select === prioritySelect ? `${value} priority` : value;
+            option.textContent = value;
             select.appendChild(option);
         }
         select.disabled = false;
     }
 
-    function createCard(project) {
+    function createCard(project, isNewest) {
         const linked = project.link !== "#";
         const card = document.createElement(linked ? "a" : "article");
         card.className = `project-card${linked ? " project-card--linked" : ""}`;
@@ -83,11 +83,19 @@ document.addEventListener("DOMContentLoaded", async () => {
             card.addEventListener("mouseleave", () => { image.src = stillImage; });
         }
 
-        if (project.importance === "High") {
-            const badge = document.createElement("span");
-            badge.className = "project-card__badge";
-            badge.textContent = "Featured";
-            media.appendChild(badge);
+        const badgeLabels = [];
+        if (isNewest) badgeLabels.push("Newest");
+        if (project.importance === "High") badgeLabels.push("Featured");
+        if (badgeLabels.length) {
+            const badges = document.createElement("div");
+            badges.className = "project-card__badges";
+            for (const label of badgeLabels) {
+                const badge = document.createElement("span");
+                badge.className = "project-card__badge";
+                badge.textContent = label;
+                badges.appendChild(badge);
+            }
+            media.appendChild(badges);
         }
         card.appendChild(media);
 
@@ -148,43 +156,47 @@ document.addEventListener("DOMContentLoaded", async () => {
     try {
         const response = await fetch("../content/projects.json");
         if (!response.ok) throw new Error(`HTTP ${response.status}`);
-        // Featured (High importance) projects first, then newest first.
-        const isFeatured = project => project.importance === "High";
-        const projects = (await response.json()).sort((a, b) =>
-            (isFeatured(b) - isFeatured(a)) || (dateKey(b.date) - dateKey(a.date)));
+        // Chronological: newest first. Curated: the newest project, then by importance, newest first within each group.
+        const chronological = (await response.json()).sort((a, b) => dateKey(b.date) - dateKey(a.date));
+        const newest = chronological[0];
+        const importanceOrder = ["High", "Medium", "Low"];
+        const importanceRank = project => {
+            const rank = importanceOrder.indexOf(project.importance);
+            return rank === -1 ? importanceOrder.length : rank;
+        };
+        const curated = chronological.slice(0, 1).concat(chronological.slice(1)
+            .sort((a, b) => importanceRank(a) - importanceRank(b) || dateKey(b.date) - dateKey(a.date)));
+        let curatedOrder = true;
 
-        const priorityOrder = ["Major", "High", "Medium", "Low"];
-        const priorities = [...new Set(projects.map(project => project.importance))]
-            .sort((a, b) => priorityOrder.indexOf(a) - priorityOrder.indexOf(b));
-        const tools = [...new Set(projects.flatMap(project => project.tools))]
+        const tools = [...new Set(chronological.flatMap(project => project.tools))]
             .sort((a, b) => a.localeCompare(b, undefined, { sensitivity: "base" }));
-        addOptions(prioritySelect, priorities);
         addOptions(toolSelect, tools);
 
         function render() {
             const query = searchInput.value.trim().toLocaleLowerCase();
-            const priority = prioritySelect.value;
             const tool = toolSelect.value;
-            const visible = projects.filter(project =>
+            const visible = (curatedOrder ? curated : chronological).filter(project =>
                 (!query || [project.header, project.desc, project.type, ...project.tools]
                     .join(" ").toLocaleLowerCase().includes(query)) &&
-                (!priority || project.importance === priority) &&
                 (!tool || project.tools.includes(tool))
             );
             const cards = document.createDocumentFragment();
-            visible.forEach(project => cards.appendChild(createCard(project)));
+            visible.forEach(project => cards.appendChild(createCard(project, project === newest)));
             grid.replaceChildren(cards);
-            resultCount.textContent = `${visible.length} of ${projects.length} entries`;
-            clearButton.hidden = !query && !priority && !tool;
+            resultCount.textContent = `${visible.length} of ${chronological.length} entries`;
+            clearButton.hidden = !query && !tool;
             emptyState.hidden = visible.length !== 0;
         }
 
         searchInput.addEventListener("input", render);
-        prioritySelect.addEventListener("change", render);
         toolSelect.addEventListener("change", render);
+        orderButton.addEventListener("click", () => {
+            curatedOrder = !curatedOrder;
+            orderButton.textContent = `Order: ${curatedOrder ? "Curated" : "Chronological"}`;
+            render();
+        });
         clearButton.addEventListener("click", () => {
             searchInput.value = "";
-            prioritySelect.value = "";
             toolSelect.value = "";
             render();
             searchInput.focus();

@@ -3,9 +3,9 @@
 	"link": "../content/projects/congresses/iac2026.html",
 	"bg": "iac26",
 	"gif": false,
-	"type": "Congress",
+	"type": "Scientific article",
 	"tools": ["Python","NVIDIA CUDA"],
-	"header": "IAC 2026 - Orblib",
+	"header": "IAC 2026 - orblib",
 	"desc": "Interactive presentation of the progress made on the orblib GPU propagator.",
 	"date": "11/10/2026",
 	"importance": "Medium"
