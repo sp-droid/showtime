@@ -1131,18 +1131,15 @@ p { font-size: 18px; }
 .projects-controls {
     display: flex;
     flex: 1 1 auto;
-    flex-wrap: nowrap;
+    flex-wrap: wrap;
     gap: 10px;
     min-width: 0;
 }
 .projects-control {
     display: grid;
-    flex: 0 0 140px;
+    flex: 0 0 auto;
     gap: 5px;
     min-width: 0;
-}
-.projects-order-control {
-    flex-basis: 178px;
 }
 .projects-search-control {
     flex: 1 1 180px;
@@ -1186,7 +1183,9 @@ p { font-size: 18px; }
     border-radius: 8px;
     color: var(--projects-text);
     cursor: pointer;
+    field-sizing: content;
     font-size: 14px;
+    max-width: 240px;
     min-height: 38px;
     padding: 7px 32px 7px 12px;
 }
@@ -1472,9 +1471,8 @@ p { font-size: 18px; }
         flex-wrap: wrap;
     }
     .projects-controls {
-        display: grid;
+        display: flex;
         flex: 0 0 100%;
-        grid-template-columns: repeat(2, minmax(0, 1fr));
         width: 100%;
     }
     .projects-controls-meta {
@@ -1482,14 +1480,15 @@ p { font-size: 18px; }
         margin-left: 0;
     }
     .projects-control {
-        min-width: 0;
+        flex: 1 1 auto;
     }
     .projects-search-control {
-        grid-column: 1 / -1;
+        flex-basis: 100%;
         max-width: none;
     }
     .projects-control select,
     .projects-order {
+        max-width: none;
         width: 100%;
     }
     .projects-grid {

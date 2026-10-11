@@ -3,6 +3,7 @@ document.addEventListener("DOMContentLoaded", async () => {
     const searchInput = document.getElementById("projectsSearch");
     const orderButton = document.getElementById("projectsOrder");
     const toolSelect = document.getElementById("projectsTool");
+    const typeSelect = document.getElementById("projectsType");
     const clearButton = document.getElementById("projectsClearFilters");
     const resultCount = document.getElementById("projectsResultCount");
     const emptyState = document.getElementById("projectsEmpty");
@@ -168,28 +169,31 @@ document.addEventListener("DOMContentLoaded", async () => {
             .sort((a, b) => importanceRank(a) - importanceRank(b) || dateKey(b.date) - dateKey(a.date)));
         let curatedOrder = true;
 
-        const tools = [...new Set(chronological.flatMap(project => project.tools))]
-            .sort((a, b) => a.localeCompare(b, undefined, { sensitivity: "base" }));
-        addOptions(toolSelect, tools);
+        const byName = (a, b) => a.localeCompare(b, undefined, { sensitivity: "base" });
+        addOptions(toolSelect, [...new Set(chronological.flatMap(project => project.tools))].sort(byName));
+        addOptions(typeSelect, [...new Set(chronological.map(project => project.type))].sort(byName));
 
         function render() {
             const query = searchInput.value.trim().toLocaleLowerCase();
             const tool = toolSelect.value;
+            const type = typeSelect.value;
             const visible = (curatedOrder ? curated : chronological).filter(project =>
                 (!query || [project.header, project.desc, project.type, ...project.tools]
                     .join(" ").toLocaleLowerCase().includes(query)) &&
-                (!tool || project.tools.includes(tool))
+                (!tool || project.tools.includes(tool)) &&
+                (!type || project.type === type)
             );
             const cards = document.createDocumentFragment();
             visible.forEach(project => cards.appendChild(createCard(project, project === newest)));
             grid.replaceChildren(cards);
             resultCount.textContent = `${visible.length} of ${chronological.length} entries`;
-            clearButton.hidden = !query && !tool;
+            clearButton.hidden = !query && !tool && !type;
             emptyState.hidden = visible.length !== 0;
         }
 
         searchInput.addEventListener("input", render);
         toolSelect.addEventListener("change", render);
+        typeSelect.addEventListener("change", render);
         orderButton.addEventListener("click", () => {
             curatedOrder = !curatedOrder;
             orderButton.textContent = `Order: ${curatedOrder ? "Curated" : "Chronological"}`;
@@ -198,6 +202,7 @@ document.addEventListener("DOMContentLoaded", async () => {
         clearButton.addEventListener("click", () => {
             searchInput.value = "";
             toolSelect.value = "";
+            typeSelect.value = "";
             render();
             searchInput.focus();
         });
