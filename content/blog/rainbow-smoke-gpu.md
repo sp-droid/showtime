@@ -2,7 +2,7 @@
 *[PRN]: Pseudorandom number
 *[ST]: Single-threaded
 
-[**Try it yourself**](../../content/JSexperiments/GPUrainbowSmoke/index.html)
+[**Try it yourself**](../../content/projects/GPUrainbowSmoke/index.html)
 ======
 
 ---

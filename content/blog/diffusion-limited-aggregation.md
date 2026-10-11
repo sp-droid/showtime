@@ -1,4 +1,4 @@
-[**Try it yourself**](../../content/JSexperiments/GPUdla/index.html)
+[**Try it yourself**](../../content/projects/GPUdla/index.html)
 ======
 
 ---

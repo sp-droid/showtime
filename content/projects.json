@@ -11,7 +11,7 @@
 	"importance": "Low"
 },
 {
-	"link": "../content/JSexperiments/tournamentTool/index.html",
+	"link": "../content/projects/tournamentTool/index.html",
 	"bg": "tournamentTool",
 	"gif": false,
 	"type": "Personal",
@@ -22,7 +22,7 @@
 	"importance": "Low"
 },
 {
-	"link": "../content/JSexperiments/wakatime-wrapped/index.html",
+	"link": "../content/projects/wakatime-wrapped/index.html",
 	"bg": "wakatime-wrapped",
 	"gif": true,
 	"type": "Personal",
@@ -77,7 +77,7 @@
 	"importance": "Low"
 },
 {
-	"link": "../content/JSexperiments/badmintonReaction/index.html",
+	"link": "../content/projects/badmintonReaction/index.html",
 	"bg": "badmintonReaction",
 	"gif": false,
 	"type": "Personal",
@@ -110,7 +110,7 @@
 	"importance": "Low"
 },
 {
-	"link": "../content/JSexperiments/webGPUconway/index.html",
+	"link": "../content/projects/webGPUconway/index.html",
 	"bg": "conwayGoL",
 	"gif": true,
 	"type": "Personal",
@@ -165,7 +165,7 @@
 	"importance": "Medium"
 },
 {
-	"link": "../content/JSexperiments/noiseFlow/index.html",
+	"link": "../content/projects/noiseFlow/index.html",
 	"bg": "noiseFlowfield",
 	"gif": true,
 	"type": "Personal",
@@ -176,7 +176,7 @@
 	"importance": "Low"
 },
 {
-	"link": "../content/JSexperiments/Lsystems/index.html",
+	"link": "../content/projects/Lsystems/index.html",
 	"bg": "LsystemsTree",
 	"gif": false,
 	"type": "Personal",
@@ -187,7 +187,7 @@
 	"importance": "Low"
 },
 {
-	"link": "../content/JSexperiments/starfield/index.html",
+	"link": "../content/projects/starfield/index.html",
 	"bg": "starfield",
 	"gif": false,
 	"type": "Personal",
