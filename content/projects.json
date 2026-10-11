@@ -135,7 +135,7 @@
 	"link": "../pages/blog/eac-internship.html",
 	"bg": "eacInternship",
 	"gif": false,
-	"type": "European Space Agency",
+	"type": "Work & studies",
 	"tools": ["Python","Keras","JavaScript","HTML","CSS"],
 	"header": "European Space Agency internship",
 	"desc": "Light summary of the things I worked on during my internship at the European Astronaut Centre.",
@@ -143,13 +143,13 @@
 	"importance": "High"
 },
 {
-	"link": "#",
-	"bg": "default",
+	"link": "https://www.sciencedirect.com/science/article/pii/S0957417425007912",
+	"bg": "ngvalidation",
 	"gif": false,
-	"type": "UPM & Airbus",
+	"type": "Scientific article",
 	"tools": ["Python"],
 	"header": "Validation tool for (aircraft) ML models",
-	"desc": "Writing wip.",
+	"desc": "Paper that came out of my work with UPM and Airbus on a validation tool for their surrogate models.",
 	"date": "31/08/2023",
 	"importance": "Medium"
 },
