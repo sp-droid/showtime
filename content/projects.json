@@ -1,5 +1,16 @@
 [
 {
+	"link": "../content/projects/congresses/iac2026.html",
+	"bg": "iac26",
+	"gif": false,
+	"type": "Congress",
+	"tools": ["Python","NVIDIA CUDA"],
+	"header": "IAC 2026 - Orblib",
+	"desc": "Interactive presentation of the progress made on the orblib GPU propagator.",
+	"date": "11/10/2026",
+	"importance": "Medium"
+},
+{
 	"link": "../pages/blog/slippy-map.html",
 	"bg": "slippy-map",
 	"gif": true,
@@ -52,7 +63,7 @@
 	"header": "GPU Rainbow Smoke",
 	"desc": "WebGPU implementation of the Rainbow Smoke algorithm.",
 	"date": "13/03/2025",
-	"importance": "Medium"
+	"importance": "Low"
 },
 {
 	"link": "../pages/blog/uni-projects.html",
@@ -96,7 +107,7 @@
 	"header": "Clicker & Pointer Android app",
 	"desc": "I couldn't find an app that allowed me to use my phone's volume buttons to pass the slides on a Powerpoint presentation, so I made one and added a 'laser' pointer extra functionality.",
 	"date": "21/04/2024",
-	"importance": "Medium"
+	"importance": "Low"
 },
 {
 	"link": "https://www.flickr.com/photos/200282744@N03/albums/72177720315521996",
@@ -151,7 +162,7 @@
 	"header": "GPU Iterative pseudo-voronoi",
 	"desc": "2D space segmentation using a GPU-powered (by numba-CUDA and python, specifically) pseudo-voronoi technique on +130M pixel images.",
 	"date": "25/04/2023",
-	"importance": "Medium"
+	"importance": "Low"
 },
 {
 	"link": "#",
@@ -162,7 +173,7 @@
 	"header": "GPU Historical biome prediction",
 	"desc": "Using a variation of Whittaker's diagram (biome = f[temperature, rainfall, height]) and extrapolated Earth observational data to classify biomes on 1204 A.D. on +130M pixel images.",
 	"date": "11/03/2023",
-	"importance": "Medium"
+	"importance": "Low"
 },
 {
 	"link": "../content/projects/noiseFlow/index.html",
