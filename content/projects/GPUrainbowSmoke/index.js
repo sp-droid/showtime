@@ -5,16 +5,20 @@ const WORKGROUP_SIZE2D = 8;
 
 // UI
 const canvas = document.querySelector("canvas");
-canvas.width = canvas.parentElement.clientWidth;
-canvas.height = canvas.parentElement.clientHeight;
+const dpr = window.devicePixelRatio || 1;
+const cssWidth = canvas.parentElement.clientWidth;
+const cssHeight = canvas.parentElement.clientHeight;
 
-const horizontalResolutionPrompt = parseInt(prompt("Horizontal resolution:", "512"));
+let horizontalResolutionPrompt = parseInt(prompt("Horizontal resolution:", "512"));
+if (!Number.isFinite(horizontalResolutionPrompt) || horizontalResolutionPrompt < 3) { horizontalResolutionPrompt = 512; }
 const algorithmPrompt = prompt("Type 1 to use the AVERAGE or anything else to use the MINIMUM Rainbow Smoke algorithm variant:", "1");
 const colorOrderPrompt = prompt("Type 1 to use RANDOM or anything else for HUE ORDERED colors:", "1");
 
 let hueOffset; let hueDirection;
 if (colorOrderPrompt != 1) {
-    const huePrompt = parseFloat(prompt("Type any number from -1 to 1 to control hue order", "0.0"));
+    let huePrompt = parseFloat(prompt("Type any number from -1 to 1 to control hue order", "0.0"));
+    if (!Number.isFinite(huePrompt)) { huePrompt = 0; }
+    huePrompt = Math.max(-1, Math.min(1, huePrompt));
     hueOffset = Math.abs(huePrompt);
     hueDirection = huePrompt > -0.01 ? 1 : -1;
 }
@@ -27,11 +31,16 @@ if (algorithmPrompt == 1) {
 }
 
 let GRID_SIZEx = horizontalResolutionPrompt;
-let squareSizeX = canvas.width / GRID_SIZEx;
-let GRID_SIZEy = Math.floor(canvas.height / squareSizeX);
+let squareSizeX = cssWidth / GRID_SIZEx;
+let GRID_SIZEy = Math.max(3, Math.floor(cssHeight / squareSizeX));
+
+// Size the canvas to the grid so cells stay square, at device pixel resolution
+canvas.style.width = `${cssWidth}px`;
+canvas.style.height = `${GRID_SIZEy * squareSizeX}px`;
+canvas.width = Math.round(cssWidth * dpr);
+canvas.height = Math.round(GRID_SIZEy * squareSizeX * dpr);
 
 const nColors = GRID_SIZEx * GRID_SIZEy;
-const dispatches = Math.ceil(nColors/WORKGROUP_SIZE/COARSE_FACTOR);
 
 //#region WebGPU initialization
 // Constants
@@ -48,9 +57,11 @@ const adapter = await navigator.gpu.requestAdapter();
 if (!adapter) { throw new Error("No appropriate GPUAdapter found.") }
 
 // Handling adapter limits
-if (adapter.limits.maxComputeWorkgroupSizeX < WORKGROUP_SIZE) {
+if (adapter.limits.maxComputeWorkgroupSizeX < WORKGROUP_SIZE ||
+    adapter.limits.maxComputeInvocationsPerWorkgroup < WORKGROUP_SIZE) {
     WORKGROUP_SIZE = 256;
 }
+const dispatches = Math.ceil(nColors/WORKGROUP_SIZE/COARSE_FACTOR);
 if (adapter.limits.maxStorageBufferBindingSize < nColors*4) {
     throw new Error("Storage buffer size not supported.");
 }
@@ -134,59 +145,36 @@ let colorPoolStorage = new Uint32Array(nColors);
 
 // Initially i assumed that, on a large painting, the sampling pattern wouldn't matter, but I was very wrong. Doing it randomly vs evenly sampling colors and then
 // randomizing is the proper way
+// Build the full RGB cube, shuffle it (Fisher-Yates) and keep the first nColors, so the dropped colors are spread evenly
 let nColors1D = Math.ceil(nColors**(1/3));
 console.log("Missing colors: ", nColors1D**3-nColors, " out of ",nColors1D**3/1000,"K")
-if (colorOrderPrompt == 1) {
-    let order = [...Array(nColors).keys()].sort(() => Math.random() - 0.5);
-    let i = 0;
-    for (let r=0; r<nColors1D; r++) {
-        for (let g=0; g<nColors1D; g++) {
-            for (let b=0; b<nColors1D; b++) {
-                if (i===nColors) { break; }
-                const j = order[i];
-                const [r2, g2, b2] = [Math.round(255*r/(nColors1D-1)), Math.round(255*g/(nColors1D-1)), Math.round(255*b/(nColors1D-1))];
-                colorPoolStorage[j] = (r2 << 24) | (g2 << 16) | (b2 << 8) | 255;
-                i++;
-            }
+const cube = new Uint32Array(nColors1D**3);
+for (let r=0, i=0; r<nColors1D; r++) {
+    for (let g=0; g<nColors1D; g++) {
+        for (let b=0; b<nColors1D; b++, i++) {
+            const [r2, g2, b2] = [Math.round(255*r/(nColors1D-1)), Math.round(255*g/(nColors1D-1)), Math.round(255*b/(nColors1D-1))];
+            cube[i] = ((r2 << 24) | (g2 << 16) | (b2 << 8) | 255) >>> 0;
         }
-    }
-} else { // Ordered by hue
-    let nColors1D = Math.ceil(nColors**(1/3));
-    let i = 0;
-    let colors = [];
-    for (let r=0; r<nColors1D; r++) {
-        for (let g=0; g<nColors1D; g++) {
-            for (let b=0; b<nColors1D; b++) {
-                if (i===nColors) { break; }
-
-                const [r2, g2, b2] = [Math.round(255*r/(nColors1D-1)), Math.round(255*g/(nColors1D-1)), Math.round(255*b/(nColors1D-1))];
-                let hue = rgbToHue(r2, g2, b2);
-
-                colors.push({hue: hue, r: r2, g: g2, b: b2})
-
-                i++;
-            }
-        }
-    }
-    colors.sort((a, b) => hueDirection*((a.hue - hueOffset + 1) % 1 - (b.hue - hueOffset + 1) % 1));
-
-    for (let i = 0; i < nColors; ++i) {
-        colorPoolStorage[i] = (colors[i].r << 24) | (colors[i].g << 16) | (colors[i].b << 8) | 255;
     }
 }
+for (let i = cube.length - 1; i > 0; i--) {
+    const j = Math.floor(Math.random() * (i + 1));
+    [cube[i], cube[j]] = [cube[j], cube[i]];
+}
+colorPoolStorage.set(cube.subarray(0, nColors));
 
+if (colorOrderPrompt != 1) { // Ordered by hue
+    const shiftedHue = (c) => (rgbToHue(c >>> 24, (c >>> 16) & 0xFF, (c >>> 8) & 0xFF) - hueOffset + 1) % 1;
+    const colors = Array.from(colorPoolStorage, (c) => ({ c, hue: shiftedHue(c) }));
+    colors.sort((a, b) => hueDirection*(a.hue - b.hue));
+    colors.forEach((entry, i) => { colorPoolStorage[i] = entry.c; });
+}
 
 // Cell state storage |states: 0=inactive, 1=active, 2=painted
 let cellStateStorage = new Uint32Array(nColors);
-for (let i = 0; i < cellStateStorage.length; ++i) {
-    cellStateStorage[i] = 0;
-}
 
 // Cell color storage |painted colors
 let cellColorStorage = new Uint32Array(nColors);
-// for (let i = 0; i < cellColorStorage.length; ++i) {
-//     cellColorStorage[i] = 0.0;
-// }
 
 // Seed
 let x = Math.floor(GRID_SIZEx/2); // Middle option
@@ -277,6 +265,7 @@ device.queue.writeBuffer(commonBuffers[1], 0, cellColorStorage);
 device.queue.writeBuffer(computeBuffers[0], 0, cellStateStorage);
 device.queue.writeBuffer(computeBuffers[1], 0, colorPoolStorage);
 device.queue.writeBuffer(computeBuffers[2], 0, new Uint32Array([dispatches]));
+device.queue.writeBuffer(computeBuffers[5], 0, colorPoolStorage, 1, 1); // First target color (pool[0] is the seed)
 
 // Bind layouts
 let bindGroupLayouts = [
@@ -432,22 +421,6 @@ let computePipelines = [
         }
     }),
     device.createComputePipeline({
-        label: "Compute place and activate neighbors pipeline",
-        layout: pipelineLayouts[1],
-        compute: {
-            module: simulationShaderModule,
-            entryPoint: "placeMain"
-        }
-    }),
-    device.createComputePipeline({
-        label: "Advance iteration",
-        layout: pipelineLayouts[1],
-        compute: {
-            module: simulationShaderModule,
-            entryPoint: "iterationMain"
-        }
-    }),
-    device.createComputePipeline({
         label: "Argmin parallel reduction",
         layout: pipelineLayouts[1],
         compute: {
@@ -456,11 +429,11 @@ let computePipelines = [
         }
     }),
     device.createComputePipeline({
-        label: "Argmin parallel reduction 2nd step",
+        label: "Argmin 2nd step, place pixel and advance iteration",
         layout: pipelineLayouts[1],
         compute: {
             module: simulationShaderModule,
-            entryPoint: "reductionArgminMain2step"
+            entryPoint: "reduceAndPlaceMain"
         }
     })
 ]
@@ -471,37 +444,21 @@ console.log("Number of colors: ", nColors);
 workgroupCountX = Math.ceil(GRID_SIZEx / WORKGROUP_SIZE2D);
 workgroupCountY = Math.ceil(GRID_SIZEy / WORKGROUP_SIZE2D);
 
-const buffer = device.createBuffer({
-    size: 4, // 4 bytes (e.g., a single float or uint32)
-    usage: GPUBufferUsage.COPY_DST | GPUBufferUsage.MAP_READ, // Allow copying & CPU access
-});
-
-async function gameLoop() {
+function gameLoop() {
     // Iteration
     if (iteration === nColors) { return; }
 
-    // console.time('RENDER pass')
     const encoder = device.createCommandEncoder();
     updateCompute(500, encoder);
     updateRender(encoder);
-
-    // encoder.copyBufferToBuffer(computeBuffers[2], 0, buffer, 0, 4);
     device.queue.submit([encoder.finish()]);
 
-    // Wait for GPU work to finish and map the buffer for CPU access
-    // await buffer.mapAsync(GPUMapMode.READ);
-    // const data = new Uint32Array(buffer.getMappedRange());
-    // console.log(data[0]);
-    // buffer.unmap();
-    // console.timeEnd('RENDER pass')
-
-    // if (iteration < 10) { requestAnimationFrame(gameLoop) };
     requestAnimationFrame(gameLoop);
 }
 requestAnimationFrame(gameLoop);
 
 // WebGPU functions
-async function updateCompute(nTimes, encoder) {
+function updateCompute(nTimes, encoder) {
     const computePass = encoder.beginComputePass();
     computePass.setBindGroup(0, bindGroups[1]);
     for (let i=0; i<nTimes; i++) {
@@ -509,31 +466,21 @@ async function updateCompute(nTimes, encoder) {
         if (iteration === nColors) { break; }
 
         /////////////////////////////////////////////////////////////////////////////////////////////
-        // COMPUTE advance iteration
-        computePass.setPipeline(computePipelines[2]);
-        computePass.dispatchWorkgroups(1);
-
-        /////////////////////////////////////////////////////////////////////////////////////////////
         // COMPUTE distances
         computePass.setPipeline(computePipelines[0]);
         computePass.dispatchWorkgroups(workgroupCountX, workgroupCountY);
 
         /////////////////////////////////////////////////////////////////////////////////////////////
-        // COMPUTE minimum distance
-        computePass.setPipeline(computePipelines[3]);
-        computePass.dispatchWorkgroups(dispatches);
-        computePass.setPipeline(computePipelines[4]);
-        computePass.dispatchWorkgroups(1);
-
-        /////////////////////////////////////////////////////////////////////////////////////////////
-        // COMPUTE Place pixel, activate neighbors
+        // COMPUTE minimum distance, then place pixel, activate neighbors and advance iteration
         computePass.setPipeline(computePipelines[1]);
+        computePass.dispatchWorkgroups(dispatches);
+        computePass.setPipeline(computePipelines[2]);
         computePass.dispatchWorkgroups(1);
     }
     computePass.end();
 }
 
-async function updateRender(encoder) {
+function updateRender(encoder) {
     /////////////////////////////////////////////////////////////////////////////////////////////
     // RENDER cells
     const renderPass = encoder.beginRenderPass({

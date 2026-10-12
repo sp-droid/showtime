@@ -83,6 +83,7 @@ fn distancesAverageMethodMain(input: ComputeInput) {
 
     let cellX = input.cell.x;
     let cellY = input.cell.y;
+    if (cellX >= grid.x || cellY >= grid.y) { return; }
     let index1D = cellIndex(cellX, cellY, grid.x);
 
     let targetColor = unpackRGB(targetColorGlobal);
@@ -95,15 +96,15 @@ fn distancesAverageMethodMain(input: ComputeInput) {
 
     // Iterate over painted neighbors, adding them up (average method)
     var results = vec2f(0.0, 0.0); // First field is the number of hits, second is the distance
-    if (cellX - 1 >= 0) {
-        if (cellY - 1 >= 0) { results += neighborDistance(cellX - 1, cellY - 1, targetColor, grid.x); }
+    if (cellX > 0) {
+        if (cellY > 0) { results += neighborDistance(cellX - 1, cellY - 1, targetColor, grid.x); }
         results += neighborDistance(cellX - 1, cellY, targetColor, grid.x);
         if (cellY + 1 < grid.y) { results += neighborDistance(cellX - 1, cellY + 1, targetColor, grid.x); }
     }
     if (cellY + 1 < grid.y) { results += neighborDistance(cellX, cellY + 1, targetColor, grid.x); }
-    if (cellY - 1 >= 0) { results += neighborDistance(cellX, cellY - 1, targetColor, grid.x); }
+    if (cellY > 0) { results += neighborDistance(cellX, cellY - 1, targetColor, grid.x); }
     if (cellX + 1 < grid.x) {
-        if (cellY - 1 >= 0) { results += neighborDistance(cellX + 1, cellY - 1, targetColor, grid.x); }
+        if (cellY > 0) { results += neighborDistance(cellX + 1, cellY - 1, targetColor, grid.x); }
         results += neighborDistance(cellX + 1, cellY, targetColor, grid.x);
         if (cellY + 1 < grid.y) { results += neighborDistance(cellX + 1, cellY + 1, targetColor, grid.x); }
     }
@@ -116,6 +117,7 @@ fn distancesMinimumMethodMain(input: ComputeInput) {
 
     let cellX = input.cell.x;
     let cellY = input.cell.y;
+    if (cellX >= grid.x || cellY >= grid.y) { return; }
     let index1D = cellIndex(cellX, cellY, grid.x);
 
     let targetColor = unpackRGB(targetColorGlobal);
@@ -128,15 +130,15 @@ fn distancesMinimumMethodMain(input: ComputeInput) {
 
     // Iterate over painted neighbors, picking the smallest one (minimum method)
     var result = 10.0;
-    if (cellX - 1 >= 0) {
-        if (cellY - 1 >= 0) { result = min(result, neighborDistanceOnly(cellX - 1, cellY - 1, targetColor, grid.x)); }
+    if (cellX > 0) {
+        if (cellY > 0) { result = min(result, neighborDistanceOnly(cellX - 1, cellY - 1, targetColor, grid.x)); }
         result = min(result, neighborDistanceOnly(cellX - 1, cellY, targetColor, grid.x));
         if (cellY + 1 < grid.y) { result = min(result, neighborDistanceOnly(cellX - 1, cellY + 1, targetColor, grid.x)); }
     }
     if (cellY + 1 < grid.y) { result = min(result, neighborDistanceOnly(cellX, cellY + 1, targetColor, grid.x)); }
-    if (cellY - 1 >= 0) { result = min(result, neighborDistanceOnly(cellX, cellY - 1, targetColor, grid.x)); }
+    if (cellY > 0) { result = min(result, neighborDistanceOnly(cellX, cellY - 1, targetColor, grid.x)); }
     if (cellX + 1 < grid.x) {
-        if (cellY - 1 >= 0) { result = min(result, neighborDistanceOnly(cellX + 1, cellY - 1, targetColor, grid.x)); }
+        if (cellY > 0) { result = min(result, neighborDistanceOnly(cellX + 1, cellY - 1, targetColor, grid.x)); }
         result = min(result, neighborDistanceOnly(cellX + 1, cellY, targetColor, grid.x));
         if (cellY + 1 < grid.y) { result = min(result, neighborDistanceOnly(cellX + 1, cellY + 1, targetColor, grid.x)); }
     }
@@ -152,10 +154,8 @@ fn neighborActivation(x: u32, y: u32, gridX: u32) {
 }
 
 // Place color on picked cell, activate it's neighbors
-@compute @workgroup_size(1)
-fn placeMain(input: ComputeInput) {
+fn placeColor(bestIndex1D: u32) {
     let grid = gridGlobal;
-    let bestIndex1D = argminOutputGlobal[0];
 
     let y = bestIndex1D / grid.x;
     let x = bestIndex1D - y * grid.x;
@@ -167,27 +167,28 @@ fn placeMain(input: ComputeInput) {
     cellStateGlobal[bestIndex1D] = 2;
 
     // Iterate over neighbors activating them
-    if (x - 1 >= 0) {
-        if (y - 1 >= 0) { neighborActivation(x - 1, y - 1, grid.x); }
+    if (x > 0) {
+        if (y > 0) { neighborActivation(x - 1, y - 1, grid.x); }
         neighborActivation(x - 1, y, grid.x);
         if (y + 1 < grid.y) { neighborActivation(x - 1, y + 1, grid.x); }
     }
     if (y + 1 < grid.y) { neighborActivation(x, y + 1, grid.x); }
-    if (y - 1 >= 0) { neighborActivation(x, y - 1, grid.x); }
+    if (y > 0) { neighborActivation(x, y - 1, grid.x); }
     if (x + 1 < grid.x) { 
-        if (y - 1 >= 0) { neighborActivation(x + 1, y - 1, grid.x); }
+        if (y > 0) { neighborActivation(x + 1, y - 1, grid.x); }
         neighborActivation(x + 1, y, grid.x);
         if (y + 1 < grid.y) { neighborActivation(x + 1, y + 1, grid.x); }
     }
 }
 
-// Next iteration
-@compute @workgroup_size(1)
-fn iterationMain(input: ComputeInput) {
-    let i = iterationGlobal+1;
+// Next iteration: load the color to be placed on the following step
+fn advanceIteration() {
+    let i = iterationGlobal + 1;
     iterationGlobal = i;
-    
-    targetColorGlobal = colorPoolGlobal[i];
+
+    if (i + 1 < arrayLength(&colorPoolGlobal)) {
+        targetColorGlobal = colorPoolGlobal[i + 1];
+    }
 }
 
 fn minSharedWithIndex(id1: u32, id2: u32) {
@@ -245,7 +246,7 @@ fn reductionArgminMain(
 }
 
 @compute @workgroup_size(WORKGROUP_SIZE)
-fn reductionArgminMain2step(
+fn reduceAndPlaceMain(
     @builtin(local_invocation_id) local_invocation_id: vec3u
 ) {
     let localID = local_invocation_id.x;
@@ -283,8 +284,10 @@ fn reductionArgminMain2step(
     if (localID < 4) { minSharedWithIndex(localID, localID + 4); } workgroupBarrier();
     if (localID < 2) { minSharedWithIndex(localID, localID + 2); } workgroupBarrier();
 
+    // Final argmin, then place the color and advance in the same dispatch
     if (localID == 0) {
         minSharedWithIndex(0, 1);
-        argminOutputGlobal[0] = sdataWithIndex[0].index;
+        placeColor(sdataWithIndex[0].index);
+        advanceIteration();
     }
 }
