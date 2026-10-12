@@ -93,6 +93,10 @@ The result so far already scales far better and produces similar outputs, two ke
 
 ## Some results from 4K resolution
 
+To save space I've downsampled them to 1280x640, but the image gen itself was 4k.
+
 ![Downsampled 4K, minimum variant, ordered by hue, hue shifted +0.5](assets/rainbow-smoke-2.jpg)
 
 ![Downsampled 4K, minimum variant, ordered by hue, hue shifted -0.5](assets/rainbow-smoke-3.jpg)
+
+![Downsampled 4K, minimum variant, ordered by hue, hue shifted -0.3](assets/rainbow-smoke-4.jpg)
