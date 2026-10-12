@@ -428,18 +428,49 @@ console.log("Number of colors: ", nColors);
 workgroupCountX = Math.ceil(GRID_SIZEx / WORKGROUP_SIZE2D);
 workgroupCountY = Math.ceil(GRID_SIZEy / WORKGROUP_SIZE2D);
 
-function gameLoop() {
-    // Iteration
-    if (iteration === nColors) { return; }
+// Compute and render run decoupled: compute is submitted in chunks as fast as the GPU completes them, and each display
+// frame just renders whatever state the cells are in. Chunk size adapts so a chunk takes ~COMPUTE_CHUNK_MS of GPU time,
+// which bounds how long a render waits behind compute in the queue
+const COMPUTE_CHUNK_MS = 12;
+const MAX_CHUNKS_IN_FLIGHT = 2; // Keeps the GPU fed while JS submits the next chunk
+let iterationsPerChunk = 64;
 
+async function computeLoop() {
+    const inFlight = [];
+    let lastCompletion = performance.now();
+    while (iteration < nColors) {
+        const chunkIterations = iterationsPerChunk;
+        const encoder = device.createCommandEncoder();
+        updateCompute(chunkIterations, encoder);
+        device.queue.submit([encoder.finish()]);
+        inFlight.push(device.queue.onSubmittedWorkDone());
+
+        if (inFlight.length < MAX_CHUNKS_IN_FLIGHT) { continue; }
+        await inFlight.shift();
+
+        // With the queue saturated, the time between chunk completions is the GPU time of a chunk
+        const now = performance.now();
+        const chunkMs = Math.max(now - lastCompletion, 0.1);
+        lastCompletion = now;
+        const ideal = chunkIterations * COMPUTE_CHUNK_MS / chunkMs;
+        iterationsPerChunk = Math.round(Math.min(Math.max(0.5*iterationsPerChunk + 0.5*ideal, 16), 1e5));
+    }
+    await Promise.all(inFlight);
+    console.log(`Done: ${((performance.now() - startTime)/1000).toFixed(2)} s`);
+}
+
+function renderLoop() {
     const encoder = device.createCommandEncoder();
-    updateCompute(500, encoder);
     updateRender(encoder);
     device.queue.submit([encoder.finish()]);
 
-    requestAnimationFrame(gameLoop);
+    // Queue order guarantees the frame submitted after the last compute chunk shows the finished painting
+    if (iteration < nColors) { requestAnimationFrame(renderLoop); }
 }
-requestAnimationFrame(gameLoop);
+
+const startTime = performance.now();
+computeLoop();
+requestAnimationFrame(renderLoop);
 
 // WebGPU functions
 function updateCompute(nTimes, encoder) {
