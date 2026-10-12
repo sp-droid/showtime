@@ -5,12 +5,12 @@
     "renderSignature": "9df76e752780045f340df2860ebfbe997b40f5d1a0b357adae0d1173d15f2537"
   },
   "diffusion-limited-aggregation": {
-    "mdHash": "b2c091f725983d79f7247e8fe0c6b227bf184ec419df25411e067ef5b8cc8be3",
+    "mdHash": "43948147267b6985c8a7fa16d0da265b200b5a9b4587e40814718fa731563ca7",
     "meta": "{\"title\":\"(GPU) DLA - Diffused Limited Aggregation\",\"file\":\"diffusion-limited-aggregation\",\"tag\":\"Algorithms\",\"date\":\"17/03/2025\"}",
     "renderSignature": "9df76e752780045f340df2860ebfbe997b40f5d1a0b357adae0d1173d15f2537"
   },
   "rainbow-smoke-gpu": {
-    "mdHash": "dc5774403809cb1fa1ca50d667b119115ff5c49991c344f5735f2b0be02bcdbd",
+    "mdHash": "d7a44e21f0131fc312f466f5ee1af33b50d1719908cd1551ec1603de62071906",
     "meta": "{\"title\":\"(GPU) Rainbow Smoke algorithm\",\"file\":\"rainbow-smoke-gpu\",\"tag\":\"Algorithms\",\"date\":\"13/03/2025\"}",
     "renderSignature": "9df76e752780045f340df2860ebfbe997b40f5d1a0b357adae0d1173d15f2537"
   },
@@ -55,7 +55,7 @@
     "renderSignature": "9df76e752780045f340df2860ebfbe997b40f5d1a0b357adae0d1173d15f2537"
   },
   "slippy-map": {
-    "mdHash": "40e1d236969e8fb7111ba89d220f7463375652b6686310f20e7ccaaaac2daf6d",
+    "mdHash": "d249e888297aadb6c6e98ac61553857c9a12d75a166e487744cc2f428091f477",
     "meta": "{\"title\":\"Slippy map\",\"file\":\"slippy-map\",\"tag\":\"Algorithms\",\"date\":\"23/06/2026\"}",
     "renderSignature": "9df76e752780045f340df2860ebfbe997b40f5d1a0b357adae0d1173d15f2537"
   },

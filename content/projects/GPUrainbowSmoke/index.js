@@ -1,7 +1,6 @@
 // Constants
-const COARSE_FACTOR = 32;
+const COARSE_FACTOR = 8; // Cells per thread in the fused distances + argmin pass. 8 measured best: fewer cells leaves more workgroups to reduce, more starves the GPU of workgroups
 let WORKGROUP_SIZE = 1024;
-const WORKGROUP_SIZE2D = 8;
 
 // UI
 const canvas = document.querySelector("canvas");
@@ -43,10 +42,6 @@ canvas.height = Math.round(GRID_SIZEy * squareSizeX * dpr);
 const nColors = GRID_SIZEx * GRID_SIZEy;
 
 //#region WebGPU initialization
-// Constants
-let workgroupCountX;
-let workgroupCountY;
-
 // Checking WebGPU browser support
 if (!navigator.gpu) {
     throw new Error("WebGPU not supported on this browser.");
@@ -140,26 +135,24 @@ if (colorOrderPrompt != 1) { // Ordered by hue
     colors.forEach((entry, i) => { colorPoolStorage[i] = entry.c; });
 }
 
-// Cell state storage |states: 0=inactive, 1=active, 2=painted
-let cellStateStorage = new Uint32Array(nColors);
-
-// Cell color storage |painted colors
+// Cell color storage |painted colors, 0 = not painted
 let cellColorStorage = new Uint32Array(nColors);
 
 // Seed
 let x = Math.floor(GRID_SIZEx/2); // Middle option
 let y = Math.floor(GRID_SIZEy/2); // Middle option
 let seedCoord = from2Dto1Dindex(x, y, GRID_SIZEx);
-cellStateStorage[seedCoord] = 2;
 cellColorStorage[seedCoord] = colorPoolStorage[0];
 
 // Neighbor stats |painted neighbors running sums: rgb sums, (sum of |rgb|^2 << 4) | count
+// Also the cell state: w = 0 inactive, count > 0 active, w = PAINTED painted
+const PAINTED = 0xFFFFFFFF; // Must match compute.wgsl
 let neighborStatsStorage = new Uint32Array(nColors*4);
+neighborStatsStorage[seedCoord*4 + 3] = PAINTED;
 const seedRGB = [colorPoolStorage[0] >>> 24, (colorPoolStorage[0] >>> 16) & 0xFF, (colorPoolStorage[0] >>> 8) & 0xFF];
 const seedSumSq = seedRGB[0]**2 + seedRGB[1]**2 + seedRGB[2]**2;
 for (const [dx, dy] of [[1,0], [-1,0], [0,1], [0,-1], [1,1], [1,-1], [-1,1], [-1,-1]]) {
     const neighbor = from2Dto1Dindex(x+dx, y+dy, GRID_SIZEx);
-    cellStateStorage[neighbor] = 1;
     neighborStatsStorage.set([...seedRGB, (seedSumSq << 4) | 1], neighbor*4);
 }
 
@@ -168,12 +161,7 @@ function from2Dto1Dindex(x, y, gridX) {
 }
 
 // Iteration
-let iterationStorage = new Float32Array(1);
 let iteration = 0;
-
-// Distances
-let minIndexStorage = new Uint32Array(1);
-let distancesStorage = new Float32Array(GRID_SIZEx * GRID_SIZEy);
 
 //#endregion
 
@@ -193,28 +181,18 @@ let commonBuffers = [
 ]
 let computeBuffers = [
     device.createBuffer({
-        label: "Cell State", // 0 = free and isolated, 1 = free but near color, 2 = colored
-        size: cellStateStorage.byteLength,
-        usage: GPUBufferUsage.STORAGE | GPUBufferUsage.COPY_DST
-    }),
-    device.createBuffer({
         label: "Color pool",
         size: colorPoolStorage.byteLength,
         usage: GPUBufferUsage.STORAGE | GPUBufferUsage.COPY_DST
     }),
     device.createBuffer({
         label: "Argmin dispatches count",
-        size: minIndexStorage.byteLength,
+        size: 4,
         usage: GPUBufferUsage.UNIFORM | GPUBufferUsage.COPY_DST
     }),
     device.createBuffer({
-        label: "Distances",
-        size: distancesStorage.byteLength,
-        usage: GPUBufferUsage.STORAGE | GPUBufferUsage.COPY_DST
-    }),
-    device.createBuffer({
         label: "Iteration",
-        size: iterationStorage.byteLength,
+        size: 4,
         usage: GPUBufferUsage.STORAGE | GPUBufferUsage.COPY_DST
     }),
     device.createBuffer({
@@ -223,8 +201,8 @@ let computeBuffers = [
         usage: GPUBufferUsage.STORAGE | GPUBufferUsage.COPY_DST
     }),
     device.createBuffer({
-        label: "Argmin result",
-        size: dispatches*4,
+        label: "Argmin result", // (index, distance) per workgroup
+        size: dispatches*8,
         usage: GPUBufferUsage.STORAGE | GPUBufferUsage.COPY_DST
     }),
     device.createBuffer({
@@ -238,13 +216,13 @@ let computeBuffers = [
 device.queue.writeBuffer(commonBuffers[0], 0, gridUniform);
 device.queue.writeBuffer(commonBuffers[1], 0, cellColorStorage);
 
-device.queue.writeBuffer(computeBuffers[0], 0, cellStateStorage);
-device.queue.writeBuffer(computeBuffers[1], 0, colorPoolStorage);
-device.queue.writeBuffer(computeBuffers[2], 0, new Uint32Array([dispatches]));
-device.queue.writeBuffer(computeBuffers[7], 0, neighborStatsStorage);
-device.queue.writeBuffer(computeBuffers[5], 0, colorPoolStorage, 1, 1); // First target color (pool[0] is the seed)
+device.queue.writeBuffer(computeBuffers[0], 0, colorPoolStorage);
+device.queue.writeBuffer(computeBuffers[1], 0, new Uint32Array([dispatches]));
+device.queue.writeBuffer(computeBuffers[3], 0, colorPoolStorage, 1, 1); // First target color (pool[0] is the seed)
+device.queue.writeBuffer(computeBuffers[5], 0, neighborStatsStorage);
 
 // Bind layouts
+const computeBufferEntry = (binding, type) => ({ binding, visibility: GPUShaderStage.COMPUTE, buffer: { type } });
 let bindGroupLayouts = [
     device.createBindGroupLayout({
         label: "Render layout",
@@ -260,47 +238,16 @@ let bindGroupLayouts = [
     }),
     device.createBindGroupLayout({
         label: "Compute layout",
-        entries: [{
-            binding: 0,
-            visibility: GPUShaderStage.COMPUTE,
-            buffer: {} // Grid dimensions
-        }, {
-            binding: 1,
-            visibility: GPUShaderStage.COMPUTE,
-            buffer: { type: "storage" } // Cell color
-        }, {
-            binding: 2,
-            visibility: GPUShaderStage.COMPUTE,
-            buffer: { type: "storage" } // Cell state
-        }, {
-            binding: 3,
-            visibility: GPUShaderStage.COMPUTE,
-            buffer: { type: "read-only-storage" } // Color pool
-        }, {
-            binding: 4,
-            visibility: GPUShaderStage.COMPUTE,
-            buffer: {} // Argmin dispatches count
-        }, {
-            binding: 5,
-            visibility: GPUShaderStage.COMPUTE,
-            buffer: { type: "storage" } // Distances
-        }, {
-            binding: 6,
-            visibility: GPUShaderStage.COMPUTE,
-            buffer: { type: "storage" } // Iteration
-        }, {
-            binding: 7,
-            visibility: GPUShaderStage.COMPUTE,
-            buffer: { type: "storage" } // Target color
-        }, {
-            binding: 8,
-            visibility: GPUShaderStage.COMPUTE,
-            buffer: { type: "storage" } // Argmin result
-        }, {
-            binding: 9,
-            visibility: GPUShaderStage.COMPUTE,
-            buffer: { type: "storage" } // Neighbor stats
-        }]
+        entries: [
+            computeBufferEntry(0, "uniform"),           // Grid dimensions
+            computeBufferEntry(1, "storage"),           // Cell color
+            computeBufferEntry(2, "read-only-storage"), // Color pool
+            computeBufferEntry(3, "uniform"),           // Argmin dispatches count
+            computeBufferEntry(4, "storage"),           // Iteration
+            computeBufferEntry(5, "storage"),           // Target color
+            computeBufferEntry(6, "storage"),           // Argmin result
+            computeBufferEntry(7, "storage")            // Neighbor stats
+        ]
     })
 ];
 
@@ -321,46 +268,7 @@ let bindGroups = [
     device.createBindGroup({
         label: "Compute bind group",
         layout: bindGroupLayouts[1],
-        entries: [{
-            binding: 0,
-            resource: { buffer: commonBuffers[0] }
-        },
-        {
-            binding: 1,
-            resource: { buffer: commonBuffers[1] }
-        },
-        {
-            binding: 2,
-            resource: { buffer: computeBuffers[0] }
-        },
-        {
-            binding: 3,
-            resource: { buffer: computeBuffers[1] }
-        },
-        {
-            binding: 4,
-            resource: { buffer: computeBuffers[2] }
-        },
-        {
-            binding: 5,
-            resource: { buffer: computeBuffers[3] }
-        },
-        {
-            binding: 6,
-            resource: { buffer: computeBuffers[4] }
-        },
-        {
-            binding: 7,
-            resource: { buffer: computeBuffers[5] }
-        },
-        {
-            binding: 8,
-            resource: { buffer: computeBuffers[6] }
-        },
-        {
-            binding: 9,
-            resource: { buffer: computeBuffers[7] }
-        }]
+        entries: [...commonBuffers, ...computeBuffers].map((buffer, binding) => ({ binding, resource: { buffer } }))
     })
 ]
 //#endregion
@@ -397,19 +305,12 @@ let renderCellsPipeline = device.createRenderPipeline({
 // Compute pipelines
 let computePipelines = [
     device.createComputePipeline({
-        label: "Compute distances pipeline",
+        label: "Distances and argmin parallel reduction",
         layout: pipelineLayouts[1],
         compute: {
             module: simulationShaderModule,
-            entryPoint: `distances${algorithm}MethodMain`
-        }
-    }),
-    device.createComputePipeline({
-        label: "Argmin parallel reduction",
-        layout: pipelineLayouts[1],
-        compute: {
-            module: simulationShaderModule,
-            entryPoint: "reductionArgminMain"
+            entryPoint: "distancesArgminMain",
+            constants: { AVERAGE_METHOD: algorithm === "Average" ? 1 : 0 }
         }
     }),
     device.createComputePipeline({
@@ -425,8 +326,6 @@ let computePipelines = [
 
 console.log("Dispatches: ", dispatches);
 console.log("Number of colors: ", nColors);
-workgroupCountX = Math.ceil(GRID_SIZEx / WORKGROUP_SIZE2D);
-workgroupCountY = Math.ceil(GRID_SIZEy / WORKGROUP_SIZE2D);
 
 // Compute and render run decoupled: compute is submitted in chunks as fast as the GPU completes them, and each display
 // frame just renders whatever state the cells are in. Chunk size adapts so a chunk takes ~COMPUTE_CHUNK_MS of GPU time,
@@ -481,15 +380,13 @@ function updateCompute(nTimes, encoder) {
         if (iteration === nColors) { break; }
 
         /////////////////////////////////////////////////////////////////////////////////////////////
-        // COMPUTE distances
+        // COMPUTE distances and their per-workgroup minimum
         computePass.setPipeline(computePipelines[0]);
-        computePass.dispatchWorkgroups(workgroupCountX, workgroupCountY);
+        computePass.dispatchWorkgroups(dispatches);
 
         /////////////////////////////////////////////////////////////////////////////////////////////
         // COMPUTE minimum distance, then place pixel, activate neighbors and advance iteration
         computePass.setPipeline(computePipelines[1]);
-        computePass.dispatchWorkgroups(dispatches);
-        computePass.setPipeline(computePipelines[2]);
         computePass.dispatchWorkgroups(1);
     }
     computePass.end();
