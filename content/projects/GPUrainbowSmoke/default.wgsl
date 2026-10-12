@@ -1,11 +1,6 @@
-struct VertexInput {
-    @location(0) pos: vec2f,
-    @builtin(instance_index) instance: u32
-}
-
 struct VertexOutput {
     @builtin(position) pos: vec4f,
-    @location(0) cellColor: vec3f
+    @location(0) uv: vec2f
 }
 
 @group(0) @binding(0) var<uniform> gridGlobal: vec2u;
@@ -19,25 +14,21 @@ fn unpackRGB(packedColor: u32) -> vec3f {
     return vec3(r, g, b);
 }
 
+// Single triangle covering the whole screen: (-1,-1), (3,-1), (-1,3)
 @vertex
-fn vertexMain (input: VertexInput) -> VertexOutput {
-    let grid = vec2f(gridGlobal);
-    // 2D cell indexes
-    let if32 = f32(input.instance);
-    let cell = vec2f(if32 % grid.x, floor(if32 / grid.x));
-    
-    // Cell position
-    let gridPos = (input.pos + 1 + cell*2) / grid - 1;
+fn vertexMain (@builtin(vertex_index) vertexIndex: u32) -> VertexOutput {
+    let clip = vec2f(f32((vertexIndex << 1) & 2), f32(vertexIndex & 2)) * 2 - 1;
 
     var output: VertexOutput;
-    output.pos = vec4f(gridPos, 0, 1);
-
-    // Cell color
-    output.cellColor = unpackRGB(cellColorGlobal[input.instance]);
+    output.pos = vec4f(clip, 0, 1);
+    output.uv = (clip + 1) * 0.5; // y up, so cell row 0 is at the bottom
     return output;
 }
 
 @fragment
 fn fragmentMain (input: VertexOutput) -> @location(0) vec4f {
-    return vec4f(input.cellColor, 1);
+    let grid = gridGlobal;
+    let cell = min(vec2u(input.uv * vec2f(grid)), grid - 1);
+
+    return vec4f(unpackRGB(cellColorGlobal[cell.y * grid.x + cell.x]), 1);
 }

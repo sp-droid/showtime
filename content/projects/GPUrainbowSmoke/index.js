@@ -6,8 +6,8 @@ const WORKGROUP_SIZE2D = 8;
 // UI
 const canvas = document.querySelector("canvas");
 const dpr = window.devicePixelRatio || 1;
-const cssWidth = canvas.parentElement.clientWidth;
-const cssHeight = canvas.parentElement.clientHeight;
+const cssWidth = canvas.parentElement.clientWidth || window.innerWidth || 512;
+const cssHeight = canvas.parentElement.clientHeight || window.innerHeight || 512;
 
 let horizontalResolutionPrompt = parseInt(prompt("Horizontal resolution:", "512"));
 if (!Number.isFinite(horizontalResolutionPrompt) || horizontalResolutionPrompt < 3) { horizontalResolutionPrompt = 512; }
@@ -86,37 +86,6 @@ context.configure({
     device: device,
     format: canvasFormat
 });
-
-// Defining a square as two triangles
-const pos = 1.00;
-const vertices = new Float32Array([
-    -pos, -pos,
-     pos, -pos,
-     pos,  pos,
-
-    -pos, -pos,
-     pos,  pos,
-    -pos,  pos
-]);
-// Allocating GPU memory for the vertices using a vertex buffer
-const vertexBuffer = device.createBuffer({
-    label: "Cell vertices", // Buffer label
-    size: vertices.byteLength, // Buffer byte size
-    // (32bit = 4 bytes) 6 2D-vertices = 12 float32 = 12 * 4 bytes = 48 bytes
-    usage: GPUBufferUsage.VERTEX | GPUBufferUsage.COPY_DST // two flags, one to declare
-    // it's going to be used for vertex data and the other to be able to copy data into it
-});
-// Writing GPU memory
-device.queue.writeBuffer(vertexBuffer, /*bufferOffset=*/0, vertices);
-// Defining the structure of the GPU memory object.
-const vertexBufferLayout = {
-    arrayStride: 8, // Vertex byte size. float32 * 2 = 8 bytes
-    attributes: [{
-        format: "float32x2", // Vertex byte structure
-        offset: 0, // After how many bytes does the attribute starts
-        shaderLocation: 0 // Unique int between 0 and 15
-    }]
-};
 
 // Shaders
 const cellShaderModule = device.createShaderModule({
@@ -273,11 +242,11 @@ let bindGroupLayouts = [
         label: "Render layout",
         entries: [{
             binding: 0,
-            visibility: GPUShaderStage.VERTEX,
+            visibility: GPUShaderStage.FRAGMENT,
             buffer: {} // Grid dimensions
         }, {
             binding: 1,
-            visibility: GPUShaderStage.VERTEX,
+            visibility: GPUShaderStage.FRAGMENT,
             buffer: { type: "read-only-storage" } // Cell color
         }]
     }),
@@ -398,8 +367,7 @@ let renderCellsPipeline = device.createRenderPipeline({
     layout: pipelineLayouts[0],
     vertex: {
         module: cellShaderModule,
-        entryPoint: "vertexMain",
-        buffers: [vertexBufferLayout]
+        entryPoint: "vertexMain"
     },
     fragment: {
         module: cellShaderModule,
@@ -494,15 +462,14 @@ function updateRender(encoder) {
 
     renderPass.setPipeline(renderCellsPipeline);
     renderPass.setBindGroup(0, bindGroups[0]);
-    renderPass.setVertexBuffer(0, vertexBuffer);
-    renderPass.draw(vertices.length / 2, GRID_SIZEx*GRID_SIZEy); // 6 vertices
+    renderPass.draw(3); // Full screen triangle
     renderPass.end();
 }
 
 // Functions
 async function loadTextFile(filePath) {
     try {
-        const response = await fetch(filePath);
+        const response = await fetch(filePath, { cache: "no-cache" }); // Revalidate so shaders never go stale against index.js
         if (!response.ok) { throw new Error('Network response was not ok') }
         const text = await response.text();
         return text;
