@@ -1,5 +1,11 @@
 [
   {
+    "title": "(GPU) Rainbow Smoke algorithm",
+    "file": "rainbow-smoke-gpu",
+    "tag": "Algorithms",
+    "date": "10/10/2026"
+  },
+  {
     "title": "Badminton",
     "file": "badminton",
     "tag": "Personal",
@@ -40,12 +46,6 @@
     "file": "diffusion-limited-aggregation",
     "tag": "Algorithms",
     "date": "17/03/2025"
-  },
-  {
-    "title": "(GPU) Rainbow Smoke algorithm",
-    "file": "rainbow-smoke-gpu",
-    "tag": "Algorithms",
-    "date": "13/03/2025"
   },
   {
     "title": "WebGPU",
