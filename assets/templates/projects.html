@@ -40,12 +40,15 @@ section ="projects">
                         </div>
                     </div>
                     <div class="projects-control">
-                        <label class="visually-hidden" for="projectsPriority">Priority</label>
-                        <select id="projectsPriority" disabled><option value="">No filter</option></select>
+                        <button class="projects-order" id="projectsOrder" type="button" title="Switch between curated and chronological order">Order: Curated</button>
                     </div>
                     <div class="projects-control">
                         <label class="visually-hidden" for="projectsTool">Tool</label>
                         <select id="projectsTool" disabled><option value="">All tools</option></select>
+                    </div>
+                    <div class="projects-control">
+                        <label class="visually-hidden" for="projectsType">Type</label>
+                        <select id="projectsType" disabled><option value="">All types</option></select>
                     </div>
                 </div>
                 <div class="projects-controls-meta">
@@ -54,7 +57,7 @@ section ="projects">
                 </div>
             </div>
             <div class="projects-grid" id="gridProjects"></div>
-            <div class="projects-empty" id="projectsEmpty" hidden>No projects match your search or filters. Try another term, priority, or tool.</div>
+            <div class="projects-empty" id="projectsEmpty" hidden>No projects match your search or filters. Try another term, tool, or type.</div>
         </section>
     </main>
 </div>

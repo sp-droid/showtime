@@ -51,7 +51,7 @@
 	"tools": ["JavaScript","WebGPU"],
 	"header": "GPU Diffusion Limited Aggregation",
 	"desc": "WebGPU implementation of the DLA algorithm.",
-	"date": "10/10/2026",
+	"date": "09/10/2026",
 	"importance": "Low"
 },
 {
