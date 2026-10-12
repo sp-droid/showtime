@@ -11,11 +11,13 @@ const COARSE_FACTOR: u32 = $COARSE_FACTOR$;
 @group(0) @binding(1) var<storage, read_write> cellColorGlobal: array<u32>;
 @group(0) @binding(2) var<storage, read_write> cellStateGlobal: array<u32>;
 @group(0) @binding(3) var<storage> colorPoolGlobal: array<u32>;
-@group(0) @binding(4) var<storage> argminCounter: u32;
+@group(0) @binding(4) var<uniform> argminCounter: u32;
 @group(0) @binding(5) var<storage, read_write> distancesGlobal: array<f32>;
 @group(0) @binding(6) var<storage, read_write> iterationGlobal: u32;
 @group(0) @binding(7) var<storage, read_write> targetColorGlobal: u32;
 @group(0) @binding(8) var<storage, read_write> argminOutputGlobal: array<u32>;
+// Painted neighbors stats per cell, in 0-255 integer units: xyz = sum of RGB, w = (sum of |rgb|^2 << 4) | count
+@group(0) @binding(9) var<storage, read_write> neighborStatsGlobal: array<vec4u>;
 
 // Shared memory
 struct indexValueStruct {
@@ -43,16 +45,8 @@ fn unpackRGB(packedColor: u32) -> vec3f {
     return vec3(r, g, b);
 }
 
-fn neighborDistance(x: u32, y: u32, targetColor: vec3f, gridX: u32) -> vec2f {
-    var nPainted = 0.0;
-    var distance = 0.0;
-    let index1Dneighbor = cellIndex(x, y, gridX);
-    if (cellStateGlobal[index1Dneighbor] == 2) {
-        nPainted += 1;
-        let color = unpackRGB(cellColorGlobal[index1Dneighbor]);
-        distance += l2normSquared(targetColor, color);
-    }
-    return vec2f(nPainted, distance);
+fn unpackRGBu(packedColor: u32) -> vec3u {
+    return vec3u((packedColor >> 24) & 0xFF, (packedColor >> 16) & 0xFF, (packedColor >> 8) & 0xFF);
 }
 
 fn neighborDistanceOnly(x: u32, y: u32, targetColor: vec3f, gridX: u32) -> f32 {
@@ -86,7 +80,7 @@ fn distancesAverageMethodMain(input: ComputeInput) {
     if (cellX >= grid.x || cellY >= grid.y) { return; }
     let index1D = cellIndex(cellX, cellY, grid.x);
 
-    let targetColor = unpackRGB(targetColorGlobal);
+    let targetColor = vec3f(unpackRGBu(targetColorGlobal));
 
     // Return if the cell is not active
     if (cellStateGlobal[index1D] != 1) { 
@@ -94,21 +88,14 @@ fn distancesAverageMethodMain(input: ComputeInput) {
         return;
     }
 
-    // Iterate over painted neighbors, adding them up (average method)
-    var results = vec2f(0.0, 0.0); // First field is the number of hits, second is the distance
-    if (cellX > 0) {
-        if (cellY > 0) { results += neighborDistance(cellX - 1, cellY - 1, targetColor, grid.x); }
-        results += neighborDistance(cellX - 1, cellY, targetColor, grid.x);
-        if (cellY + 1 < grid.y) { results += neighborDistance(cellX - 1, cellY + 1, targetColor, grid.x); }
-    }
-    if (cellY + 1 < grid.y) { results += neighborDistance(cellX, cellY + 1, targetColor, grid.x); }
-    if (cellY > 0) { results += neighborDistance(cellX, cellY - 1, targetColor, grid.x); }
-    if (cellX + 1 < grid.x) {
-        if (cellY > 0) { results += neighborDistance(cellX + 1, cellY - 1, targetColor, grid.x); }
-        results += neighborDistance(cellX + 1, cellY, targetColor, grid.x);
-        if (cellY + 1 < grid.y) { results += neighborDistance(cellX + 1, cellY + 1, targetColor, grid.x); }
-    }
-    distancesGlobal[index1D] = results.y / results.x + randomF32(index1D+iterationGlobal)*1e-6;
+    // Average of squared distances to the painted neighbors, from their running sums:
+    // (1/n)·Σ|t-c|² = |t-μ|² + (1/n)·Σ|c|² - |μ|²
+    let stats = neighborStatsGlobal[index1D];
+    let n = f32(stats.w & 0xF);
+    let mean = vec3f(stats.xyz) / n;
+    let variance = max(f32(stats.w >> 4) / n - dot(mean, mean), 0.0);
+    let distance = (l2normSquared(targetColor, mean) + variance) / 65025.0;
+    distancesGlobal[index1D] = distance + randomF32(index1D+iterationGlobal)*1e-6;
 }
 
 @compute @workgroup_size(8, 8)
@@ -146,11 +133,12 @@ fn distancesMinimumMethodMain(input: ComputeInput) {
 
 }
 
-fn neighborActivation(x: u32, y: u32, gridX: u32) {
+fn neighborActivation(x: u32, y: u32, gridX: u32, colorStats: vec4u) {
     let index1Dneighbor = cellIndex(x, y, gridX);
-    if (cellStateGlobal[index1Dneighbor] == 0) {
-        cellStateGlobal[index1Dneighbor] = 1;
-    }
+    let state = cellStateGlobal[index1Dneighbor];
+    if (state == 2) { return; }
+    if (state == 0) { cellStateGlobal[index1Dneighbor] = 1; }
+    neighborStatsGlobal[index1Dneighbor] += colorStats;
 }
 
 // Place color on picked cell, activate it's neighbors
@@ -166,18 +154,22 @@ fn placeColor(bestIndex1D: u32) {
     // Mark cell as painted
     cellStateGlobal[bestIndex1D] = 2;
 
+    // Contribution of this color to its neighbors stats
+    let c = unpackRGBu(targetColorGlobal);
+    let colorStats = vec4u(c, (dot(c, c) << 4) | 1);
+
     // Iterate over neighbors activating them
     if (x > 0) {
-        if (y > 0) { neighborActivation(x - 1, y - 1, grid.x); }
-        neighborActivation(x - 1, y, grid.x);
-        if (y + 1 < grid.y) { neighborActivation(x - 1, y + 1, grid.x); }
+        if (y > 0) { neighborActivation(x - 1, y - 1, grid.x, colorStats); }
+        neighborActivation(x - 1, y, grid.x, colorStats);
+        if (y + 1 < grid.y) { neighborActivation(x - 1, y + 1, grid.x, colorStats); }
     }
-    if (y + 1 < grid.y) { neighborActivation(x, y + 1, grid.x); }
-    if (y > 0) { neighborActivation(x, y - 1, grid.x); }
+    if (y + 1 < grid.y) { neighborActivation(x, y + 1, grid.x, colorStats); }
+    if (y > 0) { neighborActivation(x, y - 1, grid.x, colorStats); }
     if (x + 1 < grid.x) { 
-        if (y > 0) { neighborActivation(x + 1, y - 1, grid.x); }
-        neighborActivation(x + 1, y, grid.x);
-        if (y + 1 < grid.y) { neighborActivation(x + 1, y + 1, grid.x); }
+        if (y > 0) { neighborActivation(x + 1, y - 1, grid.x, colorStats); }
+        neighborActivation(x + 1, y, grid.x, colorStats);
+        if (y + 1 < grid.y) { neighborActivation(x + 1, y + 1, grid.x, colorStats); }
     }
 }
 

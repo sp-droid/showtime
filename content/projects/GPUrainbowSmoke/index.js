@@ -62,10 +62,11 @@ if (adapter.limits.maxComputeWorkgroupSizeX < WORKGROUP_SIZE ||
     WORKGROUP_SIZE = 256;
 }
 const dispatches = Math.ceil(nColors/WORKGROUP_SIZE/COARSE_FACTOR);
-if (adapter.limits.maxStorageBufferBindingSize < nColors*4) {
+const largestBufferSize = nColors*16; // Neighbor stats, one vec4u per cell
+if (adapter.limits.maxStorageBufferBindingSize < largestBufferSize) {
     throw new Error("Storage buffer size not supported.");
 }
-if (adapter.limits.maxBufferSize < nColors*4) {
+if (adapter.limits.maxBufferSize < largestBufferSize) {
     throw new Error("Storage buffer size not supported.");
 }
 
@@ -74,8 +75,8 @@ const device = await adapter.requestDevice({
     requiredLimits: {
         maxComputeWorkgroupSizeX: WORKGROUP_SIZE,
         maxComputeInvocationsPerWorkgroup: WORKGROUP_SIZE,
-        maxStorageBufferBindingSize: nColors*4,
-        maxBufferSize: nColors*4
+        maxStorageBufferBindingSize: largestBufferSize,
+        maxBufferSize: largestBufferSize
     }
 });
 
@@ -152,14 +153,15 @@ let seedCoord = from2Dto1Dindex(x, y, GRID_SIZEx);
 cellStateStorage[seedCoord] = 2;
 cellColorStorage[seedCoord] = colorPoolStorage[0];
 
-cellStateStorage[from2Dto1Dindex(x+1, y, GRID_SIZEx)] = 1;
-cellStateStorage[from2Dto1Dindex(x-1, y, GRID_SIZEx)] = 1;
-cellStateStorage[from2Dto1Dindex(x, y+1, GRID_SIZEx)] = 1;
-cellStateStorage[from2Dto1Dindex(x, y-1, GRID_SIZEx)] = 1;
-cellStateStorage[from2Dto1Dindex(x+1, y+1, GRID_SIZEx)] = 1;
-cellStateStorage[from2Dto1Dindex(x+1, y-1, GRID_SIZEx)] = 1;
-cellStateStorage[from2Dto1Dindex(x-1, y+1, GRID_SIZEx)] = 1;
-cellStateStorage[from2Dto1Dindex(x-1, y-1, GRID_SIZEx)] = 1;
+// Neighbor stats |painted neighbors running sums: rgb sums, (sum of |rgb|^2 << 4) | count
+let neighborStatsStorage = new Uint32Array(nColors*4);
+const seedRGB = [colorPoolStorage[0] >>> 24, (colorPoolStorage[0] >>> 16) & 0xFF, (colorPoolStorage[0] >>> 8) & 0xFF];
+const seedSumSq = seedRGB[0]**2 + seedRGB[1]**2 + seedRGB[2]**2;
+for (const [dx, dy] of [[1,0], [-1,0], [0,1], [0,-1], [1,1], [1,-1], [-1,1], [-1,-1]]) {
+    const neighbor = from2Dto1Dindex(x+dx, y+dy, GRID_SIZEx);
+    cellStateStorage[neighbor] = 1;
+    neighborStatsStorage.set([...seedRGB, (seedSumSq << 4) | 1], neighbor*4);
+}
 
 function from2Dto1Dindex(x, y, gridX) {
     return y * gridX + x;
@@ -203,7 +205,7 @@ let computeBuffers = [
     device.createBuffer({
         label: "Argmin dispatches count",
         size: minIndexStorage.byteLength,
-        usage: GPUBufferUsage.STORAGE | GPUBufferUsage.COPY_DST
+        usage: GPUBufferUsage.UNIFORM | GPUBufferUsage.COPY_DST
     }),
     device.createBuffer({
         label: "Distances",
@@ -224,6 +226,11 @@ let computeBuffers = [
         label: "Argmin result",
         size: dispatches*4,
         usage: GPUBufferUsage.STORAGE | GPUBufferUsage.COPY_DST
+    }),
+    device.createBuffer({
+        label: "Neighbor stats",
+        size: neighborStatsStorage.byteLength,
+        usage: GPUBufferUsage.STORAGE | GPUBufferUsage.COPY_DST
     })
 ];
 
@@ -234,6 +241,7 @@ device.queue.writeBuffer(commonBuffers[1], 0, cellColorStorage);
 device.queue.writeBuffer(computeBuffers[0], 0, cellStateStorage);
 device.queue.writeBuffer(computeBuffers[1], 0, colorPoolStorage);
 device.queue.writeBuffer(computeBuffers[2], 0, new Uint32Array([dispatches]));
+device.queue.writeBuffer(computeBuffers[7], 0, neighborStatsStorage);
 device.queue.writeBuffer(computeBuffers[5], 0, colorPoolStorage, 1, 1); // First target color (pool[0] is the seed)
 
 // Bind layouts
@@ -271,7 +279,7 @@ let bindGroupLayouts = [
         }, {
             binding: 4,
             visibility: GPUShaderStage.COMPUTE,
-            buffer: { type: "read-only-storage" } // Argmin dispatches count
+            buffer: {} // Argmin dispatches count
         }, {
             binding: 5,
             visibility: GPUShaderStage.COMPUTE,
@@ -288,6 +296,10 @@ let bindGroupLayouts = [
             binding: 8,
             visibility: GPUShaderStage.COMPUTE,
             buffer: { type: "storage" } // Argmin result
+        }, {
+            binding: 9,
+            visibility: GPUShaderStage.COMPUTE,
+            buffer: { type: "storage" } // Neighbor stats
         }]
     })
 ];
@@ -344,6 +356,10 @@ let bindGroups = [
         {
             binding: 8,
             resource: { buffer: computeBuffers[6] }
+        },
+        {
+            binding: 9,
+            resource: { buffer: computeBuffers[7] }
         }]
     })
 ]
