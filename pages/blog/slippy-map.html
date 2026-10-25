@@ -65,52 +65,59 @@
                 <div class="blog-post-meta">
                     <time datetime="2026-06-23">June 23rd, 2026</time>
                     <span class="blog-post-meta__separator" aria-hidden="true"></span>
-                    <span>1 min read</span>
+                    <span>2 min read</span>
                 </div>
             </header>
 
             <article class="blog-post-article" aria-label="Slippy map">
 
-                <div class="markdown-body" id="HTMLpost"><p class="blog-post-cta"><a class="blog-post-cta__button" href="../../content/projects/slippyMap/8.html"><i class="fa-solid fa-play" aria-hidden="true"></i>Try it yourself<i class="fa-solid fa-arrow-right" aria-hidden="true"></i></a></p>
+                <div class="markdown-body" id="HTMLpost"><p class="blog-post-cta"><a class="blog-post-cta__button" href="../../content/projects/slippyMap/11.html"><i class="fa-solid fa-play" aria-hidden="true"></i>Try it yourself<i class="fa-solid fa-arrow-right" aria-hidden="true"></i></a></p>
 <p>An implementation of the &quot;slippy map&quot; that were used at some point in map applications such as Google Maps.</p>
 <ul>
 <li>
-<p><a href="../../content/projects/slippyMap/1.html"><strong>V1 link</strong></a></p>
+<p><strong>V1</strong></p>
 <p>No zoom for now, draws every tile in the world</p>
 </li>
 <li>
-<p><a href="../../content/projects/slippyMap/2.html"><strong>V2 link</strong></a></p>
+<p><strong>V2</strong></p>
 <p>Draws only visible tiles</p>
 </li>
 <li>
-<p><a href="../../content/projects/slippyMap/3.html"><strong>V3 link</strong></a></p>
+<p><strong>V3</strong></p>
 <p>Cache tiles in an array</p>
 </li>
 <li>
-<p><a href="../../content/projects/slippyMap/4.html"><strong>V4 link</strong></a></p>
+<p><strong>V4</strong></p>
 <p>Keys in a hashmap, pseudo-LRU cache instead of ring buffer, parallel loads, o(1) cache eviction</p>
 </li>
 <li>
-<p><a href="../../content/projects/slippyMap/5.html"><strong>V5 link</strong></a></p>
+<p><strong>V5</strong></p>
 <p>Neighbor preloading in the 3 closest levels</p>
 </li>
 <li>
-<p><a href="../../content/projects/slippyMap/6.html"><strong>V6 link</strong></a></p>
+<p><strong>V6</strong></p>
 <p>Only recompute cache request queue when the camera moves instead of at every frame</p>
 </li>
 <li>
-<p><a href="../../content/projects/slippyMap/7.html"><strong>V7 link</strong></a></p>
+<p><strong>V7</strong></p>
 <p>Zoomable</p>
 </li>
 <li>
-<p><a href="../../content/projects/slippyMap/8.html"><strong>V8 link</strong></a></p>
+<p><strong>V8</strong></p>
 <p>Continuous zoom, zoom level 0 removed, changed preload cache priority on zoom out tiles, painted loading and cache loaded tiles, touchscreen support</p>
 </li>
-</ul>
-<p>Things to improve:</p>
-<ul>
-<li>Visual pop on zoom changes using the floor zoom level</li>
-<li></li>
+<li>
+<p><strong>V9</strong></p>
+<p>Zoom can go below 0 so all tile levels can be seen. Tile generation is done with my majority filter I talked about in another blog post (discrete bilinear interpolation), instead of nearest neighbours. Result is pixels no longer jump between tile sizes, they are consistent.</p>
+</li>
+<li>
+<p><strong>V10</strong></p>
+<p>Tiles are uploaded once, not copied and re-uploaded every frame. Using webGL. Now a fragment shader picks the drawn pixel on the screen using the majority filter, instead of nearest neighbours, resulting in diagonals and curves between different zones. To accomodate this 2x2 filter, tiles contain a 1 pixel-wide border, 258x258. Results in higher perceived detail even if tiles are the same.</p>
+</li>
+<li>
+<p><strong>V11</strong>
+Noise warping of the fragment shader pixel location with 3 noise scales. Even higher perceived detail. It's an implementation of the same noise warping done in the discrete bilinear interpolation blog post.</p>
+</li>
 </ul>
 </div>
                 <footer class="blog-post-footer">
