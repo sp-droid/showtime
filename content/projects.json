@@ -18,7 +18,7 @@
 	"tools": ["JavaScript","P5js"],
 	"header": "Slippy map",
 	"desc": "Implementation of a slippy map in P5js.",
-	"date": "23/06/2026",
+	"date": "25/10/2026",
 	"importance": "Low"
 },
 {
