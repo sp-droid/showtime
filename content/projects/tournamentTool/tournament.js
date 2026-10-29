@@ -1,4 +1,8 @@
 document.addEventListener('DOMContentLoaded', () => {
+    function escapeHtml(value) {
+        return String(value).replace(/[&<>"']/g, char => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' })[char]);
+    }
+
     // OVERALL PAGE
     const stageButtons = {
         stage1: document.getElementById('stage-1-button'),
@@ -563,8 +567,8 @@ document.addEventListener('DOMContentLoaded', () => {
                     <td>${completeGameId + 1}</td>
                     <td>${round + 1}</td>
                     <td class="court-cell">${court !== null ? court : '-'}</td>
-                    <td>${team1Players.map(playerId => participants[playerId].Name).join(', ')}</td>
-                    <td>${team2Players.map(playerId => participants[playerId].Name).join(', ')}</td>
+                    <td>${team1Players.map(playerId => escapeHtml(participants[playerId].Name)).join(', ')}</td>
+                    <td>${team2Players.map(playerId => escapeHtml(participants[playerId].Name)).join(', ')}</td>
                     <td>${score}</td>
                 `;
 
@@ -609,8 +613,8 @@ document.addEventListener('DOMContentLoaded', () => {
                 <td>${completeGameId}</td>
                 <td>Extra</td>
                 <td class="court-cell">${extraMatch.court !== null ? extraMatch.court : '-'}</td>
-                <td>${extraMatch.team1}</td>
-                <td>${extraMatch.team2}</td>
+                <td>${escapeHtml(extraMatch.team1)}</td>
+                <td>${escapeHtml(extraMatch.team2)}</td>
                 <td>${score}</td>
             `;
 
@@ -642,12 +646,12 @@ document.addEventListener('DOMContentLoaded', () => {
         const team1NamesHtml = team1PlayerIds.map(id => {
             const rank = rankMap.get(id);
             const rankHtml = rank ? `<sup style="font-size:0.65em;color:#888;margin-left:1px;">#${rank}</sup>` : '';
-            return `<span class="swap-player player-name-link" data-player="${id}" data-team="0">${participants[id].Name}${rankHtml}</span>`;
+            return `<span class="swap-player player-name-link" data-player="${id}" data-team="0">${escapeHtml(participants[id].Name)}${rankHtml}</span>`;
         }).join(', ');
         const team2NamesHtml = team2PlayerIds.map(id => {
             const rank = rankMap.get(id);
             const rankHtml = rank ? `<sup style="font-size:0.65em;color:#888;margin-left:1px;">#${rank}</sup>` : '';
-            return `<span class="swap-player player-name-link" data-player="${id}" data-team="1">${participants[id].Name}${rankHtml}</span>`;
+            return `<span class="swap-player player-name-link" data-player="${id}" data-team="1">${escapeHtml(participants[id].Name)}${rankHtml}</span>`;
         }).join(', ');
 
         oldPopup.innerHTML = `
@@ -758,11 +762,11 @@ document.addEventListener('DOMContentLoaded', () => {
         swapPopup.style.minWidth = '280px';
 
         const otherTeamOptions = otherTeamIds.map(id =>
-            `<div class="swap-option" data-target="${id}">${participants[id].Name}</div>`
+            `<div class="swap-option" data-target="${id}">${escapeHtml(participants[id].Name)}</div>`
         ).join('');
 
         swapPopup.innerHTML = `
-            <h3>Swap ${participants[clickedPlayerId].Name}</h3>
+            <h3>Swap ${escapeHtml(participants[clickedPlayerId].Name)}</h3>
             <p style="margin: 8px 0 14px 0; font-size: 14px; color: #666;">Choose a player from the other team to swap with:</p>
             ${otherTeamOptions}
             <div class="button-row" style="margin-top:14px;">
@@ -1127,7 +1131,7 @@ document.addEventListener('DOMContentLoaded', () => {
         const sortedParticipants = participants
             .map((p, i) => ({ id: i, name: p.Name }))
             .sort((a, b) => a.name.localeCompare(b.name));
-        const optionsHtml = sortedParticipants.map(({id, name}) => `<option value="${id}">${name}</option>`).join('');
+        const optionsHtml = sortedParticipants.map(({id, name}) => `<option value="${id}">${escapeHtml(name)}</option>`).join('');
 
         popup.innerHTML = `
             <h3>Add Extra Match</h3>
@@ -1179,7 +1183,7 @@ document.addEventListener('DOMContentLoaded', () => {
             const full = selected.length >= N_PLAYERS_PER_TEAM;
 
             playersDiv.innerHTML = selected.length > 0
-                ? selected.map(id => participants[id].Name).join(', ')
+                ? selected.map(id => escapeHtml(participants[id].Name)).join(', ')
                 : '<em>No players selected</em>';
 
             countSpan.textContent = `${selected.length} / ${N_PLAYERS_PER_TEAM}`;
@@ -1280,14 +1284,14 @@ document.addEventListener('DOMContentLoaded', () => {
             ? team1Ids.map(id => {
                 const rank = rankMap.get(id);
                 const rankHtml = rank ? `<sup style="font-size:0.65em;color:#888;margin-left:1px;">#${rank}</sup>` : '';
-                return `<span class="swap-player-extra player-name-link" data-player="${id}" data-team="0">${participants[id].Name}${rankHtml}</span>`;
+                return `<span class="swap-player-extra player-name-link" data-player="${id}" data-team="0">${escapeHtml(participants[id].Name)}${rankHtml}</span>`;
             }).join(', ')
             : match.team1;
         const team2NamesHtml = team2Ids.length > 0
             ? team2Ids.map(id => {
                 const rank = rankMap.get(id);
                 const rankHtml = rank ? `<sup style="font-size:0.65em;color:#888;margin-left:1px;">#${rank}</sup>` : '';
-                return `<span class="swap-player-extra player-name-link" data-player="${id}" data-team="1">${participants[id].Name}${rankHtml}</span>`;
+                return `<span class="swap-player-extra player-name-link" data-player="${id}" data-team="1">${escapeHtml(participants[id].Name)}${rankHtml}</span>`;
             }).join(', ')
             : match.team2;
 
@@ -1414,11 +1418,11 @@ document.addEventListener('DOMContentLoaded', () => {
         swapPopup.style.minWidth = '280px';
 
         const otherTeamOptions = otherTeamIds.map(id =>
-            `<div class="swap-option" data-target="${id}">${participants[id].Name}</div>`
+            `<div class="swap-option" data-target="${id}">${escapeHtml(participants[id].Name)}</div>`
         ).join('');
 
         swapPopup.innerHTML = `
-            <h3>Swap ${participants[clickedPlayerId].Name}</h3>
+            <h3>Swap ${escapeHtml(participants[clickedPlayerId].Name)}</h3>
             <p style="margin: 8px 0 14px 0; font-size: 14px; color: #666;">Choose a player from the other team to swap with:</p>
             ${otherTeamOptions}
             <div class="button-row" style="margin-top:14px;">
@@ -1493,7 +1497,7 @@ document.addEventListener('DOMContentLoaded', () => {
         popup.innerHTML = `
             <h3>Edit Player</h3>
             <label>Name:</label>
-            <input type="text" id="edit-name" value="${participant.Name}" style="width:100%;padding:10px 14px;border:2px solid #e0e0e0;border-radius:8px;font-size:15px;font-family:inherit;" />
+            <input type="text" id="edit-name" value="${escapeHtml(participant.Name)}" style="width:100%;padding:10px 14px;border:2px solid #e0e0e0;border-radius:8px;font-size:15px;font-family:inherit;" />
             <label>Category:</label>
             <div class="court-stepper" style="margin-bottom:12px;">
                 <button id="category-minus" class="court-btn" style="font-size:28px;width:60px;height:60px;">−</button>
@@ -1592,7 +1596,7 @@ document.addEventListener('DOMContentLoaded', () => {
             row.innerHTML = `
                 <td>${rank}</td>
                 <td>${cat}</td>
-                <td><span class="player-name" onclick="window.editPlayer(${participant.index})">${participant.Name}</span></td>
+                <td><span class="player-name" onclick="window.editPlayer(${participant.index})">${escapeHtml(participant.Name)}</span></td>
                 <td>${participant.Results.join(', ')}</td>
                 <td>${participant.GamesPlayed}</td>
                 <td>${participant.Total}</td>
@@ -1692,8 +1696,8 @@ document.addEventListener('DOMContentLoaded', () => {
         const unluckiest = avgLuck[avgLuck.length - 1];
 
         luckContainer.innerHTML = `
-            <p>🍀 Luckiest player: <strong class="luck-lucky">${luckiest.name}</strong></p>
-            <p>😩 Unluckiest player: <strong class="luck-unlucky">${unluckiest.name}</strong></p>
+            <p>🍀 Luckiest player: <strong class="luck-lucky">${escapeHtml(luckiest.name)}</strong></p>
+            <p>😩 Unluckiest player: <strong class="luck-unlucky">${escapeHtml(unluckiest.name)}</strong></p>
         `;
     }
 

@@ -100,6 +100,10 @@
       'Chrome OS': '🌐',
     };
 
+    function escapeHtml(value) {
+      return String(value).replace(/[&<>"']/g, char => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' })[char]);
+    }
+
     function getLanguageIcon(langName) {
       return languageIcons[langName] || '💻';
     }
@@ -426,7 +430,7 @@
           if (i === 0) {
             html += `<div class="project-percent" style="margin-bottom: 10px; color: #a0a0a0; font-size: 0.9rem;">Across ${totalProjects} project${totalProjects !== 1 ? 's' : ''}</div>`;
           }
-          html += `<div class="project-name">${projects[i].name}</div>`;
+          html += `<div class="project-name">${escapeHtml(projects[i].name)}</div>`;
           html += `<div class="project-hours">${projects[i].hours.toFixed(1)} hours</div>`;
           html += `<div class="project-percent">${projects[i].percent.toFixed(1)}% of your time</div>`;
           html += `</div>`;
@@ -604,7 +608,7 @@
           <div class="language-item">
             <div class="language-header">
               <span class="language-icon">${getLanguageIcon(lang.name)}</span>
-              <div class="language-name">#${i + 1} ${lang.name}</div>
+              <div class="language-name">#${i + 1} ${escapeHtml(lang.name)}</div>
             </div>
             <div class="language-bar">
               <div class="language-bar-fill" style="--width: ${lang.percent}%"></div>
@@ -629,7 +633,7 @@
             <div class="editor-item">
               <div class="editor-header">
                 <span class="editor-icon">${getEditorIcon(editor.name)}</span>
-                <div class="editor-name">#${i + 1} ${editor.name}</div>
+                <div class="editor-name">#${i + 1} ${escapeHtml(editor.name)}</div>
               </div>
               <div class="editor-bar">
                 <div class="editor-bar-fill" style="--width: ${editor.percent}%"></div>
@@ -646,7 +650,7 @@
             <div class="os-item">
               <div class="os-header">
                 <span class="os-icon">${getOSIcon(os.name)}</span>
-                <div class="os-name">${os.name}</div>
+                <div class="os-name">${escapeHtml(os.name)}</div>
               </div>
               <div class="os-bar">
                 <div class="os-bar-fill" style="--width: ${os.percent}%"></div>
@@ -700,11 +704,11 @@
       generateFinalCard(data, user) {
         const finalCard = document.getElementById('final-card');
         const topLangsHtml = data.topLanguages.map((lang, i) => 
-          `<div style="display: flex; justify-content: space-between; margin: 8px 0;"><span>${getLanguageIcon(lang.name)} ${lang.name}</span><span style="color: #00d4ff;">${lang.hours.toFixed(1)}h</span></div>`
+          `<div style="display: flex; justify-content: space-between; margin: 8px 0;"><span>${getLanguageIcon(lang.name)} ${escapeHtml(lang.name)}</span><span style="color: #00d4ff;">${lang.hours.toFixed(1)}h</span></div>`
         ).join('');
 
         const topProjectsHtml = data.topProjects.slice(0, 3).map((proj, i) => 
-          `<div style="display: flex; justify-content: space-between; margin: 10px 0; padding: 8px 0; border-bottom: 1px solid rgba(0, 212, 255, 0.1);"><span style="font-weight: 600;">#${i + 1} ${proj.name}</span><span style="color: #00d4ff;">${proj.hours.toFixed(1)}h</span></div>`
+          `<div style="display: flex; justify-content: space-between; margin: 10px 0; padding: 8px 0; border-bottom: 1px solid rgba(0, 212, 255, 0.1);"><span style="font-weight: 600;">#${i + 1} ${escapeHtml(proj.name)}</span><span style="color: #00d4ff;">${proj.hours.toFixed(1)}h</span></div>`
         ).join('');
 
         const username = user?.github_username || user?.username || 'Developer';
@@ -746,7 +750,7 @@
             </div>
 
             <div style="border-top: 1px solid rgba(0, 212, 255, 0.2); padding-top: 20px; margin-top: 20px; text-align: right;">
-              <div style="color: #00d4ff; font-size: 0.95rem; font-weight: 600;">@${username}</div>
+              <div style="color: #00d4ff; font-size: 0.95rem; font-weight: 600;">@${escapeHtml(username)}</div>
             </div>
           </div>
         `;
