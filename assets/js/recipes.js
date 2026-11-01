@@ -24,24 +24,14 @@ document.addEventListener('DOMContentLoaded', async () => {
     let shownInTable = [];
     let activeCategory = '';
     let selectedFile = null;
-    // Gallery modes cycled by the view button: shuffled gallery, newest-first gallery, filter table.
+    // Gallery modes cycled by the view button: newest-first gallery, filter table.
     const viewModes = [
-        { key: 'random', label: 'Random order', icon: 'fa-solid fa-shuffle' },
         { key: 'chronological', label: 'Newest first', icon: 'fa-solid fa-clock-rotate-left' },
         { key: 'table', label: 'Advanced search', icon: 'fa-solid fa-bars' }
     ];
     let viewMode = 0;
     let advancedOpen = false;
     let sort = { key: null, direction: 1 };
-
-    function shuffleOnce(items) {
-        const shuffled = [...items];
-        for (let i = shuffled.length - 1; i > 0; i--) {
-            const j = Math.floor(Math.random() * (i + 1));
-            [shuffled[i], shuffled[j]] = [shuffled[j], shuffled[i]];
-        }
-        return shuffled;
-    }
 
     function imageFor(entry, lowResolution = false) {
         const folder = lowResolution ? 'lowRes/' : '';
@@ -320,14 +310,8 @@ document.addEventListener('DOMContentLoaded', async () => {
     try {
         const response = await fetch('../content/recipes-index.json');
         if (!response.ok) throw new Error(`HTTP ${response.status}`);
-        // Random order, except the most recently edited finished recipe always leads.
-        recipes = shuffleOnce(await response.json());
-        const newest = recipes.filter(entry => entry.finished)
-            .reduce((latest, entry) => !latest || entry.modified > latest.modified ? entry : latest, null);
-        if (newest) {
-            newestFile = newest.file;
-            recipes = [newest, ...recipes.filter(entry => entry !== newest)];
-        }
+        recipes = (await response.json()).sort((a, b) => b.modified.localeCompare(a.modified));
+        newestFile = recipes.find(entry => entry.finished)?.file ?? null;
         const cuisines = [...new Set(recipes.map(entry => entry.cuisine).filter(Boolean))].sort((a, b) => a.localeCompare(b));
         originFilter.append(...cuisines.map(cuisine => {
             const option = document.createElement('option');
