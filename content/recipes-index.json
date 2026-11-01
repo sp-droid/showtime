@@ -13,7 +13,8 @@
     "vegetarian": false,
     "vegan": false,
     "origin": "300s Rome, Ancient Rome. (De recoquinaria, Apicius)",
-    "description": "/'Meatballs in sauce'/"
+    "description": "/'Meatballs in sauce'/",
+    "modified": "2025-01-14T08:29:13"
   },
   {
     "file": "amaretti",
@@ -29,7 +30,8 @@
     "vegetarian": false,
     "vegan": false,
     "origin": "Mid 1600s Venice, Republic of Venice.",
-    "description": "/'From amaro or bitter'/ Amaretti are all about texture and flavor, crunchy on the outside, soft on the inside and with a slight bitterness from the almonds. Three core ingredients: almond, sugar, egg whites."
+    "description": "/'From amaro or bitter'/ Amaretti are all about texture and flavor, crunchy on the outside, soft on the inside and with a slight bitterness from the almonds. Three core ingredients: almond, sugar, egg whites.",
+    "modified": "2024-05-31T19:58:51"
   },
   {
     "file": "arrozConLeche",
@@ -45,7 +47,8 @@
     "vegetarian": true,
     "vegan": false,
     "origin": "3000-250 BC, Asia.",
-    "description": "/'Rice with milk'/"
+    "description": "/'Rice with milk'/",
+    "modified": "2026-09-28T11:55:32"
   },
   {
     "file": "bizcochoYogur",
@@ -61,7 +64,8 @@
     "vegetarian": false,
     "vegan": false,
     "origin": "Likely Italian or Egyptian.",
-    "description": "/'Yogurt sponge cake'/ Also called queque or bizcochón, the word bizcocho comes from latin. In Ancient Rome it was referred to a type of unleavened bread that was baked twice to make it last longer. In Spain the word can actually mean both: there's also a well-known version of what the Romans had, called biscote or pan bizcochado."
+    "description": "/'Yogurt sponge cake'/ Also called queque or bizcochón, the word bizcocho comes from latin. In Ancient Rome it was referred to a type of unleavened bread that was baked twice to make it last longer. In Spain the word can actually mean both: there's also a well-known version of what the Romans had, called biscote or pan bizcochado.",
+    "modified": "2025-12-03T10:22:34"
   },
   {
     "file": "brownies",
@@ -77,7 +81,8 @@
     "vegetarian": true,
     "vegan": false,
     "origin": "1900s Boston, United States.",
-    "description": "Rich, fudgy brownies with a crackly top and optional chocolate bits."
+    "description": "Rich, fudgy brownies with a crackly top and optional chocolate bits.",
+    "modified": "2025-11-28T11:18:41"
   },
   {
     "file": "butter",
@@ -93,7 +98,8 @@
     "vegetarian": true,
     "vegan": false,
     "origin": "8000 BC, Africa.",
-    "description": "Italian butter culture motivated me to do it homemade. In contrast to other European countries, in Italy butter is used more as a cooking ingredient than a core element of breakfast, bread sandwiches and toasts: Italian butter stays hard too long, has almost no flavour and is always unsalted..."
+    "description": "Italian butter culture motivated me to do it homemade. In contrast to other European countries, in Italy butter is used more as a cooking ingredient than a core element of breakfast, bread sandwiches and toasts: Italian butter stays hard too long, has almost no flavour and is always unsalted...",
+    "modified": "2024-05-25T21:32:55"
   },
   {
     "file": "butterChicken",
@@ -109,7 +115,8 @@
     "vegetarian": false,
     "vegan": false,
     "origin": "",
-    "description": "/'Butter chicken'/"
+    "description": "/'Butter chicken'/",
+    "modified": "2026-01-17T17:56:50"
   },
   {
     "file": "carbonara",
@@ -125,7 +132,8 @@
     "vegetarian": false,
     "vegan": false,
     "origin": "1800s, Italy.",
-    "description": "/'Pasta to the coal seller'/ The name 'Pasta alla carbonara' does not appear before WWII, where it was said to come from the interaction between American troops, rations, food scarcity and Italian cooks. The dish appeared however in the 1800s in Neapolitan cuisine, using lard instead of guanciale."
+    "description": "/'Pasta to the coal seller'/ The name 'Pasta alla carbonara' does not appear before WWII, where it was said to come from the interaction between American troops, rations, food scarcity and Italian cooks. The dish appeared however in the 1800s in Neapolitan cuisine, using lard instead of guanciale.",
+    "modified": "2024-05-30T18:45:50"
   },
   {
     "file": "carrotCake",
@@ -141,7 +149,8 @@
     "vegetarian": false,
     "vegan": false,
     "origin": "",
-    "description": "/''/ "
+    "description": "/''/ ",
+    "modified": "2026-11-01T18:42:12"
   },
   {
     "file": "cheesecake",
@@ -157,7 +166,8 @@
     "vegetarian": false,
     "vegan": false,
     "origin": "",
-    "description": "/''/ "
+    "description": "/''/ ",
+    "modified": "2026-11-01T18:29:27"
   },
   {
     "file": "cheesecakeVasca",
@@ -173,7 +183,8 @@
     "vegetarian": false,
     "vegan": false,
     "origin": "1990s Basque country, Spain.",
-    "description": "/'The Vineyard cheesecake'/ Recipe from the restaurant 'La Viña' in the Basque region of Spain."
+    "description": "/'The Vineyard cheesecake'/ Recipe from the restaurant 'La Viña' in the Basque region of Spain.",
+    "modified": "2026-11-01T18:29:13"
   },
   {
     "file": "chickenMarinadeCanarian",
@@ -189,7 +200,8 @@
     "vegetarian": false,
     "vegan": false,
     "origin": "-",
-    "description": "Simple, aromatic Canarian-style marinade for chicken."
+    "description": "Simple, aromatic Canarian-style marinade for chicken.",
+    "modified": "2025-11-29T22:33:00"
   },
   {
     "file": "chickenSoup",
@@ -205,7 +217,8 @@
     "vegetarian": false,
     "vegan": false,
     "origin": "1000s, China.",
-    "description": "/'Chicken noodle soup'/"
+    "description": "/'Chicken noodle soup'/",
+    "modified": "2025-11-18T15:17:03"
   },
   {
     "file": "chickenTikkaMasala",
@@ -221,7 +234,8 @@
     "vegetarian": false,
     "vegan": false,
     "origin": "",
-    "description": "/''/"
+    "description": "/''/",
+    "modified": "2026-09-28T12:18:05"
   },
   {
     "file": "churrosPescado",
@@ -237,7 +251,8 @@
     "vegetarian": false,
     "vegan": false,
     "origin": "-",
-    "description": ""
+    "description": "",
+    "modified": "2025-12-03T14:42:45"
   },
   {
     "file": "costillasPapasPina",
@@ -253,7 +268,8 @@
     "vegetarian": false,
     "vegan": false,
     "origin": "-",
-    "description": "Traditional Canarian dish of boiled pork ribs, potatoes, and corn on the cob."
+    "description": "Traditional Canarian dish of boiled pork ribs, potatoes, and corn on the cob.",
+    "modified": "2025-11-30T11:16:31"
   },
   {
     "file": "cremaCalabacin",
@@ -269,7 +285,8 @@
     "vegetarian": false,
     "vegan": false,
     "origin": "No information",
-    "description": "/'Zucchini cream'/ "
+    "description": "/'Zucchini cream'/ ",
+    "modified": "2026-10-26T15:37:43"
   },
   {
     "file": "crepes",
@@ -285,7 +302,8 @@
     "vegetarian": true,
     "vegan": false,
     "origin": "13th century, Duchy of Brittany.",
-    "description": "/'Curled, frizzed'/"
+    "description": "/'Curled, frizzed'/",
+    "modified": "2025-05-07T18:37:13"
   },
   {
     "file": "englishCurry",
@@ -301,7 +319,8 @@
     "vegetarian": false,
     "vegan": false,
     "origin": "Mid 1700s London, England.",
-    "description": "The curry blend of spices as we know it was invented by British traders that brought spices from India to the British Isles. This quite mild mix adapted to the European palate coupled with the use of flour took away the Indian soul of the dish, but produced an interesting result nevertheless."
+    "description": "The curry blend of spices as we know it was invented by British traders that brought spices from India to the British Isles. This quite mild mix adapted to the European palate coupled with the use of flour took away the Indian soul of the dish, but produced an interesting result nevertheless.",
+    "modified": "2025-01-02T18:49:32"
   },
   {
     "file": "estofado",
@@ -317,7 +336,8 @@
     "vegetarian": false,
     "vegan": false,
     "origin": "300s Rome, Ancient Rome. (De recoquinaria, Apicius)",
-    "description": "/'Meatballs in sauce'/ "
+    "description": "/'Meatballs in sauce'/ ",
+    "modified": "2024-10-14T22:01:40"
   },
   {
     "file": "fabada",
@@ -333,7 +353,8 @@
     "vegetarian": false,
     "vegan": false,
     "origin": "1500-1600 Asturias, Spain",
-    "description": "/'Asturian beans'/ "
+    "description": "/'Asturian beans'/ ",
+    "modified": "2025-12-02T21:51:29"
   },
   {
     "file": "gambasAjillo",
@@ -349,7 +370,8 @@
     "vegetarian": false,
     "vegan": false,
     "origin": "-",
-    "description": "/'Prawns with garlic'/"
+    "description": "/'Prawns with garlic'/",
+    "modified": "2026-09-28T12:06:10"
   },
   {
     "file": "garbanzada",
@@ -365,7 +387,8 @@
     "vegetarian": false,
     "vegan": false,
     "origin": "Unknown, Canary Islands.",
-    "description": "/'Canarian chickpeas'/ "
+    "description": "/'Canarian chickpeas'/ ",
+    "modified": "2026-09-26T14:21:07"
   },
   {
     "file": "gazpacho",
@@ -381,7 +404,8 @@
     "vegetarian": true,
     "vegan": true,
     "origin": "1500-1600 Western Andalusia, Spain",
-    "description": "/'Red gazpacho'/ "
+    "description": "/'Red gazpacho'/ ",
+    "modified": "2026-05-28T13:44:15"
   },
   {
     "file": "gofioEscaldado",
@@ -397,7 +421,8 @@
     "vegetarian": true,
     "vegan": true,
     "origin": "-, Canary Islands.",
-    "description": "/'Blanched toasted flour'/ "
+    "description": "/'Blanched toasted flour'/ ",
+    "modified": "2024-05-25T21:33:09"
   },
   {
     "file": "honeyFritters",
@@ -413,7 +438,8 @@
     "vegetarian": true,
     "vegan": true,
     "origin": "-, Canary Islands.",
-    "description": "/'Canarian chickpeas'/ "
+    "description": "/'Canarian chickpeas'/ ",
+    "modified": "2024-05-13T00:00:31"
   },
   {
     "file": "jam",
@@ -429,7 +455,8 @@
     "vegetarian": true,
     "vegan": false,
     "origin": "300s Rome, Ancient Rome. (De recoquinaria, Apicius)",
-    "description": "In Lanzarote we have the best black mulberries I've ever tasted. Unfortunately, I only get the chance to have some in June-July, which prompted me to make jam (and start with the strawberry one) and enjoy them longer. This recipe is not too sweet nor it needs any artificial source for pectin."
+    "description": "In Lanzarote we have the best black mulberries I've ever tasted. Unfortunately, I only get the chance to have some in June-July, which prompted me to make jam (and start with the strawberry one) and enjoy them longer. This recipe is not too sweet nor it needs any artificial source for pectin.",
+    "modified": "2025-06-13T16:17:45"
   },
   {
     "file": "limonada",
@@ -445,7 +472,8 @@
     "vegetarian": true,
     "vegan": true,
     "origin": "No information",
-    "description": "/'Lemon flavoured drink'/ "
+    "description": "/'Lemon flavoured drink'/ ",
+    "modified": "2026-09-26T14:31:05"
   },
   {
     "file": "mangolassi",
@@ -461,7 +489,8 @@
     "vegetarian": true,
     "vegan": false,
     "origin": "1000 BC, Punjab.",
-    "description": "/'Mango flavoured yogurt with water'/ "
+    "description": "/'Mango flavoured yogurt with water'/ ",
+    "modified": "2025-02-24T13:52:18"
   },
   {
     "file": "mimos",
@@ -477,7 +506,8 @@
     "vegetarian": false,
     "vegan": false,
     "origin": "1900s Moya, Gran Canaria, Canary Islands.",
-    "description": "/'Mimes or Moya's sighs'/ "
+    "description": "/'Mimes or Moya's sighs'/ ",
+    "modified": "2024-09-23T12:26:57"
   },
   {
     "file": "mojoCilantro",
@@ -493,7 +523,8 @@
     "vegetarian": true,
     "vegan": true,
     "origin": "-",
-    "description": "Traditional Canarian green mojo made with cilantro."
+    "description": "Traditional Canarian green mojo made with cilantro.",
+    "modified": "2025-11-30T11:18:22"
   },
   {
     "file": "mokacoffee",
@@ -509,7 +540,8 @@
     "vegetarian": true,
     "vegan": true,
     "origin": "1933 Piedmont, Italy. (Alfonso Bialetti)",
-    "description": "Brewing coffee on a moka is easy, everybody does it. Everybody seems to be, however, used to the burnt and bitter flavour. This recipe explains how I do it for the tiramisù since I'm not used to coffee and I really notice the bitterness otherwise. Being less bitter makes it drinkable with less sugar too. The moka is a relatively new invention, in the name of a city in Yemen renowned for its coffee: Mocha."
+    "description": "Brewing coffee on a moka is easy, everybody does it. Everybody seems to be, however, used to the burnt and bitter flavour. This recipe explains how I do it for the tiramisù since I'm not used to coffee and I really notice the bitterness otherwise. Being less bitter makes it drinkable with less sugar too. The moka is a relatively new invention, in the name of a city in Yemen renowned for its coffee: Mocha.",
+    "modified": "2024-05-25T21:33:20"
   },
   {
     "file": "ovaSpongiaExLacte",
@@ -525,7 +557,8 @@
     "vegetarian": true,
     "vegan": true,
     "origin": "-, Canary Islands.",
-    "description": "/'Canarian chickpeas'/ "
+    "description": "/'Canarian chickpeas'/ ",
+    "modified": "2024-05-13T00:01:56"
   },
   {
     "file": "ovenChickenWings",
@@ -541,7 +574,8 @@
     "vegetarian": false,
     "vegan": false,
     "origin": "No information",
-    "description": "Much less oily alternative to fried chicken wings"
+    "description": "Much less oily alternative to fried chicken wings",
+    "modified": "2026-09-28T11:48:33"
   },
   {
     "file": "pannaCotta",
@@ -557,7 +591,8 @@
     "vegetarian": false,
     "vegan": false,
     "origin": "1800-1900s Piedmont, Italy.",
-    "description": "/'Cooked cream'/ Missing homemade photo!"
+    "description": "/'Cooked cream'/ Missing homemade photo!",
+    "modified": "2026-04-01T21:18:46"
   },
   {
     "file": "pastaFredda",
@@ -573,7 +608,8 @@
     "vegetarian": true,
     "vegan": false,
     "origin": "No information",
-    "description": "/'Cold pasta'/ "
+    "description": "/'Cold pasta'/ ",
+    "modified": "2025-11-28T11:21:34"
   },
   {
     "file": "pellaGofio",
@@ -589,7 +625,8 @@
     "vegetarian": true,
     "vegan": true,
     "origin": "Before 1400s, Canary Islands.",
-    "description": "/'Ball of toasted flour'/ This dessert, like gofio, comes from the amazigh tribes that inhabited the Canary Islands before the colonization. It's traditionally used to complement meals."
+    "description": "/'Ball of toasted flour'/ This dessert, like gofio, comes from the amazigh tribes that inhabited the Canary Islands before the colonization. It's traditionally used to complement meals.",
+    "modified": "2024-10-01T17:51:46"
   },
   {
     "file": "pestoGenovese",
@@ -605,7 +642,8 @@
     "vegetarian": true,
     "vegan": false,
     "origin": "1852 Genoa, Italy. (Emanuele Rossi)",
-    "description": "/'Genoese grounded paste'/ Although the first written recipe dates to 1852, very similar dishes can be found dating back to Roman times, but closer enactments were more prevalent in the Liguria region. Pesto 'alla' Genovese is a clever trick supermarket brands employ to be able to use ingredients that are not in the original, official recipe, like sunflower oil."
+    "description": "/'Genoese grounded paste'/ Although the first written recipe dates to 1852, very similar dishes can be found dating back to Roman times, but closer enactments were more prevalent in the Liguria region. Pesto 'alla' Genovese is a clever trick supermarket brands employ to be able to use ingredients that are not in the original, official recipe, like sunflower oil.",
+    "modified": "2026-09-26T14:09:41"
   },
   {
     "file": "pizza",
@@ -621,7 +659,8 @@
     "vegetarian": true,
     "vegan": false,
     "origin": "1889 Naples, Italy.(Raffaele Esposito)",
-    "description": "/'Pie'/"
+    "description": "/'Pie'/",
+    "modified": "2025-01-08T20:49:27"
   },
   {
     "file": "polloCerveza",
@@ -637,7 +676,8 @@
     "vegetarian": false,
     "vegan": false,
     "origin": "Middle Ages, Europe.",
-    "description": "/'Chicken with beer'/ "
+    "description": "/'Chicken with beer'/ ",
+    "modified": "2025-12-03T13:21:17"
   },
   {
     "file": "potajeCanario",
@@ -653,7 +693,8 @@
     "vegetarian": true,
     "vegan": true,
     "origin": "-, Canary Islands.",
-    "description": "/'Canarian pottage'/ "
+    "description": "/'Canarian pottage'/ ",
+    "modified": "2024-05-12T21:28:22"
   },
   {
     "file": "pucheroCanario",
@@ -669,7 +710,8 @@
     "vegetarian": false,
     "vegan": false,
     "origin": "1500s, Canary Islands.",
-    "description": "/'Canarian earthenware cooked dish'/ Not really cooked on earthenware anymore! It's one of my favourite dishes. This recipe forces you to have a pressure cooker, but you can try just cooking for 3 times longer with a normal pot. You will also have to add the chickpeas and potatoes later or they will crumble to bits."
+    "description": "/'Canarian earthenware cooked dish'/ Not really cooked on earthenware anymore! It's one of my favourite dishes. This recipe forces you to have a pressure cooker, but you can try just cooking for 3 times longer with a normal pot. You will also have to add the chickpeas and potatoes later or they will crumble to bits.",
+    "modified": "2026-04-01T21:22:42"
   },
   {
     "file": "pumpkinCarrotSoup",
@@ -685,7 +727,8 @@
     "vegetarian": false,
     "vegan": false,
     "origin": "No information",
-    "description": "/'Pumpkin and carrot soup'/ "
+    "description": "/'Pumpkin and carrot soup'/ ",
+    "modified": "2026-10-06T14:18:34"
   },
   {
     "file": "raguBolognese",
@@ -701,7 +744,8 @@
     "vegetarian": false,
     "vegan": false,
     "origin": "Late 1800s, Italy.",
-    "description": "/'Bolognese (meat) sauce'/ "
+    "description": "/'Bolognese (meat) sauce'/ ",
+    "modified": "2026-09-28T11:50:55"
   },
   {
     "file": "shortbreadCookies",
@@ -717,7 +761,8 @@
     "vegetarian": false,
     "vegan": false,
     "origin": "13th century, Scotland",
-    "description": ""
+    "description": "",
+    "modified": "2024-10-14T22:58:53"
   },
   {
     "file": "sopaLentejas",
@@ -733,7 +778,8 @@
     "vegetarian": true,
     "vegan": true,
     "origin": "No information",
-    "description": "/'Lentil soup'/ Simple and clear version of a classic lentil soup. In the Canaries, soups are very thin because anything thicker takes the name of 'potaje' instead. Not the case on the Spanish Peninsula."
+    "description": "/'Lentil soup'/ Simple and clear version of a classic lentil soup. In the Canaries, soups are very thin because anything thicker takes the name of 'potaje' instead. Not the case on the Spanish Peninsula.",
+    "modified": "2025-08-04T21:04:45"
   },
   {
     "file": "sopaPuchero",
@@ -749,7 +795,8 @@
     "vegetarian": false,
     "vegan": false,
     "origin": "1500s, Canary Islands.",
-    "description": "/'Soup from puchero'/ The logical conclusion to every puchero, making soup from it."
+    "description": "/'Soup from puchero'/ The logical conclusion to every puchero, making soup from it.",
+    "modified": "2026-09-28T11:40:28"
   },
   {
     "file": "tartaletas",
@@ -765,7 +812,8 @@
     "vegetarian": false,
     "vegan": false,
     "origin": "Medieval western Europe, France-England",
-    "description": "/'Sweet tartlets'/ Bite-sized pastries, filled with a variety of ingredients and open on top. Though first seen in older times, sweet tartlets came to popularity with the spread of sugar in medieval Europe"
+    "description": "/'Sweet tartlets'/ Bite-sized pastries, filled with a variety of ingredients and open on top. Though first seen in older times, sweet tartlets came to popularity with the spread of sugar in medieval Europe",
+    "modified": "2024-09-28T16:49:59"
   },
   {
     "file": "tiramisu",
@@ -781,7 +829,8 @@
     "vegetarian": true,
     "vegan": false,
     "origin": "1960-70s Treviso, Italy.",
-    "description": "/'Pick me up'/ The tiramisù is an Italian dessert that combines dry biscuits soaked in coffee with a mascarpone cheese and egg cream, and a note of bitter cocoa on top. It's one of the world's most famous desserts, and with reason; it's both extremely simple to make and delicious."
+    "description": "/'Pick me up'/ The tiramisù is an Italian dessert that combines dry biscuits soaked in coffee with a mascarpone cheese and egg cream, and a note of bitter cocoa on top. It's one of the world's most famous desserts, and with reason; it's both extremely simple to make and delicious.",
+    "modified": "2026-06-27T08:41:34"
   },
   {
     "file": "tomatoPasta",
@@ -797,7 +846,8 @@
     "vegetarian": true,
     "vegan": true,
     "origin": "1800-30s Naples, country of Naples / the Two Sicilies.",
-    "description": "/'Tomato pasta'/ This simple dish product of the Columbian exchange wasn't common in Europe until the late 1800s. Though tomatoes were present in the continent for a while, cooks and doctors alike were aware of the poisonous nature of nightshades which is why it took so long for Europeans to enjoy them like we do today."
+    "description": "/'Tomato pasta'/ This simple dish product of the Columbian exchange wasn't common in Europe until the late 1800s. Though tomatoes were present in the continent for a while, cooks and doctors alike were aware of the poisonous nature of nightshades which is why it took so long for Europeans to enjoy them like we do today.",
+    "modified": "2024-05-25T21:34:00"
   },
   {
     "file": "torrijas",
@@ -813,7 +863,8 @@
     "vegetarian": false,
     "vegan": false,
     "origin": "300s Rome, Ancient Rome. (De recoquinaria, Apicius)",
-    "description": "/'Drunkenness'/ Also known as French toast (though in Spain we do not use sandwich bread), it's a simple breakfast or dessert with origins in ancient Rome."
+    "description": "/'Drunkenness'/ Also known as French toast (though in Spain we do not use sandwich bread), it's a simple breakfast or dessert with origins in ancient Rome.",
+    "modified": "2025-06-07T09:23:41"
   },
   {
     "file": "tortilla",
@@ -829,7 +880,8 @@
     "vegetarian": false,
     "vegan": false,
     "origin": "-",
-    "description": "/'Spanish tortilla'/"
+    "description": "/'Spanish tortilla'/",
+    "modified": "2026-05-27T20:44:55"
   },
   {
     "file": "truchas",
@@ -845,6 +897,7 @@
     "vegetarian": true,
     "vegan": true,
     "origin": "-, Canary Islands.",
-    "description": "/'Trout, though it's not a fish'/ "
+    "description": "/'Trout, though it's not a fish'/ ",
+    "modified": "2024-05-12T21:27:47"
   }
 ]

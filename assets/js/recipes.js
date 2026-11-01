@@ -20,9 +20,17 @@ document.addEventListener('DOMContentLoaded', async () => {
     const previewImage = document.getElementById('recipePreviewImage');
 
     let recipes = [];
+    let newestFile = null;
     let shownInTable = [];
     let activeCategory = '';
     let selectedFile = null;
+    // Gallery modes cycled by the view button: shuffled gallery, newest-first gallery, filter table.
+    const viewModes = [
+        { key: 'random', label: 'Random order', icon: 'fa-solid fa-shuffle' },
+        { key: 'chronological', label: 'Newest first', icon: 'fa-solid fa-clock-rotate-left' },
+        { key: 'table', label: 'Advanced search', icon: 'fa-solid fa-bars' }
+    ];
+    let viewMode = 0;
     let advancedOpen = false;
     let sort = { key: null, direction: 1 };
 
@@ -79,7 +87,9 @@ document.addEventListener('DOMContentLoaded', async () => {
     }
 
     function galleryEntries() {
-        return recipes.filter(entry => entry.finished && matchesQuickFilters(entry));
+        const entries = recipes.filter(entry => entry.finished && matchesQuickFilters(entry));
+        if (viewModes[viewMode].key === 'chronological') entries.sort((a, b) => b.modified.localeCompare(a.modified));
+        return entries;
     }
 
     function minutes(value) {
@@ -157,6 +167,12 @@ document.addEventListener('DOMContentLoaded', async () => {
             badges.append(cuisineBadge);
         }
         card.append(badges);
+        if (entry.file === newestFile) {
+            const newest = document.createElement('span');
+            newest.className = 'recipes-card__newest';
+            newest.textContent = 'Newest';
+            card.append(newest);
+        }
 
         const title = document.createElement('span');
         title.className = 'recipes-card__title';
@@ -243,19 +259,22 @@ document.addEventListener('DOMContentLoaded', async () => {
             : 'No recipes match your filters. Try another name, origin, or category.';
     }
 
-    function setView(open) {
-        advancedOpen = open;
-        advanced.hidden = !open;
-        gallery.hidden = open;
-        viewToggle.setAttribute('aria-pressed', String(open));
-        viewToggle.classList.toggle('is-active', open);
-        const label = open ? 'Photo gallery' : 'Advanced search';
+    function setView(mode) {
+        viewMode = mode;
+        const current = viewModes[mode];
+        const next = viewModes[(mode + 1) % viewModes.length];
+        advancedOpen = current.key === 'table';
+        advanced.hidden = !advancedOpen;
+        gallery.hidden = advancedOpen;
+        viewToggle.classList.toggle('is-active', mode !== 0);
+        viewToggle.querySelector('i').className = current.icon;
+        const label = `${current.label} (switch to ${next.label.toLocaleLowerCase()})`;
         viewToggle.setAttribute('aria-label', label);
         viewToggle.title = label;
         render();
     }
 
-    viewToggle.addEventListener('click', () => setView(!advancedOpen));
+    viewToggle.addEventListener('click', () => setView((viewMode + 1) % viewModes.length));
     search.addEventListener('input', render);
     originFilter.addEventListener('change', () => {
         updateCuisineWatermark();
@@ -301,7 +320,14 @@ document.addEventListener('DOMContentLoaded', async () => {
     try {
         const response = await fetch('../content/recipes-index.json');
         if (!response.ok) throw new Error(`HTTP ${response.status}`);
+        // Random order, except the most recently edited finished recipe always leads.
         recipes = shuffleOnce(await response.json());
+        const newest = recipes.filter(entry => entry.finished)
+            .reduce((latest, entry) => !latest || entry.modified > latest.modified ? entry : latest, null);
+        if (newest) {
+            newestFile = newest.file;
+            recipes = [newest, ...recipes.filter(entry => entry !== newest)];
+        }
         const cuisines = [...new Set(recipes.map(entry => entry.cuisine).filter(Boolean))].sort((a, b) => a.localeCompare(b));
         originFilter.append(...cuisines.map(cuisine => {
             const option = document.createElement('option');

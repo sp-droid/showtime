@@ -625,6 +625,20 @@ p { font-size: 18px; }
     justify-content: center;
     width: clamp(54px, 5vw, 66px);
 }
+.recipes-card__newest {
+    backdrop-filter: blur(8px);
+    background: #211d1aca;
+    border: 1px solid color-mix(in srgb, var(--accent-recipes) 65%, transparent);
+    border-radius: 999px;
+    color: #f1ca9f;
+    font-size: 12px;
+    font-weight: 700;
+    padding: 5px 10px;
+    position: absolute;
+    right: 14px;
+    top: 14px;
+    z-index: 1;
+}
 .recipes-card__badge--cuisine {
     border-color: #eee5d47a;
 }

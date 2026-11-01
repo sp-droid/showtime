@@ -2,6 +2,7 @@ import json
 import hashlib
 import argparse
 import re
+from datetime import datetime
 from pathlib import Path
 
 try:
@@ -184,6 +185,8 @@ for recipePath in pbar:
         "vegan": flags["vegan"],
         "origin": recipe["origin"],
         "description": recipe["description"],
+        # Last edit of the source JSON, used to surface the newest recipe.
+        "modified": datetime.fromtimestamp(recipePath.stat().st_mtime).isoformat(timespec="seconds"),
     })
 
     if args.index_only:
