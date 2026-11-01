@@ -92,12 +92,13 @@ def detectEmojiFood(string, food):
 
 
 def getNutrition(string, nutrition, food):
-    if not food: return nutrition
     ingredient = string.lower().split("(")[0]
     if "tsp" in ingredient or "tbsp" in ingredient: return nutrition
     quantity = ''.join(filter(str.isdigit, ingredient))
     if quantity == '': return nutrition
     else: quantity = float(quantity)
+    # A measured ingredient must exist in the datasheet, or its nutrition would silently count as zero
+    if not food: raise ValueError(string)
 
     # All foods in the datasheet are scaled per 100g
     factor = quantity/100
@@ -108,8 +109,11 @@ def getNutrition(string, nutrition, food):
     try:
         # Load ingredient datasheet corresponding row
         entry = foodProperties.loc[foodProperties["Ingredient"] == food].iloc[0]
-        # Adjust for used quantity
-        nutrition.loc[food,:] = [food, *(entry[column] * factor for column in nutrient_columns)]
+        # Adjust for used quantity, accumulating since the same food can appear in several groups
+        amounts = [entry[column] * factor for column in nutrient_columns]
+        if food in nutrition.index:
+            amounts = [previous + amount for previous, amount in zip(nutrition.loc[food, nutrient_columns], amounts)]
+        nutrition.loc[food,:] = [food, *amounts]
     except:
         raise ValueError(string)
     
