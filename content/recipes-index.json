@@ -12,9 +12,9 @@
     "glutenFree": false,
     "vegetarian": false,
     "vegan": false,
-    "origin": "300s Rome, Ancient Rome. (De recoquinaria, Apicius)",
+    "origin": "300s Rome, Roman Empire. (Apicius)",
     "description": "/'Meatballs in sauce'/",
-    "modified": "2025-01-14T08:29:13"
+    "modified": "2026-11-01T20:37:25"
   },
   {
     "file": "amaretti",
@@ -29,9 +29,9 @@
     "glutenFree": true,
     "vegetarian": false,
     "vegan": false,
-    "origin": "Mid 1600s Venice, Republic of Venice.",
+    "origin": "1600s Venice, Republic of Venice. (unknown author)",
     "description": "/'From amaro or bitter'/ Amaretti are all about texture and flavor, crunchy on the outside, soft on the inside and with a slight bitterness from the almonds. Three core ingredients: almond, sugar, egg whites.",
-    "modified": "2024-05-31T19:58:51"
+    "modified": "2026-11-01T20:37:25"
   },
   {
     "file": "arrozConLeche",
@@ -46,9 +46,9 @@
     "glutenFree": true,
     "vegetarian": true,
     "vegan": false,
-    "origin": "3000-250 BC, Asia.",
+    "origin": "900s, Al-Andalus. (unknown author)",
     "description": "/'Rice with milk'/",
-    "modified": "2026-09-28T11:55:32"
+    "modified": "2026-11-01T20:37:25"
   },
   {
     "file": "bizcochoYogur",
@@ -63,9 +63,9 @@
     "glutenFree": false,
     "vegetarian": false,
     "vegan": false,
-    "origin": "Likely Italian or Egyptian.",
+    "origin": "1950s, France. (unknown author)",
     "description": "/'Yogurt sponge cake'/ Also called queque or bizcochón, the word bizcocho comes from latin. In Ancient Rome it was referred to a type of unleavened bread that was baked twice to make it last longer. In Spain the word can actually mean both: there's also a well-known version of what the Romans had, called biscote or pan bizcochado.",
-    "modified": "2025-12-03T10:22:34"
+    "modified": "2026-11-01T20:37:25"
   },
   {
     "file": "brownies",
@@ -80,9 +80,9 @@
     "glutenFree": false,
     "vegetarian": true,
     "vegan": false,
-    "origin": "1900s Boston, United States.",
+    "origin": "1900s Boston, United States. (unknown author)",
     "description": "Rich, fudgy brownies with a crackly top and optional chocolate bits.",
-    "modified": "2025-11-28T11:18:41"
+    "modified": "2026-11-01T20:37:25"
   },
   {
     "file": "butter",
@@ -97,9 +97,9 @@
     "glutenFree": true,
     "vegetarian": true,
     "vegan": false,
-    "origin": "8000 BC, Africa.",
+    "origin": "8000 BC, Africa. (unknown author)",
     "description": "Italian butter culture motivated me to do it homemade. In contrast to other European countries, in Italy butter is used more as a cooking ingredient than a core element of breakfast, bread sandwiches and toasts: Italian butter stays hard too long, has almost no flavour and is always unsalted...",
-    "modified": "2024-05-25T21:32:55"
+    "modified": "2026-11-01T20:37:25"
   },
   {
     "file": "butterChicken",
@@ -114,9 +114,9 @@
     "glutenFree": false,
     "vegetarian": false,
     "vegan": false,
-    "origin": "",
+    "origin": "1950s Delhi, India. (Kundan Lal Gujral)",
     "description": "/'Butter chicken'/",
-    "modified": "2026-01-17T17:56:50"
+    "modified": "2026-11-01T20:37:25"
   },
   {
     "file": "carbonara",
@@ -131,9 +131,9 @@
     "glutenFree": false,
     "vegetarian": false,
     "vegan": false,
-    "origin": "1800s, Italy.",
+    "origin": "1940s Rome, Kingdom of Italy. (unknown author)",
     "description": "/'Pasta to the coal seller'/ The name 'Pasta alla carbonara' does not appear before WWII, where it was said to come from the interaction between American troops, rations, food scarcity and Italian cooks. The dish appeared however in the 1800s in Neapolitan cuisine, using lard instead of guanciale.",
-    "modified": "2024-05-30T18:45:50"
+    "modified": "2026-11-01T20:37:25"
   },
   {
     "file": "carrotCake",
@@ -148,9 +148,9 @@
     "glutenFree": true,
     "vegetarian": false,
     "vegan": false,
-    "origin": "",
+    "origin": "1960s, United States. (unknown author)",
     "description": "/''/ ",
-    "modified": "2026-11-01T18:42:12"
+    "modified": "2026-11-01T20:37:25"
   },
   {
     "file": "cheesecake",
@@ -165,9 +165,9 @@
     "glutenFree": true,
     "vegetarian": false,
     "vegan": false,
-    "origin": "",
+    "origin": "1920s New York, United States. (Arnold Reuben)",
     "description": "/''/ ",
-    "modified": "2026-11-01T18:29:27"
+    "modified": "2026-11-01T20:37:25"
   },
   {
     "file": "cheesecakeVasca",
@@ -182,9 +182,9 @@
     "glutenFree": true,
     "vegetarian": false,
     "vegan": false,
-    "origin": "1990s Basque country, Spain.",
+    "origin": "1990 San Sebastián, Spain. (Santiago Rivera)",
     "description": "/'The Vineyard cheesecake'/ Recipe from the restaurant 'La Viña' in the Basque region of Spain.",
-    "modified": "2026-11-01T18:29:13"
+    "modified": "2026-11-01T20:37:25"
   },
   {
     "file": "chickenMarinadeCanarian",
@@ -199,9 +199,9 @@
     "glutenFree": true,
     "vegetarian": false,
     "vegan": false,
-    "origin": "-",
+    "origin": "1900s Canary Islands, Spain. (unknown author)",
     "description": "Simple, aromatic Canarian-style marinade for chicken.",
-    "modified": "2025-11-29T22:33:00"
+    "modified": "2026-11-01T20:37:25"
   },
   {
     "file": "chickenSoup",
@@ -216,9 +216,9 @@
     "glutenFree": false,
     "vegetarian": false,
     "vegan": false,
-    "origin": "1000s, China.",
+    "origin": "1000s, Song China. (unknown author)",
     "description": "/'Chicken noodle soup'/",
-    "modified": "2025-11-18T15:17:03"
+    "modified": "2026-11-01T20:37:25"
   },
   {
     "file": "chickenTikkaMasala",
@@ -233,9 +233,9 @@
     "glutenFree": false,
     "vegetarian": false,
     "vegan": false,
-    "origin": "",
+    "origin": "1970s Glasgow, United Kingdom. (Ali Ahmed Aslam)",
     "description": "/''/",
-    "modified": "2026-09-28T12:18:05"
+    "modified": "2026-11-01T20:37:25"
   },
   {
     "file": "churrosPescado",
@@ -250,9 +250,9 @@
     "glutenFree": false,
     "vegetarian": false,
     "vegan": false,
-    "origin": "-",
+    "origin": "1900s Canary Islands, Spain. (unknown author)",
     "description": "",
-    "modified": "2025-12-03T14:42:45"
+    "modified": "2026-11-01T20:37:25"
   },
   {
     "file": "costillasPapasPina",
@@ -267,9 +267,9 @@
     "glutenFree": true,
     "vegetarian": false,
     "vegan": false,
-    "origin": "-",
+    "origin": "1800s Canary Islands, Spain. (unknown author)",
     "description": "Traditional Canarian dish of boiled pork ribs, potatoes, and corn on the cob.",
-    "modified": "2025-11-30T11:16:31"
+    "modified": "2026-11-01T20:37:25"
   },
   {
     "file": "cremaCalabacin",
@@ -284,9 +284,9 @@
     "glutenFree": true,
     "vegetarian": false,
     "vegan": false,
-    "origin": "No information",
+    "origin": "1900s, Spain. (unknown author)",
     "description": "/'Zucchini cream'/ ",
-    "modified": "2026-10-26T15:37:43"
+    "modified": "2026-11-01T20:37:25"
   },
   {
     "file": "crepes",
@@ -301,9 +301,9 @@
     "glutenFree": false,
     "vegetarian": true,
     "vegan": false,
-    "origin": "13th century, Duchy of Brittany.",
+    "origin": "1200s Brittany, Duchy of Brittany. (unknown author)",
     "description": "/'Curled, frizzed'/",
-    "modified": "2025-05-07T18:37:13"
+    "modified": "2026-11-01T20:37:25"
   },
   {
     "file": "englishCurry",
@@ -318,9 +318,9 @@
     "glutenFree": true,
     "vegetarian": false,
     "vegan": false,
-    "origin": "Mid 1700s London, England.",
+    "origin": "1747 London, Great Britain. (Hannah Glasse)",
     "description": "The curry blend of spices as we know it was invented by British traders that brought spices from India to the British Isles. This quite mild mix adapted to the European palate coupled with the use of flour took away the Indian soul of the dish, but produced an interesting result nevertheless.",
-    "modified": "2025-01-02T18:49:32"
+    "modified": "2026-11-01T20:37:25"
   },
   {
     "file": "estofado",
@@ -335,9 +335,9 @@
     "glutenFree": false,
     "vegetarian": false,
     "vegan": false,
-    "origin": "300s Rome, Ancient Rome. (De recoquinaria, Apicius)",
+    "origin": "1600s, Spain. (unknown author)",
     "description": "/'Meatballs in sauce'/ ",
-    "modified": "2024-10-14T22:01:40"
+    "modified": "2026-11-01T20:37:25"
   },
   {
     "file": "fabada",
@@ -352,9 +352,9 @@
     "glutenFree": true,
     "vegetarian": false,
     "vegan": false,
-    "origin": "1500-1600 Asturias, Spain",
+    "origin": "1500s Asturias, Spain. (unknown author)",
     "description": "/'Asturian beans'/ ",
-    "modified": "2025-12-02T21:51:29"
+    "modified": "2026-11-01T20:37:25"
   },
   {
     "file": "gambasAjillo",
@@ -369,9 +369,9 @@
     "glutenFree": true,
     "vegetarian": false,
     "vegan": false,
-    "origin": "-",
+    "origin": "1900s Andalusia, Spain. (unknown author)",
     "description": "/'Prawns with garlic'/",
-    "modified": "2026-09-28T12:06:10"
+    "modified": "2026-11-01T20:37:25"
   },
   {
     "file": "garbanzada",
@@ -386,9 +386,9 @@
     "glutenFree": true,
     "vegetarian": false,
     "vegan": false,
-    "origin": "Unknown, Canary Islands.",
+    "origin": "1800s Canary Islands, Spain. (unknown author)",
     "description": "/'Canarian chickpeas'/ ",
-    "modified": "2026-09-26T14:21:07"
+    "modified": "2026-11-01T20:37:25"
   },
   {
     "file": "gazpacho",
@@ -403,9 +403,9 @@
     "glutenFree": false,
     "vegetarian": true,
     "vegan": true,
-    "origin": "1500-1600 Western Andalusia, Spain",
+    "origin": "1500s Western Andalusia, Spain. (unknown author)",
     "description": "/'Red gazpacho'/ ",
-    "modified": "2026-05-28T13:44:15"
+    "modified": "2026-11-01T20:37:25"
   },
   {
     "file": "gofioEscaldado",
@@ -420,9 +420,9 @@
     "glutenFree": false,
     "vegetarian": true,
     "vegan": true,
-    "origin": "-, Canary Islands.",
+    "origin": "1500s Canary Islands, Spain. (unknown author)",
     "description": "/'Blanched toasted flour'/ ",
-    "modified": "2024-05-25T21:33:09"
+    "modified": "2026-11-01T20:37:25"
   },
   {
     "file": "honeyFritters",
@@ -437,9 +437,9 @@
     "glutenFree": false,
     "vegetarian": true,
     "vegan": true,
-    "origin": "-, Canary Islands.",
+    "origin": "1000s Constantinople, Eastern Roman Empire. (unknown author)",
     "description": "/'Canarian chickpeas'/ ",
-    "modified": "2024-05-13T00:00:31"
+    "modified": "2026-11-01T20:37:25"
   },
   {
     "file": "jam",
@@ -454,9 +454,9 @@
     "glutenFree": true,
     "vegetarian": true,
     "vegan": false,
-    "origin": "300s Rome, Ancient Rome. (De recoquinaria, Apicius)",
+    "origin": "300s Rome, Roman Empire. (Apicius)",
     "description": "In Lanzarote we have the best black mulberries I've ever tasted. Unfortunately, I only get the chance to have some in June-July, which prompted me to make jam (and start with the strawberry one) and enjoy them longer. This recipe is not too sweet nor it needs any artificial source for pectin.",
-    "modified": "2025-06-13T16:17:45"
+    "modified": "2026-11-01T20:37:25"
   },
   {
     "file": "limonada",
@@ -471,9 +471,9 @@
     "glutenFree": true,
     "vegetarian": true,
     "vegan": true,
-    "origin": "No information",
+    "origin": "1000s Cairo, Fatimid Caliphate. (unknown author)",
     "description": "/'Lemon flavoured drink'/ ",
-    "modified": "2026-09-26T14:31:05"
+    "modified": "2026-11-01T20:37:25"
   },
   {
     "file": "mangolassi",
@@ -488,9 +488,9 @@
     "glutenFree": true,
     "vegetarian": true,
     "vegan": false,
-    "origin": "1000 BC, Punjab.",
+    "origin": "1000 BC Punjab, Vedic India. (unknown author)",
     "description": "/'Mango flavoured yogurt with water'/ ",
-    "modified": "2025-02-24T13:52:18"
+    "modified": "2026-11-01T20:37:25"
   },
   {
     "file": "mimos",
@@ -505,9 +505,9 @@
     "glutenFree": true,
     "vegetarian": false,
     "vegan": false,
-    "origin": "1900s Moya, Gran Canaria, Canary Islands.",
+    "origin": "1900s Moya, Spain. (unknown author)",
     "description": "/'Mimes or Moya's sighs'/ ",
-    "modified": "2024-09-23T12:26:57"
+    "modified": "2026-11-01T20:37:25"
   },
   {
     "file": "mojoCilantro",
@@ -522,9 +522,9 @@
     "glutenFree": true,
     "vegetarian": true,
     "vegan": true,
-    "origin": "-",
+    "origin": "1800s Canary Islands, Spain. (unknown author)",
     "description": "Traditional Canarian green mojo made with cilantro.",
-    "modified": "2025-11-30T11:18:22"
+    "modified": "2026-11-01T20:37:25"
   },
   {
     "file": "mokacoffee",
@@ -539,9 +539,9 @@
     "glutenFree": true,
     "vegetarian": true,
     "vegan": true,
-    "origin": "1933 Piedmont, Italy. (Alfonso Bialetti)",
+    "origin": "1933 Omegna, Kingdom of Italy. (Alfonso Bialetti)",
     "description": "Brewing coffee on a moka is easy, everybody does it. Everybody seems to be, however, used to the burnt and bitter flavour. This recipe explains how I do it for the tiramisù since I'm not used to coffee and I really notice the bitterness otherwise. Being less bitter makes it drinkable with less sugar too. The moka is a relatively new invention, in the name of a city in Yemen renowned for its coffee: Mocha.",
-    "modified": "2024-05-25T21:33:20"
+    "modified": "2026-11-01T20:37:25"
   },
   {
     "file": "ovaSpongiaExLacte",
@@ -556,9 +556,9 @@
     "glutenFree": false,
     "vegetarian": true,
     "vegan": true,
-    "origin": "-, Canary Islands.",
+    "origin": "300s Rome, Roman Empire. (Apicius)",
     "description": "/'Canarian chickpeas'/ ",
-    "modified": "2024-05-13T00:01:56"
+    "modified": "2026-11-01T20:37:25"
   },
   {
     "file": "ovenChickenWings",
@@ -573,9 +573,9 @@
     "glutenFree": true,
     "vegetarian": false,
     "vegan": false,
-    "origin": "No information",
+    "origin": "1964 Buffalo, United States. (Teressa Bellissimo)",
     "description": "Much less oily alternative to fried chicken wings",
-    "modified": "2026-09-28T11:48:33"
+    "modified": "2026-11-01T20:37:25"
   },
   {
     "file": "pannaCotta",
@@ -590,9 +590,9 @@
     "glutenFree": true,
     "vegetarian": false,
     "vegan": false,
-    "origin": "1800-1900s Piedmont, Italy.",
+    "origin": "1900s Piedmont, Kingdom of Italy. (unknown author)",
     "description": "/'Cooked cream'/ Missing homemade photo!",
-    "modified": "2026-04-01T21:18:46"
+    "modified": "2026-11-01T20:37:25"
   },
   {
     "file": "pastaFredda",
@@ -607,9 +607,9 @@
     "glutenFree": false,
     "vegetarian": true,
     "vegan": false,
-    "origin": "No information",
+    "origin": "1900s, Italy. (unknown author)",
     "description": "/'Cold pasta'/ ",
-    "modified": "2025-11-28T11:21:34"
+    "modified": "2026-11-01T20:37:25"
   },
   {
     "file": "pellaGofio",
@@ -624,9 +624,9 @@
     "glutenFree": false,
     "vegetarian": true,
     "vegan": true,
-    "origin": "Before 1400s, Canary Islands.",
+    "origin": "1300s, Canary Islands. (unknown author)",
     "description": "/'Ball of toasted flour'/ This dessert, like gofio, comes from the amazigh tribes that inhabited the Canary Islands before the colonization. It's traditionally used to complement meals.",
-    "modified": "2024-10-01T17:51:46"
+    "modified": "2026-11-01T20:37:25"
   },
   {
     "file": "pestoGenovese",
@@ -641,9 +641,9 @@
     "glutenFree": false,
     "vegetarian": true,
     "vegan": false,
-    "origin": "1852 Genoa, Italy. (Emanuele Rossi)",
+    "origin": "1852 Genoa, Kingdom of Sardinia. (Emanuele Rossi)",
     "description": "/'Genoese grounded paste'/ Although the first written recipe dates to 1852, very similar dishes can be found dating back to Roman times, but closer enactments were more prevalent in the Liguria region. Pesto 'alla' Genovese is a clever trick supermarket brands employ to be able to use ingredients that are not in the original, official recipe, like sunflower oil.",
-    "modified": "2026-09-26T14:09:41"
+    "modified": "2026-11-01T20:37:25"
   },
   {
     "file": "pizza",
@@ -658,9 +658,9 @@
     "glutenFree": false,
     "vegetarian": true,
     "vegan": false,
-    "origin": "1889 Naples, Italy.(Raffaele Esposito)",
+    "origin": "1889 Naples, Kingdom of Italy. (Raffaele Esposito)",
     "description": "/'Pie'/",
-    "modified": "2025-01-08T20:49:27"
+    "modified": "2026-11-01T20:37:25"
   },
   {
     "file": "polloCerveza",
@@ -675,9 +675,9 @@
     "glutenFree": true,
     "vegetarian": false,
     "vegan": false,
-    "origin": "Middle Ages, Europe.",
+    "origin": "1900s, Spain. (unknown author)",
     "description": "/'Chicken with beer'/ ",
-    "modified": "2025-12-03T13:21:17"
+    "modified": "2026-11-01T20:37:25"
   },
   {
     "file": "potajeCanario",
@@ -692,9 +692,9 @@
     "glutenFree": false,
     "vegetarian": true,
     "vegan": true,
-    "origin": "-, Canary Islands.",
+    "origin": "1600s Canary Islands, Spain. (unknown author)",
     "description": "/'Canarian pottage'/ ",
-    "modified": "2024-05-12T21:28:22"
+    "modified": "2026-11-01T20:37:25"
   },
   {
     "file": "pucheroCanario",
@@ -709,9 +709,9 @@
     "glutenFree": true,
     "vegetarian": false,
     "vegan": false,
-    "origin": "1500s, Canary Islands.",
+    "origin": "1500s Canary Islands, Spain. (unknown author)",
     "description": "/'Canarian earthenware cooked dish'/ Not really cooked on earthenware anymore! It's one of my favourite dishes. This recipe forces you to have a pressure cooker, but you can try just cooking for 3 times longer with a normal pot. You will also have to add the chickpeas and potatoes later or they will crumble to bits.",
-    "modified": "2026-04-01T21:22:42"
+    "modified": "2026-11-01T20:37:25"
   },
   {
     "file": "pumpkinCarrotSoup",
@@ -726,9 +726,9 @@
     "glutenFree": true,
     "vegetarian": false,
     "vegan": false,
-    "origin": "No information",
+    "origin": "1900s, Spain. (unknown author)",
     "description": "/'Pumpkin and carrot soup'/ ",
-    "modified": "2026-10-06T14:18:34"
+    "modified": "2026-11-01T20:37:25"
   },
   {
     "file": "raguBolognese",
@@ -743,9 +743,9 @@
     "glutenFree": false,
     "vegetarian": false,
     "vegan": false,
-    "origin": "Late 1800s, Italy.",
+    "origin": "1891 Bologna, Kingdom of Italy. (Pellegrino Artusi)",
     "description": "/'Bolognese (meat) sauce'/ ",
-    "modified": "2026-09-28T11:50:55"
+    "modified": "2026-11-01T20:37:25"
   },
   {
     "file": "shortbreadCookies",
@@ -760,9 +760,9 @@
     "glutenFree": false,
     "vegetarian": false,
     "vegan": false,
-    "origin": "13th century, Scotland",
+    "origin": "1200s, Kingdom of Scotland. (unknown author)",
     "description": "",
-    "modified": "2024-10-14T22:58:53"
+    "modified": "2026-11-01T20:37:25"
   },
   {
     "file": "sopaLentejas",
@@ -777,9 +777,9 @@
     "glutenFree": true,
     "vegetarian": true,
     "vegan": true,
-    "origin": "No information",
+    "origin": "1900s Canary Islands, Spain. (unknown author)",
     "description": "/'Lentil soup'/ Simple and clear version of a classic lentil soup. In the Canaries, soups are very thin because anything thicker takes the name of 'potaje' instead. Not the case on the Spanish Peninsula.",
-    "modified": "2025-08-04T21:04:45"
+    "modified": "2026-11-01T20:37:25"
   },
   {
     "file": "sopaPuchero",
@@ -794,9 +794,9 @@
     "glutenFree": true,
     "vegetarian": false,
     "vegan": false,
-    "origin": "1500s, Canary Islands.",
+    "origin": "1500s Canary Islands, Spain. (unknown author)",
     "description": "/'Soup from puchero'/ The logical conclusion to every puchero, making soup from it.",
-    "modified": "2026-09-28T11:40:28"
+    "modified": "2026-11-01T20:37:25"
   },
   {
     "file": "tartaletas",
@@ -811,9 +811,9 @@
     "glutenFree": false,
     "vegetarian": false,
     "vegan": false,
-    "origin": "Medieval western Europe, France-England",
+    "origin": "1300s, Kingdom of France. (unknown author)",
     "description": "/'Sweet tartlets'/ Bite-sized pastries, filled with a variety of ingredients and open on top. Though first seen in older times, sweet tartlets came to popularity with the spread of sugar in medieval Europe",
-    "modified": "2024-09-28T16:49:59"
+    "modified": "2026-11-01T20:37:25"
   },
   {
     "file": "tiramisu",
@@ -828,9 +828,9 @@
     "glutenFree": false,
     "vegetarian": true,
     "vegan": false,
-    "origin": "1960-70s Treviso, Italy.",
+    "origin": "1970s Treviso, Italy. (Ado Campeol)",
     "description": "/'Pick me up'/ The tiramisù is an Italian dessert that combines dry biscuits soaked in coffee with a mascarpone cheese and egg cream, and a note of bitter cocoa on top. It's one of the world's most famous desserts, and with reason; it's both extremely simple to make and delicious.",
-    "modified": "2026-06-27T08:41:34"
+    "modified": "2026-11-01T20:37:25"
   },
   {
     "file": "tomatoPasta",
@@ -845,9 +845,9 @@
     "glutenFree": false,
     "vegetarian": true,
     "vegan": true,
-    "origin": "1800-30s Naples, country of Naples / the Two Sicilies.",
+    "origin": "1830s Naples, Kingdom of the Two Sicilies. (Ippolito Cavalcanti)",
     "description": "/'Tomato pasta'/ This simple dish product of the Columbian exchange wasn't common in Europe until the late 1800s. Though tomatoes were present in the continent for a while, cooks and doctors alike were aware of the poisonous nature of nightshades which is why it took so long for Europeans to enjoy them like we do today.",
-    "modified": "2024-05-25T21:34:00"
+    "modified": "2026-11-01T20:37:25"
   },
   {
     "file": "torrijas",
@@ -862,9 +862,9 @@
     "glutenFree": false,
     "vegetarian": false,
     "vegan": false,
-    "origin": "300s Rome, Ancient Rome. (De recoquinaria, Apicius)",
+    "origin": "300s Rome, Roman Empire. (Apicius)",
     "description": "/'Drunkenness'/ Also known as French toast (though in Spain we do not use sandwich bread), it's a simple breakfast or dessert with origins in ancient Rome.",
-    "modified": "2025-06-07T09:23:41"
+    "modified": "2026-11-01T20:37:25"
   },
   {
     "file": "tortilla",
@@ -879,9 +879,9 @@
     "glutenFree": true,
     "vegetarian": false,
     "vegan": false,
-    "origin": "-",
+    "origin": "1810s Navarre, Spain. (unknown author)",
     "description": "/'Spanish tortilla'/",
-    "modified": "2026-05-27T20:44:55"
+    "modified": "2026-11-01T20:37:25"
   },
   {
     "file": "truchas",
@@ -896,8 +896,8 @@
     "glutenFree": false,
     "vegetarian": true,
     "vegan": true,
-    "origin": "-, Canary Islands.",
+    "origin": "1800s Canary Islands, Spain. (unknown author)",
     "description": "/'Trout, though it's not a fish'/ ",
-    "modified": "2024-05-12T21:27:47"
+    "modified": "2026-11-01T20:37:25"
   }
 ]
