@@ -24,8 +24,9 @@ document.addEventListener('DOMContentLoaded', async () => {
     let shownInTable = [];
     let activeCategory = '';
     let selectedFile = null;
-    // Gallery modes cycled by the view button: newest-first gallery, filter table.
+    // Gallery modes cycled by the view button: alphabetical gallery, newest-first gallery, filter table.
     const viewModes = [
+        { key: 'name', label: 'By name', icon: 'fa-solid fa-arrow-down-a-z' },
         { key: 'chronological', label: 'Newest first', icon: 'fa-solid fa-clock-rotate-left' },
         { key: 'table', label: 'Advanced search', icon: 'fa-solid fa-bars' }
     ];
@@ -78,7 +79,7 @@ document.addEventListener('DOMContentLoaded', async () => {
 
     function galleryEntries() {
         const entries = recipes.filter(entry => entry.finished && matchesQuickFilters(entry));
-        if (viewModes[viewMode].key === 'chronological') entries.sort((a, b) => b.modified.localeCompare(a.modified));
+        if (viewModes[viewMode].key === 'name') entries.sort((a, b) => a.name.localeCompare(b.name));
         return entries;
     }
 
