@@ -1,0 +1,58 @@
+{
+    "name": "Cheesecake",
+    "category": "Desserts",
+    "description": "/''/ ",
+    "origin": "",
+    "portions": 6,
+    "flags": {
+        "difficulty": "Easy",
+        "cuisine": "Spanish",
+        "prepTime": "30'",
+        "totalTime": "3.5h",
+        "lactoseFree": false,
+        "glutenFree": true,
+        "vegetarian": false,
+        "vegan": false,
+		"finished": true
+    },
+    "ingredients": {
+        "For the crust": [
+			"120 g biscuits (Graham crackers, Digestive...)",
+			"30 g flour",
+			"30 g sugar",
+			"40 g butter",
+			"Pinch of salt (may skip if the butter is unsalted)"
+		],
+		"For 1L small mold": [
+			"450 g cream cheese",
+			"85 g sour cream",
+			"60 g heavy cream",
+			"125 g sugar",
+			"2 eggs",
+			"1 tsp vanilla extract",
+			"Little amount of oil or butter",
+			"Oven paper"
+        ],
+		"For 2L / 23 cm mold": [
+			"(Double the ingredients, increase 5-10' bake time.)"
+		]
+    },
+    "utensils": [
+		"Oven",
+		"Hand mixer",
+		"Fridge"
+    ],
+    "instructions": [
+		"- Preheat oven to 165ºC, mix the broken biscuit crumbs with everything, then the flour, butter the mold, press the mix into the base and sides, then bake for 18'.",
+		"- Mix everything else, starting with eggs and sugar. When the crust is ready, take it out, lower temperature to 93ºC, pour in the mixture and bake for 3 hours."
+    ],
+    "variants": [
+	],
+    "tips": {
+        "culinary": [
+			"Do not attempt to take it out of the mold before it's cold since it may crumble easily."
+		],
+        "serving": [
+		]
+    }
+}

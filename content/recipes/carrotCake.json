@@ -1,0 +1,68 @@
+{
+    "name": "Carrot cake",
+    "category": "Desserts",
+    "description": "/''/ ",
+    "origin": "",
+    "portions": 6,
+    "flags": {
+        "difficulty": "Easy",
+        "cuisine": "Spanish",
+        "prepTime": "30'",
+        "totalTime": "1h",
+        "lactoseFree": false,
+        "glutenFree": true,
+        "vegetarian": false,
+        "vegan": false,
+		"finished": true
+    },
+    "ingredients": {
+        "For the glaze": [
+			"100 g cream cheese",
+			"50 g sugar",
+			"30 g heavy cream",
+			"A bit of vanilla",
+			"Pinch of salt",
+			"1/2 tsp potato (or corn) starch"
+		],
+		"For 1L small mold": [
+			"2 eggs",
+			"100 g sugar",
+			"100 g vegetable oil",
+			"Salt (2 g)",
+			"Cinnamon (2 g)",
+			"1/4 tsp ginger",
+			"Pinch of nutmeg",
+			"A bit of vanilla",
+			"1/2 tsp baking powder",
+			"25 g toasted walnuts (or pecans)",
+			"125 g shredded carrots",
+			"120 g flour",
+			"Little amount of oil or butter",
+			"Oven paper"
+        ],
+		"For 2L / 23 cm mold": [
+			"(Double the ingredients, increase 5-10' bake time.)"
+		]
+    },
+    "utensils": [
+		"Oven",
+		"Hand mixer",
+		"Fridge"
+    ],
+    "instructions": [
+		"- Preheat oven to 176ºC, toast the walnuts 7 minutes.",
+		"- Mix everything else, starting with eggs, sugar and slowly the oil, then the rest, with the flour last.",
+		"- Bake 35' at 176ºC.",
+		"- Before it finishes, make the glaze by mixing everything. If the sugar is powdered, you can mix them cold. If it's granulated, try warming up the cream to dissolve the sugar crystals better, then refrigerate.",
+		"- Take cake out, glaze. I recommend on top and in the middle for extra moisture."
+    ],
+    "variants": [
+	],
+    "tips": {
+        "culinary": [
+			"Do not attempt to take it out of the mold before it's cold since it may crumble easily."
+		],
+        "serving": [
+		]
+    }
+}

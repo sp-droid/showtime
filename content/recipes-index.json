@@ -128,6 +128,38 @@
     "description": "/'Pasta to the coal seller'/ The name 'Pasta alla carbonara' does not appear before WWII, where it was said to come from the interaction between American troops, rations, food scarcity and Italian cooks. The dish appeared however in the 1800s in Neapolitan cuisine, using lard instead of guanciale."
   },
   {
+    "file": "carrotCake",
+    "name": "Carrot cake",
+    "category": "Desserts",
+    "cuisine": "Spanish",
+    "time": "1h",
+    "prepTime": "30'",
+    "difficulty": "Easy",
+    "finished": true,
+    "lactoseFree": false,
+    "glutenFree": true,
+    "vegetarian": false,
+    "vegan": false,
+    "origin": "",
+    "description": "/''/ "
+  },
+  {
+    "file": "cheesecake",
+    "name": "Cheesecake",
+    "category": "Desserts",
+    "cuisine": "Spanish",
+    "time": "3.5h",
+    "prepTime": "30'",
+    "difficulty": "Easy",
+    "finished": true,
+    "lactoseFree": false,
+    "glutenFree": true,
+    "vegetarian": false,
+    "vegan": false,
+    "origin": "",
+    "description": "/''/ "
+  },
+  {
     "file": "cheesecakeVasca",
     "name": "Tarta de queso La Viña",
     "category": "Desserts",

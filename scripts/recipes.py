@@ -100,8 +100,9 @@ def getNutrition(string, nutrition, food):
 
     # All foods in the datasheet are scaled per 100g
     factor = quantity/100
-    # Some of them are assumed to be inputed as single units like an egg or so
-    if food in specialFoods: factor *= specialFoods[food]
+    # Some of them are assumed to be inputed as single units like an egg or so,
+    # unless the quantity is explicitly given in grams
+    if food in specialFoods and " g " not in f" {ingredient} ": factor *= specialFoods[food]
 
     try:
         # Load ingredient datasheet corresponding row
