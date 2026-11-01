@@ -309,6 +309,49 @@ document.addEventListener('DOMContentLoaded', async () => {
     document.getElementById('recipePrevious').addEventListener('click', () => movePreview(-1));
     document.getElementById('recipeNext').addEventListener('click', () => movePreview(1));
 
+    // The atlas swaps the listing for a globe. Its module (and three.js) is
+    // imported only on first open so the regular index never pays for it.
+    const atlasToggle = document.getElementById('recipeAtlasToggle');
+    const atlas = document.getElementById('recipeAtlas');
+    const listing = [document.querySelector('.recipes-controls-row'), gallery, advanced, empty];
+    let atlasView = null;
+    let atlasOpen = false;
+    let listingHidden = [];
+    atlasToggle.addEventListener('click', async () => {
+        atlasOpen = !atlasOpen;
+        atlasToggle.setAttribute('aria-pressed', String(atlasOpen));
+        atlasToggle.classList.toggle('is-active', atlasOpen);
+        atlas.hidden = !atlasOpen;
+        if (atlasOpen) {
+            listingHidden = listing.map(element => element.hidden);
+            for (const element of listing) element.hidden = true;
+        } else {
+            listing.forEach((element, i) => { element.hidden = listingHidden[i]; });
+            atlasView?.pause();
+            return;
+        }
+        if (atlasView) return atlasView.resume();
+        if (atlasView === false) return;
+        atlasView = false;
+        const status = document.getElementById('recipeAtlasStatus');
+        try {
+            const { mountAtlas } = await import('./recipes-atlas.js?v=20261101-idle');
+            atlasView = await mountAtlas({
+                stage: document.getElementById('recipeAtlasStage'),
+                tip: document.getElementById('recipeAtlasTip'),
+                status,
+                entries: JSON.parse(document.getElementById('recipeAtlasData').textContent),
+                imageFor: (image, entry) => setRecipeImage(image, entry, true),
+                recipeUrl
+            });
+            if (!atlasOpen) atlasView.pause();
+        } catch (error) {
+            atlasView = null;
+            status.textContent = 'The atlas could not be loaded. Please try again.';
+            console.error('Could not load recipe atlas:', error);
+        }
+    });
+
     try {
         const response = await fetch('../content/recipes-index.json');
         if (!response.ok) throw new Error(`HTTP ${response.status}`);

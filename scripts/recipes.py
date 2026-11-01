@@ -165,6 +165,7 @@ def should_skip_recipe(path: Path, cache: dict) -> bool:
 
 # Load each file, edit the template accordingly and save as a new html
 index_entries = []
+atlas_entries = []
 pbar = tqdm(recipes, disable=args.index_only)
 skipped = 0
 for recipePath in pbar:
@@ -192,6 +193,17 @@ for recipePath in pbar:
         # Last edit of the source JSON, used to surface the newest recipe.
         "modified": datetime.fromtimestamp(recipePath.stat().st_mtime).isoformat(timespec="seconds"),
     })
+
+    # Unfinished recipes stay off the atlas.
+    if flags["finished"] and flags.get("originLat") is not None and flags.get("originLon") is not None:
+        atlas_entries.append({
+            "file": recipePath.stem,
+            "name": recipe["name"],
+            "cuisine": flags["cuisine"],
+            "category": recipe["category"],
+            "lat": flags["originLat"],
+            "lon": flags["originLon"],
+        })
 
     if args.index_only:
         continue
@@ -373,6 +385,10 @@ content = content.replace("{{HTMLtopbar}}", HTMLtopbar)
 content = content.replace("{{favicon}}", favicon)
 content = content.replace("{{googleAnalytics}}", googleAnalytics)
 content = content.replace("{{rootFolder}}", rootFolder_index)
+# Pin data for the globe view, inlined so the atlas needs no extra request.
+# "</" is escaped so recipe text can never close the script tag.
+atlas_json = json.dumps(atlas_entries, ensure_ascii=False, separators=(",", ":")).replace("</", "<\\/")
+content = content.replace("{{atlasData}}", atlas_json)
 
 with open(f"pages/recipes.html", "w", encoding="utf-8") as file:
     file.write(content)

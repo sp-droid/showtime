@@ -6,8 +6,8 @@
     <meta name="darkreader-lock">
     <link rel="stylesheet" href="{{rootFolder}}assets/libraries/bootstrap5.0.2/bootstrap.min.css">
     <link rel="stylesheet" href="{{rootFolder}}assets/libraries/fontawesome6.5.1/css/all.min.css">
-    <link rel="stylesheet" href="{{rootFolder}}assets/css/style.css?v=20260928-index-rows">
-    <script src="{{rootFolder}}assets/js/recipes.js?v=20260928-compact-controls" defer></script>
+    <link rel="stylesheet" href="{{rootFolder}}assets/css/style.css?v=20261101-atlas3">
+    <script src="{{rootFolder}}assets/js/recipes.js?v=20261101-atlas" defer></script>
     <script src="{{rootFolder}}assets/js/common.js?v=20260926" defer></script>
     <title>Recipes · Pablo Arbelo Cabrera</title>
     {{favicon}}
@@ -22,7 +22,19 @@
             <img class="recipes-hero__cuisine" id="recipeCuisineWatermark" alt="" aria-hidden="true" hidden>
             <p class="recipes-eyebrow">FROM MY KITCHEN</p>
             <h1>Recipes</h1>
+            <button class="recipes-atlas-btn" id="recipeAtlasToggle" type="button" aria-pressed="false" aria-controls="recipeAtlas" aria-label="Recipe atlas" title="Recipe atlas">
+                <i class="fa-solid fa-earth-europe" aria-hidden="true"></i>
+            </button>
         </div>
+
+        <section id="recipeAtlas" class="recipes-atlas" aria-label="Recipe atlas" hidden>
+            <div class="recipes-atlas__stage" id="recipeAtlasStage">
+                <p class="recipes-atlas__status" id="recipeAtlasStatus" role="status">Unfolding the map…</p>
+            </div>
+            <div class="recipes-atlas__tip" id="recipeAtlasTip" hidden></div>
+            <p class="recipes-atlas__hint">Drag to spin · scroll to zoom · click a pin to open the recipe</p>
+        </section>
+        <script type="application/json" id="recipeAtlasData">{{atlasData}}</script>
 
         <div class="recipes-controls-row">
             <div class="recipes-toolbar">
