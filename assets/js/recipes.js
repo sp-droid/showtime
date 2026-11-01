@@ -80,6 +80,7 @@ document.addEventListener('DOMContentLoaded', async () => {
     function galleryEntries() {
         const entries = recipes.filter(entry => entry.finished && matchesQuickFilters(entry));
         if (viewModes[viewMode].key === 'name') entries.sort((a, b) => a.name.localeCompare(b.name));
+        else if (viewModes[viewMode].key === 'chronological') entries.sort((a, b) => b.modified.localeCompare(a.modified));
         return entries;
     }
 
