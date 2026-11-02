@@ -1,0 +1,109 @@
+{
+  "sections": {
+    "work": "Work Experience",
+    "education": "Education",
+    "skills": "Skills",
+    "projects": "Projects",
+    "awards": "Awards",
+    "courses": "Courses"
+  },
+  "personal information": {
+    "name": "Jane Doe",
+    "title": "Lorem ipsum engineer | Dolor · Sit amet · Consectetur",
+    "phone": "+00 000 00 00 00",
+    "email": "jane.doe@example.com",
+    "from": "Lorem City, Ipsum",
+    "portfolio": "https://example.com"
+  },
+  "education": [
+    {
+      "location": "Lorem City, Ipsum",
+      "institution": "University of Lorem Ipsum",
+      "date": "2023",
+      "studyType": "Masters Degree",
+      "area": "Lorem ipsum dolor sit amet. Thesis project 'Consectetur adipiscing elit sed do eiusmod'."
+    },
+    {
+      "location": "Dolor Town, Sit",
+      "institution": "Polytechnic University of Dolor",
+      "date": "2020",
+      "studyType": "Bachelors Degree",
+      "area": "Lorem ipsum, specialization in dolor sit amet. Honours in consectetur and adipiscing. Thesis on tempor incididunt."
+    }
+  ],
+  "work": [
+    {
+      "highlights": [
+        "Developed lorem ipsum, a dolor sit amet consectetur adipiscing elit.",
+        "100x faster than sed do eiusmod tempor, incididunt ut labore et dolore."
+      ],
+      "company": "Lorem Ipsum Group",
+      "position": "Lorem ipsum engineer",
+      "location": "Lorem City, Ipsum",
+      "date": "2025–present"
+    },
+    {
+      "highlights": [
+        "Achieved magna aliqua results on ut enim ad minim veniam.",
+        "Stack: Lorem, Ipsum, Dolor, Sit."
+      ],
+      "company": "Dolor Sit Amet Agency",
+      "position": "Consectetur Intern",
+      "location": "Dolor Town, Sit",
+      "date": "2023 (6 mo)"
+    },
+    {
+      "highlights": [
+        "Built a quis nostrud exercitation tool for ullamco laboris.",
+        "Stack: Lorem, Ipsum, Dolor."
+      ],
+      "company": "Adipiscing & Elit",
+      "position": "Sed do eiusmod developer",
+      "location": "Amet Village, Elit",
+      "date": "2021–2023"
+    }
+  ],
+  "skills": [
+    {
+      "keywords": ["Spanish native, English C2, Italian B2, German A2"],
+      "name": "Languages",
+      "flags": ["es", "gb", "it", "de"]
+    },
+    {
+      "keywords": ["Lorem, Ipsum, Dolor, Sit, Amet"],
+      "name": "Programming"
+    },
+    {
+      "keywords": ["Consectetur, Adipiscing, Elit, Sed, Eiusmod"],
+      "name": "Tools"
+    }
+  ],
+  "projects": [
+    {
+      "title": "loremlib",
+      "description": "An open-source dolor sit amet consectetur",
+      "date": "2025",
+      "url": "https://example.com"
+    }
+  ],
+  "courses": [
+    {
+      "title": "Lorem Ipsum Fundamentals (D. Sit, Amet U.)",
+      "date": "2024"
+    },
+    {
+      "title": "Introduction to Consectetur Adipiscing (E. Lit, Sed U.)",
+      "date": "2022"
+    }
+  ],
+  "awards": [
+    {
+      "title": "University of Lorem Ipsum - Dolor Sit Amet Academic Award",
+      "date": "2020"
+    },
+    {
+      "title": "Consectetur Foundation - Award to Adipiscing Excellence",
+      "date": "2018"
+    }
+  ]
+}

@@ -1,5 +1,16 @@
 [
 {
+	"link": "../content/projects/cv/index.html",
+	"bg": "cv",
+	"gif": false,
+	"type": "Experiments",
+	"tools": ["JavaScript"],
+	"header": "CV maker",
+	"desc": "Tool to make CVs, I use it for myself.",
+	"date": "2/11/2026",
+	"importance": "Low"
+},
+{
 	"link": "../content/projects/congresses/iac2026.html",
 	"bg": "iac26",
 	"gif": false,

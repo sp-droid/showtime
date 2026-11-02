@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>CV Generator</title>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+    <style>
+      * { box-sizing: border-box; }
+      body { margin: 0; font-family: system-ui, sans-serif; background: #1e1f24; color: #e8e8ea; display: flex; flex-direction: column; height: 100vh; }
+      header { display: flex; flex-wrap: wrap; gap: 10px; align-items: center; padding: 10px 16px; background: #2a2b31; }
+      header h1 { font-size: 16px; margin: 0 12px 0 0; }
+      a.btn { text-decoration: none; }
+      button, .btn { background: #3d6bd6; color: #fff; border: 0; border-radius: 6px; padding: 7px 12px; font-size: 14px; cursor: pointer; }
+      button:disabled { background: #555; cursor: default; }
+      #status { font-size: 13px; color: #aab; }
+      #status.err { color: #ff8080; }
+      main { flex: 1; display: flex; min-height: 0; }
+      #drop { flex: 1; display: flex; align-items: center; justify-content: center; text-align: center; color: #99a; border: 2px dashed #444; margin: 16px; border-radius: 10px; padding: 16px; }
+      #drop.over { border-color: #3d6bd6; color: #fff; }
+      iframe { flex: 1; border: 0; background: #fff; display: none; }
+    </style>
+  </head>
+  <body>
+    <header>
+      <h1>CV → PDF</h1>
+      <label class="btn">Load JSON<input id="file" type="file" accept=".json,application/json" hidden></label>
+      <button id="example">Use example</button>
+      <a class="btn" href="cv.json" download="cv-example.json">Download example JSON</a>
+      <button id="download" disabled>Download PDF</button>
+      <span id="status">Drop a CV JSON file anywhere.</span>
+    </header>
+    <main>
+      <div id="drop">Drag &amp; drop your CV JSON here, or use “Load JSON”.<br>Text is real, selectable and single-column, so ATS parsers read it cleanly.</div>
+      <iframe id="preview" title="PDF preview"></iframe>
+    </main>
+    <script src="index.js"></script>
+  </body>
+</html>
