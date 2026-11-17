@@ -124,22 +124,22 @@ section ="recipes">
                     </div>
                     <div style="flex: 6; margin-left: 20px; margin-right: 16px; margin-top: 16px; font-weight: bolder;">
                         <h4>NUTRITION FACTS</h4>
-                        <div style="width: 100%; text-align: right;">Per serving</div>
+                        <div style="width: 100%; text-align: right;"><button type="button" class="recipe-nutrition__toggle" title="Switch between per serving and whole recipe" style="background: none; border: none; padding: 0; color: inherit; font: inherit; cursor: pointer; text-decoration: underline dotted;">Per serving</button></div>
                         <div style="font-size: medium;">
                             <hr style="border-top: 2px solid; margin: 4px;">
                             <hr style="border-top: 2px solid; margin: 4px;">
-                            <div style="display: flex; justify-content: space-between; font-size: large;"><span>Calories</span><span>243 kcal</span></div>
+                            <div style="display: flex; justify-content: space-between; font-size: large;"><span>Calories</span><span><span class="recipe-nutrition__value" data-serving="243" data-total="972">243</span> kcal</span></div>
                             <hr style="border-top: 2px solid; margin: 3px;">
-                            <div style="display: flex; justify-content: space-between;"><span>Fat</span><span>22 g</span></div>
+                            <div style="display: flex; justify-content: space-between;"><span>Fat</span><span><span class="recipe-nutrition__value" data-serving="22" data-total="90">22</span> g</span></div>
                             <hr style="border-top: 1px solid; margin: 3px;">
-                            <div style="display: flex; justify-content: space-between;"><span>Carbohydrates</span><span>9 g</span></div>
+                            <div style="display: flex; justify-content: space-between;"><span>Carbohydrates</span><span><span class="recipe-nutrition__value" data-serving="9" data-total="37">9</span> g</span></div>
                             <hr style="border-top: 1px solid; margin: 3px;">
-                            <div style="display: flex; justify-content: space-between;"><span>&emsp; Sugar</span><span>9 g</span></div>
+                            <div style="display: flex; justify-content: space-between;"><span>&emsp; Sugar</span><span><span class="recipe-nutrition__value" data-serving="9" data-total="37">9</span> g</span></div>
                             <hr style="border-top: 1px solid; margin: 3px;">
-                            <div style="display: flex; justify-content: space-between;"><span>Protein</span><span>2 g</span></div>
+                            <div style="display: flex; justify-content: space-between;"><span>Protein</span><span><span class="recipe-nutrition__value" data-serving="2" data-total="8">2</span> g</span></div>
                             <hr style="border-top: 2px solid; margin: 3px;">
                             <hr style="border-top: 2px solid; margin: 3px;">
-                            <div class="recipe-nutrition__row"><span>Vit. A</span><span>32% DV</span></div><div class="recipe-nutrition__row"><span>Vit. B2</span><span>8% DV</span></div><div class="recipe-nutrition__row"><span>Vit. D</span><span>20% DV</span></div><div class="recipe-nutrition__row"><span>Calcium</span><span>5% DV</span></div><div class="recipe-nutrition__row"><span>Phosphorus</span><span>5% DV</span></div>
+                            <div class="recipe-nutrition__row"><span>Vit. A</span><span><span class="recipe-nutrition__value" data-serving="32" data-total="128">32</span>% DV</span></div><div class="recipe-nutrition__row"><span>Vit. B2</span><span><span class="recipe-nutrition__value" data-serving="8" data-total="33">8</span>% DV</span></div><div class="recipe-nutrition__row"><span>Vit. D</span><span><span class="recipe-nutrition__value" data-serving="20" data-total="80">20</span>% DV</span></div><div class="recipe-nutrition__row"><span>Calcium</span><span><span class="recipe-nutrition__value" data-serving="5" data-total="20">5</span>% DV</span></div><div class="recipe-nutrition__row"><span>Phosphorus</span><span><span class="recipe-nutrition__value" data-serving="5" data-total="20">5</span>% DV</span></div>
                         </div>
                         <br>
                     </div>
@@ -154,6 +154,29 @@ section ="recipes">
         <div class="recipe-side-scrim" style="flex: 1; background-color: rgba(18, 18, 19, 0.7);"></div>
     </div>
 </div>
+<script>
+    (function () {
+        var KEY = 'recipeNutritionMode';
+        function apply(btn, mode) {
+            var total = mode === 'total';
+            btn.dataset.mode = mode;
+            btn.textContent = total ? 'Total' : 'Per serving';
+            btn.closest('.recipe-nutrition').querySelectorAll('.recipe-nutrition__value').forEach(function (v) {
+                v.textContent = total ? v.dataset.total : v.dataset.serving;
+            });
+        }
+        document.querySelectorAll('.recipe-nutrition__toggle').forEach(function (btn) {
+            var saved = null;
+            try { saved = localStorage.getItem(KEY); } catch (e) {}
+            apply(btn, saved === 'total' ? 'total' : 'serving');
+            btn.addEventListener('click', function () {
+                var mode = btn.dataset.mode === 'total' ? 'serving' : 'total';
+                apply(btn, mode);
+                try { localStorage.setItem(KEY, mode); } catch (e) {}
+            });
+        });
+    })();
+</script>
 <script>
     /**
     *  RECOMMENDED CONFIGURATION VARIABLES: EDIT AND UNCOMMENT THE SECTION BELOW TO INSERT DYNAMIC VALUES FROM YOUR PLATFORM OR CMS.

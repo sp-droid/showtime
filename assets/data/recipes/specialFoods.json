@@ -1,5 +1,6 @@
 {
     "apple": 85,
+	"avocado": 100,
 	"bell pepper": 120,
     "carrot": 61,
     "celery": 40,
@@ -8,6 +9,7 @@
     "egg": 58,
     "egg yolk": 15,
     "garlic": 5,
+	"kiwi": 77,
 	"leek": 150,
     "onion": 160,
     "potato": 200,

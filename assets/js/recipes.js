@@ -142,6 +142,7 @@ document.addEventListener('DOMContentLoaded', async () => {
         badges.className = 'recipes-card__badges';
         const categoryIcons = {
             'Main courses': 'fa-solid fa-drumstick-bite',
+            'Side dishes': 'fa-solid fa-carrot',
             'Desserts': 'fa-solid fa-ice-cream',
             'Drinks': 'fa-solid fa-beer-mug-empty',
             'Other': 'fa-solid fa-lemon'

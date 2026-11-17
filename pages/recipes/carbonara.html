@@ -124,22 +124,22 @@ section ="recipes">
                     </div>
                     <div style="flex: 6; margin-left: 20px; margin-right: 16px; margin-top: 16px; font-weight: bolder;">
                         <h4>NUTRITION FACTS</h4>
-                        <div style="width: 100%; text-align: right;">Per serving</div>
+                        <div style="width: 100%; text-align: right;"><button type="button" class="recipe-nutrition__toggle" title="Switch between per serving and whole recipe" style="background: none; border: none; padding: 0; color: inherit; font: inherit; cursor: pointer; text-decoration: underline dotted;">Per serving</button></div>
                         <div style="font-size: medium;">
                             <hr style="border-top: 2px solid; margin: 4px;">
                             <hr style="border-top: 2px solid; margin: 4px;">
-                            <div style="display: flex; justify-content: space-between; font-size: large;"><span>Calories</span><span>763 kcal</span></div>
+                            <div style="display: flex; justify-content: space-between; font-size: large;"><span>Calories</span><span><span class="recipe-nutrition__value" data-serving="763" data-total="1527">763</span> kcal</span></div>
                             <hr style="border-top: 2px solid; margin: 3px;">
-                            <div style="display: flex; justify-content: space-between;"><span>Fat</span><span>41 g</span></div>
+                            <div style="display: flex; justify-content: space-between;"><span>Fat</span><span><span class="recipe-nutrition__value" data-serving="41" data-total="82">41</span> g</span></div>
                             <hr style="border-top: 1px solid; margin: 3px;">
-                            <div style="display: flex; justify-content: space-between;"><span>Carbohydrates</span><span>75 g</span></div>
+                            <div style="display: flex; justify-content: space-between;"><span>Carbohydrates</span><span><span class="recipe-nutrition__value" data-serving="75" data-total="150">75</span> g</span></div>
                             <hr style="border-top: 1px solid; margin: 3px;">
-                            <div style="display: flex; justify-content: space-between;"><span>&emsp; Sugar</span><span>2 g</span></div>
+                            <div style="display: flex; justify-content: space-between;"><span>&emsp; Sugar</span><span><span class="recipe-nutrition__value" data-serving="2" data-total="5">2</span> g</span></div>
                             <hr style="border-top: 1px solid; margin: 3px;">
-                            <div style="display: flex; justify-content: space-between;"><span>Protein</span><span>21 g</span></div>
+                            <div style="display: flex; justify-content: space-between;"><span>Protein</span><span><span class="recipe-nutrition__value" data-serving="21" data-total="42">21</span> g</span></div>
                             <hr style="border-top: 2px solid; margin: 3px;">
                             <hr style="border-top: 2px solid; margin: 3px;">
-                            <div class="recipe-nutrition__row"><span>Vit. B1</span><span>84% DV</span></div><div class="recipe-nutrition__row"><span>Vit. B2</span><span>24% DV</span></div><div class="recipe-nutrition__row"><span>Vit. B3</span><span>33% DV</span></div><div class="recipe-nutrition__row"><span>Vit. B7</span><span>16% DV</span></div><div class="recipe-nutrition__row"><span>Vit. B12</span><span>5% DV</span></div><div class="recipe-nutrition__row"><span>Vit. D</span><span>8% DV</span></div><div class="recipe-nutrition__row"><span>Iron</span><span>24% DV</span></div><div class="recipe-nutrition__row"><span>Selenium</span><span>7% DV</span></div>
+                            <div class="recipe-nutrition__row"><span>Vit. B1</span><span><span class="recipe-nutrition__value" data-serving="84" data-total="168">84</span>% DV</span></div><div class="recipe-nutrition__row"><span>Vit. B2</span><span><span class="recipe-nutrition__value" data-serving="24" data-total="49">24</span>% DV</span></div><div class="recipe-nutrition__row"><span>Vit. B3</span><span><span class="recipe-nutrition__value" data-serving="33" data-total="67">33</span>% DV</span></div><div class="recipe-nutrition__row"><span>Vit. B7</span><span><span class="recipe-nutrition__value" data-serving="16" data-total="32">16</span>% DV</span></div><div class="recipe-nutrition__row"><span>Vit. B12</span><span><span class="recipe-nutrition__value" data-serving="5" data-total="11">5</span>% DV</span></div><div class="recipe-nutrition__row"><span>Vit. D</span><span><span class="recipe-nutrition__value" data-serving="8" data-total="16">8</span>% DV</span></div><div class="recipe-nutrition__row"><span>Iron</span><span><span class="recipe-nutrition__value" data-serving="24" data-total="48">24</span>% DV</span></div><div class="recipe-nutrition__row"><span>Selenium</span><span><span class="recipe-nutrition__value" data-serving="7" data-total="15">7</span>% DV</span></div>
                         </div>
                         <br>
                     </div>
@@ -154,6 +154,29 @@ section ="recipes">
         <div class="recipe-side-scrim" style="flex: 1; background-color: rgba(18, 18, 19, 0.7);"></div>
     </div>
 </div>
+<script>
+    (function () {
+        var KEY = 'recipeNutritionMode';
+        function apply(btn, mode) {
+            var total = mode === 'total';
+            btn.dataset.mode = mode;
+            btn.textContent = total ? 'Total' : 'Per serving';
+            btn.closest('.recipe-nutrition').querySelectorAll('.recipe-nutrition__value').forEach(function (v) {
+                v.textContent = total ? v.dataset.total : v.dataset.serving;
+            });
+        }
+        document.querySelectorAll('.recipe-nutrition__toggle').forEach(function (btn) {
+            var saved = null;
+            try { saved = localStorage.getItem(KEY); } catch (e) {}
+            apply(btn, saved === 'total' ? 'total' : 'serving');
+            btn.addEventListener('click', function () {
+                var mode = btn.dataset.mode === 'total' ? 'serving' : 'total';
+                apply(btn, mode);
+                try { localStorage.setItem(KEY, mode); } catch (e) {}
+            });
+        });
+    })();
+</script>
 <script>
     /**
     *  RECOMMENDED CONFIGURATION VARIABLES: EDIT AND UNCOMMENT THE SECTION BELOW TO INSERT DYNAMIC VALUES FROM YOUR PLATFORM OR CMS.

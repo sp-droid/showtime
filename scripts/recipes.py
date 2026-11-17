@@ -28,6 +28,7 @@ if not args.index_only:
 def categoryIcon(category):
     if category == "Appetizers": icon = None
     elif category == "Main courses": icon = '<i class="fas fa-drumstick-bite"></i>'
+    elif category == "Side dishes": icon = '<i class="fas fa-carrot"></i>'
     elif category == "Desserts": icon = '<i class="fas fa-ice-cream"></i>'
     elif category == "Drinks": icon = '<i class="fa-solid fa-beer-mug-empty"></i>'
     elif category == "Other": icon = '<i class="fas fa-lemon"></i>'
@@ -321,16 +322,18 @@ for recipePath in pbar:
     content = content.replace("{{variantsSection}}", variants_section)
 
     for nutrient in ["Calories","Fat","Carbohydrates","Sugar","Protein"]:
-        value = int(sum(nutrition[nutrient].values)/recipe["portions"])
+        total = sum(nutrition[nutrient].values)
+        value = int(total/recipe["portions"])
         name = "{{nutrition"+nutrient+"}}"
-        content = content.replace(name, str(value))
+        content = content.replace(name, f'<span class="recipe-nutrition__value" data-serving="{value}" data-total="{int(total)}">{value}</span>')
 
     nutritionExtra = ""
     for nutrient in [elem for elem in nutrient_columns if elem not in ["Calories","Fat","Carbohydrates","Sugar","Protein"]]:
         name = nutrientNames[nutrient]
+        total = int(sum(nutrition[nutrient].values)/DRI[nutrient]*100)
         value = int(sum(nutrition[nutrient].values)/DRI[nutrient]/recipe["portions"]*100)
         if value < 5: continue
-        nutritionExtra += f'<div class="recipe-nutrition__row"><span>{name}</span><span>{value}% DV</span></div>'
+        nutritionExtra += f'<div class="recipe-nutrition__row"><span>{name}</span><span><span class="recipe-nutrition__value" data-serving="{value}" data-total="{total}">{value}</span>% DV</span></div>'
     content = content.replace("{{nutritionExtra}}", nutritionExtra)
 
     nTips = len(recipe["tips"]["culinary"])+len(recipe["tips"]["serving"])

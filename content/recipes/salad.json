@@ -1,0 +1,43 @@
+{
+    "name": "Salad",
+    "category": "Side dishes",
+    "description": "/''/",
+    "origin": "300s Rome, Roman Empire. (Apicius)",
+    "portions": 3,
+    "flags": {
+        "difficulty": "Medium",
+        "cuisine": "Spanish",
+        "originLat": 41.9,
+        "originLon": 12.5,
+        "prepTime": "1h",
+        "totalTime": "2h",
+        "lactoseFree": false,
+        "glutenFree": false,
+        "vegetarian": false,
+        "vegan": false,
+		"finished": true
+    },
+    "ingredients": {
+        "": [
+            "1 tomato",
+			"1 cucumber",
+			"150g sweet corn (1 can)",
+			"1 kiwi",
+			"1 avocado",
+			"4g parsley",
+			"21g honey (1 tbsp, optional)",
+			"26g olive oil (2 tbsp)",
+			"Few bits of onion and lettuce"
+        ]
+    },
+    "utensils": [],
+    "instructions": [
+		"Mix everything, then add salt, honey, oil and vinegar."
+    ],
+    "variants": [
+	],
+    "tips": {
+        "culinary": [],
+        "serving": []
+    }
+}

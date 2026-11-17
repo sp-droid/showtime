@@ -748,6 +748,23 @@
     "modified": "2026-11-01T20:37:25"
   },
   {
+    "file": "salad",
+    "name": "Salad",
+    "category": "Side dishes",
+    "cuisine": "Spanish",
+    "time": "2h",
+    "prepTime": "1h",
+    "difficulty": "Medium",
+    "finished": true,
+    "lactoseFree": false,
+    "glutenFree": false,
+    "vegetarian": false,
+    "vegan": false,
+    "origin": "300s Rome, Roman Empire. (Apicius)",
+    "description": "/''/",
+    "modified": "2026-11-17T14:28:38"
+  },
+  {
     "file": "shortbreadCookies",
     "name": "Shortbread cookies",
     "category": "Desserts",
